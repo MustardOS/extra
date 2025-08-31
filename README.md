@@ -4,7 +4,7 @@ These are additional packages you can download directly from the Release section
 to obtain additional functionality for your muOS system. Most of them come with their appropriate
 launchers and other requirements built-in.
 
-#### _Please Note: These packages are for the upcoming **Goose** release only._
+#### _Please Note: These packages are for the **Goose** release only._
 
 ---
 
