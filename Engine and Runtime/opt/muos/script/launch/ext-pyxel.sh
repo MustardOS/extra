@@ -13,6 +13,8 @@ FILE=${3%/}
 	LOG_INFO "$0" 0 "FILE" "$FILE"
 ) &
 
+SETUP_SDL_ENVIRONMENT
+
 HOME="$(GET_VAR "device" "board/home")"
 export HOME
 
@@ -27,9 +29,8 @@ else
 fi
 
 SDL_JOYSTICK_DEVICE="/dev/input/js0"
-SDL_GAMECONTROLLERCONFIG="19000000010000000100000000010000,muOS-Keys,platform:Linux,a:b3,b:b4,x:b5,y:b6,back:b9,start:b10,leftshoulder:b7,rightshoulder:b8,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b13,righttrigger:b14"
 
-export SDL_HQ_SCALER SDL_ROTATION SDL_BLITTER_DISABLED SDL_JOYSTICK_DEVICE SDL_GAMECONTROLLERCONFIG
+export SDL_HQ_SCALER SDL_ROTATION SDL_BLITTER_DISABLED SDL_JOYSTICK_DEVICE
 
 # Check if "pyxel" is already installed
 if ! /usr/bin/python3 -c "import pyxel" 2>/dev/null; then
