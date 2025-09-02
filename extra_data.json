@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Arcade Specific",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Arcade.Specific.muxzip",
+    "type": "core",
+    "help": "This is an add-on package containing extra emulators\nPackage comes with additional BIOS where required\n\nSystem:\nFB Alpha 2012 CPS-1\nFB Alpha 2012 CPS-2\nFB Alpha 2012 CPS-3\nFB Alpha 2012 Neo Geo\nMAME 078 Plus\nMAME 139\nMAME 2000\nMAME 2003 Midway\nMAME 2003 Plus\nMAME 2010\nMAME\n\nCores:\nfbalpha2012_cps1_libretro.so\nfbalpha2012_cps2_libretro.so\nfbalpha2012_cps3_libretro.so\nfbalpha2012_neogeo_libretro.so\nmame078plus_libretro.so\nmame0139_libretro.so\nmame2000_libretro.so\nmame2003_midway_libretro.so\nmame2003_plus_libretro.so\nmame2010_libretro.so\nmame_libretro.so\n"
+  },
+  {
+    "name": "Atari - Libretro Emulator",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Atari.muxzip",
+    "type": "core",
+    "help": "This is an add-on package containing extra emulators\nPackage comes with additional BIOS where required\n\nSystem:\nAtari 800\nAtari 5200\nAtari 7800\nAtari Jaguar\nAtari ST/STE/TT/Falcon\n\nCores:\natari800_libretro.so\na5200_libretro.so\natari800_libretro.so\nprosystem_libretro.so\nvirtualjaguar_libretro.so\nhatari_libretro.so\nhatarib_libretro.so\n"
+  },
+  {
+    "name": "Commodore",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Commodore.muxzip",
+    "type": "core",
+    "help": "This is an add-on package containing extra emulators\nPackage comes with additional BIOS where required\n\nSystem:\n64\n128\nAmiga\nCBM-II\nPET\nVIC-20\n\nCores:\nvice_x64sc_libretro.so\nvice_xscpu64_libretro.so\nvice_x128_libretro.so\nkm_puae_xtreme_amped_2k24_libretro.so\npuae_libretro.so\nuae4arm_libretro.so\nvice_xcbm2_libretro.so\nvice_xcbm5x0_libretro.so\nvice_xpet_libretro.so\nvice_xvic_libretro.so\n"
+  },
+  {
+    "name": "Console and Computer",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Console.and.Computer.muxzip",
+    "type": "core",
+    "help": "This is an add-on package containing extra emulators\nPackage comes with additional BIOS where required\n\nSystem:\nAmstrad\nBandai WonderSwan Color\nColecoVision\nDragon and Tandy 8-bit\nFairchild Channel F\nGalaksija Retro Computer\nGCE Vectrex\nMagnavox Odyssey - VideoPac\nMattel Intellivision\nMega Duck - Cougar Boy\nMicrosoft MSX\nNEC PC-8000 - PC-8800 Series\nNEC PC98\nNEC PC-FX\nNintendo Famicom Disk System\nNintendo Pokemon Mini\nPhilips CDi\nSharp X1\nSharp X68000\nSinclair ZX 81\nSinclair ZX Spectrum\nSVI ColecoVision SG1000\nTexas Instruments TI-83\nThe 3DO Company - 3DO\nVeMUlator\nWatara Supervision\n\nCores:\ncrocods_libretro.so\ncap32_libretro.so\nmednafen_wswan_libretro.so\nbluemsx_libretro.so\ngearcoleco_libretro.so\next-xroar\nfreechaf_libretro.so\ngalaksija_libretro.so\nvecx_libretro.so\no2em_libretro.so\nfreeintv_libretro.so\nsameduck_libretro.so\nbluemsx_libretro.so\nfmsx_libretro.so\nquasi88_libretro.so\nnp2kai_libretro.so\nnekop2_libretro.so\nmednafen_pcfx_libretro.so\nfceumm_libretro.so\nmesen_libretro.so\nnestopia_libretro.so\npokemini_libretro.so\nsame_cdi_libretro.so\nx1_libretro.so\npx68k_libretro.so\n81_libretro.so\nfuse_libretro.so\nbluemsx_libretro.so\nnumero_libretro.so\nopera_libretro.so\nvemulator_libretro.so\npotator_libretro.so\n"
+  },
+  {
+    "name": "Emulator Additions",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Emulator.Additions.muxzip",
+    "type": "core",
+    "help": "This is an add-on package containing extra emulators\nPackage comes with additional BIOS where required\n\nSystem:\nHandheld Electronic - Game and Watch\nNintendo DS\nNintendo Game Boy\nNintendo Game Boy Advance\nNintendo Game Boy Color\nNintendo N64\nNintendo NES - Famicom\nNintendo SNES-SFC\nQuake\nQuake II\nSega Pico\nSega SG-1000\nSNK Neo Geo\nSony PlayStation\n\nCores:\ngw_libretro.so\ndesmume2015_libretro.so\next-drastic-legacy\nmelondsds_libretro.so\nmelonds_libretro.so\nDoubleCherryGB_libretro.so\nfixgb_libretro.so\ntgbdual_libretro.so\nvbam_libretro.so\nmednafen_gba_libretro.so\nmgba_rumble_libretro.so\nvbam_libretro.so\nvba_next_libretro.so\nDoubleCherryGB_libretro.so\nfixgb_libretro.so\ntgbdual_libretro.so\nvbam_libretro.so\nmupen64plus_libretro.so\nparallel_n64_libretro.so\nkm_ludicrousn64_2k22_xtreme_amped_libretro.so\nbnes_libretro.so\nmesen_libretro.so\nbsnes2014_performance_libretro.so\nbsnes_cplusplus98_libretro.so\nbsnes_mercury_performance_libretro.so\nbsnes_libretro.so\nmesen-s_libretro.so\nsnes9x2005_plus_libretro.so\nsnes9x2005_libretro.so\nsnes9x2010_libretro.so\nsnes9x_next_libretro.so\ntyrquake_libretro.so\nvitaquake2_libretro.so\nvitaquake2-rogue_libretro.so\nvitaquake2-xatrix_libretro.so\nvitaquake2-zaero_libretro.so\ngenesis_plus_gx_wide_libretro.so\ngenesis_plus_gx_libretro.so\npicodrive_libretro.so\nbluemsx_libretro.so\ngearsystem_libretro.so\ngenesis_plus_gx_libretro.so\ngeolith_libretro.so\nmednafen_psx_libretro.so\n"
+  },
+  {
+    "name": "Engine and Runtime",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Engine.and.Runtime.muxzip",
+    "type": "core",
+    "help": "This is an add-on package containing extra emulators\nPackage comes with additional BIOS where required\n\nSystem:\nArduboy\nChaiLove\nCHIP-8\nJava J2ME\nKaraoke (CDG)\nLowRes NX\nLua Engine\nOnscripter\nPyxel\nRPG Maker 2000 - 2003\nTIC-80\nUzebox\nWASM-4\n\nCores:\nardens_libretro.so\narduous_libretro.so\nchailove_libretro.so\njaxe_libretro.so\nfreej2me_libretro.so\npocketcdg_libretro.so\nlowresnx_libretro.so\nlutro_libretro.so\nonsyuri_libretro.so\nonscripter_libretro.so\next-pyxel\neasyrpg_libretro.so\ntic80_libretro.so\nuzem_libretro.so\nwasm4_libretro.so\n"
+  },
+  {
+    "name": "OpenBOR",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/OpenBOR.muxzip",
+    "type": "core",
+    "help": "System:\nv4432\nv6412\nv7142\nv7530\n\nCores:\next-openbor4432\next-openbor6412\next-openbor7142\next-openbor7530\n"
+  },
+  {
+    "name": "ScummVM",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/ScummVM.muxzip",
+    "type": "core",
+    "help": "This is a package specifically for the RetroArch core only\nThe external emulator is already pre-installed with muOS\n\nSystem:\nScummVM\n\nCores:\nscummvm_libretro.so\n"
+  },
+  {
+    "name": "Sega Saturn",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Sega.Saturn.muxzip",
+    "type": "core",
+    "help": "No BIOS is supplied with this package\n\nSystem:\nMednafen (Beetle) Saturn\nYabasanshiro\nYabause\n\nCores:\nmednafen_saturn_libretro.so\next-yabasanshiro-hle\next-yabasanshiro-bios\nyabasanshiro_libretro.so\nyabause_libretro.so\n"
+  },
+  {
+    "name": "Vircon32",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Vircon32.muxzip",
+    "type": "core",
+    "help": "Comes with 6 pre-installed games\nThanks to [Joyrider3774](https://joyrider3774.itch.io/)\n\nSystem:\nVircon32\n\nCores:\nvircon32_libretro.so\n"
+  }
+]

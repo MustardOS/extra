@@ -1,21 +1,12 @@
 # muOS Extra Packages
 
 These are additional packages you can download directly from the Release section and install via the **Archive Manager**
-to obtain additional applications and/or emulators for your muOS system. Most of them come with their appropriate
-launchers and BIOS packages built-in.
+to obtain additional functionality for your muOS system. Most of them come with their appropriate
+launchers and other requirements built-in.
 
 #### _Please Note: These packages are for the upcoming **Goose** release only._
 
 ---
-
-## Applications
-
-* Flip Clock (`armhf`) - Only for H700 devices currently
-    * [Download Latest Package](https://github.com/MustardOS/extra/releases/latest/download/Flip.Clock.muxzip)
-* GMU Music Player (`armhf`) - Only for H700 devices currently
-    * [Download Latest Package](https://github.com/MustardOS/extra/releases/latest/download/GMU.Music.Player.muxzip)
-* Simple Terminal (`armhf`) - Only for H700 devices currently
-    * [Download Latest Package](https://github.com/MustardOS/extra/releases/latest/download/Simple.Terminal.muxzip)
 
 ## Arcade Specific
 
