@@ -7,10 +7,10 @@ CORE=$2
 FILE=${3%/}
 
 (
-	LOG_INFO "$0" 0 "Content Launch" "DETAIL"
-	LOG_INFO "$0" 0 "NAME" "$NAME"
-	LOG_INFO "$0" 0 "CORE" "$CORE"
-	LOG_INFO "$0" 0 "FILE" "$FILE"
+    LOG_INFO "$0" 0 "Content Launch" "DETAIL"
+    LOG_INFO "$0" 0 "NAME" "$NAME"
+    LOG_INFO "$0" 0 "CORE" "$CORE"
+    LOG_INFO "$0" 0 "FILE" "$FILE"
 ) &
 
 GPTOKEYB="/opt/muos/share/emulator/gptokeyb/gptokeyb2"
@@ -21,32 +21,30 @@ GAME_BASENAME=$(basename "${FILE%.*}")
 
 # Construct the gptkfile by appending .gptk
 GPTK_FILE="${GAME_BASENAME}.gptk"
-export LD_LIBRARY_PATH="$XROAR_DIR/libs:$LD_LIBRARY_PATH"
+
+LD_LIBRARY_PATH="$XROAR_DIR/libs:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH
 
 HOME="$(GET_VAR "device" "board/home")"
 export HOME
 
 SETUP_SDL_ENVIRONMENT
 
-export SDL_GAMECONTROLLERCONFIG_FILE="/usr/lib/gamecontrollerdb.txt"
-
 SET_VAR "system" "foreground_process" "xroar"
 
-#set emulator machine model, default to coco2 if selecting xroar profile
-MACHINE="-default-machine coco2bus"
-if [[ $CORE != "xroar" && $CORE != "ext-xroar" ]]; then
-	MACHINE="-default-machine $CORE"
-fi
+case "$CORE" in
+    xroar | ext-xroar) CORE="coco2bus" ;;
+esac
 
 /opt/muos/script/mux/track.sh "$NAME" "$CORE" "$FILE" start
 
-if [ -f "$XROAR_DIR/gptk/${GPTK_FILE}" ]; then
-	$GPTOKEYB "xroar" -c "$XROAR_DIR/gptk/${GPTK_FILE}" &
-else
-	$GPTOKEYB "xroar" -c "$XROAR_DIR/gptk/xroar.gptk" &
-fi
+XR_GPTK="$XROAR_DIR/gptk"
+GPTK_SP="${XR_GPTK}/${GPTK_FILE}"
 
-$XROAR_DIR/xroar -c "$XROAR_DIR/xroar.conf" $MACHINE "$FILE"
+[ ! -f "$GPTK_SP" ] && GPTK_SP="${XR_GPTK}/xroar.gptk"
+$GPTOKEYB "xroar" -c "$GPTK_SP" &
+
+$XROAR_DIR/xroar -c "$XROAR_DIR/xroar.conf" -default-machine "$CORE" "$FILE"
 
 killall -q gptokeyb2
 
