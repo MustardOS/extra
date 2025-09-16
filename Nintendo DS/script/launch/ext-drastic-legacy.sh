@@ -18,16 +18,18 @@ export HOME
 
 SETUP_SDL_ENVIRONMENT
 
-SET_VAR "system" "foreground_process" "drastic"
+DRASTIC_BIN="drastic"
+SET_VAR "system" "foreground_process" "$DRASTIC_BIN"
 
 EMUDIR="/opt/muos/share/emulator/drastic-legacy"
 
-chmod +x "$EMUDIR"/drastic
+chmod +x "$EMUDIR"/$DRASTIC_BIN
 cd "$EMUDIR" || exit
 
 /opt/muos/script/mux/track.sh "$NAME" "$CORE" "$FILE" start
 
-HOME="$EMUDIR" SDL_ASSERT=always_ignore ./drastic "$FILE"
+GPTOKEYB "$DRASTIC_BIN"
+HOME="$EMUDIR" SDL_ASSERT=always_ignore ./$DRASTIC_BIN "$FILE"
 
 /opt/muos/script/mux/track.sh "$NAME" "$CORE" "$FILE" stop
 
