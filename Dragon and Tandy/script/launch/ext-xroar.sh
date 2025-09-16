@@ -13,7 +13,8 @@ FILE=${3%/}
     LOG_INFO "$0" 0 "FILE" "$FILE"
 ) &
 
-GPTOKEYB="/opt/muos/share/emulator/gptokeyb/gptokeyb2"
+PM_DIR="$(GET_VAR "device" "storage/rom/mount")/MUOS/PortMaster"
+GPTOKEYB="$PM_DIR"/gptokeyb2
 XROAR_DIR="/opt/muos/share/emulator/xroar"
 
 # Get the games's basename without the path
