@@ -14,6 +14,7 @@ FILE=${3%/}
 ) &
 
 PM_DIR="$(GET_VAR "device" "storage/rom/mount")/MUOS/PortMaster"
+ln -s "$PM_DIR/libinterpose.aarch64.so" "/usr/lib/libinterpose.aarch64.so" >/dev/null 2>&1
 GPTOKEYB="$PM_DIR"/gptokeyb2
 XROAR_DIR="/opt/muos/share/emulator/xroar"
 
