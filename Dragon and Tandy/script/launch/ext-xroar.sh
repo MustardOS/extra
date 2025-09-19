@@ -38,6 +38,8 @@ GPTK_SP="${XR_GPTK}/${GAME_BN}.gptk"
 [ ! -f "$GPTK_SP" ] && GPTK_SP="${XR_GPTK}/$XROAR_BIN.gptk"
 
 PM_DIR="$(GET_VAR "device" "storage/rom/mount")/MUOS/PortMaster"
+LIB_IPOSE="libinterpose.aarch64.so"
+ln -sf "$PM_DIR/$LIB_IPOSE" "/usr/lib/$LIB_IPOSE" >/dev/null 2>&1
 "$PM_DIR"/gptokeyb2 "$XROAR_BIN" -c "$GPTK_SP" &
 
 "$XROAR_DIR/$XROAR_BIN" -c "$XROAR_DIR/$XROAR_BIN.conf" -default-machine "$CORE" "$FILE"
