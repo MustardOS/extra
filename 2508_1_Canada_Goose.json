@@ -372,6 +372,12 @@
     "help": ""
   },
   {
+    "name": "Sega Mega Drive - Genesis",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Sega.Mega.Drive.-.Genesis.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
     "name": "Sharp X1",
     "url": "https://github.com/MustardOS/extra/releases/latest/download/Sharp.X1.muxzip",
     "type": "core",
