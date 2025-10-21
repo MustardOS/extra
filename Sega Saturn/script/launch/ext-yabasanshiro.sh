@@ -27,26 +27,15 @@ elif [ "$CORE" = "ext-yabasanshiro-bios" ]; then
 	YABA_BIN="./yabasanshiro -b $BIOS -r 3 -a -i"
 fi
 
-CURR_CONSOLE="$(GET_VAR "device" "board/name")"
-
-SETUP_SDL_ENVIRONMENT skip_blitter
+SETUP_SDL_ENVIRONMENT
 
 SET_VAR "system" "foreground_process" "yabasanshiro"
 
 EMUDIR="$MUOS_SHARE_DIR/emulator/yabasanshiro"
 export HOME="$EMUDIR"
 
-CONF_28XX="$EMUDIR/.yabasanshiro/28xx.config"
-
 # Grab full ROM name including extension
 F_NAME=$(basename "$FILE")
-
-# YabaSanshiro appears to rotate on a game config level.
-# This copies a rotation enabled game config as game specific before launch.
-# NOTE: Menu rotation is currently still wrong.
-if [ "$CURR_CONSOLE" = "rg28xx-h" ] && [ ! -f "$EMUDIR/.yabasanshiro/$F_NAME.config" ]; then
-	cp -f "$CONF_28XX" "$EMUDIR/.yabasanshiro/$F_NAME.config"
-fi
 
 # Memory cards fill out so fake one card per game.
 # If we don't exit gracefully, save file may still exist as backup.bin, if so make a copy.
