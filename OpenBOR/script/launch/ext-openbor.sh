@@ -27,7 +27,7 @@ SETUP_SDL_ENVIRONMENT
 U_DATA="/userdata"
 
 [ -d "$U_DATA" ] && rm -rf "$U_DATA"
-ln -s "$MUOS_SHARE_DIR/openbor/userdata" "$U_DATA"
+ln -sf "$MUOS_SHARE_DIR/emulator/openbor/userdata" "$U_DATA"
 
 if [ "$CORE" = "ext-openbor4432" ]; then
 	BOR_BIN="OpenBOR4432"
