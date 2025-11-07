@@ -35,6 +35,7 @@ elif [ "$CORE" = "ext-openbor6412" ]; then
 	BOR_BIN="OpenBOR6412"
 elif [ "$CORE" = "ext-openbor7142" ]; then
 	BOR_BIN="OpenBOR7142"
+	unset SDL_GAMECONTROLLERCONFIG SDL_GAMECONTROLLERCONFIG_FILE
 elif [ "$CORE" = "ext-openbor7530" ]; then
 	BOR_BIN="OpenBOR7530"
 fi
