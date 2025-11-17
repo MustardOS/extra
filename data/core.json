@@ -1713,7 +1713,7 @@
     "symbols": 0,
     "commands": {
       "post-make": [
-      "mv backends/platform/libretro/scummvm_libretro.so ."
+        "mv backends/platform/libretro/scummvm_libretro.so ."
       ]
     }
   },
