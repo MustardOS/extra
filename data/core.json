@@ -1275,7 +1275,13 @@
       "args": "",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build && cmake .. -DBUILD_LIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DSKIP_LIBRARY=ON -DBUILD_QT=OFF -DBUILD_SDL=ON -DUSE_DISCORD_RPC=OFF -DUSE_EDITLINE=OFF -DUSE_EPOXY=OFF -DBUILD_GL=ON -DBUILD_GLES3=OFF -DBUILD_GLES2=ON -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer' -DCMAKE_CXX_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer'"
+      ]
+    }
   },
   "minivmac": {
     "source": "https://github.com/libretro/libretro-minivmac",
@@ -1704,7 +1710,12 @@
       "args": "-C backends/platform/libretro",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+      "mv backends/platform/libretro/scummvm_libretro.so ."
+      ]
+    }
   },
   "snes9x": {
     "source": "https://github.com/libretro/snes9x",
