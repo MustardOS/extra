@@ -574,8 +574,8 @@ for NAME in $CORES; do
 	# Decide zip name based on .so file if present (multi-output)
 	SOFILE=$(printf "%s\n" $OUTPUTS | grep '\.so$' | head -n1)
 	if [ -n "$SOFILE" ]; then
-		ZIP_NAME="$(basename "${SOFILE%.so}").zip"
-		else
+		ZIP_NAME="$(basename "$SOFILE").zip"
+	else
 		# fallback to original behavior
 		set -- $OUTPUTS
 		if [ "$#" -eq 1 ]; then
