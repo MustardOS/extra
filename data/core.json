@@ -846,7 +846,7 @@
   },
   "gpsp": {
     "source": "https://github.com/libretro/gpsp",
-    "branch": "143b0ab",
+    "branch": "74db5e5",
     "directory": "gpsp",
     "output": "gpsp_libretro.so",
     "make": {

@@ -292,7 +292,7 @@ else
 fi
 
 # Load the cache file
-CACHE_FILE="$BASE_DIR/cache.json"
+CACHE_FILE="$BASE_DIR/data/cache.json"
 if [ ! -f "$CACHE_FILE" ]; then
     echo "{}" > "$CACHE_FILE"
 fi
