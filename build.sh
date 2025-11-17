@@ -571,15 +571,20 @@ for NAME in $CORES; do
 
 	cd "$RETRO_DIR" || { printf "Failed to enter directory %s\n" "$RETRO_DIR" >&2; RETURN_TO_BASE; continue; }
 
-	# Decide zip name based on how many outputs we had
-	ZIP_NAME=$(
+	# Decide zip name based on .so file if present (multi-output)
+	SOFILE=$(printf "%s\n" $OUTPUTS | grep '\.so$' | head -n1)
+	if [ -n "$SOFILE" ]; then
+		ZIP_NAME="$(basename "${SOFILE%.so}").zip"
+		else
+		# fallback to original behavior
 		set -- $OUTPUTS
 		if [ "$#" -eq 1 ]; then
-			printf "%s.zip" "$(basename "$1")"
+			ZIP_NAME="$(basename "$1").zip"
 		else
-			printf "%s.zip" "$NAME"
+			ZIP_NAME="${NAME}.zip"
 		fi
-	)
+	fi
+
 	[ -f "$ZIP_NAME" ] && rm -f "$ZIP_NAME"
 
 	# Zip moved files by basename
