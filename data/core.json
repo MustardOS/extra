@@ -1701,7 +1701,7 @@
     "output": "scummvm_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "",
+      "args": "-C backends/platform/libretro",
       "target": ""
     },
     "symbols": 0
