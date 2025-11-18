@@ -40,7 +40,8 @@ BUILD_CORES=""
 EXCLUDE_CORES=""
 OPTION_SPECIFIED=0
 UPDATE=0
-STORAGE_POINTER=x
+CLEAN=0
+CORE_CLEAN_FLAG=0
 
 # If argument '-p' or '--purge' provided first, set PURGE=1
 if [ "$#" -gt 0 ]; then
