@@ -18,7 +18,6 @@ USAGE() {
 	echo "Notes:"
 	echo "  - Either -a, -c, or -u is required, but NOT together"
 	echo "  - If -p is used, it MUST be the first argument"
-	echo "  - The -u switch must have a storage pointer (e.g., -u mmc)"
 	echo ""
 	echo "Examples:"
 	echo "  $0 -a"
