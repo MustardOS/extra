@@ -94,21 +94,9 @@ while [ "$#" -gt 0 ]; do
 			break
 			;;
 		-u | --update)
-			[ "$OPTION_SPECIFIED" -ne 0 ] && USAGE
-			OPTION_SPECIFIED=1
-			shift
-			if [ "$#" -eq 0 ]; then
-				printf "Error: Missing storage pointer\n\n" >&2
-				USAGE
-			fi
-			STORAGE_POINTER="$1"
-			shift
-			[ -z "$STORAGE_POINTER" ] && {
-				printf "Error: Invalid storage pointer\n"
-				exit 1
-			}
-			UPDATE=1
-			;;
+    		UPDATE=1
+    		shift
+    		;;
 		-f | --force)
 			FORCE=1
 			shift

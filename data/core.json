@@ -1453,7 +1453,7 @@
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "export CFLAGS='-O3 -march=armv8-a+crc -mtune=cortex-a53 -fomit-frame-pointer -ffast-math' && ./configure"
+        "export CFLAGS='-O3 -march=armv8-a+crc -mtune=cortex-a53' && ./configure"
       ]
     }
   },
