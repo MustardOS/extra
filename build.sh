@@ -26,7 +26,7 @@ USAGE() {
 	echo "  $0 -p -a"
 	echo "  $0 -p -c dosbox-pure sameboy"
 	echo "  $0 -l -a"
-	echo "  $0 -u mmc"
+	echo "  $0 -u"
 	echo ""
 	exit 1
 }
