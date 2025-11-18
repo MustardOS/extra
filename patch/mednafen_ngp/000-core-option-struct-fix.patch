@@ -1,0 +1,24 @@
+diff --git a/libretro_core_options.h b/libretro_core_options.h
+index 44d4702..5da27e1 100644
+--- a/libretro_core_options.h
++++ b/libretro_core_options.h
+@@ -34,13 +34,13 @@ struct retro_core_option_definition option_defs_us[] = {
+       "Language (*)",
+       "Language games should display text in.\n(*) Core restart required.",
+       {
+-         { "english",  NULL },
+-         { "japanese",  NULL },
+-         { NULL, NULL},
++         { "english", NULL },
++         { "japanese", NULL },
++         { NULL, NULL }
+       },
+-      "english",
++      "english"
+    },
+-   { NULL, NULL, NULL, { NULL, NULL }, NULL },
++   { NULL, NULL, NULL, { { NULL, NULL } }, NULL }
+ };
+ 
+ /* RETRO_LANGUAGE_JAPANESE */
+

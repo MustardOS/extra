@@ -1,0 +1,26 @@
+From 77fddc793ff93e88f361bde4ed98248c5c462700 Mon Sep 17 00:00:00 2001
+From: Duncanyoyo1 <duncanyoyo1@gmail.com>
+Date: Tue, 15 Apr 2025 06:57:41 -0400
+Subject: [PATCH] Update Makefile
+
+---
+ src/libretro/Makefile | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/src/libretro/Makefile b/src/libretro/Makefile
+index 41a354a0..6908e0c5 100644
+--- a/src/libretro/Makefile
++++ b/src/libretro/Makefile
+@@ -13,12 +13,6 @@ CORE_DIR := .
+ TARGET_NAME := freej2me
+ LIBM := -lm
+ 
+-# Toolchain for RG35XXH
+-TOOLCHAIN_PATH := /home/clay/toolchain/bin
+-CC := $(TOOLCHAIN_PATH)/aarch64-buildroot-linux-gnu-gcc
+-CXX := $(TOOLCHAIN_PATH)/aarch64-buildroot-linux-gnu-g++
+-AR := $(TOOLCHAIN_PATH)/aarch64-buildroot-linux-gnu-ar
+-
+ # Compiler flags for RG35XXH
+ CFLAGS := -Wall -Wno-unused-result -D__LIBRETRO__ -fPIC -O3
+ CXXFLAGS := -Wall -Wno-unused-result -D__LIBRETRO__ -fPIC -O3

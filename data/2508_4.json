@@ -1,0 +1,471 @@
+[
+  {
+    "name": "Amstrad",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Amstrad.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - FB Alpha 2012",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.FB.Alpha.2012.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME 078 Plus",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.078.Plus.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME 139",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.139.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME 2000",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.2000.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME 2003 Midway",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.2003.Midway.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME 2003 Plus",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.2003.Plus.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arcade - MAME 2010",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.MAME.2010.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Arduboy",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arduboy.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Atari 5200",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Atari.5200.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Atari 7800",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Atari.7800.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Atari 800",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Atari.800.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Atari Jaguar",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Atari.Jaguar.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Atari ST-STE-TT-Falcon",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Atari.ST-STE-TT-Falcon.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Bandai WonderSwan Color",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Bandai.WonderSwan.Color.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "ChaiLove",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.ChaiLove.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "CHIP-8",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.CHIP-8.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "ColecoVision",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.ColecoVision.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Commodore Amiga",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Commodore.Amiga.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Commodore C128",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Commodore.C128.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Commodore C64",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Commodore.C64.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Commodore CBM-II",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Commodore.CBM-II.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Commodore PET",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Commodore.PET.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Commodore VIC-20",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Commodore.VIC-20.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Discrete Integrated Circuit Emulator",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Discrete.Integrated.Circuit.Emulator.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Dragon and Tandy",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Dragon.and.Tandy.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Fairchild Channel F",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Fairchild.Channel.F.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Galaksija Retro Computer",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Galaksija.Retro.Computer.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "GCE Vectrex",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.GCE.Vectrex.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Handheld Electronic - Game and Watch",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Handheld.Electronic.-.Game.and.Watch.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Java J2ME",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Java.J2ME.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Karaoke",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Karaoke.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "LowRes NX",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.LowRes.NX.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Lua Engine",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Lua.Engine.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Magnavox Odyssey - VideoPac",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Magnavox.Odyssey.-.VideoPac.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Mattel Intellivision",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Mattel.Intellivision.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Mega Duck - Cougar Boy",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Mega.Duck.-.Cougar.Boy.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Microsoft MSX",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Microsoft.MSX.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "NEC PC-8000 - PC-8800 Series",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.NEC.PC-8000.-.PC-8800.Series.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "NEC PC98",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.NEC.PC98.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "NEC PC-FX",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.NEC.PC-FX.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo DS",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.DS.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo Famicom Disk System",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.Famicom.Disk.System.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo Game Boy",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.Game.Boy.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo Game Boy Advance",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.Game.Boy.Advance.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo Game Boy Color",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.Game.Boy.Color.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo N64",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.N64.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo NES - Famicom",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.NES.-.Famicom.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo Pokemon Mini",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.Pokemon.Mini.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Nintendo SNES - SFC",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Nintendo.SNES.-.SFC.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Onscripter",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Onscripter.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "OpenBOR",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.OpenBOR.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Philips CDi",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Philips.CDi.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Pyxel",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Pyxel.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Quake",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Quake.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Quake II",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Quake.II.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "RPG Maker 2000 - 2003",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.RPG.Maker.2000.-.2003.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "ScummVM",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.ScummVM.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sega Pico",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sega.Pico.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sega Saturn",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sega.Saturn.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sega SG-1000",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sega.SG-1000.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sega Mega Drive - Genesis",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sega.Mega.Drive.-.Genesis.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sharp X1",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sharp.X1.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sharp X68000",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sharp.X68000.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sinclair ZX 81",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sinclair.ZX.81.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sinclair ZX Spectrum",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sinclair.ZX.Spectrum.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "SNK Neo Geo",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.SNK.Neo.Geo.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Sony PlayStation",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Sony.PlayStation.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "SVI - ColecoVision - SG1000",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.SVI.-.ColecoVision.-.SG1000.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Texas Instruments TI-83",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Texas.Instruments.TI-83.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "The 3DO Company - 3DO",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.The.3DO.Company.-.3DO.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "TIC-80",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.TIC-80.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Uzebox",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Uzebox.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "VeMUlator",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.VeMUlator.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Vircon32",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Vircon32.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "WASM-4",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.WASM-4.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "Watara Supervision",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Watara.Supervision.muxzip",
+    "type": "core",
+    "help": ""
+  }
+]
+

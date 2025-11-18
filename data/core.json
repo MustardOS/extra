@@ -1,0 +1,2172 @@
+{
+  "2048": {
+    "source": "https://github.com/libretro/libretro-2048",
+    "branch": "86e02d3",
+    "directory": "libretro-2048",
+    "output": "2048_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "81": {
+    "source": "https://github.com/libretro/81-libretro",
+    "branch": "ffc99f2",
+    "directory": "81-libretro",
+    "output": "81_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "a5200": {
+    "source": "https://github.com/libretro/a5200",
+    "branch": "5264040",
+    "directory": "a5200",
+    "output": "a5200_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "ardens": {
+    "source": "https://github.com/tiberiusbrown/Ardens",
+    "branch": "9a1c46a",
+    "directory": "Ardens",
+    "output": "ardens_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C build",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build",
+        "printf 'Running CMAKE Build\\n'",
+        "cmake -DCMAKE_BUILD_TYPE=RELEASE -DARDENS_LIBRETRO=ON .. >/dev/null 2>&1"
+      ],
+      "post-make": [
+      "mv build/ardens_libretro.so ."
+      ]
+    }
+  },
+  "arduous": {
+    "source": "https://github.com/libretro/arduous",
+    "branch": "2273b48",
+    "directory": "arduous",
+    "output": "arduous_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C build",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build",
+        "printf 'Running CMAKE Build\\n'",
+        "cmake -DCMAKE_BUILD_TYPE=RELEASE .. >/dev/null 2>&1"
+      ],
+      "post-make": [
+      "printf 'Moving arduous_libretro.so'",
+      "mv build/arduous_libretro.so ."
+      ]
+    }
+  },
+  "atari800": {
+    "source": "https://github.com/libretro/libretro-atari800",
+    "branch": "6a18cb2",
+    "directory": "libretro-atari800",
+    "output": "atari800_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "bk": {
+    "source": "https://github.com/libretro/bk-emulator",
+    "branch": "f95d929",
+    "directory": "bk-emulator",
+    "output": "bk_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "bluemsx": {
+    "source": "https://github.com/libretro/blueMSX-libretro",
+    "branch": "036376d",
+    "directory": "blueMSX-libretro",
+    "output": "bluemsx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "bnes": {
+    "source": "https://github.com/libretro/bnes-libretro",
+    "branch": "8e26e89",
+    "directory": "bnes-libretro",
+    "output": "bnes_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "bsnes-jg": {
+    "source": "https://github.com/libretro/bsnes-jg",
+    "branch": "a3bd780",
+    "directory": "bsnes-jg",
+    "output": "bsnes-jg_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/bsnes-jg_libretro.so ."
+      ]
+    }
+  },
+  "bsnes2014_performance": {
+    "source": "https://github.com/libretro/bsnes2014",
+    "branch": "3beff8e",
+    "directory": "bsnes2014",
+    "output": "bsnes2014_performance_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "bsnes_cplusplus98": {
+    "source": "https://github.com/libretro/bsnes-libretro-cplusplus98",
+    "branch": "0ac6a16",
+    "directory": "bsnes-libretro-cplusplus98",
+    "output": "bsnes_cplusplus98_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "bsnes_mercury_performance": {
+    "source": "https://github.com/libretro/bsnes-mercury",
+    "branch": "0f35d04",
+    "directory": "bsnes-mercury",
+    "output": "bsnes_mercury_performance_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "cannonball": {
+    "source": "https://github.com/libretro/cannonball",
+    "branch": "5137a79",
+    "directory": "cannonball",
+    "output": "cannonball_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "cap32": {
+    "source": "https://github.com/libretro/libretro-cap32",
+    "branch": "a5d96c5",
+    "directory": "libretro-cap32",
+    "output": "cap32_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "chailove": {
+    "source": "https://github.com/libretro/libretro-chailove",
+    "branch": "467cd45",
+    "directory": "libretro-chailove",
+    "output": "chailove_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "chimerasnes": {
+    "source": "https://github.com/jamsilva/chimerasnes",
+    "branch": "04c57c2",
+    "directory": "chimerasnes",
+    "output": "chimerasnes_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "crocods": {
+    "source": "https://github.com/libretro/libretro-crocods",
+    "branch": "a320f6e",
+    "directory": "libretro-crocods",
+    "output": "crocods_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "dice": {
+    "source": "https://github.com/mittonk/dice-libretro.git",
+    "branch": "71a10a8",
+    "directory": "dice-libretro",
+    "output": "dice_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "dosbox_pure": {
+    "source": "https://github.com/schellingb/dosbox-pure",
+    "branch": "b9f8bc6",
+    "directory": "dosbox-pure",
+    "output": "dosbox_pure_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "dosbox_svn": {
+    "source": "https://github.com/libretro/dosbox-svn",
+    "branch": "53ca2f6",
+    "directory": "dosbox-svn",
+    "output": "dosbox_svn_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/dosbox_svn_libretro.so ."
+      ]
+    }
+  },
+  "doublecherryGB": {
+    "source": "https://github.com/TimOelrichs/doublecherryGB-libretro",
+    "branch": "5dbc8c9",
+    "directory": "doublecherryGB-libretro",
+    "output": "DoubleCherryGB_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "ecwolf": {
+    "source": "https://github.com/libretro/ecwolf",
+    "branch": "c57ad89",
+    "directory": "ecwolf",
+    "output": "ecwolf_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd src/libretro"
+      ],
+      "post-make": [
+      "mv src/libretro/ecwolf_libretro.so ."
+      ]
+    }
+  },
+  "emux_chip8": {
+    "source": "https://github.com/sronsse/emux",
+    "branch": "df14439",
+    "directory": "emux-chip8",
+    "output": "emux_chip8_libretro.so",
+    "make": {
+      "file": "Makefile.aarch64",
+      "args": "-C libretro MACHINE=chip8",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro",
+        "printf $'##############\\n# Works on hosts Linux\\n# \\n\\n#########################\\n# Check the host platform\\n\\nHOST_PLATFORM = linux\\nifeq ($(shell uname -a),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring MINGW,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring Darwin,$(shell uname -a)),)\\n  HOST_PLATFORM = darwin\\nelse ifneq ($(findstring win,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nendif\\n\\n#########################\\n# Set the target platform\\n\\nTARGET_PLATFORM = linux_aarch64\\n\\n#################\\n# Toolchain setup\\n\\n# For cross-compilation, use the aarch64 toolchain. On native aarch64 systems, the default gcc might be sufficient.\\nCC  = aarch64-linux-gnu-gcc\\nCXX = aarch64-linux-gnu-g++\\nAS  = aarch64-linux-gnu-as\\nAR  = aarch64-linux-gnu-ar\\n\\n############\\n# Extensions\\n\\nOBJEXT = .linux_aarch64.o\\nSOEXT  = .linux_aarch64.so\\nLIBEXT = .linux_aarch64.a\\n\\n################\\n# Platform setup\\n\\nSTATIC_LINKING = 0\\nplatform       = unix\\nPLATDEFS       =\\nPLATCFLAGS     = -march=armv8-a -fpic -fstrict-aliasing\\nPLATCXXFLAGS   = -march=armv8-a -fpic -fstrict-aliasing\\nPLATLDFLAGS    = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\nPLATLDXFLAGS   = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\n\\n################\\n# libretro setup\\n\\nRETRODEFS     = -D__LIBRETRO__\\nRETROCFLAGS   =\\nRETROCXXFLAGS =\\nRETROLDFLAGS  =\\nRETROLDXFLAGS =\\n\\n#################\\n# Final variables\\n\\nDEFINES  = $(PLATDEFS) $(RETRODEFS)\\nCFLAGS   = $(PLATCFLAGS) $(RETROCFLAGS) $(DEFINES) $(INCLUDES)\\nCXXFLAGS = $(PLATCXXFLAGS) $(RETROCXXFLAGS) $(DEFINES) $(INCLUDES)\\nLDFLAGS  = $(PLATLDFLAGS) $(RETROLDFLAGS)\\nLDXFLAGS = $(PLATLDXFLAGS) $(RETROLDXFLAGS)\\n\\n########\\n# Tuning\\n\\nifneq ($(DEBUG),)\\n  CFLAGS   += -O0 -g\\n  CXXFLAGS += -O0 -g\\nelse\\n  CFLAGS   += -O3 -DNDEBUG\\n  CXXFLAGS += -O3 -DNDEBUG\\nendif\\n\\nifneq ($(LOG_PERFORMANCE),)\\n  CFLAGS   += -DLOG_PERFORMANCE\\n  CXXFLAGS += -DLOG_PERFORMANCE\\nendif\\n\\n####################################\\n# Variable setup for Makefile.common\\n\\nCORE_DIR  ?= ..\\nBUILD_DIR ?= .\\nINCLUDES   =\\n\\ninclude $(BUILD_DIR)/Makefile.common\\n\\n###############\\n# Include rules\\n\\ninclude $(BUILD_DIR)/Makefile.rules\\n' > Makefile.aarch64"
+      ],
+      "post-make": [
+        "mv libretro/emux_chip8_libretro.linux_aarch64.so ./emux_chip8_libretro.so"
+      ]
+    }
+  },
+  "emux_gb": {
+    "source": "https://github.com/sronsse/emux",
+    "branch": "df14439",
+    "directory": "emux-gb",
+    "output": "emux_gb_libretro.so",
+    "make": {
+      "file": "Makefile.aarch64",
+      "args": "-C libretro MACHINE=gb",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro",
+        "printf $'##############\\n# Works on hosts Linux\\n# \\n\\n#########################\\n# Check the host platform\\n\\nHOST_PLATFORM = linux\\nifeq ($(shell uname -a),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring MINGW,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring Darwin,$(shell uname -a)),)\\n  HOST_PLATFORM = darwin\\nelse ifneq ($(findstring win,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nendif\\n\\n#########################\\n# Set the target platform\\n\\nTARGET_PLATFORM = linux_aarch64\\n\\n#################\\n# Toolchain setup\\n\\n# For cross-compilation, use the aarch64 toolchain. On native aarch64 systems, the default gcc might be sufficient.\\nCC  = aarch64-linux-gnu-gcc\\nCXX = aarch64-linux-gnu-g++\\nAS  = aarch64-linux-gnu-as\\nAR  = aarch64-linux-gnu-ar\\n\\n############\\n# Extensions\\n\\nOBJEXT = .linux_aarch64.o\\nSOEXT  = .linux_aarch64.so\\nLIBEXT = .linux_aarch64.a\\n\\n################\\n# Platform setup\\n\\nSTATIC_LINKING = 0\\nplatform       = unix\\nPLATDEFS       =\\nPLATCFLAGS     = -march=armv8-a -fpic -fstrict-aliasing\\nPLATCXXFLAGS   = -march=armv8-a -fpic -fstrict-aliasing\\nPLATLDFLAGS    = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\nPLATLDXFLAGS   = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\n\\n################\\n# libretro setup\\n\\nRETRODEFS     = -D__LIBRETRO__\\nRETROCFLAGS   =\\nRETROCXXFLAGS =\\nRETROLDFLAGS  =\\nRETROLDXFLAGS =\\n\\n#################\\n# Final variables\\n\\nDEFINES  = $(PLATDEFS) $(RETRODEFS)\\nCFLAGS   = $(PLATCFLAGS) $(RETROCFLAGS) $(DEFINES) $(INCLUDES)\\nCXXFLAGS = $(PLATCXXFLAGS) $(RETROCXXFLAGS) $(DEFINES) $(INCLUDES)\\nLDFLAGS  = $(PLATLDFLAGS) $(RETROLDFLAGS)\\nLDXFLAGS = $(PLATLDXFLAGS) $(RETROLDXFLAGS)\\n\\n########\\n# Tuning\\n\\nifneq ($(DEBUG),)\\n  CFLAGS   += -O0 -g\\n  CXXFLAGS += -O0 -g\\nelse\\n  CFLAGS   += -O3 -DNDEBUG\\n  CXXFLAGS += -O3 -DNDEBUG\\nendif\\n\\nifneq ($(LOG_PERFORMANCE),)\\n  CFLAGS   += -DLOG_PERFORMANCE\\n  CXXFLAGS += -DLOG_PERFORMANCE\\nendif\\n\\n####################################\\n# Variable setup for Makefile.common\\n\\nCORE_DIR  ?= ..\\nBUILD_DIR ?= .\\nINCLUDES   =\\n\\ninclude $(BUILD_DIR)/Makefile.common\\n\\n###############\\n# Include rules\\n\\ninclude $(BUILD_DIR)/Makefile.rules\\n' > Makefile.aarch64"
+      ],
+      "post-make": [
+        "mv libretro/emux_gb_libretro.linux_aarch64.so ./emux_gb_libretro.so"
+      ]
+    }
+  },
+  "emux_nes": {
+    "source": "https://github.com/sronsse/emux",
+    "branch": "df14439",
+    "directory": "emux-nes",
+    "output": "emux_nes_libretro.so",
+    "make": {
+      "file": "Makefile.aarch64",
+      "args": "-C libretro MACHINE=nes",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro",
+        "printf $'##############\\n# Works on hosts Linux\\n# \\n\\n#########################\\n# Check the host platform\\n\\nHOST_PLATFORM = linux\\nifeq ($(shell uname -a),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring MINGW,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring Darwin,$(shell uname -a)),)\\n  HOST_PLATFORM = darwin\\nelse ifneq ($(findstring win,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nendif\\n\\n#########################\\n# Set the target platform\\n\\nTARGET_PLATFORM = linux_aarch64\\n\\n#################\\n# Toolchain setup\\n\\n# For cross-compilation, use the aarch64 toolchain. On native aarch64 systems, the default gcc might be sufficient.\\nCC  = aarch64-linux-gnu-gcc\\nCXX = aarch64-linux-gnu-g++\\nAS  = aarch64-linux-gnu-as\\nAR  = aarch64-linux-gnu-ar\\n\\n############\\n# Extensions\\n\\nOBJEXT = .linux_aarch64.o\\nSOEXT  = .linux_aarch64.so\\nLIBEXT = .linux_aarch64.a\\n\\n################\\n# Platform setup\\n\\nSTATIC_LINKING = 0\\nplatform       = unix\\nPLATDEFS       =\\nPLATCFLAGS     = -march=armv8-a -fpic -fstrict-aliasing\\nPLATCXXFLAGS   = -march=armv8-a -fpic -fstrict-aliasing\\nPLATLDFLAGS    = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\nPLATLDXFLAGS   = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\n\\n################\\n# libretro setup\\n\\nRETRODEFS     = -D__LIBRETRO__\\nRETROCFLAGS   =\\nRETROCXXFLAGS =\\nRETROLDFLAGS  =\\nRETROLDXFLAGS =\\n\\n#################\\n# Final variables\\n\\nDEFINES  = $(PLATDEFS) $(RETRODEFS)\\nCFLAGS   = $(PLATCFLAGS) $(RETROCFLAGS) $(DEFINES) $(INCLUDES)\\nCXXFLAGS = $(PLATCXXFLAGS) $(RETROCXXFLAGS) $(DEFINES) $(INCLUDES)\\nLDFLAGS  = $(PLATLDFLAGS) $(RETROLDFLAGS)\\nLDXFLAGS = $(PLATLDXFLAGS) $(RETROLDXFLAGS)\\n\\n########\\n# Tuning\\n\\nifneq ($(DEBUG),)\\n  CFLAGS   += -O0 -g\\n  CXXFLAGS += -O0 -g\\nelse\\n  CFLAGS   += -O3 -DNDEBUG\\n  CXXFLAGS += -O3 -DNDEBUG\\nendif\\n\\nifneq ($(LOG_PERFORMANCE),)\\n  CFLAGS   += -DLOG_PERFORMANCE\\n  CXXFLAGS += -DLOG_PERFORMANCE\\nendif\\n\\n####################################\\n# Variable setup for Makefile.common\\n\\nCORE_DIR  ?= ..\\nBUILD_DIR ?= .\\nINCLUDES   =\\n\\ninclude $(BUILD_DIR)/Makefile.common\\n\\n###############\\n# Include rules\\n\\ninclude $(BUILD_DIR)/Makefile.rules\\n' > Makefile.aarch64"
+      ],
+      "post-make": [
+        "mv libretro/emux_nes_libretro.linux_aarch64.so ./emux_nes_libretro.so"
+      ]
+    }
+  },
+  "emux_sms": {
+    "source": "https://github.com/sronsse/emux",
+    "branch": "df14439",
+    "directory": "emux-sms",
+    "output": "emux_sms_libretro.so",
+    "make": {
+      "file": "Makefile.aarch64",
+      "args": "-C libretro MACHINE=sms",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro",
+        "printf $'##############\\n# Works on hosts Linux\\n# \\n\\n#########################\\n# Check the host platform\\n\\nHOST_PLATFORM = linux\\nifeq ($(shell uname -a),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring MINGW,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nelse ifneq ($(findstring Darwin,$(shell uname -a)),)\\n  HOST_PLATFORM = darwin\\nelse ifneq ($(findstring win,$(shell uname -a)),)\\n  HOST_PLATFORM = windows\\nendif\\n\\n#########################\\n# Set the target platform\\n\\nTARGET_PLATFORM = linux_aarch64\\n\\n#################\\n# Toolchain setup\\n\\n# For cross-compilation, use the aarch64 toolchain. On native aarch64 systems, the default gcc might be sufficient.\\nCC  = aarch64-linux-gnu-gcc\\nCXX = aarch64-linux-gnu-g++\\nAS  = aarch64-linux-gnu-as\\nAR  = aarch64-linux-gnu-ar\\n\\n############\\n# Extensions\\n\\nOBJEXT = .linux_aarch64.o\\nSOEXT  = .linux_aarch64.so\\nLIBEXT = .linux_aarch64.a\\n\\n################\\n# Platform setup\\n\\nSTATIC_LINKING = 0\\nplatform       = unix\\nPLATDEFS       =\\nPLATCFLAGS     = -march=armv8-a -fpic -fstrict-aliasing\\nPLATCXXFLAGS   = -march=armv8-a -fpic -fstrict-aliasing\\nPLATLDFLAGS    = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\nPLATLDXFLAGS   = -march=armv8-a -shared -lm -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined\\n\\n################\\n# libretro setup\\n\\nRETRODEFS     = -D__LIBRETRO__\\nRETROCFLAGS   =\\nRETROCXXFLAGS =\\nRETROLDFLAGS  =\\nRETROLDXFLAGS =\\n\\n#################\\n# Final variables\\n\\nDEFINES  = $(PLATDEFS) $(RETRODEFS)\\nCFLAGS   = $(PLATCFLAGS) $(RETROCFLAGS) $(DEFINES) $(INCLUDES)\\nCXXFLAGS = $(PLATCXXFLAGS) $(RETROCXXFLAGS) $(DEFINES) $(INCLUDES)\\nLDFLAGS  = $(PLATLDFLAGS) $(RETROLDFLAGS)\\nLDXFLAGS = $(PLATLDXFLAGS) $(RETROLDXFLAGS)\\n\\n########\\n# Tuning\\n\\nifneq ($(DEBUG),)\\n  CFLAGS   += -O0 -g\\n  CXXFLAGS += -O0 -g\\nelse\\n  CFLAGS   += -O3 -DNDEBUG\\n  CXXFLAGS += -O3 -DNDEBUG\\nendif\\n\\nifneq ($(LOG_PERFORMANCE),)\\n  CFLAGS   += -DLOG_PERFORMANCE\\n  CXXFLAGS += -DLOG_PERFORMANCE\\nendif\\n\\n####################################\\n# Variable setup for Makefile.common\\n\\nCORE_DIR  ?= ..\\nBUILD_DIR ?= .\\nINCLUDES   =\\n\\ninclude $(BUILD_DIR)/Makefile.common\\n\\n###############\\n# Include rules\\n\\ninclude $(BUILD_DIR)/Makefile.rules\\n' > Makefile.aarch64"
+      ],
+      "post-make": [
+        "mv libretro/emux_sms_libretro.linux_aarch64.so ./emux_sms_libretro.so"
+      ]
+    }
+  },
+  "ep128emu_core": {
+    "source": "https://github.com/libretro/ep128emu-core",
+    "branch": "edc6da0",
+    "directory": "ep128emu-core",
+    "output": "ep128emu_core_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fake08": {
+    "source": "https://github.com/jtothebell/fake-08",
+    "branch": "0d26fd5",
+    "directory": "fake-08",
+    "output": "fake08_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platform/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platform/libretro"
+      ],
+      "post-make": [
+      "mv platform/libretro/fake08_libretro.so ."
+      ]
+    }
+  },
+  "fbalpha": {
+    "source": "https://github.com/libretro/fbalpha",
+    "branch": "0581797",
+    "directory": "fbalpha",
+    "output": "fbalpha_libretro.so",
+    "make": {
+      "file": "makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fbalpha2012": {
+    "source": "https://github.com/libretro/fbalpha2012",
+    "branch": "77167ce",
+    "directory": "fbalpha2012",
+    "output": "fbalpha2012_libretro.so",
+    "make": {
+      "file": "makefile.libretro",
+      "args": "-C svn-current/trunk",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd svn-current/trunk"
+      ],
+      "post-make": [
+      "printf 'Moving fbalpha2012_libretro.so'",
+      "mv svn-current/trunk/fbalpha2012_libretro.so ."
+      ]
+    }
+  },
+  "fbalpha2012_cps1": {
+    "source": "https://github.com/libretro/fbalpha2012_cps1",
+    "branch": "2499e30",
+    "directory": "fbalpha2012_cps1",
+    "output": "fbalpha2012_cps1_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fbalpha2012_cps2": {
+    "source": "https://github.com/libretro/fbalpha2012_cps2",
+    "branch": "d618e99",
+    "directory": "fbalpha2012_cps2",
+    "output": "fbalpha2012_cps2_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fbalpha2012_cps3": {
+    "source": "https://github.com/libretro/fbalpha2012_cps3",
+    "branch": "2d1023b",
+    "directory": "fbalpha2012_cps3",
+    "output": "fbalpha2012_cps3_libretro.so",
+    "make": {
+      "file": "makefile.libretro",
+      "args": "-C svn-current/trunk",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd svn-current/trunk"
+      ],
+      "post-make": [
+      "printf 'Moving fbalpha2012_cps3_libretro.so'",
+      "mv svn-current/trunk/fbalpha2012_cps3_libretro.so ."
+      ]
+    }
+  },
+  "fbalpha2012_neogeo": {
+    "source": "https://github.com/libretro/fbalpha2012_neogeo",
+    "branch": "fa3bf50",
+    "directory": "fbalpha2012_neogeo",
+    "output": "fbalpha2012_neogeo_libretro.so",
+    "make": {
+      "file": "makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fceumm": {
+    "source": "https://github.com/libretro/libretro-fceumm",
+    "branch": "5cd4a43",
+    "directory": "libretro-fceumm",
+    "output": "fceumm_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fixgb": {
+    "source": "https://github.com/libretro/fixGB",
+    "branch": "983a7d5",
+    "directory": "fixGB",
+    "output": "fixgb_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/fixgb_libretro.so ."
+      ]
+    }
+  },
+  "flycast": {
+    "source": "https://github.com/flyinghead/flycast",
+    "branch": "4747e61",
+    "directory": "flycast",
+    "output": "flycast_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C build",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build",
+        "printf 'Running CMAKE Build\\n'",
+        "cmake -DCMAKE_BUILD_TYPE=RELEASE -DLIBRETRO=ON -DUSE_GLES=ON -DUSE_DX11=OFF -DUSE_DX9=OFF -DUSE_OPENGL=ON -DUSE_PULSEAUDIO=OFF -DUSE_VULKAN=OFF .. >/dev/null 2>&1"
+      ],
+      "post-make": [
+      "mv build/flycast_libretro.so ."
+      ]
+    }
+  },
+    "morpheuscast_xtreme": {
+    "source": "https://github.com/KMFDManic/morpheuscast_xtreme",
+    "branch": "5d1c1c8",
+    "directory": "morpheuscast_xtreme",
+    "output": "km_morpheuscast_xtreme_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "platform=brick",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fmsx": {
+    "source": "https://github.com/libretro/fmsx-libretro",
+    "branch": "fbe4dfc",
+    "directory": "fmsx-libretro",
+    "output": "fmsx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "freechaf": {
+    "source": "https://github.com/libretro/FreeChaF",
+    "branch": "cdb8ad6",
+    "directory": "FreeChaF",
+    "output": "freechaf_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "freeintv": {
+    "source": "https://github.com/libretro/FreeIntv",
+    "branch": "1b51f41",
+    "directory": "FreeIntv",
+    "output": "freeintv_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "freej2me": {
+    "source": "https://github.com/TASEmulators/freej2me-plus",
+    "branch": "196e4ed",
+    "directory": "freej2me-plus",
+    "output": ["freej2me_libretro.so", "freej2me-lr.jar"],
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "ant",
+        "cd src/libretro"
+      ],
+      "post-make": [
+      "mv src/libretro/freej2me_libretro.so .",
+      "mv build/freej2me-lr.jar ."
+      ]
+    }
+  },
+  "frodo": {
+    "source": "https://github.com/libretro/frodo-libretro",
+    "branch": "9d10e7a",
+    "directory": "frodo-libretro",
+    "output": "frodo_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "fuse": {
+    "source": "https://github.com/libretro/fuse-libretro",
+    "branch": "cad85b7",
+    "directory": "fuse-libretro",
+    "output": "fuse_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "galaksija": {
+    "source": "https://github.com/libretro/galaxy-libretro",
+    "branch": "13ae71a",
+    "directory": "galaxy-libretro",
+    "output": "galaksija_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "gambatte": {
+    "source": "https://github.com/libretro/gambatte-libretro",
+    "branch": "13b7af7",
+    "directory": "gambatte-libretro",
+    "output": "gambatte_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "gametank": {
+    "source": "https://github.com/dwbrite/gametank_libretro",
+    "branch": "5fc954d",
+    "directory": "gametank_libretro",
+    "output": "libgametank_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cargo zigbuild --target aarch64-unknown-linux-gnu --release",
+        "echo -e \"all:\\n\\t@echo dummy make target to satisfy core builder\" > Makefile"
+      ],
+      "post-make": [
+        "echo pwd",
+        "mv target/aarch64-unknown-linux-gnu/release/libgametank_libretro.so ."
+      ]
+    }
+  },
+  "gearboy": {
+    "source": "https://github.com/drhelius/Gearboy",
+    "branch": "e75db8a",
+    "directory": "Gearboy",
+    "output": "gearboy_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platforms/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platforms/libretro"
+      ],
+      "post-make": [
+      "mv platforms/libretro/gearboy_libretro.so ."
+      ]
+    }
+  },
+  "gearcoleco": {
+    "source": "https://github.com/drhelius/Gearcoleco",
+    "branch": "1909b32",
+    "directory": "Gearcoleco",
+    "output": "gearcoleco_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platforms/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platforms/libretro"
+      ],
+      "post-make": [
+      "mv platforms/libretro/gearcoleco_libretro.so ."
+      ]
+    }
+  },
+  "geargrafx": {
+    "source": "https://github.com/drhelius/Geargrafx",
+    "branch": "351c544",
+    "directory": "Geargrafx",
+    "output": "geargrafx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platforms/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platforms/libretro"
+      ],
+      "post-make": [
+      "mv platforms/libretro/geargrafx_libretro.so ."
+      ]
+    }
+  },
+  "gearsystem": {
+    "source": "https://github.com/drhelius/Gearsystem",
+    "branch": "5726931",
+    "directory": "Gearsystem",
+    "output": "gearsystem_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platforms/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platforms/libretro"
+      ],
+      "post-make": [
+      "mv platforms/libretro/gearsystem_libretro.so ."
+      ]
+    }
+  },
+  "genesis_plus_gx": {
+    "source": "https://github.com/libretro/Genesis-Plus-GX",
+    "branch": "46a5521",
+    "purge": 1,
+    "directory": "Genesis-Plus-GX",
+    "output": "genesis_plus_gx_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "genesis_plus_gx_expanded": {
+    "source": "https://github.com/RapidEdwin08/Genesis-Plus-GX-Expanded-Rom-Size",
+    "branch": "2587494",
+    "purge": 1,
+    "directory": "Genesis-Plus-GX",
+    "output": "genesis_plus_gx_expanded_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+      "mv genesis_plus_gx_libretro.so genesis_plus_gx_expanded_libretro.so"
+      ]
+    }
+  },
+  "geolith": {
+    "source": "https://github.com/libretro/geolith-libretro",
+    "branch": "96b2b5f",
+    "directory": "geolith-libretro",
+    "output": "geolith_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/geolith_libretro.so ."
+      ]
+    }
+  },
+  "gme": {
+    "source": "https://github.com/libretro/libretro-gme",
+    "branch": "de22a26",
+    "directory": "libretro-gme",
+    "output": "gme_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "gpsp": {
+    "source": "https://github.com/libretro/gpsp",
+    "branch": "74db5e5",
+    "directory": "gpsp",
+    "output": "gpsp_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "platform=arm64",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "gw": {
+    "source": "https://github.com/libretro/gw-libretro",
+    "branch": "435e5cf",
+    "directory": "gw-libretro",
+    "output": "gw_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "handy": {
+    "source": "https://github.com/libretro/libretro-handy",
+    "branch": "fca2392",
+    "directory": "libretro-handy",
+    "output": "handy_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "hatari": {
+    "source": "https://github.com/libretro/hatari",
+    "branch": "7008194",
+    "directory": "hatari",
+    "output": "hatari_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "jaxe": {
+    "source": "https://github.com/kurtjd/jaxe",
+    "branch": "4825aad",
+    "directory": "jaxe",
+    "output": "jaxe_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "km_fbneo_xtreme_amped": {
+    "source": "https://github.com/KMFDManic/FBNeo-Xtreme-Amped",
+    "branch": "922fb2c",
+    "directory": "FBNeo-Xtreme-Amped",
+    "output": "km_fbneo_xtreme_amped_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/burner/libretro platform=aarch64",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd src/burner/libretro"
+      ],
+      "post-make": [
+      "mv src/burner/libretro/km_fbneo_xtreme_amped_libretro.dll ./km_fbneo_xtreme_amped_libretro.so"
+      ]
+    }
+  },
+    "fbneo": {
+    "source": "https://github.com/libretro/FBNeo",
+    "branch": "79fa66d",
+    "purge": 1,
+    "directory": "FBNeo",
+    "output": "fbneo_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/burner/libretro platform=aarch64",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands":{
+      "post-make": [
+      "printf 'Moving fbneo_libretro.so'",
+      "mv src/burner/libretro/fbneo_libretro.dll ./fbneo_libretro.so"
+      ]
+    }
+  },
+  "km_mame2003_xtreme_amped": {
+    "source": "https://github.com/KMFDManic/mame2003-xtreme",
+    "branch": "9382b94",
+    "directory": "mame2003-xtreme",
+    "output": "km_mame2003_xtreme_amped_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "km_puae_xtreme_amped_2k24": {
+    "source": "https://github.com/KMFDManic/libretro-uae",
+    "branch": "2503905",
+    "directory": "km_puae",
+    "output": "km_puae_xtreme_amped_2k24_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "lowresnx": {
+    "source": "https://github.com/timoinutilis/lowres-nx",
+    "branch": "85c8018",
+    "directory": "lowres-nx",
+    "output": "lowresnx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platform/LibRetro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platform/LibRetro"
+      ],
+      "post-make": [
+      "mv platform/LibRetro/lowresnx_libretro.so ."
+      ]
+    }
+  },
+  "lutro": {
+    "source": "https://github.com/libretro/libretro-lutro",
+    "branch": "b84d060",
+    "directory": "libretro-lutro",
+    "output": "lutro_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mame2000": {
+    "source": "https://github.com/libretro/mame2000-libretro",
+    "branch": "2ec60f6",
+    "directory": "mame2000-libretro",
+    "output": "mame2000_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mame2003": {
+    "source": "https://github.com/libretro/mame2003-libretro",
+    "branch": "3570605",
+    "directory": "mame2003-libretro",
+    "output": "mame2003_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mame2003_midway": {
+    "source": "https://github.com/libretro/mame2003_midway",
+    "branch": "3a47c3d",
+    "directory": "mame2003_midway",
+    "output": "mame2003_midway_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mame2003_plus": {
+    "source": "https://github.com/libretro/mame2003-plus-libretro",
+    "branch": "62c7089",
+    "directory": "mame2003-plus-libretro",
+    "output": "mame2003_plus_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mame2010": {
+    "source": "https://github.com/libretro/mame2010-libretro",
+    "branch": "c5b413b",
+    "directory": "mame2010-libretro",
+    "output": "mame2010_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "FORCE_DRC_C_BACKEND=1 NOASM=1 PTR64=1 ARM_ENABLED=1 LCPU=arm64 platform=aarch64",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+    "post-make": [
+      "mv mame2010_libretro.dll mame2010_libretro.so"
+      ]
+    }
+  },
+  "mednafen_gba": {
+    "source": "https://github.com/libretro/beetle-gba-libretro",
+    "branch": "6cee806",
+    "directory": "beetle-gba-libretro",
+    "output": "mednafen_gba_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_lynx": {
+    "source": "https://github.com/libretro/beetle-lynx-libretro",
+    "branch": "efd1797",
+    "directory": "beetle-lynx-libretro",
+    "output": "mednafen_lynx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_ngp": {
+    "source": "https://github.com/libretro/beetle-ngp-libretro",
+    "branch": "139fe34",
+    "directory": "beetle-ngp-libretro",
+    "output": "mednafen_ngp_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_pce": {
+    "source": "https://github.com/libretro/beetle-pce-libretro",
+    "branch": "9a301c0",
+    "directory": "beetle-pce-libretro",
+    "output": "mednafen_pce_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_pce_fast": {
+    "source": "https://github.com/libretro/beetle-pce-fast-libretro",
+    "branch": "7e9b257",
+    "directory": "beetle-pce-fast-libretro",
+    "output": "mednafen_pce_fast_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_pcfx": {
+    "source": "https://github.com/libretro/beetle-pcfx-libretro",
+    "branch": "dd04cef",
+    "directory": "beetle-pcfx-libretro",
+    "output": "mednafen_pcfx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_psx": {
+    "source": "https://github.com/libretro/beetle-psx-libretro",
+    "branch": "d6383bf",
+    "directory": "beetle-psx-libretro",
+    "output": "mednafen_psx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_saturn": {
+    "source": "https://github.com/libretro/beetle-saturn-libretro",
+    "branch": "ccba526",
+    "directory": "beetle-saturn-libretro",
+    "output": "mednafen_saturn_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_supafaust": {
+    "source": "https://github.com/libretro/supafaust",
+    "branch": "e25f667",
+    "directory": "supafaust",
+    "output": "mednafen_supafaust_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_supergrafx": {
+    "source": "https://github.com/libretro/beetle-supergrafx-libretro",
+    "branch": "a776133",
+    "directory": "beetle-supergrafx-libretro",
+    "output": "mednafen_supergrafx_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_vb": {
+    "source": "https://github.com/libretro/beetle-vb-libretro",
+    "branch": "8f837eb",
+    "directory": "beetle-vb-libretro",
+    "output": "mednafen_vb_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mednafen_wswan": {
+    "source": "https://github.com/libretro/beetle-wswan-libretro",
+    "branch": "2aeb47d",
+    "directory": "beetle-wswan-libretro",
+    "output": "mednafen_wswan_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mesen": {
+    "source": "https://github.com/libretro/Mesen",
+    "branch": "791c5e8",
+    "directory": "Mesen",
+    "output": "mesen_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C Libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd Libretro"
+      ],
+      "post-make": [
+      "mv Libretro/mesen_libretro.so ."
+      ]
+    }
+  },
+  "mesen-s": {
+    "source": "https://github.com/libretro/Mesen-S",
+    "branch": "d4fca31",
+    "directory": "Mesen-S",
+    "output": "mesen-s_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C Libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd Libretro"
+      ],
+      "post-make": [
+      "mv Libretro/mesen-s_libretro.so ."
+      ]
+    }
+  },
+  "mgba": {
+    "source": "https://github.com/libretro/mgba",
+    "branch": "c758314",
+    "directory": "mgba",
+    "output": "mgba_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build && cmake .. -DBUILD_LIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DSKIP_LIBRARY=ON -DBUILD_QT=OFF -DBUILD_SDL=ON -DUSE_DISCORD_RPC=OFF -DUSE_EDITLINE=OFF -DUSE_EPOXY=OFF -DBUILD_GL=ON -DBUILD_GLES3=OFF -DBUILD_GLES2=ON -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer' -DCMAKE_CXX_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer'"
+      ]
+    }
+  },
+  "minivmac": {
+    "source": "https://github.com/libretro/libretro-minivmac",
+    "branch": "2eb65cd",
+    "directory": "libretro-minivmac",
+    "output": "minivmac_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "mu": {
+    "source": "https://github.com/libretro/Mu",
+    "branch": "d9766f1",
+    "directory": "Mu",
+    "output": "mu_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "-C libretroBuildSystem",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretroBuildSystem"
+      ],
+      "post-make": [
+      "mv libretroBuildSystem/mu_libretro.so ."
+      ]
+    }
+  },
+  "nekop2": {
+    "source": "https://github.com/libretro/libretro-meowPC98",
+    "branch": "dc905d4",
+    "directory": "libretro-meowPC98",
+    "output": "nekop2_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/nekop2_libretro.so ."
+      ]
+    }
+  },
+  "neocd": {
+    "source": "https://github.com/libretro/neocd_libretro",
+    "branch": "5eca2c8",
+    "directory": "neocd_libretro",
+    "output": "neocd_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "nestopia": {
+    "source": "https://github.com/libretro/nestopia",
+    "branch": "5deada5",
+    "directory": "nestopia",
+    "output": "nestopia_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/nestopia_libretro.so ."
+      ]
+    }
+  },
+  "np2kai": {
+    "source": "https://github.com/libretro/NP2kai",
+    "branch": "cfac20d",
+    "directory": "NP2kai",
+    "output": "np2kai_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "-C sdl",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd sdl"
+      ],
+      "post-make": [
+      "mv sdl/np2kai_libretro.so ."
+      ]
+    }
+  },
+  "numero": {
+    "source": "https://github.com/nbarkhina/numero",
+    "branch": "867c40a",
+    "directory": "numero",
+    "output": "numero_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "nxengine": {
+    "source": "https://github.com/libretro/nxengine-libretro",
+    "branch": "9adc032",
+    "directory": "nxengine-libretro",
+    "output": "nxengine_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "o2em": {
+    "source": "https://github.com/libretro/libretro-o2em",
+    "branch": "3ba4231",
+    "directory": "libretro-o2em",
+    "output": "o2em_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "opera": {
+    "source": "https://github.com/libretro/opera-libretro",
+    "branch": "67a29e6",
+    "directory": "opera-libretro",
+    "output": "opera_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "pcsx_rearmed": {
+    "source": "https://github.com/libretro/pcsx_rearmed",
+    "branch": "228c14e",
+    "directory": "pcsx_rearmed",
+    "output": "pcsx_rearmed_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "export CFLAGS='-O3 -march=armv8-a+crc -mtune=cortex-a53' && ./configure"
+      ]
+    }
+  },
+  "picodrive": {
+    "source": "https://github.com/irixxxx/picodrive",
+    "branch": "ec68ce8",
+    "directory": "picodrive",
+    "output": "picodrive_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "platform=aarch64",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "pocketcdg": {
+    "source": "https://github.com/libretro/libretro-pocketcdg",
+    "branch": "c1fac9f",
+    "directory": "libretro-pocketcdg",
+    "output": "pocketcdg_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "pokemini": {
+    "source": "https://github.com/libretro/PokeMini",
+    "branch": "1909580",
+    "directory": "PokeMini",
+    "output": "pokemini_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "potator": {
+    "source": "https://github.com/libretro/potator",
+    "branch": "ad87bc6",
+    "directory": "potator",
+    "output": "potator_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C platform/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd platform/libretro"
+      ],
+      "post-make": [
+      "mv platform/libretro/potator_libretro.so ."
+      ]
+    }
+  },
+  "prboom": {
+    "source": "https://github.com/libretro/libretro-prboom",
+    "branch": "b3e5f8b",
+    "directory": "libretro-prboom",
+    "output": "prboom_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "press_f": {
+    "source": "https://github.com/celerizer/Press-F-libretro",
+    "branch": "6e2858f",
+    "directory": "Press-F-libretro",
+    "output": "press_f_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "prosystem": {
+    "source": "https://github.com/libretro/prosystem-libretro",
+    "branch": "acae250",
+    "directory": "prosystem-libretro",
+    "output": "prosystem_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+    "ppsspp": {
+    "source": "https://github.com/hrydgard/ppsspp",
+    "branch": "a477ae0",
+    "directory": "ppsspp",
+    "output": "ppsspp_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C build platform=aarch64",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build && cmake .. -DLIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_NAME=Linux -DUSE_SYSTEM_FFMPEG=OFF -DUSE_FFMPEG=ON -DUSING_FBDEV=ON -DUSE_DISCORD=OFF -DANDROID=OFF -DWIN32=OFF -DAPPLE=OFF -DUNITTEST=OFF -DSIMULATOR=OFF -DUSING_QT_UI=OFF -DHEADLESS=ON -DMOBILE_DEVICE=OFF -DENABLE_CTEST=OFF -DUSING_X11_VULKAN=OFF -DARM=ON -DARM64=ON -DUSING_GLES2=ON -DUSING_EGL=OFF -DCMAKE_SYSTEM_PROCESSOR=aarch64"
+      ],
+    "post-make": [
+      "printf 'Moving ppsspp_libretro.so'",
+      "mv build/lib/ppsspp_libretro.so ."
+      ]
+    }
+  },
+  "puae": {
+    "source": "https://github.com/libretro/libretro-uae",
+    "branch": "0043cf9",
+    "directory": "libretro-uae",
+    "output": "puae_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "puae2021": {
+    "source": "https://github.com/libretro/libretro-uae",
+    "branch": "2.6.1",
+    "directory": "libretro-uae-2021",
+    "output": "puae2021_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "puzzlescript": {
+    "source": "https://github.com/nwhitehead/pzretro",
+    "branch": "18b5271",
+    "directory": "pzretro",
+    "output": "puzzlescript_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "px68k": {
+    "source": "https://github.com/libretro/px68k-libretro",
+    "branch": "9dfa6ab",
+    "directory": "px68k-libretro",
+    "output": "px68k_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "quasi88": {
+    "source": "https://github.com/libretro/quasi88-libretro",
+    "branch": "42be798",
+    "directory": "quasi88-libretro",
+    "output": "quasi88_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "quicknes": {
+    "source": "https://github.com/libretro/QuickNES_Core",
+    "branch": "dbf19f7",
+    "directory": "QuickNES_Core",
+    "output": "quicknes_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "race": {
+    "source": "https://github.com/libretro/RACE",
+    "branch": "171950e",
+    "directory": "RACE",
+    "output": "race_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "retro8": {
+    "source": "https://github.com/libretro/retro8",
+    "branch": "a235ff8",
+    "directory": "retro8",
+    "output": "retro8_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "sameboy": {
+    "source": "https://github.com/LIJI32/SameBoy",
+    "directory": "SameBoy",
+    "branch": "f94e607",
+    "output": "sameboy_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "CC=gcc CONF=native_release",
+      "target": "libretro"
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "make clean >/dev/null 2>&1",
+        "printf 'Building Boot ROMs\\n'",
+        "make bootroms >/dev/null 2>&1",
+        "printf 'Pre-generating Libretro Source\\n'",
+        "make libretro >/dev/null 2>&1",
+        "cd libretro"
+      ],
+      "post-make": [
+        "printf 'Moving sameboy_libretro.so'",
+        "mv build/bin/sameboy_libretro.so ."
+      ]
+    }
+  },
+  "smsplus": {
+    "source": "https://github.com/libretro/smsplus-gx",
+    "branch": "c642bbd",
+    "directory": "smsplus-gx",
+    "output": "smsplus_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "scummvm": {
+    "source": "https://github.com/libretro/scummvm",
+    "directory": "scummvm",
+    "branch": "686cdd1",
+    "output": "scummvm_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C backends/platform/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+        "mv backends/platform/libretro/scummvm_libretro.so ."
+      ]
+    }
+  },
+  "snes9x": {
+    "source": "https://github.com/libretro/snes9x",
+    "branch": "5a40cd5",
+    "directory": "snes9x",
+    "output": "snes9x_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+      "mv libretro/snes9x_libretro.so ."
+      ]
+    }
+  },
+  "snes9x2002": {
+    "source": "https://github.com/libretro/snes9x2002",
+    "branch": "a0709ec",
+    "directory": "snes9x2002",
+    "output": "snes9x2002_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "snes9x2005": {
+    "source": "https://github.com/libretro/snes9x2005",
+    "branch": "74d871d",
+    "directory": "snes9x2005",
+    "output": "snes9x2005_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "snes9x2010": {
+    "source": "https://github.com/libretro/snes9x2010",
+    "branch": "f9ae8fd",
+    "directory": "snes9x2010",
+    "output": "snes9x2010_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "stella": {
+    "source": "https://github.com/stella-emu/stella",
+    "branch": "7c4e3b2",
+    "directory": "stella",
+    "output": "stella_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/os/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd src/os/libretro"
+      ],
+      "post-make": [
+      "mv src/os/libretro/stella_libretro.so ."
+      ]
+    }
+  },
+  "stella2014": {
+    "source": "https://github.com/libretro/stella2014-libretro",
+    "branch": "3cc89f0",
+    "directory": "stella2014-libretro",
+    "output": "stella2014_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "swanstation": {
+    "source": "https://github.com/libretro/swanstation",
+    "branch": "4d309c0",
+    "directory": "swanstation",
+    "output": "swanstation_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C build",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build",
+        "printf 'Running CMAKE Build\\n'",
+        "cmake -DCMAKE_BUILD_TYPE=Release .. >/dev/null 2>&1"
+      ],
+      "post-make": [
+      "mv build/swanstation_libretro.so ."
+      ]
+    }
+  },
+  "tgbdual": {
+    "source": "https://github.com/libretro/tgbdual-libretro",
+    "branch": "933707c",
+    "directory": "tgbdual-libretro",
+    "output": "tgbdual_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "theodore": {
+    "source": "https://github.com/Zlika/theodore",
+    "branch": "242e932",
+    "directory": "theodore",
+    "output": "theodore_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "tyrquake": {
+    "source": "https://github.com/libretro/tyrquake",
+    "branch": "dfdae65",
+    "directory": "tyrquake",
+    "output": "tyrquake_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "uw8": {
+    "source": "https://github.com/libretro/uw8-libretro",
+    "branch": "2dced6e",
+    "directory": "uw8-libretro",
+    "output": "uw8_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "uzem": {
+    "source": "https://github.com/libretro/libretro-uzem",
+    "branch": "cd6004e",
+    "directory": "libretro-uzem",
+    "output": "uzem_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vba_next": {
+    "source": "https://github.com/libretro/vba-next",
+    "branch": "d0ec7f3",
+    "directory": "vba-next",
+    "output": "vba_next_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vecx": {
+    "source": "https://github.com/libretro/libretro-vecx",
+    "branch": "841229a",
+    "directory": "libretro-vecx",
+    "output": "vecx_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "HAS_GLES=1",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vemulator": {
+    "source": "https://github.com/libretro/vemulator-libretro",
+    "branch": "45d7556",
+    "directory": "vemulator-libretro",
+    "output": "vemulator_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_x128": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_x128_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=x128",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_x64": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_x64_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=x64",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_x64dtv": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_x64dtv_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=x64dtv",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_x64sc": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_x64sc_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=x64sc",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_xcbm2": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_xcbm2_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=xcbm2",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_xcbm5x0": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_xcbm5x0_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=xcbm5x0",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_xpet": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_xpet_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=xpet",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_xplus4": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_xplus4_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=xplus4",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_xscpu64": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_xscpu64_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=xscpu64",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vice_xvic": {
+    "source": "https://github.com/libretro/vice-libretro",
+    "branch": "e9f8ac0",
+    "purge": 1,
+    "directory": "vice-libretro",
+    "output": "vice_xvic_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "EMUTYPE=xvic",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vircon32": {
+    "source": "https://github.com/vircon32/vircon32-libretro",
+    "branch": "d8a9243",
+    "directory": "vircon32-libretro",
+    "output": "vircon32_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C build",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p build",
+        "cd build",
+        "printf 'Running CMAKE Build\\n'",
+        "cmake -DCMAKE_BUILD_TYPE=RELEASE -DAARCH64=ON .. >/dev/null 2>&1"
+      ],
+      "post-make": [
+      "mv build/vircon32_libretro.so ."
+      ]
+    }
+  },
+  "virtualjaguar": {
+    "source": "https://github.com/libretro/virtualjaguar-libretro",
+    "branch": "48096c1",
+    "directory": "virtualjaguar-libretro",
+    "output": "virtualjaguar_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "visualboyadvance-m": {
+    "source": "https://github.com/visualboyadvance-m/visualboyadvance-m",
+    "branch": "1f9e10f",
+    "directory": "visualboyadvance-m",
+    "output": "vbam_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd src/libretro"
+      ],
+      "post-make": [
+      "mv src/libretro/vbam_libretro.so ."
+      ]
+    }
+  },
+  "wasm4": {
+    "source": "https://github.com/aduros/wasm4",
+    "branch": "68cbe42",
+    "directory": "wasm4",
+    "output": "wasm4_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C runtimes/native/build",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "mkdir -p runtimes/native/build",
+        "cd runtimes/native/build",
+        "printf 'Running CMAKE Build\\n'",
+        "cmake -DCMAKE_BUILD_TYPE=Release -DLIBRETRO=On .. >/dev/null 2>&1"
+      ],
+      "post-make": [
+        "mv runtimes/native/build/wasm4_libretro.so ."
+      ]
+    }
+  },
+  "x1": {
+    "source": "https://github.com/libretro/xmil-libretro",
+    "branch": "6a52dc2",
+    "directory": "xmil-libretro",
+    "output": "x1_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "-C libretro",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+        "mv libretro/x1_libretro.so ."
+      ]
+    }
+  },
+  "zc250x": {
+    "source": "https://github.com/netux79/zc250x-libretro",
+    "branch": "cfe8da6",
+    "directory": "zc250x-libretro",
+    "output": "zc250x_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  }
+}

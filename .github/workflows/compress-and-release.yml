@@ -17,17 +17,51 @@ jobs:
           echo "TAG_NAME=$TAG_NAME" >> "$GITHUB_ENV"
           echo "RELEASE_NAME=Release - $(date +'%Y-%m-%d %H:%M:%S')" >> "$GITHUB_ENV"
 
-      - name: Compress contents of each top-level directory
+      - name: Extract compressed RetroArch core into system package
         run: |
-          mkdir -p artifacts
-          for DIR in */ ; do
-            [ -d "$DIR" ] || continue
-            [ "$DIR" = "artifacts/" ] && continue
-            ( cd "$DIR" && zip -r9 "../artifacts/${DIR%/}.muxzip" ./* )
+          find system/base system/extra -type f -path "*/assign/*.ini" | while IFS= read -r INI; do
+            SYS_DIR="$(dirname "$(dirname "$(dirname "$INI")")")"
+            CORE_DIR="$SYS_DIR/core"
+            CORE_VAL="$(grep '^core=' "$INI" | sed 's/^core=//')"
+
+            case "$CORE_VAL" in
+              *.so)
+                CORE_SRC="core/${CORE_VAL}.zip"
+                if [ -f "$CORE_SRC" ]; then
+                  mkdir -p "$CORE_DIR"
+                  unzip -qq -o "$CORE_SRC" -d "$CORE_DIR" || echo "Warning: Failed to unzip $CORE_SRC"
+                fi
+                ;;
+            esac
           done
 
-      - name: Prevent accidental artifacts.muxzip
-        run: rm -f "artifacts/artifacts.muxzip"
+      - name: Compress Base and Extra systems
+        run: |
+          mkdir -p artifacts
+
+          COMPRESS_SYSTEM() {
+            ROOT="$1"
+            PREFIX="$2"
+
+            [ -d "$ROOT" ] || return
+
+            for SYS in "$ROOT"/*; do
+              [ -d "$SYS" ] || continue
+
+              NAME="$(basename "$SYS")"
+              OUT="artifacts/${PREFIX} - ${NAME}.muxzip"
+
+              echo "Compressing: ($PREFIX) $SYS"
+
+              (
+                cd "$SYS" || exit 1
+                zip -r9 "../../../$OUT" ./* >/dev/null 2>&1 || echo "zip failed for $SYS"
+              )
+            done
+          }
+
+          COMPRESS_SYSTEM "system/base"  "Base"
+          COMPRESS_SYSTEM "system/extra" "Extra"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
