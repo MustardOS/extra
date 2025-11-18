@@ -33,6 +33,7 @@ fbalpha2012_cps3_libretro.so.zip
 fbalpha2012_libretro.so.zip
 fbalpha2012_neogeo_libretro.so.zip
 fbalpha_libretro.so.zip
+fbneo_libretro.so.zip
 fceumm_libretro.so.zip
 fixgb_libretro.so.zip
 flycast_libretro.so.zip
@@ -40,6 +41,8 @@ fmsx_libretro.so.zip
 freechaf_libretro.so.zip
 freeintv_libretro.so.zip
 freej2me_libretro.so.zip
+freej2me_libretro.zip
+freej2me.zip
 frodo_libretro.so.zip
 fuse_libretro.so.zip
 galaksija_libretro.so.zip
@@ -59,13 +62,16 @@ hatari_libretro.so.zip
 jaxe_libretro.so.zip
 km_fbneo_xtreme_amped_libretro.so.zip
 km_mame2003_xtreme_amped_libretro.so.zip
+km_morpheuscast_xtreme_libretro.so.zip
 km_puae_xtreme_amped_2k24_libretro.so.zip
+libgametank_libretro.so.zip
 lowresnx_libretro.so.zip
 lutro_libretro.so.zip
 mame2000_libretro.so.zip
 mame2003_libretro.so.zip
 mame2003_midway_libretro.so.zip
 mame2003_plus_libretro.so.zip
+mame2010_libretro.so.zip
 mednafen_gba_libretro.so.zip
 mednafen_lynx_libretro.so.zip
 mednafen_ngp_libretro.so.zip
@@ -78,9 +84,12 @@ mednafen_supafaust_libretro.so.zip
 mednafen_supergrafx_libretro.so.zip
 mednafen_vb_libretro.so.zip
 mednafen_wswan_libretro.so.zip
+melondsds_libretro.so.zip
+melonds_libretro.so.zip
 mesen_libretro.so.zip
 mesen-s_libretro.so.zip
 mgba_libretro.so.zip
+mgba_libretro.zip
 minivmac_libretro.so.zip
 mu_libretro.so.zip
 nekop2_libretro.so.zip
@@ -96,6 +105,7 @@ picodrive_libretro.so.zip
 pocketcdg_libretro.so.zip
 pokemini_libretro.so.zip
 potator_libretro.so.zip
+ppsspp_libretro.so.zip
 prboom_libretro.so.zip
 press_f_libretro.so.zip
 prosystem_libretro.so.zip
@@ -108,6 +118,9 @@ quicknes_libretro.so.zip
 race_libretro.so.zip
 retro8_libretro.so.zip
 sameboy_libretro.so.zip
+sameboy.zip
+scummvm_libretro.so.zip
+scummvm_libretro.zip
 smsplus_libretro.so.zip
 snes9x2002_libretro.so.zip
 snes9x2005_libretro.so.zip
