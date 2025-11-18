@@ -93,9 +93,9 @@ while [ "$#" -gt 0 ]; do
 			break
 			;;
 		-u | --update)
-    		UPDATE=1
-    		shift
-    		;;
+			UPDATE=1
+			shift
+			;;
 		-f | --force)
 			FORCE=1
 			shift
