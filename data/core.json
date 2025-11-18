@@ -1079,7 +1079,12 @@
       "args": "FORCE_DRC_C_BACKEND=1 NOASM=1 PTR64=1 ARM_ENABLED=1 LCPU=arm64 platform=aarch64",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+    "post-make": [
+      "mv mame2010_libretro.dll mame2010_libretro.so"
+      ]
+    }
   },
   "mednafen_gba": {
     "source": "https://github.com/libretro/beetle-gba-libretro",
@@ -1448,7 +1453,7 @@
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "CFLAGS='-mcpu=cortex-a53 -mtune=cortex-a53' ./configure"
+        "export CFLAGS='-O3 -march=armv8-a+crc -mtune=cortex-a53 -fomit-frame-pointer -ffast-math' && ./configure"
       ]
     }
   },
