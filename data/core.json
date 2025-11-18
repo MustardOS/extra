@@ -1459,7 +1459,7 @@
   },
   "picodrive": {
     "source": "https://github.com/irixxxx/picodrive",
-    "branch": "ed339b2",
+    "branch": "ec68ce8",
     "directory": "picodrive",
     "output": "picodrive_libretro.so",
     "make": {
