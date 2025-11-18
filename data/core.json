@@ -1076,7 +1076,7 @@
     "output": "mame2010_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "FORCE_DRC_C_BACKEND=1 NOASM=1 platform=aarch64",
+      "args": "FORCE_DRC_C_BACKEND=1 NOASM=1 PTR64=1 ARM_ENABLED=1 LCPU=arm64 platform=aarch64",
       "target": ""
     },
     "symbols": 0
