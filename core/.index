@@ -82,6 +82,8 @@ mednafen_supafaust_libretro.so.zip
 mednafen_supergrafx_libretro.so.zip
 mednafen_vb_libretro.so.zip
 mednafen_wswan_libretro.so.zip
+melondsds_libretro.so.zip
+melonds_libretro.so.zip
 mesen_libretro.so.zip
 mesen-s_libretro.so.zip
 mgba_libretro.so.zip
@@ -112,6 +114,7 @@ quasi88_libretro.so.zip
 quicknes_libretro.so.zip
 race_libretro.so.zip
 retro8_libretro.so.zip
+scummvm_libretro.so.zip
 sameboy_libretro.so.zip
 smsplus_libretro.so.zip
 snes9x2002_libretro.so.zip
