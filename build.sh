@@ -304,7 +304,7 @@ for NAME in $CORES; do
 	MAKE_FILE=$(echo "$MODULE" | jq -r '.make.file')
 	MAKE_ARGS=$(echo "$MODULE" | jq -r '.make.args')
 	MAKE_TARGET=$(echo "$MODULE" | jq -r '.make.target')
-	MAKE_ARCH='-flto -mtune=cortex-a53 -mcpu=cortex-a53+crc+crypto'
+	MAKE_ARCH='-mtune=cortex-a53 -mcpu=cortex-a53+crc+crypto'
 
 	# Verify required keys
 	if [ -z "$DIR" ] || [ -z "$OUTPUT_LIST" ] || [ -z "$SOURCE" ] || [ -z "$MAKE_FILE" ] || [ -z "$SYMBOLS" ]; then
@@ -495,7 +495,7 @@ for NAME in $CORES; do
 
 	# Run make; capture everything into build.log
 	kill $PV_PID 2>/dev/null
-	if make -j"$NPROC" -f "$MAKE_FILE" $MAKE_ARGS CFLAGS+="$MAKE_ARCH" CXXFLAGS+="$MAKE_ARCH" $MAKE_TARGET >>"$LOGFILE" 2>&1; then
+	if CFLAGS="$MAKE_ARCH" CXXFLAGS="$MAKE_ARCH" make -j"$NPROC" -f "$MAKE_FILE" $MAKE_ARGS $MAKE_TARGET >>"$LOGFILE" 2>&1; then
 		printf "\nBuild succeeded: %s\n" "$NAME"
 		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
 		   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
