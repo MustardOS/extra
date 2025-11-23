@@ -585,7 +585,7 @@
   },
     "morpheuscast_xtreme": {
     "source": "https://github.com/KMFDManic/morpheuscast_xtreme",
-    "branch": "5d1c1c8",
+    "branch": "1f895a7",
     "directory": "morpheuscast_xtreme",
     "output": "km_morpheuscast_xtreme_libretro.so",
     "make": {
@@ -691,7 +691,7 @@
   },
   "gambatte": {
     "source": "https://github.com/libretro/gambatte-libretro",
-    "branch": "13b7af7",
+    "branch": "6924c76",
     "directory": "gambatte-libretro",
     "output": "gambatte_libretro.so",
     "make": {
@@ -702,9 +702,9 @@
     "symbols": 0
   },
   "gametank": {
-    "source": "https://github.com/dwbrite/gametank_libretro",
-    "branch": "5fc954d",
-    "directory": "gametank_libretro",
+    "source": "https://github.com/dwbrite/gametank-sdk",
+    "branch": "e4b3b7e",
+    "directory": "gametank-sdk/",
     "output": "libgametank_libretro.so",
     "make": {
       "file": "Makefile",
@@ -714,12 +714,13 @@
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "cargo zigbuild --target aarch64-unknown-linux-gnu --release",
-        "echo -e \"all:\\n\\t@echo dummy make target to satisfy core builder\" > Makefile"
+        "echo -e \"all:\\n\\t@echo dummy make target to satisfy core builder\" > Makefile",
+        "cd tools/gte/libretro",
+        "grep -q \"^\\\\[profile\\\\.release\\\\]\" Cargo.toml || printf \"\\n[profile.release]\\nlto = true\\ncodegen-units = 1\\n\" >> Cargo.toml",
+        "cargo zigbuild --target aarch64-unknown-linux-gnu --release"
       ],
       "post-make": [
-        "echo pwd",
-        "mv target/aarch64-unknown-linux-gnu/release/libgametank_libretro.so ."
+        "mv tools/gte/libretro/target/aarch64-unknown-linux-gnu/release/libgametank_libretro.so ."
       ]
     }
   },
@@ -933,7 +934,7 @@
     "output": "km_fbneo_xtreme_amped_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C src/burner/libretro platform=aarch64",
+      "args": "-C src/burner/libretro platform=rpi3_64",
       "target": ""
     },
     "symbols": 0,
@@ -942,7 +943,7 @@
         "cd src/burner/libretro"
       ],
       "post-make": [
-      "mv src/burner/libretro/km_fbneo_xtreme_amped_libretro.dll ./km_fbneo_xtreme_amped_libretro.so"
+      "mv src/burner/libretro/fbneo_libretro.dll ./km_fbneo_xtreme_amped_libretro.so"
       ]
     }
   },
@@ -1272,7 +1273,7 @@
   },
   "mgba": {
     "source": "https://github.com/libretro/mgba",
-    "branch": "c758314",
+    "branch": "affc86e",
     "directory": "mgba",
     "output": "mgba_libretro.so",
     "make": {
@@ -1712,7 +1713,7 @@
     "output": "scummvm_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C backends/platform/libretro",
+      "args": "-C backends/platform/libretro platform=rpi3_64",
       "target": ""
     },
     "symbols": 0,
