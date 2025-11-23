@@ -585,7 +585,7 @@
   },
     "morpheuscast_xtreme": {
     "source": "https://github.com/KMFDManic/morpheuscast_xtreme",
-    "branch": "1f895a7",
+    "branch": "5d1c1c8",
     "directory": "morpheuscast_xtreme",
     "output": "km_morpheuscast_xtreme_libretro.so",
     "make": {
@@ -691,7 +691,7 @@
   },
   "gambatte": {
     "source": "https://github.com/libretro/gambatte-libretro",
-    "branch": "6924c76",
+    "branch": "13b7af7",
     "directory": "gambatte-libretro",
     "output": "gambatte_libretro.so",
     "make": {
