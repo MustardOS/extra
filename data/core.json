@@ -583,6 +583,27 @@
       ]
     }
   },
+  "ffmpeg": {
+    "source": "https://github.com/libretro/RetroArch.git",
+    "branch": "a8d0ad0",
+    "directory": "libretro-ffmpeg",
+    "output": "ffmpeg_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C cores/libretro-ffmpeg HAVE_SSA=0",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+      "./configure",
+      "cd cores/libretro-ffmpeg"
+      ],
+      "post-make": [
+      "mv cores/libretro-ffmpeg/ffmpeg_libretro.so ."
+      ]
+      }
+  },
     "morpheuscast_xtreme": {
     "source": "https://github.com/KMFDManic/morpheuscast_xtreme",
     "branch": "5d1c1c8",
@@ -1022,6 +1043,29 @@
     },
     "symbols": 0
   },
+  "mame": {
+    "source": "https://github.com/libretro/mame",
+    "branch": "b207f9c",
+    "directory": "mame",
+    "output": "mame_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": [
+      "CROSS_BUILD=1",
+      "TARGETOS=linux",
+      "CC=gcc",
+      "CXX=g++",
+      "LD=ld",
+      "OVERRIDE_CC=aarch64-linux-gnu-gcc",
+      "OVERRIDE_CXX=aarch64-linux-gnu-g++",
+      "OVERRIDE_LD=aarch64-linux-gnu-g++",
+      "STRIP=aarch64-linux-gnu-strip",
+      "platform=aarch64"
+        ],
+      "target": ""
+    },
+    "symbols": 0
+  },
   "mame2000": {
     "source": "https://github.com/libretro/mame2000-libretro",
     "branch": "2ec60f6",
@@ -1321,6 +1365,19 @@
       ]
     }
   },
+  "mupen64plus": {
+    "source": "https://github.com/libretro/mupen64plus-libretro-nx.git",
+    "branch": "680e033",
+    "purge": 1,
+    "directory": "mupen64plus-libretro-nx",
+    "output": "mupen64plus_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "WITH_DYNAREC=aarch64",
+      "target": ""
+    },
+    "symbols": 0
+  },
   "nekop2": {
     "source": "https://github.com/libretro/libretro-meowPC98",
     "branch": "dc905d4",
@@ -1437,6 +1494,19 @@
     "make": {
       "file": "Makefile",
       "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "parallel_n64": {
+    "source": "https://github.com/libretro/parallel-n64.git",
+    "branch": "1da824e",
+    "purge": 1,
+    "directory": "parallel-n64",
+    "output": "parallel_n64_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "WITH_DYNAREC=aarch64",
       "target": ""
     },
     "symbols": 0
