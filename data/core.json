@@ -1060,6 +1060,7 @@
       "OVERRIDE_CXX=aarch64-linux-gnu-g++",
       "OVERRIDE_LD=aarch64-linux-gnu-g++",
       "STRIP=aarch64-linux-gnu-strip",
+      "LIBRETRO_CPU=aarch64",
       "platform=aarch64"
         ],
       "target": ""
