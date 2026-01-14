@@ -750,8 +750,27 @@ for NAME in $CORES; do
 	fi
 	echo "$ZIP_NAME" >>.index
 
-	sort -k3 .index-extended -o .index-extended
+		sort -k3 .index-extended -o .index-extended
 	sort .index -o .index
+
+	# After packaging: purge repo if requested, otherwise try cleaning build artifacts
+	if [ "$PURGE" -eq 1 ] || [ "$CORE_PURGE_FLAG" -eq 1 ]; then
+		printf "\nPurging core repo directory: %s\n" "$CORE_DIR"
+		rm -rf -- "$CORE_DIR"
+	else
+		printf "\nCleaning build environment for '%s'\n" "$NAME"
+		(
+			cd "$CORE_DIR" 2>/dev/null || exit 0
+
+			# Prefer cleaning using the same makefile we built with
+			make -f "$MAKE_FILE" clean -j"$MAKE_CORES" >/dev/null 2>&1 && exit 0
+
+			# Fallback: common clean target
+			make clean -j"$MAKE_CORES" >/dev/null 2>&1 && exit 0
+
+			exit 0
+		) || :
+	fi
 
 	RETURN_TO_BASE
 done
