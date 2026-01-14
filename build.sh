@@ -356,7 +356,7 @@ for NAME in $CORES; do
 	fi
 
 	MAKE_TARGET=$(echo "$MODULE" | jq -r '.make.target')
-	MAKE_ARCH='-mtune=cortex-a53 -mcpu=cortex-a53+crc+crypto'
+	MAKE_ARCH='-march=armv8-a+crc+crypto -mtune=cortex-a53'
 
 	# Verify required keys
 	if [ -z "$DIR" ] || [ -z "$OUTPUT_LIST" ] || [ -z "$SOURCE" ] || [ -z "$MAKE_FILE" ] || [ -z "$SYMBOLS" ]; then
@@ -558,30 +558,97 @@ for NAME in $CORES; do
 	# Build make argv safely (no eval)
 	set -- make -j"$MAKE_CORES" -f "$MAKE_FILE"
 
+	# Transform one make arg into the final arg to pass to make.
+	# Prints exactly one line.
+	TRANSFORM_MAKE_ARG() {
+		_a=$1
+
+		case $_a in
+			OVERRIDE_CC=*)
+				_v=${_a#OVERRIDE_CC=}
+				case " $_v " in
+					*" -march="*|*" -mcpu="*|*" -mtune="*)
+						printf '%s\n' "OVERRIDE_CC=$_v"
+						;;
+					*)
+						printf '%s\n' "OVERRIDE_CC=$_v $MAKE_ARCH"
+						;;
+				esac
+				return 0
+				;;
+			OVERRIDE_CXX=*)
+				_v=${_a#OVERRIDE_CXX=}
+				case " $_v " in
+					*" -march="*|*" -mcpu="*|*" -mtune="*)
+						printf '%s\n' "OVERRIDE_CXX=$_v"
+						;;
+					*)
+						printf '%s\n' "OVERRIDE_CXX=$_v $MAKE_ARCH"
+						;;
+				esac
+				return 0
+				;;
+			OVERRIDE_LD=*)
+				_v=${_a#OVERRIDE_LD=}
+				case " $_v " in
+					*" -march="*|*" -mcpu="*|*" -mtune="*)
+						printf '%s\n' "OVERRIDE_LD=$_v"
+						;;
+					*)
+						printf '%s\n' "OVERRIDE_LD=$_v $MAKE_ARCH"
+						;;
+				esac
+				return 0
+				;;
+		esac
+
+		printf '%s\n' "$_a"
+	}
+
+	# Append args from JSON
 	if [ "$MAKE_ARGS_TYPE" = "array" ] && [ -n "$MAKE_ARGS_FILE" ] && [ -s "$MAKE_ARGS_FILE" ]; then
 		while IFS= read -r _a; do
 			[ -n "$_a" ] || continue
-			set -- "$@" "$_a"
+			_t=$(TRANSFORM_MAKE_ARG "$_a")
+			[ -n "$_t" ] && set -- "$@" "$_t"
 		done <"$MAKE_ARGS_FILE"
 	elif [ -n "$MAKE_ARGS_STR" ]; then
-		# legacy string split on whitespace (matches prior behavior)
+		# legacy string split on whitespace
 		# shellcheck disable=SC2086
-		set -- "$@" $MAKE_ARGS_STR
+		for _a in $MAKE_ARGS_STR; do
+			_t=$(TRANSFORM_MAKE_ARG "$_a")
+			[ -n "$_t" ] && set -- "$@" "$_t"
+		done
 	fi
 
+	# Add explicit make target if present
 	if [ -n "$MAKE_TARGET" ] && [ "$MAKE_TARGET" != "null" ]; then
 		set -- "$@" "$MAKE_TARGET"
 	fi
 
-	if CFLAGS="$MAKE_ARCH" CXXFLAGS="$MAKE_ARCH" "$@" >>"$LOGFILE" 2>&1; then
+	# Debug: log actual argv we will run
+	printf "EXEC:" >>"$LOGFILE"
+	for __x in "$@"; do
+		printf " [%s]" "$__x" >>"$LOGFILE"
+	done
+	printf "\n" >>"$LOGFILE"
+
+	printf "EXEC:" >>"$LOGFILE"
+	for __x in "$@"; do
+		printf " [%s]" "$__x" >>"$LOGFILE"
+	done
+	printf "\n" >>"$LOGFILE"
+	
+	# Run make; DO NOT export CFLAGS/CXXFLAGS globally (breaks host tools)
+	if "$@" >>"$LOGFILE" 2>&1; then
 		printf "\nBuild succeeded: %s\n" "$NAME"
 		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
 		   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
 	else
-    	printf "\nBuild FAILED: %s - see %s\n" "$NAME" "$LOGFILE" >&2
-    	RETURN_TO_BASE
+		printf "\nBuild FAILED: %s - see %s\n" "$NAME" "$LOGFILE" >&2
+		RETURN_TO_BASE
 		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
-    	continue
+		continue
 	fi
 
 	END_TS=$(date +%s)
