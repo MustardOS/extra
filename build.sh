@@ -47,17 +47,17 @@ CORE_CLEAN_FLAG=0
 if [ "$#" -gt 0 ]; then
 	case "$1" in
 	  -p|--purge)
-    	PURGE=1
-    	shift
-    	;;
+		PURGE=1
+		shift
+		;;
 	  -f|--force)
-    	FORCE=1
-    	shift
-    	;;
+		FORCE=1
+		shift
+		;;
 	  -l|--latest)
-    	LATEST=1
-    	shift
-    	;;
+		LATEST=1
+		shift
+		;;
 	esac
 fi
 
@@ -132,6 +132,35 @@ CORE_CONFIG="data/core.json"
 RETRO_DIR="$BASE_DIR/core"
 BUILD_DIR="$BASE_DIR/build"
 PATCH_DIR="$BASE_DIR/patch"
+
+# Create a per-run temp directory for ALL scratch files (always cleaned up)
+TMPDIR_BASE=${TMPDIR:-/tmp}
+RUN_TMPDIR="$(mktemp -d "$TMPDIR_BASE/murcb.XXXXXX")" || {
+	printf "Error: mktemp failed\n" >&2
+	exit 1
+}
+
+PV_PID=""
+
+CLEANUP() {
+	# Stop any progress loop
+	if [ -n "$PV_PID" ]; then
+		kill "$PV_PID" 2>/dev/null || true
+		PV_PID=""
+	fi
+
+	# Remove all scratch files
+	if [ -n "$RUN_TMPDIR" ] && [ -d "$RUN_TMPDIR" ]; then
+		rm -rf -- "$RUN_TMPDIR" 2>/dev/null || true
+	fi
+
+	# Best-effort return to base
+	cd "$BASE_DIR" 2>/dev/null || true
+}
+
+# Always cleanup, including Ctrl+C
+trap 'CLEANUP; exit 1' INT TERM HUP
+trap 'CLEANUP' EXIT
 
 # POSIX safe CPU count
 NPROC=$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
@@ -223,39 +252,37 @@ UPDATE_ZIP() {
 
 # Detect proper aarch64 objcopy command.
 if command -v aarch64-linux-gnu-objcopy >/dev/null 2>&1; then
-    OBJCOPY=aarch64-linux-gnu-objcopy
+	OBJCOPY=aarch64-linux-gnu-objcopy
 elif command -v aarch64-linux-objcopy >/dev/null 2>&1; then
-    OBJCOPY=aarch64-linux-objcopy
+	OBJCOPY=aarch64-linux-objcopy
 else
-    printf "Error: Neither aarch64-linux-gnu-objcopy nor aarch64-linux-objcopy found\n" >&2
-    exit 1
+	printf "Error: Neither aarch64-linux-gnu-objcopy nor aarch64-linux-objcopy found\n" >&2
+	exit 1
 fi
 
 # Detect proper aarch64 strip command.
 if command -v aarch64-linux-gnu-strip >/dev/null 2>&1; then
-    STRIP=aarch64-linux-gnu-strip
+	STRIP=aarch64-linux-gnu-strip
 elif command -v aarch64-linux-strip >/dev/null 2>&1; then
-    STRIP=aarch64-linux-strip
+	STRIP=aarch64-linux-strip
 elif command -v strip >/dev/null 2>&1; then
-    STRIP=strip
+	STRIP=strip
 else
-    printf "Error: No suitable strip command found\n" >&2
-    exit 1
+	printf "Error: No suitable strip command found\n" >&2
+	exit 1
 fi
 
 # Check for other required commands
 for CMD in file git jq make patch pv readelf zip unzip cksum sort sed awk grep head cut tr find; do
-    if ! command -v "$CMD" >/dev/null 2>&1; then
-        printf "Error: Missing required command '%s'\n" "$CMD" >&2
-        exit 1
-    fi
+	if ! command -v "$CMD" >/dev/null 2>&1; then
+		printf "Error: Missing required command '%s'\n" "$CMD" >&2
+		exit 1
+	fi
 done
 
 # Create required directories
 mkdir -p "$RETRO_DIR"
 mkdir -p "$BUILD_DIR"
-
-trap 'printf "\nAn error occurred. Returning to base directory.\n"; cd "$BASE_DIR"; exit 1' INT TERM
 
 RETURN_TO_BASE() {
 	cd "$BASE_DIR" || {
@@ -265,18 +292,17 @@ RETURN_TO_BASE() {
 }
 
 RUN_COMMANDS() {
-    printf "\nRunning '%s' commands\n" "$1"
-    # Print and run each line from the JSON array
-    printf '%s\n' "$2" | jq -r '.[]' | while IFS= read -r CMD; do
-        [ -n "$CMD" ] || continue
-        printf "Running:\n%s\n" "$CMD"
-        sh <<EOF
+	printf "\nRunning '%s' commands\n" "$1"
+	printf '%s\n' "$2" | jq -r '.[]' | while IFS= read -r CMD; do
+		[ -n "$CMD" ] || continue
+		printf "Running:\n%s\n" "$CMD"
+		sh <<EOF
 $CMD
 EOF
-        if [ $? -ne 0 ]; then
-            exit 1
-        fi
-    done
+		if [ $? -ne 0 ]; then
+			exit 1
+		fi
+	done
 }
 
 APPLY_PATCHES() {
@@ -312,7 +338,7 @@ fi
 # Load the cache file
 CACHE_FILE="$BASE_DIR/data/cache.json"
 if [ ! -f "$CACHE_FILE" ]; then
-    echo "{}" > "$CACHE_FILE"
+	echo "{}" > "$CACHE_FILE"
 fi
 
 for NAME in $CORES; do
@@ -326,7 +352,7 @@ for NAME in $CORES; do
 	fi
 
 	# Required keys
-	DIR=$(echo "$MODULE"   | jq -r '.directory')
+	DIR=$(echo "$MODULE" | jq -r '.directory')
 	OUTPUT_LIST=$(echo "$MODULE" | jq -r '.output | if type=="string" then . else join(" ") end')
 	SOURCE=$(echo "$MODULE" | jq -r '.source')
 	SYMBOLS=$(echo "$MODULE" | jq -r '.symbols')
@@ -343,11 +369,10 @@ for NAME in $CORES; do
 	MAKE_ARGS_FILE=""
 
 	if [ "$MAKE_ARGS_TYPE" = "array" ]; then
-		MAKE_ARGS_FILE="$BUILD_DIR/.make_args.${NAME}.$$"
+		# IMPORTANT: temp file goes in RUN_TMPDIR, never in /cores
+		MAKE_ARGS_FILE="$RUN_TMPDIR/.make_args.${NAME}.$$"
 		: >"$MAKE_ARGS_FILE"
-		# newline-separated, one arg per line
-		echo "$MODULE" | jq -r '.make.args[]' >"$MAKE_ARGS_FILE" 2>/dev/null || : 
-		# pretty display string
+		echo "$MODULE" | jq -r '.make.args[]' >"$MAKE_ARGS_FILE" 2>/dev/null || :
 		MAKE_ARGS_STR=$(tr '\n' ' ' <"$MAKE_ARGS_FILE" | sed 's/[[:space:]][[:space:]]*/ /g; s/[[:space:]]*$//')
 	elif [ "$MAKE_ARGS_TYPE" = "string" ]; then
 		MAKE_ARGS_STR=$(echo "$MODULE" | jq -r '.make.args' 2>/dev/null)
@@ -361,13 +386,12 @@ for NAME in $CORES; do
 	# Verify required keys
 	if [ -z "$DIR" ] || [ -z "$OUTPUT_LIST" ] || [ -z "$SOURCE" ] || [ -z "$MAKE_FILE" ] || [ -z "$SYMBOLS" ]; then
 		printf "Missing required configuration keys for '%s' in '%s'\n" "$NAME" "$CORE_CONFIG" >&2
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	fi
 
-	BRANCH=$(echo "$MODULE"     | jq -r '.branch // ""')
-	PRE_MAKE=$(echo "$MODULE"   | jq -r '.commands["pre-make"] // []')
-	POST_MAKE=$(echo "$MODULE"  | jq -r '.commands["post-make"] // []')
+	BRANCH=$(echo "$MODULE" | jq -r '.branch // ""')
+	PRE_MAKE=$(echo "$MODULE" | jq -r '.commands["pre-make"] // []')
+	POST_MAKE=$(echo "$MODULE" | jq -r '.commands["post-make"] // []')
 	CORE_PURGE_FLAG=$(echo "$MODULE" | jq -r '.purge // 0')
 	case "$CORE_PURGE_FLAG" in
 		1) CORE_PURGE_FLAG=1 ;;
@@ -400,7 +424,6 @@ for NAME in $CORES; do
 
 	if [ -z "$REMOTE_HASH" ]; then
 		printf "Failed to get remote hash for '%s'\n" "$NAME" >&2
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	fi
 
@@ -435,11 +458,10 @@ for NAME in $CORES; do
 	# Skip when up to date
 	if [ "$FORCE" -eq 0 ] && \
 	   [ "$CACHED_HASH" = "$REMOTE_HASH" ] && [ -f "$RETRO_DIR/$ZIP_NAME" ]; then
-  		printf "Core '%s' is up to date (hash: %s). Skipping build.\n" "$NAME" "$REMOTE_HASH"
+		printf "Core '%s' is up to date (hash: %s). Skipping build.\n" "$NAME" "$REMOTE_HASH"
 		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
 		   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
-  		continue
+		continue
 	fi
 
 	BEEN_CLONED=0
@@ -447,64 +469,62 @@ for NAME in $CORES; do
 		printf "Core '%s' not found\n\n" "$DIR"
 		# Clone
 		if [ "$LATEST" -eq 1 ]; then
-			GC_CMD="git clone --progress --quiet --recurse-submodules -j"$MAKE_CORES" $SOURCE $CORE_DIR"
+			GC_CMD="git clone --progress --quiet --recurse-submodules -j$MAKE_CORES $SOURCE $CORE_DIR"
 		elif [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
-			GC_CMD="git clone --progress --quiet --recurse-submodules -j"$MAKE_CORES" $SOURCE $CORE_DIR"
+			GC_CMD="git clone --progress --quiet --recurse-submodules -j$MAKE_CORES $SOURCE $CORE_DIR"
 		else
-			GC_CMD="git clone --progress --quiet --recurse-submodules -j"$MAKE_CORES""
+			GC_CMD="git clone --progress --quiet --recurse-submodules -j$MAKE_CORES"
 			[ -n "$BRANCH" ] && GC_CMD="$GC_CMD -b $BRANCH"
 			GC_CMD="$GC_CMD $SOURCE $CORE_DIR"
 		fi
-		eval "$GC_CMD" || { printf "Failed to clone %s\n" "$SOURCE" >&2; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+		eval "$GC_CMD" || { printf "Failed to clone %s\n" "$SOURCE" >&2; continue; }
 
 		# Enter repo to init submodules and optional commit checkout
-		cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+		cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; RETURN_TO_BASE; continue; }
 
 		if [ "$LATEST" -eq 0 ] && [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
-			git fetch --all || { printf "Failed to fetch in %s\n" "$CORE_DIR" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
-			git checkout --detach "$BRANCH" || { printf "Failed to checkout %s\n" "$BRANCH" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+			git fetch --all || { printf "Failed to fetch in %s\n" "$CORE_DIR" >&2; RETURN_TO_BASE; continue; }
+			git checkout --detach "$BRANCH" || { printf "Failed to checkout %s\n" "$BRANCH" >&2; RETURN_TO_BASE; continue; }
 		fi
 
 		git submodule update --init --recursive || {
 			printf "Failed to update submodules for %s\n" "$NAME" >&2
 			RETURN_TO_BASE
-			[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 			continue
 		}
 
-		cd - > /dev/null
+		cd - >/dev/null 2>&1
 		printf "\n"
 		BEEN_CLONED=1
 	fi
 
 	# Enter repo for update and build
-	cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+	cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; continue; }
 
 	# Ensure submodules are present
 	git submodule update --init --recursive || {
 		printf "Failed to update submodules for %s\n" "$NAME" >&2
 		RETURN_TO_BASE
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	}
 
-	if [ $BEEN_CLONED -eq 0 ]; then
+	if [ "$BEEN_CLONED" -eq 0 ]; then
 		if [ "$LATEST" -eq 1 ]; then
 			printf "Updating '%s' to remote HEAD (latest)\n" "$NAME"
-			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
-			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
+			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
 			git submodule sync --quiet
-			git submodule update --init --recursive --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+			git submodule update --init --recursive --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
 		elif [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
 			printf "Repository already cloned. Fetching updates and checking out commit '%s'\n" "$BRANCH"
-			git fetch --all || { printf "Failed to fetch updates for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
-			git checkout --detach "$BRANCH" || { printf "Failed to checkout commit '%s' for '%s'\n" "$BRANCH" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+			git fetch --all || { printf "Failed to fetch updates for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
+			git checkout --detach "$BRANCH" || { printf "Failed to checkout commit '%s' for '%s'\n" "$BRANCH" "$NAME" >&2; RETURN_TO_BASE; continue; }
 		else
 			printf "Updating '%s' to remote HEAD\n" "$NAME"
-			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
-			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
+			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
 			git submodule sync --quiet
-			git submodule update --init --recursive --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+			git submodule update --init --recursive --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; RETURN_TO_BASE; continue; }
 		fi
 	fi
 
@@ -513,14 +533,12 @@ for NAME in $CORES; do
 	if [ "$LOCAL_HASH" != "$REMOTE_HASH" ]; then
 		printf "Warning: Local hash (%s) doesn't match remote hash (%s)\n" "$LOCAL_HASH" "$REMOTE_HASH" >&2
 		RETURN_TO_BASE
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	fi
 
 	APPLY_PATCHES "$NAME" "$CORE_DIR" || {
 		printf "Failed to apply patches for %s\n" "$NAME" >&2
 		RETURN_TO_BASE
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	}
 
@@ -528,7 +546,6 @@ for NAME in $CORES; do
 		if ! RUN_COMMANDS "pre-make" "$PRE_MAKE"; then
 			printf "Pre-make commands failed for %s\n" "$NAME" >&2
 			RETURN_TO_BASE
-			[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 			continue
 		fi
 	fi
@@ -545,21 +562,14 @@ for NAME in $CORES; do
 		printf '.'
 		sleep 1
 	done) | pv -q -L 10 -N "Building $NAME" &
-
 	PV_PID=$!
-	trap 'kill $PV_PID 2>/dev/null' EXIT
 
 	LOGFILE="$(dirname "$0")/build.log"
 	START_TS=$(date +%s)
 
-	# Run make; capture everything into build.log
-	kill $PV_PID 2>/dev/null
-
 	# Build make argv safely (no eval)
 	set -- make -j"$MAKE_CORES" -f "$MAKE_FILE"
 
-	# Transform one make arg into the final arg to pass to make.
-	# Prints exactly one line.
 	TRANSFORM_MAKE_ARG() {
 		_a=$1
 
@@ -567,36 +577,24 @@ for NAME in $CORES; do
 			OVERRIDE_CC=*)
 				_v=${_a#OVERRIDE_CC=}
 				case " $_v " in
-					*" -march="*|*" -mcpu="*|*" -mtune="*)
-						printf '%s\n' "OVERRIDE_CC=$_v"
-						;;
-					*)
-						printf '%s\n' "OVERRIDE_CC=$_v $MAKE_ARCH"
-						;;
+					*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CC=$_v" ;;
+					*) printf '%s\n' "OVERRIDE_CC=$_v $MAKE_ARCH" ;;
 				esac
 				return 0
 				;;
 			OVERRIDE_CXX=*)
 				_v=${_a#OVERRIDE_CXX=}
 				case " $_v " in
-					*" -march="*|*" -mcpu="*|*" -mtune="*)
-						printf '%s\n' "OVERRIDE_CXX=$_v"
-						;;
-					*)
-						printf '%s\n' "OVERRIDE_CXX=$_v $MAKE_ARCH"
-						;;
+					*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CXX=$_v" ;;
+					*) printf '%s\n' "OVERRIDE_CXX=$_v $MAKE_ARCH" ;;
 				esac
 				return 0
 				;;
 			OVERRIDE_LD=*)
 				_v=${_a#OVERRIDE_LD=}
 				case " $_v " in
-					*" -march="*|*" -mcpu="*|*" -mtune="*)
-						printf '%s\n' "OVERRIDE_LD=$_v"
-						;;
-					*)
-						printf '%s\n' "OVERRIDE_LD=$_v $MAKE_ARCH"
-						;;
+					*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_LD=$_v" ;;
+					*) printf '%s\n' "OVERRIDE_LD=$_v $MAKE_ARCH" ;;
 				esac
 				return 0
 				;;
@@ -613,7 +611,6 @@ for NAME in $CORES; do
 			[ -n "$_t" ] && set -- "$@" "$_t"
 		done <"$MAKE_ARGS_FILE"
 	elif [ -n "$MAKE_ARGS_STR" ]; then
-		# legacy string split on whitespace
 		# shellcheck disable=SC2086
 		for _a in $MAKE_ARGS_STR; do
 			_t=$(TRANSFORM_MAKE_ARG "$_a")
@@ -633,21 +630,20 @@ for NAME in $CORES; do
 	done
 	printf "\n" >>"$LOGFILE"
 
-	printf "EXEC:" >>"$LOGFILE"
-	for __x in "$@"; do
-		printf " [%s]" "$__x" >>"$LOGFILE"
-	done
-	printf "\n" >>"$LOGFILE"
-	
 	# Run make; DO NOT export CFLAGS/CXXFLAGS globally (breaks host tools)
 	if "$@" >>"$LOGFILE" 2>&1; then
+		kill "$PV_PID" 2>/dev/null || true
+		PV_PID=""
+
 		printf "\nBuild succeeded: %s\n" "$NAME"
 		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
 		   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
 	else
+		kill "$PV_PID" 2>/dev/null || true
+		PV_PID=""
+
 		printf "\nBuild FAILED: %s - see %s\n" "$NAME" "$LOGFILE" >&2
 		RETURN_TO_BASE
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	fi
 
@@ -658,7 +654,6 @@ for NAME in $CORES; do
 		if ! RUN_COMMANDS "post-make" "$POST_MAKE"; then
 			printf "Post-make commands failed for '%s'\n" "$NAME" >&2
 			RETURN_TO_BASE
-			[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 			continue
 		fi
 	fi
@@ -676,7 +671,6 @@ for NAME in $CORES; do
 	done
 	if [ "$MISSING" -ne 0 ]; then
 		RETURN_TO_BASE
-		[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 		continue
 	fi
 
@@ -700,21 +694,19 @@ for NAME in $CORES; do
 		mv "$OUTFILE" "$RETRO_DIR" || {
 			printf "Failed to move '%s' for '%s' to '%s'\n" "$OUTFILE" "$NAME" "$RETRO_DIR" >&2
 			RETURN_TO_BASE
-			[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 			continue 2
 		}
 	done
 
 	printf "\nIndexing and compressing outputs for '%s'\n" "$NAME"
 
-	cd "$RETRO_DIR" || { printf "Failed to enter directory %s\n" "$RETRO_DIR" >&2; RETURN_TO_BASE; [ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"; continue; }
+	cd "$RETRO_DIR" || { printf "Failed to enter directory %s\n" "$RETRO_DIR" >&2; RETURN_TO_BASE; continue; }
 
 	# Decide zip name based on .so file if present (multi-output)
 	SOFILE=$(printf "%s\n" $OUTPUTS | grep '\.so$' | head -n1)
 	if [ -n "$SOFILE" ]; then
 		ZIP_NAME="$(basename "$SOFILE").zip"
 	else
-		# fallback to original behavior
 		set -- $OUTPUTS
 		if [ "$#" -eq 1 ]; then
 			ZIP_NAME="$(basename "$1").zip"
@@ -761,36 +753,7 @@ for NAME in $CORES; do
 	sort -k3 .index-extended -o .index-extended
 	sort .index -o .index
 
-	# Clean stage: Remove build artifacts after packaging
-	if [ "$CLEAN" -eq 1 ] || [ "$CORE_CLEAN_FLAG" -eq 1 ]; then
-		printf "\nCleaning build artifacts in: %s\n" "$CORE_DIR"
-
-		if [ -f "$CORE_DIR/Makefile" ]; then
-			# Core has a Makefile: use make clean
-			if ! make clean -C "$CORE_DIR" -j"$MAKE_CORES"; then
-				printf "Warning: make clean failed for %s\n" "$NAME" >&2
-			fi
-		else
-			# No Makefile: manually remove non-source files
-			printf "No Makefile found, cleaning directory manually.\n"
-
-			if [ -d "$CORE_DIR/.git" ]; then
-				# Keep the git repo, remove everything else
-				find "$CORE_DIR" -mindepth 1 -maxdepth 1 \
-					! -name ".git" \
-					-exec rm -rf {} +
-				printf "Preserved git repo, removed build artifacts.\n"
-			else
-				# Not a git repo: remove entire directory
-				rm -rf "$CORE_DIR"
-				mkdir -p "$CORE_DIR"
-				printf "Removed and recreated directory since no .git was found.\n"
-			fi
-		fi
-	fi
-
 	RETURN_TO_BASE
-	[ -n "$MAKE_ARGS_FILE" ] && rm -f "$MAKE_ARGS_FILE"
 done
 
 (
