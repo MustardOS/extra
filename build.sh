@@ -292,17 +292,33 @@ RETURN_TO_BASE() {
 }
 
 RUN_COMMANDS() {
-	printf "\nRunning '%s' commands\n" "$1"
-	printf '%s\n' "$2" | jq -r '.[]' | while IFS= read -r CMD; do
-		[ -n "$CMD" ] || continue
-		printf "Running:\n%s\n" "$CMD"
-		sh <<EOF
-$CMD
-EOF
-		if [ $? -ne 0 ]; then
-			exit 1
-		fi
-	done
+	_PHASE="$1"
+	_JSON="$2"
+
+	printf "\nRunning '%s' commands\n" "$_PHASE"
+
+	_CMD_FILE="$RUN_TMPDIR/.commands.${_PHASE}.${NAME}.$$"
+	: >"$_CMD_FILE" || return 1
+
+	if ! printf '%s\n' "$_JSON" | jq -r '.[]' >"$_CMD_FILE" 2>/dev/null; then
+		printf "Failed to parse '%s' commands JSON\n" "$_PHASE" >&2
+		return 1
+	fi
+
+	# Echo what will run
+	while IFS= read -r _CMD; do
+		[ -n "$_CMD" ] || continue
+		printf "Running:\n%s\n" "$_CMD"
+	done <"$_CMD_FILE"
+
+	# Run the whole phase in a subshell:
+	# - commands share state with each other (cd works inside the phase)
+	# - nothing leaks into the main build (so -C paths don't become dir/dir)
+	(
+		# fail fast within the phase
+		set -e
+		. "$_CMD_FILE"
+	)
 }
 
 APPLY_PATCHES() {
@@ -750,7 +766,7 @@ for NAME in $CORES; do
 	fi
 	echo "$ZIP_NAME" >>.index
 
-		sort -k3 .index-extended -o .index-extended
+	sort -k3 .index-extended -o .index-extended
 	sort .index -o .index
 
 	# After packaging: purge repo if requested, otherwise try cleaning build artifacts
