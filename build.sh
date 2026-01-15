@@ -187,6 +187,9 @@ if [ "$MAKE_CORES" -lt 1 ]; then
 	exit 1
 fi
 
+# Timestamps
+NOW() { date '+%Y-%m-%d %H:%M:%S %z'; }
+
 # Safe directory removal helper
 SAFE_RM_DIR() {
 	_TARGET="$1"
@@ -406,8 +409,8 @@ for NAME in $CORES; do
 	fi
 
 	BRANCH=$(echo "$MODULE" | jq -r '.branch // ""')
-	PRE_MAKE=$(echo "$MODULE" | jq -r '.commands["pre-make"] // []')
-	POST_MAKE=$(echo "$MODULE" | jq -r '.commands["post-make"] // []')
+	PRE_MAKE=$(echo "$MODULE" | jq -c '.commands["pre-make"] // []')
+	POST_MAKE=$(echo "$MODULE" | jq -c '.commands["post-make"] // []')
 	CORE_PURGE_FLAG=$(echo "$MODULE" | jq -r '.purge // 0')
 	case "$CORE_PURGE_FLAG" in
 		1) CORE_PURGE_FLAG=1 ;;
@@ -572,13 +575,8 @@ for NAME in $CORES; do
 	printf "\n\tARGS:\t%s" "$MAKE_ARGS_STR"
 	printf "\n\tTARGET: %s\n" "$MAKE_TARGET"
 
-	printf "\nBuilding '%s' ...\n" "$NAME"
-
-	(while :; do
-		printf '.'
-		sleep 1
-	done) | pv -q -L 10 -N "Building $NAME" &
-	PV_PID=$!
+	START_WALL="$(NOW)"
+	printf "\nBuilding '%s' started at %s\n" "$NAME" "$START_WALL"
 
 	LOGFILE="$(dirname "$0")/build.log"
 	START_TS=$(date +%s)
@@ -646,19 +644,30 @@ for NAME in $CORES; do
 	done
 	printf "\n" >>"$LOGFILE"
 
+	(while :; do
+		printf '.'
+		sleep 1
+	done) | pv -q -L 10 -N "Building $NAME" &
+	PV_PID=$!
+
 	# Run make; DO NOT export CFLAGS/CXXFLAGS globally (breaks host tools)
 	if "$@" >>"$LOGFILE" 2>&1; then
 		kill "$PV_PID" 2>/dev/null || true
 		PV_PID=""
 
-		printf "\nBuild succeeded: %s\n" "$NAME"
+		END_WALL="$(NOW)"
+		printf "\nBuild succeeded: %s at %s\n" "$NAME" "$END_WALL"
+
 		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
 		   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
 	else
 		kill "$PV_PID" 2>/dev/null || true
 		PV_PID=""
 
-		printf "\nBuild FAILED: %s - see %s\n" "$NAME" "$LOGFILE" >&2
+		FAIL_WALL="$(NOW)"
+		printf "\nBuild FAILED: %s at %s - see %s\n" "$NAME" "$FAIL_WALL" "$LOGFILE" >&2
+		printf '\a' 2>/dev/null || :
+
 		RETURN_TO_BASE
 		continue
 	fi
@@ -779,7 +788,7 @@ for NAME in $CORES; do
 			cd "$CORE_DIR" 2>/dev/null || exit 0
 
 			# Prefer cleaning using the same makefile we built with
-			make -f "$MAKE_FILE" clean -j"$MAKE_CORES" >/dev/null 2>&1 && exit 0
+			make -j"$MAKE_CORES" -f "$MAKE_FILE" clean >/dev/null 2>&1 && exit 0
 
 			# Fallback: common clean target
 			make clean -j"$MAKE_CORES" >/dev/null 2>&1 && exit 0
