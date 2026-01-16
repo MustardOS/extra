@@ -73,7 +73,7 @@
       "pre-make": [
         "mkdir -p build",
         "cd build",
-        "printf 'Running CMAKE Build\\n'",
+        "printf 'Running CMAKE Build'",
         "cmake -DCMAKE_BUILD_TYPE=RELEASE .. >/dev/null 2>&1"
       ],
       "post-make": [
@@ -257,6 +257,23 @@
       "target": ""
     },
     "symbols": 0
+  },
+  "dosbox_core": {
+    "source": "https://github.com/realnc/dosbox-core",
+    "branch": "7bcf083",
+    "directory": "dosbox-core",
+    "output": "libretro/dosbox_core_libretro.so",
+    "make": {
+      "file": "Makefile.libretro",
+      "args": "-C libretro BUNDLED_AUDIO_CODECS=1 BUNDLED_LIBSNDFILE=1 BUNDLED_SDL=1 WITH_DYNAREC=aarch64",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "make -C libretro BUNDLED_AUDIO_CODECS=1 BUNDLED_LIBSNDFILE=1 BUNDLED_SDL=1 WITH_DYNAREC=aarch64 deps"
+      ]
+    }
   },
   "dosbox_pure": {
     "source": "https://github.com/schellingb/dosbox-pure",
@@ -583,28 +600,7 @@
       ]
     }
   },
-  "ffmpeg": {
-    "source": "https://github.com/libretro/RetroArch.git",
-    "branch": "a8d0ad0",
-    "directory": "libretro-ffmpeg",
-    "output": "ffmpeg_libretro.so",
-    "make": {
-      "file": "Makefile",
-      "args": "-C cores/libretro-ffmpeg HAVE_SSA=0",
-      "target": ""
-    },
-    "symbols": 0,
-    "commands": {
-      "pre-make": [
-      "./configure",
-      "cd cores/libretro-ffmpeg"
-      ],
-      "post-make": [
-      "mv cores/libretro-ffmpeg/ffmpeg_libretro.so ."
-      ]
-      }
-  },
-    "morpheuscast_xtreme": {
+  "morpheuscast_xtreme": {
     "source": "https://github.com/KMFDManic/morpheuscast_xtreme",
     "branch": "5d1c1c8",
     "directory": "morpheuscast_xtreme",
@@ -654,12 +650,18 @@
   },
   "freej2me": {
     "source": "https://github.com/TASEmulators/freej2me-plus",
-    "branch": "196e4ed",
+    "branch": "331ee71",
     "directory": "freej2me-plus",
     "output": ["freej2me_libretro.so", "freej2me-lr.jar"],
     "make": {
       "file": "Makefile",
-      "args": "-C src/libretro",
+       "args": [
+        "-C src/libretro",
+        "platform=unix",
+        "CC=aarch64-buildroot-linux-gnu-gcc ",
+        "CXX=aarch64-buildroot-linux-gnu-g++",
+        "AR=aarch64-buildroot-linux-gnu-ar"
+        ],
       "target": ""
     },
     "symbols": 0,
