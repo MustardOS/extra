@@ -73,7 +73,7 @@
       "pre-make": [
         "mkdir -p build",
         "cd build",
-        "printf 'Running CMAKE Build'",
+        "printf 'Running CMAKE Build\\n'",
         "cmake -DCMAKE_BUILD_TYPE=RELEASE .. >/dev/null 2>&1"
       ],
       "post-make": [
