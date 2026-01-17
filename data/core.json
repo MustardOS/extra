@@ -953,6 +953,7 @@
   "km_fbneo_xtreme_amped": {
     "source": "https://github.com/KMFDManic/FBNeo-Xtreme-Amped",
     "branch": "922fb2c",
+    "purge": 1,
     "directory": "FBNeo-Xtreme-Amped",
     "output": "km_fbneo_xtreme_amped_libretro.so",
     "make": {
@@ -966,7 +967,7 @@
         "cd src/burner/libretro"
       ],
       "post-make": [
-      "mv src/burner/libretro/fbneo_libretro.dll ./km_fbneo_xtreme_amped_libretro.so"
+      "mv src/burner/libretro/fbneo_libretro.so ./km_fbneo_xtreme_amped_libretro.so"
       ]
     }
   },
@@ -978,14 +979,14 @@
     "output": "fbneo_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C src/burner/libretro platform=aarch64",
+      "args": "-C src/burner/libretro platform=rpi3_64",
       "target": ""
     },
     "symbols": 0,
     "commands":{
       "post-make": [
       "printf 'Moving fbneo_libretro.so'",
-      "mv src/burner/libretro/fbneo_libretro.dll ./fbneo_libretro.so"
+      "mv src/burner/libretro/fbneo_libretro.so ./fbneo_libretro.so"
       ]
     }
   },
@@ -1764,10 +1765,7 @@
       "pre-make": [
         "make clean >/dev/null 2>&1",
         "printf 'Building Boot ROMs\\n'",
-        "make bootroms >/dev/null 2>&1",
-        "printf 'Pre-generating Libretro Source\\n'",
-        "make libretro >/dev/null 2>&1",
-        "cd libretro"
+        "make bootroms >/dev/null 2>&1"
       ],
       "post-make": [
         "printf 'Moving sameboy_libretro.so'",
