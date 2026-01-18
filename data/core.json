@@ -1639,25 +1639,27 @@
     },
     "symbols": 0
   },
-    "ppsspp": {
+  "ppsspp": {
     "source": "https://github.com/hrydgard/ppsspp",
     "branch": "a477ae0",
+    "purge": 0,
     "directory": "ppsspp",
     "output": "ppsspp_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build platform=aarch64",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
     "commands": {
       "pre-make": [
         "mkdir -p build",
-        "cd build && cmake .. -DLIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_NAME=Linux -DUSE_SYSTEM_FFMPEG=OFF -DUSE_FFMPEG=ON -DUSING_FBDEV=ON -DUSE_DISCORD=OFF -DANDROID=OFF -DWIN32=OFF -DAPPLE=OFF -DUNITTEST=OFF -DSIMULATOR=OFF -DUSING_QT_UI=OFF -DHEADLESS=ON -DMOBILE_DEVICE=OFF -DENABLE_CTEST=OFF -DUSING_X11_VULKAN=OFF -DARM=ON -DARM64=ON -DUSING_GLES2=ON -DUSING_EGL=OFF -DCMAKE_SYSTEM_PROCESSOR=aarch64"
+        "cd build",
+        "cmake .. -DLIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_NAME=Linux -DUSE_SYSTEM_FFMPEG=OFF -DUSE_FFMPEG=ON -DUSING_FBDEV=ON -DUSE_DISCORD=OFF -DANDROID=OFF -DWIN32=OFF -DAPPLE=OFF -DUNITTEST=OFF -DSIMULATOR=OFF -DUSING_QT_UI=OFF -DHEADLESS=OFF -DMOBILE_DEVICE=OFF -DENABLE_CTEST=OFF -DUSING_X11_VULKAN=OFF -DARM=ON -DARM64=ON -DUSING_GLES2=ON  -DUSING_EGL=OFF -DCMAKE_SYSTEM_PROCESSOR=aarch64"
       ],
     "post-make": [
       "printf 'Moving ppsspp_libretro.so'",
-      "mv build/lib/ppsspp_libretro.so ."
+      "mv lib/ppsspp_libretro.so ."
       ]
     }
   },
