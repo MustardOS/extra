@@ -584,7 +584,7 @@
     "output": "flycast_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -593,10 +593,7 @@
         "mkdir -p build",
         "cd build",
         "printf 'Running CMAKE Build\\n'",
-        "cmake -DCMAKE_BUILD_TYPE=RELEASE -DLIBRETRO=ON -DUSE_GLES=ON -DUSE_DX11=OFF -DUSE_DX9=OFF -DUSE_OPENGL=ON -DUSE_PULSEAUDIO=OFF -DUSE_VULKAN=OFF .. >/dev/null 2>&1"
-      ],
-      "post-make": [
-      "mv build/flycast_libretro.so ."
+        "cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DLIBRETRO=ON -DUSE_GLES=ON -DUSE_DX11=OFF -DUSE_DX9=OFF -DUSE_OPENGL=ON -DUSE_PULSEAUDIO=OFF -DUSE_VULKAN=OFF"
       ]
     }
   },
