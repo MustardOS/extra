@@ -1518,7 +1518,14 @@
     "output": "parallel_n64_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "WITH_DYNAREC=aarch64",
+      "args":  [ "WITH_DYNAREC=aarch64",
+        "CPUFLAGS+=-DNO_ASM",
+        "CPUFLAGS+=-DARM",
+        "CPUFLAGS+=-DARM_ASM",
+        "CPUFLAGS+=-DDONT_WANT_ARM_OPTIMIZATIONS",
+        "CPUFLAGS+=-DARM_FIX",
+        "CPUFLAGS+=-DCLASSIC",
+        "CPUFLAGS+=-DARM64" ],
       "target": ""
     },
     "symbols": 0
