@@ -42,7 +42,7 @@
     "output": "ardens_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -65,7 +65,7 @@
     "output": "arduous_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -142,9 +142,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
       "mv libretro/bsnes-jg_libretro.so ."
       ]
@@ -297,15 +294,7 @@
       "args": "-C libretro",
       "target": ""
     },
-    "symbols": 0,
-    "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
-      "post-make": [
-      "mv libretro/dosbox_svn_libretro.so ."
-      ]
-    }
+    "symbols": 0
   },
   "doublecherryGB": {
     "source": "https://github.com/TimOelrichs/doublecherryGB-libretro",
@@ -331,9 +320,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd src/libretro"
-      ],
       "post-make": [
       "mv src/libretro/ecwolf_libretro.so ."
       ]
@@ -447,9 +433,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platform/libretro"
-      ],
       "post-make": [
       "mv platform/libretro/fake08_libretro.so ."
       ]
@@ -479,9 +462,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd svn-current/trunk"
-      ],
       "post-make": [
       "printf 'Moving fbalpha2012_libretro.so'",
       "mv svn-current/trunk/fbalpha2012_libretro.so ."
@@ -524,9 +504,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd svn-current/trunk"
-      ],
       "post-make": [
       "printf 'Moving fbalpha2012_cps3_libretro.so'",
       "mv svn-current/trunk/fbalpha2012_cps3_libretro.so ."
@@ -544,6 +521,25 @@
       "target": ""
     },
     "symbols": 0
+  },
+  "fbneo": {
+    "source": "https://github.com/libretro/FBNeo",
+    "branch": "aaecfed",
+    "purge": 1,
+    "directory": "FBNeo",
+    "output": "fbneo_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "-C src/burner/libretro platform=rpi3_64",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands":{
+      "post-make": [
+      "printf 'Moving fbneo_libretro.so'",
+      "mv src/burner/libretro/fbneo_libretro.dll ./fbneo_libretro.so"
+      ]
+    }
   },
   "fceumm": {
     "source": "https://github.com/libretro/libretro-fceumm",
@@ -569,9 +565,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
       "mv libretro/fixgb_libretro.so ."
       ]
@@ -604,7 +597,7 @@
     "output": "km_morpheuscast_xtreme_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "platform=brick",
+      "args": "platform=brick MFLAGS=",
       "target": ""
     },
     "symbols": 0
@@ -652,20 +645,13 @@
     "output": ["freej2me_libretro.so", "freej2me-lr.jar"],
     "make": {
       "file": "Makefile",
-       "args": [
-        "-C src/libretro",
-        "platform=unix",
-        "CC=aarch64-buildroot-linux-gnu-gcc ",
-        "CXX=aarch64-buildroot-linux-gnu-g++",
-        "AR=aarch64-buildroot-linux-gnu-ar"
-        ],
+      "args": "-C src/libretro",
       "target": ""
     },
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "ant",
-        "cd src/libretro"
+        "ant"
       ],
       "post-make": [
       "mv src/libretro/freej2me_libretro.so .",
@@ -756,9 +742,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platforms/libretro"
-      ],
       "post-make": [
       "mv platforms/libretro/gearboy_libretro.so ."
       ]
@@ -776,9 +759,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platforms/libretro"
-      ],
       "post-make": [
       "mv platforms/libretro/gearcoleco_libretro.so ."
       ]
@@ -796,9 +776,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platforms/libretro"
-      ],
       "post-make": [
       "mv platforms/libretro/geargrafx_libretro.so ."
       ]
@@ -816,9 +793,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platforms/libretro"
-      ],
       "post-make": [
       "mv platforms/libretro/gearsystem_libretro.so ."
       ]
@@ -867,9 +841,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
       "mv libretro/geolith_libretro.so ."
       ]
@@ -960,30 +931,8 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd src/burner/libretro"
-      ],
       "post-make": [
       "mv src/burner/libretro/fbneo_libretro.so ./km_fbneo_xtreme_amped_libretro.so"
-      ]
-    }
-  },
-    "fbneo": {
-    "source": "https://github.com/libretro/FBNeo",
-    "branch": "79fa66d",
-    "purge": 1,
-    "directory": "FBNeo",
-    "output": "fbneo_libretro.so",
-    "make": {
-      "file": "Makefile",
-      "args": "-C src/burner/libretro platform=rpi3_64",
-      "target": ""
-    },
-    "symbols": 0,
-    "commands":{
-      "post-make": [
-      "printf 'Moving fbneo_libretro.so'",
-      "mv src/burner/libretro/fbneo_libretro.so ./fbneo_libretro.so"
       ]
     }
   },
@@ -1023,9 +972,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platform/LibRetro"
-      ],
       "post-make": [
       "mv platform/LibRetro/lowresnx_libretro.so ."
       ]
@@ -1296,9 +1242,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd Libretro"
-      ],
       "post-make": [
       "mv Libretro/mesen_libretro.so ."
       ]
@@ -1316,9 +1259,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd Libretro"
-      ],
       "post-make": [
       "mv Libretro/mesen-s_libretro.so ."
       ]
@@ -1366,9 +1306,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretroBuildSystem"
-      ],
       "post-make": [
       "mv libretroBuildSystem/mu_libretro.so ."
       ]
@@ -1399,9 +1336,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
       "mv libretro/nekop2_libretro.so ."
       ]
@@ -1431,9 +1365,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
       "mv libretro/nestopia_libretro.so ."
       ]
@@ -1451,9 +1382,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd sdl"
-      ],
       "post-make": [
       "mv sdl/np2kai_libretro.so ."
       ]
@@ -1592,9 +1520,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd platform/libretro"
-      ],
       "post-make": [
       "mv platform/libretro/potator_libretro.so ."
       ]
@@ -1820,9 +1745,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
       "mv libretro/snes9x_libretro.so ."
       ]
@@ -1876,9 +1798,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd src/os/libretro"
-      ],
       "post-make": [
       "mv src/os/libretro/stella_libretro.so ."
       ]
@@ -1903,7 +1822,7 @@
     "output": "swanstation_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -2152,7 +2071,7 @@
     "output": "vircon32_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -2187,14 +2106,11 @@
     "output": "vbam_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C src/libretro",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd src/libretro"
-      ],
       "post-make": [
       "mv src/libretro/vbam_libretro.so ."
       ]
@@ -2207,7 +2123,7 @@
     "output": "wasm4_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C runtimes/native/build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -2215,11 +2131,7 @@
       "pre-make": [
         "mkdir -p runtimes/native/build",
         "cd runtimes/native/build",
-        "printf 'Running CMAKE Build\\n'",
-        "cmake -DCMAKE_BUILD_TYPE=Release -DLIBRETRO=On .. >/dev/null 2>&1"
-      ],
-      "post-make": [
-        "mv runtimes/native/build/wasm4_libretro.so ."
+        "cmake -DCMAKE_BUILD_TYPE=Release -DLIBRETRO=On .."
       ]
     }
   },
@@ -2235,9 +2147,6 @@
     },
     "symbols": 0,
     "commands": {
-      "pre-make": [
-        "cd libretro"
-      ],
       "post-make": [
         "mv libretro/x1_libretro.so ."
       ]
