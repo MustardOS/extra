@@ -1,4 +1,4 @@
 build/*
 !build/.gitkeep
 data/cache.json
-core/failed-cores-latest.tsv
+build/failed-cores-*.tsv
