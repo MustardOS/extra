@@ -555,10 +555,10 @@ SPINNER_START() {
 				i=$((i + 1))
 			done
 
-			printf "\r%s  |%s|  %3ds elapsed\033[K" "$_label" "$bar" "$el"
+			printf "\r%s  ┤%s├  %3ds elapsed\033[K" "$_label" "$bar" "$el"
 
 			step=$((step + 1))
-			sleep 0.0625
+			sleep 0.05
 		done
 	) &
 	SPINNER_PID=$!
@@ -753,6 +753,25 @@ APPLY_PATCHES() {
 	fi
 }
 
+DECIDE_ZIP_NAME() {
+	_outputs=$1
+	_name=$2
+
+	_so=$(printf "%s\n" $_outputs | grep '\.so$' | head -n1)
+	if [ -n "$_so" ]; then
+		printf "%s.zip" "$(basename "$_so")"
+		return 0
+	fi
+
+	# shellcheck disable=SC2086
+	set -- $_outputs
+	if [ "$#" -eq 1 ]; then
+		printf "%s.zip" "$(basename "$1")"
+	else
+		printf "%s.zip" "$_name"
+	fi
+}
+
 # Build target list
 if [ "$BUILD_ALLNOW" -eq 0 ]; then
 	CORES="$BUILD_CORES"
@@ -864,17 +883,7 @@ for NAME in $CORES; do
 	[ -n "$CACHED_DIR" ] && printf "Cached dir:  %s\n" "$CACHED_DIR"
 	[ "$CORE_PURGE_FLAG" -eq 1 ] && printf "purge: enabled for this core\n"
 
-	# Determine expected zip name
-	EXPECTED_ZIP_NAME=$(
-		set -- $OUTPUT_LIST
-		if [ "$#" -eq 1 ]; then
-			bn=$(basename "$1")
-			printf "%s.zip" "$bn"
-		else
-			printf "%s.zip" "$NAME"
-		fi
-	)
-	ZIP_NAME="$EXPECTED_ZIP_NAME"
+	ZIP_NAME=$(DECIDE_ZIP_NAME "$OUTPUT_LIST" "$NAME")
 
 	# If directory changed since last time, remove the stale one
 	if [ -n "$CACHED_DIR" ] && [ "$CACHED_DIR" != "$DIR" ]; then
@@ -1134,19 +1143,6 @@ for NAME in $CORES; do
 	printf "\nIndexing and compressing outputs for '%s'\n" "$NAME"
 
 	cd "$RETRO_DIR" || { printf "Failed to enter directory %s\n" "$RETRO_DIR" >&2; FAIL_AND_CONTINUE "$NAME" "packaging" "failed to enter core/"; }
-
-	# Decide zip name based on .so file if present (multi-output)
-	SOFILE=$(printf "%s\n" $OUTPUTS | grep '\.so$' | head -n1)
-	if [ -n "$SOFILE" ]; then
-		ZIP_NAME="$(basename "$SOFILE").zip"
-	else
-		set -- $OUTPUTS
-		if [ "$#" -eq 1 ]; then
-			ZIP_NAME="$(basename "$1").zip"
-		else
-			ZIP_NAME="${NAME}.zip"
-		fi
-	fi
 
 	[ -f "$ZIP_NAME" ] && rm -f "$ZIP_NAME"
 
