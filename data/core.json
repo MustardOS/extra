@@ -2111,8 +2111,8 @@
     },
     "symbols": 0,
     "commands": {
-      "post-make": [
-      "mv src/libretro/vbam_libretro.so ."
+      "pre-make": [
+      "cd src/libretro"
       ]
     }
   },
