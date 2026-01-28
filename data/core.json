@@ -323,10 +323,14 @@
     "commands": {
       "pre-make": [
       "git clone https://github.com/EasyRPG/liblcf.git",
-      "cmake -S liblcf -B liblcf/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=_prefix",
+      "cmake -S liblcf -B liblcf/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix",
       "cmake --build liblcf/build --parallel $MAKE_CORES",
       "cmake --install liblcf/build",
-      "cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=_prefix"
+      "git clone --branch 10.2.1 https://github.com/fmtlib/fmt.git",
+      "cmake -S fmt -B fmt/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix",
+      "cmake --build fmt/build --parallel $MAKE_CORES",
+      "cmake --install fmt/build",
+      "cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DBUILD_SHARED_LIBS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_PREFIX_PATH=_prefix"
     ],
     "post-make":[
       "mv build/easyrpg_libretro.so ."
