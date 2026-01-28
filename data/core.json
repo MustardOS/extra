@@ -1482,7 +1482,7 @@
   },
   "pcsx_rearmed": {
     "source": "https://github.com/libretro/pcsx_rearmed",
-    "branch": "228c14e",
+    "branch": "94a7ee3",
     "directory": "pcsx_rearmed",
     "output": "pcsx_rearmed_libretro.so",
     "make": {
