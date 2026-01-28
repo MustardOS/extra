@@ -947,7 +947,7 @@ for NAME in $CORES; do
 		FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed"
 	}
 
-	if [ "$BEEN_CLONED" -eq 0 ]; then
+	if [ "$BEEN_CLONED" -eq 0 ] && [ "$FORCE" -eq 0 ]; then
 		if [ "$LATEST" -eq 1 ]; then
 			printf "Updating '%s' to remote HEAD (latest)\n" "$NAME"
 			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed (latest)"; }
