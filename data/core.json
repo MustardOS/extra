@@ -1,7 +1,7 @@
 {
   "2048": {
     "source": "https://github.com/libretro/libretro-2048",
-    "branch": "86e02d3",
+    "branch": "e70c3f8",
     "directory": "libretro-2048",
     "output": "2048_libretro.so",
     "make": {
