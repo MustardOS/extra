@@ -265,12 +265,7 @@
       "args": "-C libretro BUNDLED_AUDIO_CODECS=1 BUNDLED_LIBSNDFILE=1 BUNDLED_SDL=1 WITH_DYNAREC=aarch64",
       "target": ""
     },
-    "symbols": 0,
-    "commands": {
-      "pre-make": [
-        "make -C libretro BUNDLED_AUDIO_CODECS=1 BUNDLED_LIBSNDFILE=1 BUNDLED_SDL=1 WITH_DYNAREC=aarch64 deps"
-      ]
-    }
+    "symbols": 0
   },
   "dosbox_pure": {
     "source": "https://github.com/schellingb/dosbox-pure",
