@@ -623,7 +623,7 @@
   },
   "morpheuscast_xtreme": {
     "source": "https://github.com/KMFDManic/morpheuscast_xtreme",
-    "branch": "5d1c1c8",
+    "branch": "1f895a7",
     "directory": "morpheuscast_xtreme",
     "output": "km_morpheuscast_xtreme_libretro.so",
     "make": {
