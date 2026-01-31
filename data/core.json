@@ -265,7 +265,12 @@
       "args": "-C libretro BUNDLED_AUDIO_CODECS=1 BUNDLED_LIBSNDFILE=1 BUNDLED_SDL=1 WITH_DYNAREC=aarch64",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "make -C libretro BUNDLED_AUDIO_CODECS=1 BUNDLED_LIBSNDFILE=1 BUNDLED_SDL=1 WITH_DYNAREC=aarch64 deps"
+      ]
+    }
   },
   "dosbox_pure": {
     "source": "https://github.com/schellingb/dosbox-pure",
@@ -308,11 +313,12 @@
     "branch": "df4e1ee",
     "purge": "1",
     "directory": "Player",
-    "output": ["easyrpg_libretro.so", "liblcf.so.0" ],
+    "output": "easyrpg_libretro.so",
     "make": {
-      "file": "Makefile",
-      "args": "-C build",
-      "target": ""
+      "file": "",
+      "args": "",
+      "target": "",
+      "skip": "1"
     },
     "symbols": 0,
     "commands": {
@@ -325,11 +331,11 @@
       "cmake -S fmt -B fmt/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix",
       "cmake --build fmt/build --parallel $MAKE_CORES",
       "cmake --install fmt/build",
-      "cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DBUILD_SHARED_LIBS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_PREFIX_PATH=_prefix"
+      "cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DBUILD_SHARED_LIBS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_PREFIX_PATH=_prefix",
+      "cmake --build build --parallel $MAKE_CORES"
     ],
     "post-make":[
-      "mv build/easyrpg_libretro.so .",
-      "mv _prefix/lib/liblcf.so.0 ."
+      "mv build/easyrpg_libretro.so ."
     ]
     }
   },
@@ -622,7 +628,7 @@
     "output": "km_morpheuscast_xtreme_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "platform=brick MFLAGS=",
+      "args": "platform=brick",
       "target": ""
     },
     "symbols": 0
@@ -735,23 +741,23 @@
   "gametank": {
     "source": "https://github.com/dwbrite/gametank-sdk",
     "branch": "e4b3b7e",
-    "directory": "gametank-sdk/",
+    "directory": "gametank-sdk",
     "output": "libgametank_libretro.so",
     "make": {
-      "file": "Makefile",
+      "file": "",
       "args": "",
-      "target": ""
+      "target": "",
+      "skip": "1"
     },
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "echo -e \"all:\\n\\t@echo dummy make target to satisfy core builder\" > Makefile",
         "cd tools/gte/libretro",
         "grep -q \"^\\\\[profile\\\\.release\\\\]\" Cargo.toml || printf \"\\n[profile.release]\\nlto = true\\ncodegen-units = 1\\n\" >> Cargo.toml",
         "cargo zigbuild --target aarch64-unknown-linux-gnu --release"
       ],
       "post-make": [
-        "mv tools/gte/libretro/target/aarch64-unknown-linux-gnu/release/libgametank_libretro.so ."
+        "mv target/aarch64-unknown-linux-gnu/release/libgametank_libretro.so ."
       ]
     }
   },
@@ -1016,7 +1022,7 @@
   },
   "mame": {
     "source": "https://github.com/libretro/mame",
-    "branch": "b207f9c",
+    "branch": "9b2b9fe",
     "directory": "mame",
     "output": "mame_libretro.so",
     "make": {
@@ -1027,6 +1033,7 @@
         "OSD=retro",
         "PYTHON_EXECUTABLE=python3",
         "CONFIG=libretro",
+        "config=libretro",
         "LIBRETRO_CPU=arm64",
         "CROSS_BUILD=1",
         "TARGETOS=linux",
@@ -1037,6 +1044,8 @@
         "OVERRIDE_CXX=aarch64-linux-gnu-g++",
         "OVERRIDE_LD=aarch64-linux-gnu-g++",
         "STRIP=aarch64-linux-gnu-strip",
+        "ARCHOPTS=",
+        "ARCHOPTS64=",
         "UNAME=Linux raspberry 6.12.47+rpt-rpi-v8 #1 SMP PREEMPT Debian 1:6.12.47-1+rpt1~bookworm (2025-09-16) aarch64 GNU/Linux",
         "UNAME_M=aarch64",
         "UNAME_P=aarch64",
@@ -1044,7 +1053,13 @@
       ],
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+    "pre-make": [
+      "cd 3rdparty/genie && ( [ -x bin/linux/genie ] || make CC=cc CXX=c++ )",
+      "cd ../.."
+      ]
+    }
   },
   "mame2000": {
     "source": "https://github.com/libretro/mame2000-libretro",
@@ -1719,13 +1734,18 @@
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "make clean >/dev/null 2>&1",
-        "printf 'Building Boot ROMs\\n'",
-        "make bootroms >/dev/null 2>&1"
+        "make clean",
+        "printf 'Ensuring pinned RGBDS for bootrom build'",
+        "mkdir -p _tools",
+        "if [ ! -x _tools/rgbds/bin/rgbasm ]; then rm -rf _tools/rgbds-src _tools/rgbds; git clone https://github.com/gbdev/rgbds.git _tools/rgbds-src; cd _tools/rgbds-src && git checkout v0.8.0 && make -j$MAKE_CORES && make PREFIX=$(pwd)/../rgbds install; fi; cd ../..",
+        "printf 'Building Boot ROMs'",
+        "env PATH=$(pwd)/_tools/rgbds/bin:$PATH make bootroms",
+        "mkdir -p build/bin",
+        "ln -snf ../../../BootROMs build/bin/BootROMs"
       ],
       "post-make": [
         "printf 'Moving sameboy_libretro.so'",
-        "mv build/bin/sameboy_libretro.so ."
+        "if [ -f build/bin/sameboy_libretro.so ]; then mv build/bin/sameboy_libretro.so .; elif [ -f libretro/sameboy_libretro.so ]; then mv libretro/sameboy_libretro.so .; else echo 'sameboy_libretro.so not found' >&2; find . -maxdepth 3 -name 'sameboy_libretro.so' -print; exit 1; fi"
       ]
     }
   },

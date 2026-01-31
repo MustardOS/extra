@@ -536,6 +536,10 @@ SPINNER_START() {
 			now=$(date +%s)
 			el=$((now - _t0))
 
+			h=$((el / 3600))
+			m=$(((el % 3600) / 60))
+			s=$((el % 60))
+
 			base_hue=$((cycle * 12))
 
 			bar=""
@@ -555,7 +559,7 @@ SPINNER_START() {
 				i=$((i + 1))
 			done
 
-			printf "\r%s  ┤%s├  %3ds elapsed\033[K" "$_label" "$bar" "$el"
+			printf "\r%s  ┤%s├  %d:%02d:%02d elapsed\033[K" "$_label" "$bar" "$h" "$m" "$s"
 
 			step=$((step + 1))
 			sleep 0.05
@@ -807,35 +811,56 @@ for NAME in $CORES; do
 	SOURCE=$(echo "$MODULE" | jq -r '.source')
 	SYMBOLS=$(echo "$MODULE" | jq -r '.symbols')
 
-	# Make keys
-	MAKE_FILE=$(echo "$MODULE" | jq -r '.make.file')
+	# Make skip: allow skipping the main 'make' phase entirely.
+	MAKE_SKIP=$(echo "$MODULE" | jq -r '.make.skip // 0' 2>/dev/null)
+	case "$MAKE_SKIP" in
+		1) MAKE_SKIP=1 ;;
+		*) MAKE_SKIP=0 ;;
+	esac
+
+	# Make keys (make.file is only required when make.skip=0)
+	MAKE_FILE=$(echo "$MODULE" | jq -r '.make.file // ""')
 
 	# Accept .make.args as either:
 	# - array: ["A=B","C=D"]
 	# - string: "A=B C=D"
 	# - null/missing: empty
-	MAKE_ARGS_TYPE=$(echo "$MODULE" | jq -r '(.make.args // empty) | type' 2>/dev/null || echo "")
+	MAKE_ARGS_TYPE=""
 	MAKE_ARGS_STR=""
 	MAKE_ARGS_FILE=""
 
-	if [ "$MAKE_ARGS_TYPE" = "array" ]; then
+	if [ "$MAKE_SKIP" -eq 0 ]; then
+		MAKE_ARGS_TYPE=$(echo "$MODULE" | jq -r '(.make.args // empty) | type' 2>/dev/null || echo "")
+	fi
+
+	if [ "$MAKE_SKIP" -eq 0 ] && [ "$MAKE_ARGS_TYPE" = "array" ]; then
 		MAKE_ARGS_FILE="$RUN_TMPDIR/.make_args.${NAME}.$$"
 		: >"$MAKE_ARGS_FILE"
 		echo "$MODULE" | jq -r '.make.args[]' >"$MAKE_ARGS_FILE" 2>/dev/null || :
 		MAKE_ARGS_STR=$(tr '\n' ' ' <"$MAKE_ARGS_FILE" | sed 's/[[:space:]][[:space:]]*/ /g; s/[[:space:]]*$//')
-	elif [ "$MAKE_ARGS_TYPE" = "string" ]; then
+	elif [ "$MAKE_SKIP" -eq 0 ] && [ "$MAKE_ARGS_TYPE" = "string" ]; then
 		MAKE_ARGS_STR=$(echo "$MODULE" | jq -r '.make.args' 2>/dev/null)
 	else
 		MAKE_ARGS_STR=""
 	fi
 
-	MAKE_TARGET=$(echo "$MODULE" | jq -r '.make.target')
+	MAKE_TARGET=""
+	if [ "$MAKE_SKIP" -eq 0 ]; then
+		MAKE_TARGET=$(echo "$MODULE" | jq -r '.make.target')
+	fi
+
 	MAKE_ARCH='-march=armv8-a+crc+crypto -mtune=cortex-a53'
 
-	# Verify required keys
-	if [ -z "$DIR" ] || [ -z "$OUTPUT_LIST" ] || [ -z "$SOURCE" ] || [ -z "$MAKE_FILE" ] || [ -z "$SYMBOLS" ]; then
+	# Verify required keys (make.file is only required when make.skip=0)
+	if [ -z "$DIR" ] || [ -z "$OUTPUT_LIST" ] || [ -z "$SOURCE" ] || [ -z "$SYMBOLS" ]; then
 		printf "Missing required configuration keys for '%s' in '%s'\n" "$NAME" "$CORE_CONFIG" >&2
-		MARK_FAIL "$NAME" "config" "missing required keys: directory/output/source/make.file/symbols"
+		MARK_FAIL "$NAME" "config" "missing required keys: directory/output/source/symbols"
+		continue
+	fi
+
+	if [ "$MAKE_SKIP" -eq 0 ] && [ -z "$MAKE_FILE" ]; then
+		printf "Missing required configuration key for '%s': make.file (and make.skip is not set)\n" "$NAME" >&2
+		MARK_FAIL "$NAME" "config" "missing required key: make.file (set make.skip=1 to disable)"
 		continue
 	fi
 
@@ -997,92 +1022,97 @@ for NAME in $CORES; do
 	cd "$WORKDIR" || { printf "Failed to enter WORKDIR %s\n" "$WORKDIR" >&2; FAIL_AND_CONTINUE "$NAME" "fs" "failed to enter WORKDIR"; }
 
 	printf "Make Structure:"
-	printf "\n\tFILE:\t%s" "$MAKE_FILE"
-	printf "\n\tARCH:\t%s" "ARM64_A53"
-	printf "\n\tARGS:\t%s" "$MAKE_ARGS_STR"
-	printf "\n\tTARGET: %s\n" "$MAKE_TARGET"
+	if [ "$MAKE_SKIP" -eq 1 ]; then
+		printf "\n\tSKIP:\t1\n"
+		printf "\tNOTE:\tSkipping main make step for '%s'\n" "$NAME"
+		printf "SKIP: make phase disabled by make.skip=1 for %s\n" "$NAME" >>"$LOGFILE"
+	else
+		printf "\n\tFILE:\t%s" "$MAKE_FILE"
+		printf "\n\tARCH:\t%s" "ARM64_A53"
+		printf "\n\tARGS:\t%s" "$MAKE_ARGS_STR"
+		printf "\n\tTARGET: %s\n" "$MAKE_TARGET"
+	fi
 
 	START_TS=$(date +%s)
 	BUILD_LABEL="Building $NAME started @ $START_WALL"
 
-	# Build make argv safely (no eval)
-	set -- make -j"$MAKE_CORES" -f "$MAKE_FILE"
+	if [ "$MAKE_SKIP" -eq 0 ]; then
+		# Build make argv safely (no eval)
+		set -- make -j"$MAKE_CORES" -f "$MAKE_FILE"
 
-	TRANSFORM_MAKE_ARG() {
-		_a=$1
+		TRANSFORM_MAKE_ARG() {
+			_a=$1
 
-		case $_a in
-			OVERRIDE_CC=*)
-				_v=${_a#OVERRIDE_CC=}
-				case " $_v " in
-					*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CC=$_v" ;;
-					*) printf '%s\n' "OVERRIDE_CC=$_v $MAKE_ARCH" ;;
-				esac
-				return 0
-				;;
-			OVERRIDE_CXX=*)
-				_v=${_a#OVERRIDE_CXX=}
-				case " $_v " in
-					*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CXX=$_v" ;;
-					*) printf '%s\n' "OVERRIDE_CXX=$_v $MAKE_ARCH" ;;
-				esac
-				return 0
-				;;
-			OVERRIDE_LD=*)
-				_v=${_a#OVERRIDE_LD=}
-				case " $_v " in
-					*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_LD=$_v" ;;
-					*) printf '%s\n' "OVERRIDE_LD=$_v $MAKE_ARCH" ;;
-				esac
-				return 0
-				;;
-		esac
+			case $_a in
+				OVERRIDE_CC=*)
+					_v=${_a#OVERRIDE_CC=}
+					case " $_v " in
+						*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CC=$_v" ;;
+						*) printf '%s\n' "OVERRIDE_CC=$_v $MAKE_ARCH" ;;
+					esac
+					return 0
+					;;
+				OVERRIDE_CXX=*)
+					_v=${_a#OVERRIDE_CXX=}
+					case " $_v " in
+						*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CXX=$_v" ;;
+						*) printf '%s\n' "OVERRIDE_CXX=$_v $MAKE_ARCH" ;;
+					esac
+					return 0
+					;;
+				OVERRIDE_LD=*)
+					_v=${_a#OVERRIDE_LD=}
+					case " $_v " in
+						*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_LD=$_v" ;;
+						*) printf '%s\n' "OVERRIDE_LD=$_v $MAKE_ARCH" ;;
+					esac
+					return 0
+					;;
+			esac
 
-		printf '%s\n' "$_a"
-	}
+			printf '%s\n' "$_a"
+		}
 
-	# Append args from JSON
-	if [ "$MAKE_ARGS_TYPE" = "array" ] && [ -n "$MAKE_ARGS_FILE" ] && [ -s "$MAKE_ARGS_FILE" ]; then
-		while IFS= read -r _a; do
-			[ -n "$_a" ] || continue
-			_t=$(TRANSFORM_MAKE_ARG "$_a")
-			[ -n "$_t" ] && set -- "$@" "$_t"
-		done <"$MAKE_ARGS_FILE"
-	elif [ -n "$MAKE_ARGS_STR" ]; then
-		# shellcheck disable=SC2086
-		for _a in $MAKE_ARGS_STR; do
-			_t=$(TRANSFORM_MAKE_ARG "$_a")
-			[ -n "$_t" ] && set -- "$@" "$_t"
+		# Append args from JSON
+		if [ "$MAKE_ARGS_TYPE" = "array" ] && [ -n "$MAKE_ARGS_FILE" ] && [ -s "$MAKE_ARGS_FILE" ]; then
+			while IFS= read -r _a; do
+				[ -n "$_a" ] || continue
+				_t=$(TRANSFORM_MAKE_ARG "$_a")
+				[ -n "$_t" ] && set -- "$@" "$_t"
+			done <"$MAKE_ARGS_FILE"
+		elif [ -n "$MAKE_ARGS_STR" ]; then
+			# shellcheck disable=SC2086
+			for _a in $MAKE_ARGS_STR; do
+				_t=$(TRANSFORM_MAKE_ARG "$_a")
+				[ -n "$_t" ] && set -- "$@" "$_t"
+			done
+		fi
+
+		# Add explicit make target if present
+		if [ -n "$MAKE_TARGET" ] && [ "$MAKE_TARGET" != "null" ]; then
+			set -- "$@" "$MAKE_TARGET"
+		fi
+
+		# Debug: log actual argv we will run
+		printf "EXEC:" >>"$LOGFILE"
+		for __x in "$@"; do
+			printf " [%s]" "$__x" >>"$LOGFILE"
 		done
-	fi
+		printf "\n" >>"$LOGFILE"
 
-	# Add explicit make target if present
-	if [ -n "$MAKE_TARGET" ] && [ "$MAKE_TARGET" != "null" ]; then
-		set -- "$@" "$MAKE_TARGET"
-	fi
+		# Run make with spinner; log all output
+		if RUN_WITH_SPINNER_LOG "$BUILD_LABEL" "$LOGFILE" "$@"; then
+			END_WALL="$(NOW)"
+			printf "\nBuild succeeded: %s at %s\n" "$NAME" "$END_WALL"
+		else
+			FAIL_WALL="$(NOW)"
+			printf "\nBuild FAILED: %s at %s - see %s\n" "$NAME" "$FAIL_WALL" "$LOGFILE" >&2
+			printf '\a' 2>/dev/null || :
 
-	# Debug: log actual argv we will run
-	printf "EXEC:" >>"$LOGFILE"
-	for __x in "$@"; do
-		printf " [%s]" "$__x" >>"$LOGFILE"
-	done
-	printf "\n" >>"$LOGFILE"
-
-	# Run make with spinner; log all output
-	if RUN_WITH_SPINNER_LOG "$BUILD_LABEL" "$LOGFILE" "$@"; then
-		END_WALL="$(NOW)"
-		printf "\nBuild succeeded: %s at %s\n" "$NAME" "$END_WALL"
-
-		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
-		   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
-	else
-		FAIL_WALL="$(NOW)"
-		printf "\nBuild FAILED: %s at %s - see %s\n" "$NAME" "$FAIL_WALL" "$LOGFILE" >&2
-		printf '\a' 2>/dev/null || :
-
-		MARK_FAIL "$NAME" "make" "make failed (see build.log)"
-		RETURN_TO_BASE
-		continue
+			MARK_FAIL "$NAME" "make" "make failed (see build.log)"
+			RETURN_TO_BASE
+			continue
+		fi
 	fi
 
 	END_TS=$(date +%s)
@@ -1182,23 +1212,31 @@ for NAME in $CORES; do
 	sort -k3 .index-extended -o .index-extended
 	sort .index -o .index
 
+	# Cache update only after outputs validated, moved, zipped, and indexed successfully
+	jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
+	   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
+
 	# After packaging: purge repo if requested, otherwise try cleaning build artifacts
 	if [ "$PURGE" -eq 1 ] || [ "$CORE_PURGE_FLAG" -eq 1 ]; then
 		printf "\nPurging core repo directory: %s\n" "$CORE_DIR"
 		rm -rf -- "$CORE_DIR"
 	else
 		printf "\nCleaning build environment for '%s'\n" "$NAME"
-		(
-			cd "$CORE_DIR" 2>/dev/null || exit 0
+		if [ "$MAKE_SKIP" -eq 1 ]; then
+			printf "Skipping clean: make.skip=1 for '%s'\n" "$NAME"
+		else
+			(
+				cd "$CORE_DIR" 2>/dev/null || exit 0
 
-			# Prefer cleaning using the same makefile we built with
-			make -j"$MAKE_CORES" -f "$MAKE_FILE" clean >/dev/null 2>&1 && exit 0
+				# Prefer cleaning using the same makefile we built with
+				make -j"$MAKE_CORES" -f "$MAKE_FILE" clean >/dev/null 2>&1 && exit 0
 
-			# Fallback: common clean target
-			make clean -j"$MAKE_CORES" >/dev/null 2>&1 && exit 0
+				# Fallback: common clean target
+				make clean -j"$MAKE_CORES" >/dev/null 2>&1 && exit 0
 
-			exit 0
-		) || :
+				exit 0
+			) || :
+		fi
 	fi
 
 	RETURN_TO_BASE

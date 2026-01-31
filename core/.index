@@ -17,9 +17,11 @@ chailove_libretro.so.zip
 chimerasnes_libretro.so.zip
 crocods_libretro.so.zip
 dice_libretro.so.zip
+dosbox_core_libretro.so.zip
 dosbox_pure_libretro.so.zip
 dosbox_svn_libretro.so.zip
 DoubleCherryGB_libretro.so.zip
+easyrpg_libretro.so.zip
 ecwolf_libretro.so.zip
 emux_chip8_libretro.so.zip
 emux_gb_libretro.so.zip
@@ -35,6 +37,7 @@ fbalpha2012_neogeo_libretro.so.zip
 fbalpha_libretro.so.zip
 fbneo_libretro.so.zip
 fceumm_libretro.so.zip
+ffmpeg_libretro.so.zip
 fixgb_libretro.so.zip
 flycast_libretro.so.zip
 fmsx_libretro.so.zip
@@ -97,6 +100,7 @@ numero_libretro.so.zip
 nxengine_libretro.so.zip
 o2em_libretro.so.zip
 opera_libretro.so.zip
+parallel_n64_libretro.so.zip
 pcsx_rearmed_libretro.so.zip
 picodrive_libretro.so.zip
 pocketcdg_libretro.so.zip
@@ -114,8 +118,8 @@ quasi88_libretro.so.zip
 quicknes_libretro.so.zip
 race_libretro.so.zip
 retro8_libretro.so.zip
-scummvm_libretro.so.zip
 sameboy_libretro.so.zip
+scummvm_libretro.so.zip
 smsplus_libretro.so.zip
 snes9x2002_libretro.so.zip
 snes9x2005_libretro.so.zip
