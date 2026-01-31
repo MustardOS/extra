@@ -628,7 +628,7 @@
     "output": "km_morpheuscast_xtreme_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "platform=brick",
+      "args": "platform=brick MFLAGS=",
       "target": ""
     },
     "symbols": 0
