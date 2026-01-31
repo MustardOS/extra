@@ -36,13 +36,6 @@ else
 	LAUNCH_PATH="$F_PATH/$SUB_FOLDER/$ERPC"
 fi
 
-CORE_LIBDIR="$MUOS_SHARE_DIR/lib"
-if [ -n "${LD_LIBRARY_PATH-}" ]; then
-	LD_LIBRARY_PATH="$CORE_LIBDIR:$LD_LIBRARY_PATH"
-else
-	LD_LIBRARY_PATH="$CORE_LIBDIR"
-fi
-
 nice --20 retroarch -v -f $RA_ARGS -L "$MUOS_SHARE_DIR/core/easyrpg_libretro.so" "$LAUNCH_PATH"
 
 [ "$IS_SWAP" -eq 1 ] && DETECT_CONTROL_SWAP
