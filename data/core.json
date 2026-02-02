@@ -42,7 +42,7 @@
     "output": "ardens_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "-C build",
+      "args": "",
       "target": ""
     },
     "symbols": 0,
@@ -51,7 +51,7 @@
         "mkdir -p build",
         "cd build",
         "printf 'Running CMAKE Build\\n'",
-        "cmake -DCMAKE_BUILD_TYPE=RELEASE -DARDENS_LIBRETRO=ON .. >/dev/null 2>&1"
+        "cmake -DCMAKE_BUILD_TYPE=RELEASE -DARDENS_LIBRETRO=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .. >/dev/null 2>&1"
       ],
       "post-make": [
         "mv build/ardens_libretro.so ."
