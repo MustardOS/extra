@@ -322,19 +322,19 @@
     },
     "symbols": 0,
     "commands": {
-        "pre-make": [
-          "git clone --branch 10.2.1 https://github.com/fmtlib/fmt.git",
-          "cmake -S fmt -B fmt/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix",
-          "cmake --build fmt/build --parallel $MAKE_CORES",
-          "cmake --install fmt/build",
-          "PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DPLAYER_BUILD_LIBLCF=ON -DPLAYER_WITH_LHASA=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_SYSROOT=$SYSROOT -DCMAKE_FIND_ROOT_PATH=$SYSROOT -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY",
-          "cmake --build build --parallel $MAKE_CORES"
-      ],
+      "pre-make": [
+        "git clone --branch 10.2.1 https://github.com/fmtlib/fmt.git",
+        "SYSROOT=$(aarch64-buildroot-linux-gnu-gcc -print-sysroot 2>/dev/null || true) PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S fmt -B fmt/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix -DCMAKE_TOOLCHAIN_FILE='/home/strychnine/x-tools/tool/examples/h700-muos-cc.cmake'",
+        "cmake --build fmt/build --parallel $MAKE_CORES",
+        "cmake --install fmt/build",
+        "SYSROOT=$(aarch64-buildroot-linux-gnu-gcc -print-sysroot 2>/dev/null || true) PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DPLAYER_BUILD_LIBLCF=ON -DPLAYER_WITH_LHASA=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_PREFIX_PATH=_prefix -DCMAKE_TOOLCHAIN_FILE='/home/strychnine/x-tools/tool/examples/h700-muos-cc.cmake'",
+        "cmake --build build --parallel $MAKE_CORES"
+        ],
       "post-make": [
-        "mv build/easyrpg_libretro.so ."
-      ]
-    }
-  },
+      "mv build/easyrpg_libretro.so ."
+    ]
+  }
+},
   "ecwolf": {
     "source": "https://github.com/libretro/ecwolf",
     "branch": "c57ad89",
