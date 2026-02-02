@@ -324,10 +324,10 @@
     "commands": {
       "pre-make": [
         "git clone --branch 10.2.1 https://github.com/fmtlib/fmt.git",
-        "SYSROOT=$(aarch64-buildroot-linux-gnu-gcc -print-sysroot 2>/dev/null || true) PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S fmt -B fmt/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix",
+        "SYSROOT=$(aarch64-buildroot-linux-gnu-gcc -print-sysroot 2>/dev/null || true) PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S fmt -B fmt/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=_prefix -DCMAKE_TOOLCHAIN_FILE='/home/strychnine/x-tools/tool/examples/h700-muos-cc.cmake'",
         "cmake --build fmt/build --parallel $MAKE_CORES",
         "cmake --install fmt/build",
-        "SYSROOT=$(aarch64-buildroot-linux-gnu-gcc -print-sysroot 2>/dev/null || true) PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DPLAYER_BUILD_LIBLCF=ON -DLIBLCF_WITH_INI=OFF -DPLAYER_WITH_LHASA=OFF  -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_PREFIX_PATH=_prefix",
+        "SYSROOT=$(aarch64-buildroot-linux-gnu-gcc -print-sysroot 2>/dev/null || true) PKG_CONFIG_SYSROOT_DIR=$SYSROOT PKG_CONFIG_DIR= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPLAYER_TARGET_PLATFORM=libretro -DPLAYER_BUILD_LIBLCF=ON -DPLAYER_WITH_LHASA=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DINIH_INCLUDE_DIR=_prefix/include -DINIH_LIBRARY=_prefix/lib/libinih.a-DCMAKE_PREFIX_PATH=_prefix -DCMAKE_TOOLCHAIN_FILE='/home/strychnine/x-tools/tool/examples/h700-muos-cc.cmake'",
         "cmake --build build --parallel $MAKE_CORES"
         ],
       "post-make": [
