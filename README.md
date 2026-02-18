@@ -78,7 +78,7 @@ The `branch` and `commands` sections are completely optional and can be omitted.
         "if [ -f build/bin/sameboy_libretro.so ]; then mv build/bin/sameboy_libretro.so .; elif [ -f libretro/sameboy_libretro.so ]; then mv libretro/sameboy_libretro.so .; else echo 'sameboy_libretro.so not found' >&2; find . -maxdepth 3 -name 'sameboy_libretro.so' -print; exit 1; fi"
       ]
     }
-  },
+  }
 }
 ```
 
