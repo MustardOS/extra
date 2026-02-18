@@ -18,13 +18,13 @@ To build all cores defined in `data/core.json`, run:
 To build specific cores, specify their names as arguments:
 
 ```bash
-./build.sh -c dosbox-pure sameboy
+./build.sh -c dosbox_pure sameboy
 ```
 
 To purge any existing core repositories add the `-p` switch:
 
 ```bash
-./build.sh -p -c dosbox-pure sameboy
+./build.sh -p -c dosbox_pure sameboy
 ```
 
 ### Please Note
@@ -51,30 +51,34 @@ The `branch` and `commands` sections are completely optional and can be omitted.
 
 ```json
 {
-  "sameboy": {
+    "sameboy": {
     "source": "https://github.com/LIJI32/SameBoy",
     "directory": "SameBoy",
+    "branch": "f94e607",
     "output": "sameboy_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "",
-      "target": ""
+      "args": "CC=gcc CONF=native_release",
+      "target": "libretro"
     },
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "make clean >/dev/null 2>&1",
-        "printf '\\n\\t\\tBuilding Boot ROMs\\n'",
-        "make bootroms >/dev/null 2>&1",
-        "printf '\\n\\t\\tPre-generating Libretro Source\\n'",
-        "make libretro >/dev/null 2>&1",
-        "cd libretro"
+        "make clean",
+        "printf 'Ensuring pinned RGBDS for bootrom build'",
+        "mkdir -p _tools",
+        "if [ ! -x _tools/rgbds/bin/rgbasm ]; then rm -rf _tools/rgbds-src _tools/rgbds; git clone https://github.com/gbdev/rgbds.git _tools/rgbds-src; cd _tools/rgbds-src && git checkout v0.8.0 && make -j$MAKE_CORES && make PREFIX=$(pwd)/../rgbds install; fi; cd ../..",
+        "printf 'Building Boot ROMs'",
+        "env PATH=$(pwd)/_tools/rgbds/bin:$PATH make bootroms",
+        "mkdir -p build/bin",
+        "ln -snf ../../../BootROMs build/bin/BootROMs"
       ],
       "post-make": [
-        "cd .."
+        "printf 'Moving sameboy_libretro.so'",
+        "if [ -f build/bin/sameboy_libretro.so ]; then mv build/bin/sameboy_libretro.so .; elif [ -f libretro/sameboy_libretro.so ]; then mv libretro/sameboy_libretro.so .; else echo 'sameboy_libretro.so not found' >&2; find . -maxdepth 3 -name 'sameboy_libretro.so' -print; exit 1; fi"
       ]
     }
-  }
+  },
 }
 ```
 
