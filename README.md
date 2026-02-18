@@ -9,23 +9,155 @@ extra_data.json
 
 # muOS Base/Extra Core + Builder
 
-To build all cores defined in `data/core.json`, run:
+This script builds and packages libretro cores defined in `data/core.json` for muOS.  
+It supports full builds, selective builds, exclusions, repository purging, cache control, and update archive generation.
+
+---
+
+## Build All Cores
+
+To build **all cores** defined in `data/core.json`:
 
 ```bash
 ./build.sh -a
 ```
 
-To build specific cores, specify their names as arguments:
+## Build Specific Cores
+
+To build only selected cores, specify them after `-c`:
 
 ```bash
 ./build.sh -c dosbox_pure sameboy
 ```
 
-To purge any existing core repositories add the `-p` switch:
+Multiple cores may be listed, separated by spaces.
+
+## Exclude Specific Cores
+
+When building all cores, you may exclude specific ones using `-x`:
+
+```bash
+./build.sh -a -x fbneo mame2010
+```
+
+This builds everything except the listed cores.
+
+## Purge Existing Core Repositories
+
+To delete existing cloned repositories before building, use `-p`.
+
+```bash
+./build.sh -p -a
+```
+
+Or with specific cores:
 
 ```bash
 ./build.sh -p -c dosbox_pure sameboy
 ```
+
+This removes cloned core repositories before proceeding.
+
+## Force Rebuild (Ignore Cache)
+
+To force rebuilding cores without purging repositories:
+
+```bash
+./build.sh -f -a
+```
+
+This ignores any cached state and rebuilds from the existing repo directories.
+
+## Build Latest Remote HEAD
+
+By default, cores are built from pinned branches or specific commits defined in `core.json`.
+
+To ignore pinned revisions and build from the remote repository's latest HEAD:
+
+```bash
+./build.sh -l -a
+```
+
+This overrides branch/commit pinning.
+
+## Create Combined Update Archive
+
+To combine all built core archives into a single update package:
+
+```bash
+./build.sh -u
+```
+
+This does not build cores. It collects existing archives and bundles them into one update archive.
+
+## Valid Option Combinations
+
+Allowed primary modes (choose one):
+
+- `-a` Build all cores
+- `-c` Build specific cores
+- `-u` Create update archive
+
+Optional modifiers:
+
+- `-x` Only valid with `-a`
+- `-p` Must be first argument
+- `-f` Can be combined with `-a` or `-c`
+- `-l` Can be combined with `-a` or `-c`
+
+---
+
+## Example Commands
+
+Build everything:
+
+```bash
+./build.sh -a
+```
+
+Build everything except specific cores:
+
+```bash
+./build.sh -a -x fbneo mame2010
+```
+
+Build only selected cores:
+
+```bash
+./build.sh -c dosbox_pure sameboy
+```
+
+Purge and rebuild all:
+
+```bash
+./build.sh -p -a
+```
+
+Purge and rebuild specific cores:
+
+```bash
+./build.sh -p -c dosbox_pure sameboy
+```
+
+Force rebuild without purging:
+
+```bash
+./build.sh -f -a
+```
+
+Build latest remote versions:
+
+```bash
+./build.sh -l -a
+```
+
+Generate combined update archive:
+
+```bash
+./build.sh -u
+```
+
+---
 
 ### Please Note
 
@@ -41,6 +173,7 @@ To purge any existing core repositories add the `-p` switch:
 * `make.file` - The file which make calls upon
 * `make.args` - Additional arguments that is used alongside make
 * `make.target` - A specific target to use with make if required
+* `make.skip` - Skip running make for cores that use other build systems
 * `symbols` - Set it to `1` if you require debug symbols
 * `commands.pre-make` - Commands to run _**before**_ make is run
 * `commands.post-make` - Commands that are run _**after**_ successful compilation
