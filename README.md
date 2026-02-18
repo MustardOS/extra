@@ -1,12 +1,3 @@
-# Notice!
-
-The following files are to keep previous compatibility with current/past MustardOS releases. These files will be removed by the end of the year 2025.
-
-```
-2508_1_Canada_Goose.json
-extra_data.json
-```
-
 # muOS Base/Extra Core + Builder
 
 This script builds and packages libretro cores defined in `data/core.json` for muOS.  
