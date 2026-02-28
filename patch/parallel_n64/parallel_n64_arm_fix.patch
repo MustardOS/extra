@@ -1,0 +1,31 @@
+diff --git a/Makefile b/Makefile
+index bf2d5c9d..135463f4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,6 +2,7 @@ DEBUG=0
+ PERF_TEST=0
+ HAVE_SHARED_CONTEXT=0
+ WITH_CRC=brumme
++GLES = 1
+ FORCE_GLES=0
+ HAVE_OPENGL=1
+ HAVE_VULKAN_DEBUG=0
+@@ -15,6 +16,7 @@ HAVE_GLN64=1
+ HAVE_RICE=1
+ HAVE_PARALLEL?=0
+ HAVE_PARALLEL_RSP?=0
++HAVE_NEON = 1
+ STATIC_LINKING=0
+ WANT_LLVM_OVERRIDE=0
+ HAVE_LTCG ?= 0
+@@ -22,8 +24,9 @@ HAVE_LTCG ?= 0
+ DYNAFLAGS :=
+ INCFLAGS  :=
+ COREFLAGS :=
+-CPUFLAGS  :=
++CPUFLAGS  := -DNO_ASM -DARM -DARM_ASM -DDONT_WANT_ARM_OPTIMIZATIONS -DARM_FIX -DCLASSIC -DARM64 -D__NEON_OPT -march=armv8-a+crc -mcpu=cortex-a53 -mtune=cortex-a53
+ GLFLAGS   :=
++GL_LIB    := -lGLESv2
+ 
+ UNAME=$(shell uname -a)
+ 
