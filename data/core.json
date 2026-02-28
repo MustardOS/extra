@@ -1484,7 +1484,7 @@
       "args": "WITH_DYNAREC=aarch64",
       "target": ""
     },
-    "symbols": 1
+    "symbols": 0
   },
   "pcsx_rearmed": {
     "source": "https://github.com/libretro/pcsx_rearmed",
