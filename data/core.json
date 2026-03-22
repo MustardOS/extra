@@ -1776,7 +1776,7 @@
   "scummvm": {
     "source": "https://github.com/libretro/scummvm",
     "directory": "scummvm",
-    "branch": "686cdd1",
+    "branch": "c9e94a9",
     "output": "scummvm_libretro.so",
     "make": {
       "file": "Makefile",
