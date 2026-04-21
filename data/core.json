@@ -2121,6 +2121,19 @@
     },
     "symbols": 0
   },
+  "vitaquake2": {
+    "source": "https://github.com/libretro/vitaquake2",
+    "branch": "1fc6922",
+    "purge": 0,
+    "directory": "vitaquake2",
+    "output": "vitaquake2_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
   "vircon32": {
     "source": "https://github.com/vircon32/vircon32-libretro",
     "branch": "d8a9243",
