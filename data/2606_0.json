@@ -6,6 +6,12 @@
     "help": ""
   },
   {
+    "name": "Arcade - DirkSimple",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.DirkSimple.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
     "name": "Arcade - FB Alpha 2012",
     "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.FB.Alpha.2012.muxzip",
     "type": "core",
@@ -152,12 +158,6 @@
   {
     "name": "Crisp Game Lib",
     "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Crisp.Game.Lib.muxzip",
-    "type": "core",
-    "help": ""
-  },
-  {
-    "name": "DirkSimple",
-    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.DirkSimple.muxzip",
     "type": "core",
     "help": ""
   },
