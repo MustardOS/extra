@@ -290,7 +290,12 @@
       "args": "-C libretro",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+        "mv libretro/dosbox_svn_libretro.so ."
+      ]
+    }
   },
   "doublecherryGB": {
     "source": "https://github.com/TimOelrichs/doublecherryGB-libretro",
@@ -1659,7 +1664,12 @@
       "args": "",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+          "mv puae_libretro.so puae2021_libretro.so"
+      ]
+    }
   },
   "puzzlescript": {
     "source": "https://github.com/nwhitehead/pzretro",
@@ -1844,9 +1854,9 @@
     "symbols": 0
   },
   "stella": {
-    "source": "https://github.com/stella-emu/stella",
-    "branch": "7c4e3b2",
-    "directory": "stella",
+    "source": "https://github.com/libretro/stella2023",
+    "branch": "2c9fac4",
+    "directory": "stella2023",
     "output": "stella_libretro.so",
     "make": {
       "file": "Makefile",
