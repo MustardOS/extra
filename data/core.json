@@ -1866,7 +1866,7 @@
     "symbols": 0,
     "commands": {
       "post-make": [
-      "mv src/os/libretro/stella_libretro.so ."
+      "mv src/os/libretro/stella2023_libretro.so ./stella_libretro.so"
       ]
     }
   },
