@@ -102,6 +102,12 @@
     "help": ""
   },
   {
+    "name": "BennuGD",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.BennuGD.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
     "name": "ChaiLove",
     "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.ChaiLove.muxzip",
     "type": "core",
