@@ -35,6 +35,26 @@
     },
     "symbols": 0
   },
+  "amiberry": {
+    "source": "https://github.com/BlitterStudio/amiberry",
+    "branch": "05ec3ba",
+    "directory": "amiberry",
+    "output": "amiberry_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+        "mv libretro/amiberry_libretro.so ."
+      ]
+    }
+  },
   "ardens": {
     "source": "https://github.com/tiberiusbrown/Ardens",
     "branch": "9a1c46a",
