@@ -110,6 +110,27 @@
     },
     "symbols": 0
   },
+  "bennugd": {
+    "source": "https://github.com/diekleinekuh/BennuGD_libretro",
+    "branch": "a783199",
+    "directory": "BennuGD_libretro",
+    "output": "bennugd_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": "",
+      "skip": "1"
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+      "cmake -B build && cmake --build build"
+      ],
+      "post-make":[
+      "mv build/bennugd_libretro.so ."
+      ]
+    }
+  },
   "bk": {
     "source": "https://github.com/libretro/bk-emulator",
     "branch": "f95d929",
