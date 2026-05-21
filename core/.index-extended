@@ -1,9 +1,11 @@
 2026-01-30 00220f60 2048_libretro.so.zip
 2026-01-30 8fb82e41 81_libretro.so.zip
 2026-01-30 23a0598c a5200_libretro.so.zip
+2026-05-12 38a7c5cb amiberry_libretro.so.zip
 2026-01-30 ea52ce65 ardens_libretro.so.zip
 2026-01-30 a4edf463 arduous_libretro.so.zip
 2026-01-30 125090c9 atari800_libretro.so.zip
+2026-05-12 ec6c9922 bennugd_libretro.so.zip
 2026-01-30 7a31cf4f bk_libretro.so.zip
 2026-01-30 f43e1137 bluemsx_libretro.so.zip
 2026-01-30 c5fa2130 bnes_libretro.so.zip
@@ -17,6 +19,7 @@
 2026-01-30 7afef3ca chimerasnes_libretro.so.zip
 2026-01-30 ae31f758 crocods_libretro.so.zip
 2026-01-30 ef53ad80 dice_libretro.so.zip
+2026-03-17 cafbf8a0 dirksimple_libretro.so.zip
 2026-01-31 d412b83c dosbox_core_libretro.so.zip
 2026-01-30 6c1e5089 dosbox_pure_libretro.so.zip
 2026-01-15 e70a87e2 dosbox_svn_libretro.so.zip
@@ -124,8 +127,8 @@
 2026-01-17 7208a292 snes9x2005_libretro.so.zip
 2026-01-17 1e367580 snes9x2010_libretro.so.zip
 2026-01-17 14e03cbb snes9x_libretro.so.zip
-2026-01-17 1fb083e9 stella2014_libretro.so.zip
-2026-01-30 ca1fe6ea stella_libretro.so.zip
+2026-04-22 1930a07c stella2014_libretro.so.zip
+2026-04-22 88d54f48 stella_libretro.so.zip
 2026-01-18 543f3292 swanstation_libretro.so.zip
 2026-01-17 bf3e1b54 tgbdual_libretro.so.zip
 2026-01-17 30e7efb8 theodore_libretro.so.zip
@@ -148,6 +151,7 @@
 2026-01-17 d6ef062a vice_xvic_libretro.so.zip
 2026-01-18 f88ad4fe vircon32_libretro.so.zip
 2026-01-17 e163a6f7 virtualjaguar_libretro.so.zip
+2026-04-21 ef6ac371 vitaquake2_libretro.so.zip
 2026-01-30 230b5794 wasm4_libretro.so.zip
 2026-01-17 e32e4c52 x1_libretro.so.zip
 2026-01-17 2ccb6124 zc250x_libretro.so.zip

@@ -6,6 +6,12 @@
     "help": ""
   },
   {
+    "name": "Arcade - DirkSimple",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.DirkSimple.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
     "name": "Arcade - FB Alpha 2012",
     "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Arcade.-.FB.Alpha.2012.muxzip",
     "type": "core",
@@ -92,6 +98,12 @@
   {
     "name": "Bandai WonderSwan Color",
     "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.Bandai.WonderSwan.Color.muxzip",
+    "type": "core",
+    "help": ""
+  },
+  {
+    "name": "BennuGD",
+    "url": "https://github.com/MustardOS/extra/releases/latest/download/Extra.-.BennuGD.muxzip",
     "type": "core",
     "help": ""
   },

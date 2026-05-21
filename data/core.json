@@ -35,6 +35,26 @@
     },
     "symbols": 0
   },
+  "amiberry": {
+    "source": "https://github.com/BlitterStudio/amiberry",
+    "branch": "05ec3ba",
+    "directory": "amiberry",
+    "output": "amiberry_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd libretro"
+      ],
+      "post-make": [
+        "mv libretro/amiberry_libretro.so ."
+      ]
+    }
+  },
   "ardens": {
     "source": "https://github.com/tiberiusbrown/Ardens",
     "branch": "9a1c46a",
@@ -89,6 +109,27 @@
       "target": ""
     },
     "symbols": 0
+  },
+  "bennugd": {
+    "source": "https://github.com/diekleinekuh/BennuGD_libretro",
+    "branch": "a783199",
+    "directory": "BennuGD_libretro",
+    "output": "bennugd_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": "",
+      "skip": "1"
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+      "cmake -B build && cmake --build build"
+      ],
+      "post-make":[
+      "mv build/bennugd_libretro.so ."
+      ]
+    }
   },
   "bk": {
     "source": "https://github.com/libretro/bk-emulator",
@@ -290,7 +331,12 @@
       "args": "-C libretro",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+        "mv libretro/dosbox_svn_libretro.so ."
+      ]
+    }
   },
   "doublecherryGB": {
     "source": "https://github.com/TimOelrichs/doublecherryGB-libretro",
@@ -1659,7 +1705,12 @@
       "args": "",
       "target": ""
     },
-    "symbols": 0
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+          "mv puae_libretro.so puae2021_libretro.so"
+      ]
+    }
   },
   "puzzlescript": {
     "source": "https://github.com/nwhitehead/pzretro",
@@ -1844,9 +1895,9 @@
     "symbols": 0
   },
   "stella": {
-    "source": "https://github.com/stella-emu/stella",
-    "branch": "7c4e3b2",
-    "directory": "stella",
+    "source": "https://github.com/libretro/stella2023",
+    "branch": "2c9fac4",
+    "directory": "stella2023",
     "output": "stella_libretro.so",
     "make": {
       "file": "Makefile",
@@ -1856,7 +1907,7 @@
     "symbols": 0,
     "commands": {
       "post-make": [
-      "mv src/os/libretro/stella_libretro.so ."
+      "mv src/os/libretro/stella2023_libretro.so ./stella_libretro.so"
       ]
     }
   },
@@ -2117,6 +2168,19 @@
     "make": {
       "file": "Makefile",
       "args": "EMUTYPE=xvic",
+      "target": ""
+    },
+    "symbols": 0
+  },
+  "vitaquake2": {
+    "source": "https://github.com/libretro/vitaquake2",
+    "branch": "1fc6922",
+    "purge": 0,
+    "directory": "vitaquake2",
+    "output": "vitaquake2_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
       "target": ""
     },
     "symbols": 0
