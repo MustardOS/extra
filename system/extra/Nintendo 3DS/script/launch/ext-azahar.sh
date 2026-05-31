@@ -95,7 +95,7 @@ map_analog() {  # $1 = azahar key, $2 = x logical, $3 = y logical
 }
 
 # --- Ensure config exists with Vulkan selected ------------------------------
-3if [ ! -f "$CONFIG" ]; then
+#if [ ! -f "$CONFIG" ]; then
 #    mkdir -p "$(dirname "$CONFIG")"
     # Default to side-by-side (layout_option=3) for the 16:9 landscape display.
     # Only seeded for fresh installs, so a user's later layout choice persists.
