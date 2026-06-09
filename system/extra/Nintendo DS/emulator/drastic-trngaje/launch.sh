@@ -13,7 +13,7 @@ esac
 export LD_LIBRARY_PATH=$DRASTIC_LIB:$LD_LIBRARY_PATH
 
 cd "$DRASTIC_DIR" || exit 1
-./drastic "$1"
+LD_PRELOAD=${DRASTIC_LIB}/libadvdrastic.so ./drastic "$1"
 
 U_DATA="/userdata"
 [ -d "$U_DATA" ] && rm -rf "$U_DATA"
