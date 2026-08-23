@@ -1,0 +1,27 @@
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -1780,6 +1780,11 @@ void retro_run(void)
+ 
+    retro_input();
+ 
++   // Audio is produced by PPSSPP's GLES emulation thread between frontend
++   // runs. Deliver that work before waiting for the next completed frame so a
++   // long GPU/effects frame cannot strand a ready Pickles audio burst.
++   PicklesUploadOutputAudio();
++
+    if (useEmuThread)
+    {
+       if (  emuThreadState == EmuThreadState::PAUSED ||
+@@ -1802,9 +1807,8 @@ void retro_run(void)
+    else
+       EmuFrame();
+ 
+-   // Drain once after consuming a complete GLES frame. Calling the frontend
+-   // from both sides of ThreadFrame() lets its audio backpressure become part
+-   // of core time and produces visible pacing jitter.
++   // Pick up the samples produced by the frame that just completed. Pickles'
++   // frontend reservoir absorbs the burst without forcing it out of core time.
+    PicklesUploadOutputAudio();
+    VsyncSwapIntervalDetect();
+    ctx->SwapBuffers();

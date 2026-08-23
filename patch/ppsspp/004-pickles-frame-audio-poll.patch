@@ -1,0 +1,122 @@
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -73,12 +73,43 @@
+ #define PICKLES_AUDIO_RING_FRAMES 16384U
+ #define PICKLES_AUDIO_RING_MASK   (PICKLES_AUDIO_RING_FRAMES - 1U)
+ #define PICKLES_AUDIO_MIN_LATENCY_MS 80U
++#define PICKLES_FRAME_POLL_FALLBACK_MS 250U
+ static int16_t pickles_audio_ring[PICKLES_AUDIO_RING_FRAMES * 2U];
+ static std::atomic<uint32_t> pickles_audio_write_index{0};
+ static std::atomic<uint32_t> pickles_audio_read_index{0};
+ static std::atomic<uint32_t> pickles_audio_clear_index{0};
+ static std::atomic<bool> pickles_audio_clear_pending{false};
+ 
++struct PicklesPPSSPPPerfStats {
++   uint32_t version;
++   uint32_t size;
++   uint64_t frame_wait_calls;
++   uint64_t frame_wait_polls;
++   uint64_t frame_wait_fallbacks;
++   uint64_t frame_wait_us;
++   uint64_t frame_wait_peak_us;
++   uint64_t poll_audio_drains;
++   uint64_t poll_audio_frames;
++};
++
++static PicklesPPSSPPPerfStats pickles_ppsspp_perf_stats{};
++
++extern "C" void pickles_ppsspp_perf_reset()
++{
++   pickles_ppsspp_perf_stats = {};
++   pickles_ppsspp_perf_stats.version = 1;
++   pickles_ppsspp_perf_stats.size = sizeof(pickles_ppsspp_perf_stats);
++}
++
++extern "C" bool pickles_ppsspp_perf_get(PicklesPPSSPPPerfStats *stats, size_t size)
++{
++   if (!stats || size < sizeof(PicklesPPSSPPPerfStats))
++      return false;
++
++   *stats = pickles_ppsspp_perf_stats;
++   return true;
++}
++
+ // Calculated swap interval is 'stable' if the same
+ // value is recorded for a number of retro_run()
+ // calls equal to VSYNC_SWAP_INTERVAL_FRAMES
+@@ -136,8 +167,9 @@ namespace Libretro
+       pickles_audio_clear_pending.store(false, std::memory_order_relaxed);
+    }
+ 
+-   static void PicklesUploadOutputAudio()
++   static uint32_t PicklesUploadOutputAudio()
+    {
++      uint32_t uploaded = 0;
+       uint32_t read = pickles_audio_read_index.load(std::memory_order_relaxed);
+       if (pickles_audio_clear_pending.exchange(false, std::memory_order_acquire)) {
+          read = pickles_audio_clear_index.load(std::memory_order_relaxed);
+@@ -155,11 +187,46 @@ namespace Libretro
+          if (consumed == 0)
+             break;
+ 
++         uploaded += (uint32_t)consumed;
+          read += (uint32_t)consumed;
+          pickles_audio_read_index.store(read, std::memory_order_release);
+          if (consumed != contiguous)
+             break;
+       }
++
++      return uploaded;
++   }
++
++   static bool PicklesThreadFrameWithAudio()
++   {
++      const double started = time_now_d();
++      uint32_t polls = 0;
++
++      while (!ctx->ThreadFrame(false)) {
++         const uint32_t uploaded = PicklesUploadOutputAudio();
++         if (uploaded > 0) {
++            pickles_ppsspp_perf_stats.poll_audio_drains++;
++            pickles_ppsspp_perf_stats.poll_audio_frames += uploaded;
++         }
++
++         if (++polls >= PICKLES_FRAME_POLL_FALLBACK_MS) {
++            pickles_ppsspp_perf_stats.frame_wait_fallbacks++;
++            if (!ctx->ThreadFrame(true))
++               return false;
++            break;
++         }
++
++         sleep_ms(1, "pickles-frame-audio-poll");
++      }
++
++      const uint64_t elapsedUs = (uint64_t)((time_now_d() - started) * 1000000.0);
++      pickles_ppsspp_perf_stats.frame_wait_calls++;
++      pickles_ppsspp_perf_stats.frame_wait_polls += polls;
++      pickles_ppsspp_perf_stats.frame_wait_us += elapsedUs;
++      if (elapsedUs > pickles_ppsspp_perf_stats.frame_wait_peak_us)
++         pickles_ppsspp_perf_stats.frame_wait_peak_us = elapsedUs;
++
++      return true;
+    }
+ 
+ 
+@@ -1315,6 +1382,7 @@ void retro_init(void)
+ 
+    g_threadManager.Init(cpu_info.num_cores, cpu_info.logical_cpu_count);
+ 
++   pickles_ppsspp_perf_reset();
+    PicklesInitOutputAudio();
+ }
+ 
+@@ -1798,7 +1866,7 @@ void retro_run(void)
+       if (emuThreadState != EmuThreadState::RUNNING)
+          EmuThreadStart();
+ 
+-      if (!ctx->ThreadFrame(true))
++      if (!PicklesThreadFrameWithAudio())
+       {
+          VsyncSwapIntervalDetect();
+          return;

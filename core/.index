@@ -1,5 +1,6 @@
 2048_libretro.so.zip
 81_libretro.so.zip
+DoubleCherryGB_libretro.so.zip
 a5200_libretro.so.zip
 amiberry_libretro.so.zip
 ardens_libretro.so.zip
@@ -9,9 +10,9 @@ bennugd_libretro.so.zip
 bk_libretro.so.zip
 bluemsx_libretro.so.zip
 bnes_libretro.so.zip
+bsnes-jg_libretro.so.zip
 bsnes2014_performance_libretro.so.zip
 bsnes_cplusplus98_libretro.so.zip
-bsnes-jg_libretro.so.zip
 bsnes_mercury_performance_libretro.so.zip
 cannonball_libretro.so.zip
 cap32_libretro.so.zip
@@ -23,7 +24,6 @@ dirksimple_libretro.so.zip
 dosbox_core_libretro.so.zip
 dosbox_pure_libretro.so.zip
 dosbox_svn_libretro.so.zip
-DoubleCherryGB_libretro.so.zip
 easyrpg_libretro.so.zip
 ecwolf_libretro.so.zip
 emux_chip8_libretro.so.zip
@@ -87,10 +87,10 @@ mednafen_supafaust_libretro.so.zip
 mednafen_supergrafx_libretro.so.zip
 mednafen_vb_libretro.so.zip
 mednafen_wswan_libretro.so.zip
-melondsds_libretro.so.zip
 melonds_libretro.so.zip
-mesen_libretro.so.zip
+melondsds_libretro.so.zip
 mesen-s_libretro.so.zip
+mesen_libretro.so.zip
 mgba_libretro.so.zip
 minivmac_libretro.so.zip
 mu_libretro.so.zip
@@ -135,13 +135,13 @@ theodore_libretro.so.zip
 tyrquake_libretro.so.zip
 uw8_libretro.so.zip
 uzem_libretro.so.zip
-vbam_libretro.so.zip
 vba_next_libretro.so.zip
+vbam_libretro.so.zip
 vecx_libretro.so.zip
 vemulator_libretro.so.zip
 vice_x128_libretro.so.zip
-vice_x64dtv_libretro.so.zip
 vice_x64_libretro.so.zip
+vice_x64dtv_libretro.so.zip
 vice_x64sc_libretro.so.zip
 vice_xcbm2_libretro.so.zip
 vice_xcbm5x0_libretro.so.zip

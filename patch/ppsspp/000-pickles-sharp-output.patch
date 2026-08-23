@@ -1,0 +1,70 @@
+diff --git a/assets/shaders/defaultshaders.ini b/assets/shaders/defaultshaders.ini
+index 9fb67c6..e03a318 100644
+--- a/assets/shaders/defaultshaders.ini
++++ b/assets/shaders/defaultshaders.ini
+@@ -305,6 +305,7 @@ Name=Sharp Bilinear Upscaler
+ Fragment=upscale_sharp_bilinear.fsh
+ Vertex=upscale_sharp_bilinear.vsh
+ OutputResolution=True
++Upscaling=True
+ [FSR-EASU]
+ Name=FSR-EASU (upscale)
+ Author=Advanced Micro Devices, Inc.
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+index 24fc766..7ff1cc4 100644
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -687,6 +687,18 @@ static void check_variables(CoreParameter &coreParam)
+          g_Config.iInternalResolution = 1;
+    }
+ 
++   var.key = "ppsspp_pickles_output_upscaler";
++   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
++   {
++      // Pickles uses PPSSPP's upscaling-filter path to retain a 2x output
++      // surface while keeping the expensive PSP scene and effect buffers at 1x.
++      // This is intentionally a core-restart option: render resolution is
++      // selected when the GPU and libretro hardware target are created.
++      g_Config.vPostShaderNames.clear();
++      if (!strcmp(var.value, "Sharp Bilinear"))
++         g_Config.vPostShaderNames.push_back("UpscaleSharpBilinear");
++   }
++
+    var.key = "ppsspp_software_rendering";
+    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+    {
+@@ -1323,7 +1335,8 @@ void retro_get_system_info(struct retro_system_info *info)
+ {
+    *info = {};
+    info->library_name     = "PPSSPP";
+-   info->library_version  = PPSSPP_GIT_VERSION;
++   static const std::string picklesVersion = std::string(PPSSPP_GIT_VERSION) + "-pickles";
++   info->library_version  = picklesVersion.c_str();
+    info->need_fullpath    = true;
+    info->valid_extensions = "elf|iso|cso|prx|pbp|chd";
+ }
+diff --git a/libretro/libretro_core_options.h b/libretro/libretro_core_options.h
+index 8f59e72..597a22b 100644
+--- a/libretro/libretro_core_options.h
++++ b/libretro/libretro_core_options.h
+@@ -335,6 +335,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+       },
+       "480x272"
+    },
++   {
++      "ppsspp_pickles_output_upscaler",
++      "Pickles Output Upscaler",
++      NULL,
++      "Sharp Bilinear keeps PSP rendering at 1x while retaining the selected output resolution. This is much faster than true 2x rendering and requires a core restart.",
++      NULL,
++      "video",
++      {
++         { "disabled",       "Disabled (True Internal Resolution)" },
++         { "Sharp Bilinear", "Sharp Bilinear (1x Internal)" },
++         { NULL, NULL },
++      },
++      "disabled"
++   },
+    {
+       "ppsspp_mulitsample_level",
+       "MSAA Antialiasing",

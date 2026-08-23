@@ -1,0 +1,319 @@
+diff --git a/Common/GPU/OpenGL/GLQueueRunner.cpp b/Common/GPU/OpenGL/GLQueueRunner.cpp
+--- a/Common/GPU/OpenGL/GLQueueRunner.cpp
++++ b/Common/GPU/OpenGL/GLQueueRunner.cpp
+@@ -11,6 +11,7 @@
+ #include "Common/LogReporting.h"
+ #include "Common/MemoryUtil.h"
+ #include "Common/StringUtils.h"
++#include "Common/TimeUtil.h"
+ #include "Common/Data/Convert/SmallDataConvert.h"
+ 
+ #include "GLQueueRunner.h"
+@@ -31,6 +32,8 @@
+ #endif
+ 
+ static constexpr int TEXCACHE_NAME_CACHE_SIZE = 16;
++static constexpr double PICKLES_SERVICE_INTERVAL_SECONDS = 0.002;
++static constexpr uint32_t PICKLES_SERVICE_COMMAND_INTERVAL = 32;
+ 
+ #if PPSSPP_PLATFORM(IOS)
+ extern void bindDefaultFBO();
+@@ -42,6 +45,24 @@
+ // appropriate.
+ GLuint g_defaultFBO = 0;
+ 
++void GLQueueRunner::PicklesBeginServiceWindow() {
++	picklesLastServiceTime_ = time_now_d();
++}
++
++void GLQueueRunner::PicklesMaybeService() {
++	if (!picklesServiceCallback_)
++		return;
++
++	const double now = time_now_d();
++	if (now - picklesLastServiceTime_ < PICKLES_SERVICE_INTERVAL_SECONDS)
++		return;
++
++	// Advance the deadline before entering the frontend callback. This prevents
++	// callback/backpressure time from immediately triggering another service.
++	picklesLastServiceTime_ = now;
++	picklesServiceCallback_(picklesServiceUserdata_);
++}
++
+ void GLQueueRunner::CreateDeviceObjects() {
+ 	CHECK_GL_ERROR_IF_DEBUG();
+ 	if (caps_.anisoSupported) {
+@@ -675,6 +696,7 @@
+ 		profiler_.SetEnabledPtr(&frameData.profile.enabled);
+ 	}
+ 	profiler_.BeginFrame();
++	PicklesBeginServiceWindow();
+ 
+ 	CHECK_GL_ERROR_IF_DEBUG();
+ 	size_t renderCount = 0;
+@@ -735,6 +757,7 @@
+ 		if (!keepSteps) {
+ 			delete steps[i];
+ 		}
++		PicklesMaybeService();
+ 	}
+ 
+ 	CHECK_GL_ERROR_IF_DEBUG();
+@@ -856,6 +879,7 @@
+ 
+ 	CHECK_GL_ERROR_IF_DEBUG();
+ 	auto &commands = step.commands;
++	uint32_t picklesCommandCount = 0;
+ 	for (const auto &c : commands) {
+ #ifdef _DEBUG
+ 		if (profile.enabled) {
+@@ -1389,6 +1413,11 @@
+ 			_assert_msg_(false, "Bad GLRRenderCommand: %d", (int)c.cmd);
+ 			break;
+ 		}
++
++		if (++picklesCommandCount == PICKLES_SERVICE_COMMAND_INTERVAL) {
++			picklesCommandCount = 0;
++			PicklesMaybeService();
++		}
+ 	}
+ 
+ 	for (int i = 0; i < 7; i++) {
+diff --git a/Common/GPU/OpenGL/GLQueueRunner.h b/Common/GPU/OpenGL/GLQueueRunner.h
+--- a/Common/GPU/OpenGL/GLQueueRunner.h
++++ b/Common/GPU/OpenGL/GLQueueRunner.h
+@@ -344,6 +344,13 @@
+ public:
+ 	GLQueueRunner() {}
+ 
++	using PicklesServiceCallback = uint32_t (*)(void *userdata);
++
++	void SetPicklesServiceCallback(PicklesServiceCallback callback, void *userdata) {
++		picklesServiceCallback_ = callback;
++		picklesServiceUserdata_ = userdata;
++	}
++
+ 	void SetErrorCallback(ErrorCallbackFn callback, void *userdata) {
+ 		errorCallback_ = callback;
+ 		errorCallbackUserData_ = userdata;
+@@ -374,6 +381,9 @@
+ 	std::string GetGLString(int name) const;
+ 
+ private:
++	void PicklesBeginServiceWindow();
++	void PicklesMaybeService();
++
+ 	void InitCreateFramebuffer(const GLRInitStep &step);
+ 
+ 	void PerformBindFramebufferAsRenderTarget(const GLRStep &pass);
+@@ -422,6 +432,10 @@
+ 
+ 	ErrorCallbackFn errorCallback_ = nullptr;
+ 	void *errorCallbackUserData_ = nullptr;
++
++	PicklesServiceCallback picklesServiceCallback_ = nullptr;
++	void *picklesServiceUserdata_ = nullptr;
++	double picklesLastServiceTime_ = 0.0;
+ };
+ 
+ const char *RenderCommandToString(GLRRenderCommand cmd);
+diff --git a/Common/GPU/OpenGL/GLRenderManager.h b/Common/GPU/OpenGL/GLRenderManager.h
+--- a/Common/GPU/OpenGL/GLRenderManager.h
++++ b/Common/GPU/OpenGL/GLRenderManager.h
+@@ -243,6 +243,10 @@
+ 	void SetErrorCallback(ErrorCallbackFn callback, void *userdata) {
+ 		queueRunner_.SetErrorCallback(callback, userdata);
+ 	}
++
++	void SetPicklesServiceCallback(GLQueueRunner::PicklesServiceCallback callback, void *userdata) {
++		queueRunner_.SetPicklesServiceCallback(callback, userdata);
++	}
+ 	void SetDeviceCaps(const Draw::DeviceCaps &caps) {
+ 		queueRunner_.SetDeviceCaps(caps);
+ 		caps_ = caps;
+diff --git a/libretro/LibretroGraphicsContext.h b/libretro/LibretroGraphicsContext.h
+--- a/libretro/LibretroGraphicsContext.h
++++ b/libretro/LibretroGraphicsContext.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include <atomic>
++#include <cstdint>
+ 
+ #include <libretro.h>
+ #include "Common/GraphicsContext.h"
+@@ -18,11 +19,14 @@
+ 
+ class LibretroGraphicsContext : public GraphicsContext {
+ public:
++	using PicklesServiceCallback = uint32_t (*)(void *userdata);
++
+ 	LibretroGraphicsContext() {}
+ 	~LibretroGraphicsContext() override { Shutdown(); }
+ 
+ 	virtual bool Init() = 0;
+ 	virtual void SetRenderTarget() {}
++	virtual void SetPicklesServiceCallback(PicklesServiceCallback, void *) {}
+ 	virtual GPUCore GetGPUCore() = 0;
+ 	virtual const char *Ident() = 0;
+ 
+diff --git a/libretro/LibretroGLContext.h b/libretro/LibretroGLContext.h
+--- a/libretro/LibretroGLContext.h
++++ b/libretro/LibretroGLContext.h
+@@ -27,11 +27,19 @@
+ 	void ThreadStart() override { renderManager_->ThreadStart(draw_); }
+ 	bool ThreadFrame(bool waitIfEmpty) override { return renderManager_->ThreadFrame(waitIfEmpty); }
+ 	void ThreadEnd() override { renderManager_->ThreadEnd(); }
++	void SetPicklesServiceCallback(PicklesServiceCallback callback, void *userdata) override {
++		picklesServiceCallback_ = callback;
++		picklesServiceUserdata_ = userdata;
++		if (renderManager_)
++			renderManager_->SetPicklesServiceCallback(callback, userdata);
++	}
+ 
+ 	GPUCore GetGPUCore() override { return GPUCORE_GLES; }
+ 	const char *Ident() override { return "OpenGL"; }
+ 
+ private:
+ 	GLRenderManager *renderManager_ = nullptr;
++	PicklesServiceCallback picklesServiceCallback_ = nullptr;
++	void *picklesServiceUserdata_ = nullptr;
+ 	bool glewInitDone = false;
+ };
+diff --git a/libretro/LibretroGLContext.cpp b/libretro/LibretroGLContext.cpp
+--- a/libretro/LibretroGLContext.cpp
++++ b/libretro/LibretroGLContext.cpp
+@@ -34,6 +34,7 @@
+     draw_ = Draw::T3DCreateGLContext(false);
+     renderManager_ = (GLRenderManager *)draw_->GetNativeObject(Draw::NativeObject::RENDER_MANAGER);
+     renderManager_->SetInflightFrames(g_Config.iInflightFrames);
++    renderManager_->SetPicklesServiceCallback(picklesServiceCallback_, picklesServiceUserdata_);
+     SetGPUBackend(GPUBackend::OPENGL);
+     draw_->CreatePresets();
+ }
+diff --git a/libretro/LibretroGLCoreContext.h b/libretro/LibretroGLCoreContext.h
+--- a/libretro/LibretroGLCoreContext.h
++++ b/libretro/LibretroGLCoreContext.h
+@@ -23,11 +23,19 @@
+ 	void ThreadStart() override { renderManager_->ThreadStart(draw_); }
+ 	bool ThreadFrame(bool waitIfEmpty) override { return renderManager_->ThreadFrame(waitIfEmpty); }
+ 	void ThreadEnd() override { renderManager_->ThreadEnd(); }
++	void SetPicklesServiceCallback(PicklesServiceCallback callback, void *userdata) override {
++		picklesServiceCallback_ = callback;
++		picklesServiceUserdata_ = userdata;
++		if (renderManager_)
++			renderManager_->SetPicklesServiceCallback(callback, userdata);
++	}
+ 
+ 	GPUCore GetGPUCore() override { return GPUCORE_GLES; }
+ 	const char *Ident() override { return "OpenGL Core"; }
+ 
+ private:
+ 	GLRenderManager *renderManager_ = nullptr;
++	PicklesServiceCallback picklesServiceCallback_ = nullptr;
++	void *picklesServiceUserdata_ = nullptr;
+ 	bool glewInitDone = false;
+ };
+diff --git a/libretro/LibretroGLCoreContext.cpp b/libretro/LibretroGLCoreContext.cpp
+--- a/libretro/LibretroGLCoreContext.cpp
++++ b/libretro/LibretroGLCoreContext.cpp
+@@ -29,6 +29,7 @@
+ 	draw_ = Draw::T3DCreateGLContext(false);
+ 	renderManager_ = (GLRenderManager *)draw_->GetNativeObject(Draw::NativeObject::RENDER_MANAGER);
+ 	renderManager_->SetInflightFrames(g_Config.iInflightFrames);
++	renderManager_->SetPicklesServiceCallback(picklesServiceCallback_, picklesServiceUserdata_);
+ 	SetGPUBackend(GPUBackend::OPENGL);
+ 	draw_->CreatePresets();
+ }
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -90,6 +90,13 @@
+    uint64_t frame_wait_peak_us;
+    uint64_t poll_audio_drains;
+    uint64_t poll_audio_frames;
++   uint64_t frame_execute_us;
++   uint64_t frame_execute_peak_us;
++   uint64_t frame_idle_us;
++   uint64_t frame_idle_peak_us;
++   uint64_t render_service_calls;
++   uint64_t render_audio_drains;
++   uint64_t render_audio_frames;
+ };
+ 
+ static PicklesPPSSPPPerfStats pickles_ppsspp_perf_stats{};
+@@ -97,7 +104,7 @@
+ extern "C" void pickles_ppsspp_perf_reset()
+ {
+    pickles_ppsspp_perf_stats = {};
+-   pickles_ppsspp_perf_stats.version = 1;
++   pickles_ppsspp_perf_stats.version = 2;
+    pickles_ppsspp_perf_stats.size = sizeof(pickles_ppsspp_perf_stats);
+ }
+ 
+@@ -197,12 +204,30 @@
+       return uploaded;
+    }
+ 
++   static uint32_t PicklesRenderAudioService(void *)
++   {
++      pickles_ppsspp_perf_stats.render_service_calls++;
++      const uint32_t uploaded = PicklesUploadOutputAudio();
++      if (uploaded > 0) {
++         pickles_ppsspp_perf_stats.render_audio_drains++;
++         pickles_ppsspp_perf_stats.render_audio_frames += uploaded;
++      }
++      return uploaded;
++   }
++
+    static bool PicklesThreadFrameWithAudio()
+    {
+       const double started = time_now_d();
+       uint32_t polls = 0;
++      uint64_t executeUs = 0;
++
++      while (true) {
++         const double callStarted = time_now_d();
++         if (ctx->ThreadFrame(false)) {
++            executeUs = (uint64_t)((time_now_d() - callStarted) * 1000000.0);
++            break;
++         }
+ 
+-      while (!ctx->ThreadFrame(false)) {
+          const uint32_t uploaded = PicklesUploadOutputAudio();
+          if (uploaded > 0) {
+             pickles_ppsspp_perf_stats.poll_audio_drains++;
+@@ -211,8 +236,10 @@
+ 
+          if (++polls >= PICKLES_FRAME_POLL_FALLBACK_MS) {
+             pickles_ppsspp_perf_stats.frame_wait_fallbacks++;
++            const double fallbackStarted = time_now_d();
+             if (!ctx->ThreadFrame(true))
+                return false;
++            executeUs = (uint64_t)((time_now_d() - fallbackStarted) * 1000000.0);
+             break;
+          }
+ 
+@@ -226,6 +253,14 @@
+       if (elapsedUs > pickles_ppsspp_perf_stats.frame_wait_peak_us)
+          pickles_ppsspp_perf_stats.frame_wait_peak_us = elapsedUs;
+ 
++      const uint64_t idleUs = elapsedUs > executeUs ? elapsedUs - executeUs : 0;
++      pickles_ppsspp_perf_stats.frame_execute_us += executeUs;
++      pickles_ppsspp_perf_stats.frame_idle_us += idleUs;
++      if (executeUs > pickles_ppsspp_perf_stats.frame_execute_peak_us)
++         pickles_ppsspp_perf_stats.frame_execute_peak_us = executeUs;
++      if (idleUs > pickles_ppsspp_perf_stats.frame_idle_peak_us)
++         pickles_ppsspp_perf_stats.frame_idle_peak_us = idleUs;
++
+       return true;
+    }
+ 
+@@ -1610,6 +1645,8 @@
+    SetGPUBackend((GPUBackend)g_Config.iGPUBackend);
+ 
+    useEmuThread              = ctx->GetGPUCore() == GPUCORE_GLES;
++   if (useEmuThread)
++      ctx->SetPicklesServiceCallback(&PicklesRenderAudioService, nullptr);
+ 
+    // default to interpreter to allow startup in platforms w/o JIT capability
+    // TODO: I guess we should auto detect? And also, default to IR Interpreter...

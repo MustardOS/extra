@@ -1,5 +1,6 @@
 2026-01-30 00220f60 2048_libretro.so.zip
 2026-01-30 8fb82e41 81_libretro.so.zip
+2026-01-28 e6176022 DoubleCherryGB_libretro.so.zip
 2026-01-30 23a0598c a5200_libretro.so.zip
 2026-05-12 38a7c5cb amiberry_libretro.so.zip
 2026-01-30 ea52ce65 ardens_libretro.so.zip
@@ -9,9 +10,9 @@
 2026-01-30 7a31cf4f bk_libretro.so.zip
 2026-01-30 f43e1137 bluemsx_libretro.so.zip
 2026-01-30 c5fa2130 bnes_libretro.so.zip
+2026-01-30 400e2ebc bsnes-jg_libretro.so.zip
 2026-01-30 962cedeb bsnes2014_performance_libretro.so.zip
 2026-01-30 3daa11e9 bsnes_cplusplus98_libretro.so.zip
-2026-01-30 400e2ebc bsnes-jg_libretro.so.zip
 2026-01-30 e47c71ab bsnes_mercury_performance_libretro.so.zip
 2026-01-30 4bb4d60c cannonball_libretro.so.zip
 2026-01-30 38fb40c7 cap32_libretro.so.zip
@@ -23,7 +24,6 @@
 2026-01-31 d412b83c dosbox_core_libretro.so.zip
 2026-01-30 6c1e5089 dosbox_pure_libretro.so.zip
 2026-01-15 e70a87e2 dosbox_svn_libretro.so.zip
-2026-01-28 e6176022 DoubleCherryGB_libretro.so.zip
 2026-01-28 6eb57c98 easyrpg_libretro.so.zip
 2026-01-15 5b92fd3a ecwolf_libretro.so.zip
 2026-01-15 94c98294 emux_chip8_libretro.so.zip
@@ -87,10 +87,10 @@
 2026-01-15 49319e4c mednafen_supergrafx_libretro.so.zip
 2026-01-15 c3f81d74 mednafen_vb_libretro.so.zip
 2026-01-15 d6521c8d mednafen_wswan_libretro.so.zip
-2025-08-25 4c12348f melondsds_libretro.so.zip
 2025-07-23 a20f4005 melonds_libretro.so.zip
-2026-01-15 af797bda mesen_libretro.so.zip
+2025-08-25 4c12348f melondsds_libretro.so.zip
 2026-01-15 73a0e34b mesen-s_libretro.so.zip
+2026-01-15 af797bda mesen_libretro.so.zip
 2026-01-30 8160b4fb mgba_libretro.so.zip
 2026-01-15 62c7681c minivmac_libretro.so.zip
 2026-01-15 c568acfb mu_libretro.so.zip
@@ -108,7 +108,7 @@
 2026-01-16 aedb4e35 pocketcdg_libretro.so.zip
 2026-01-16 f7cb3443 pokemini_libretro.so.zip
 2026-01-16 0f913b65 potator_libretro.so.zip
-2026-01-29 2db1da0a ppsspp_libretro.so.zip
+2026-08-23 935fde06 ppsspp_libretro.so.zip
 2026-01-29 ec673ad1 prboom_libretro.so.zip
 2026-01-16 e7d2c08e press_f_libretro.so.zip
 2026-01-16 06506be0 prosystem_libretro.so.zip
@@ -135,13 +135,13 @@
 2026-01-30 b1c0993a tyrquake_libretro.so.zip
 2026-01-17 6f409be9 uw8_libretro.so.zip
 2026-01-17 92e6302b uzem_libretro.so.zip
-2026-01-30 ae29acb7 vbam_libretro.so.zip
 2026-01-17 25c3f8d4 vba_next_libretro.so.zip
+2026-01-30 ae29acb7 vbam_libretro.so.zip
 2026-01-30 70764fa3 vecx_libretro.so.zip
 2026-01-17 a2e6e1a4 vemulator_libretro.so.zip
 2026-01-17 5fa710cd vice_x128_libretro.so.zip
-2026-01-17 8111bc45 vice_x64dtv_libretro.so.zip
 2026-01-17 f1cb11d2 vice_x64_libretro.so.zip
+2026-01-17 8111bc45 vice_x64dtv_libretro.so.zip
 2026-01-17 37daf719 vice_x64sc_libretro.so.zip
 2026-01-17 b7654d98 vice_xcbm2_libretro.so.zip
 2026-01-17 ea0062f2 vice_xcbm5x0_libretro.so.zip

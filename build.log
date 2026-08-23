@@ -1,0 +1,394 @@
+CMake Warning:
+  Ignoring extra path from command line:
+
+   ".."
+
+
+CMake Error: The source directory "/home/adixal/Repo/MustardOS/extra/build/ppsspp" does not appear to contain CMakeLists.txt.
+Specify --help for usage, or press the help button on the CMake GUI.
+CMake Error at /home/adixal/x-tools/aarch64-buildroot-linux-gnu/share/cmake-3.28/Modules/CMakeDetermineSystem.cmake:246 (configure_file):
+  No such file or directory
+Call Stack (most recent call first):
+  CMakeLists.txt:3 (project)
+
+
+-- The C compiler identification is GNU 13.2.0
+-- The C compiler identification is GNU 13.2.0
+-- The CXX compiler identification is GNU 13.2.0
+-- The CXX compiler identification is GNU 13.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - failed
+-- Check for working C compiler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-gcc
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Check for working C compiler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-gcc - works
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - failed
+-- Check for working CXX compiler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-g++
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Check for working CXX compiler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-g++ - works
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Error at /home/adixal/x-tools/aarch64-buildroot-linux-gnu/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:73 (configure_file):
+  No such file or directory
+Call Stack (most recent call first):
+  CMakeLists.txt:3 (project)
+
+
+-- The ASM compiler identification is GNU
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-gcc
+-- Found assembler: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-linux-gcc
+Non-Clang compiler detected: GNU
+Non-Clang compiler detected: GNU
+Non-gold Build
+NOT using X11 for Vulkan
+-- Could not find Wayland libraries, disabling Wayland WSI support for Vulkan.
+Non-gold Build
+NOT using X11 for Vulkan
+-- Could not find Wayland libraries, disabling Wayland WSI support for Vulkan.
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Build type: Release
+CMAKE_SYSTEM_PROCESSOR: aarch64
+Generating for ARM, Release
+Generating for ARMv8, Release
+-- Found Threads: TRUE  
+-- Build type: Release
+CMAKE_SYSTEM_PROCESSOR: aarch64
+Generating for ARM, Release
+Generating for ARMv8, Release
+-- Looking for getauxval
+-- Looking for getauxval
+-- Looking for getauxval - found
+-- Looking for elf_aux_info
+-- Looking for getauxval - found
+-- Looking for elf_aux_info
+-- Looking for elf_aux_info - not found
+-- Looking for elf_aux_info - not found
+-- Looking for dlfcn.h
+-- Looking for dlfcn.h
+-- Looking for dlfcn.h - found
+-- Looking for dlfcn.h - found
+-- Looking for getauxval
+-- Looking for getauxval
+-- Looking for getauxval - found
+-- Looking for getauxval - found
+CMake Error at /home/adixal/x-tools/aarch64-buildroot-linux-gnu/share/cmake-3.28/Modules/WriteBasicConfigVersionFile.cmake:64 (configure_file):
+  No such file or directory
+Call Stack (most recent call first):
+  /home/adixal/x-tools/aarch64-buildroot-linux-gnu/share/cmake-3.28/Modules/CMakePackageConfigHelpers.cmake:239 (write_basic_config_version_file)
+  ext/cmake/cpu_features/CMakeLists.txt:187 (write_basic_package_version_file)
+
+
+CMake Error at ext/glslang/parse_version.cmake:24 (configure_file):
+  No such file or directory
+Call Stack (most recent call first):
+  ext/glslang/CMakeLists.txt:251 (parse_version)
+
+
+CMake Error at ext/glslang/CMakeLists.txt:258 (configure_file):
+  No such file or directory
+Call Stack (most recent call first):
+  ext/glslang/CMakeLists.txt:261 (configurate_version)
+
+
+CMake Warning (dev) at ext/glslang/CMakeLists.txt:236 (find_package):
+  Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+  are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning.
+
+Call Stack (most recent call first):
+  ext/glslang/CMakeLists.txt:300 (find_host_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at ext/glslang/CMakeLists.txt:236 (find_package):
+  Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+  are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning.
+
+Call Stack (most recent call first):
+  ext/glslang/CMakeLists.txt:300 (find_host_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found PythonInterp: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/python3 (found suitable version "3.11.8", minimum required is "3") 
+-- spirv-tools not linked - illegal SPIRV may be generated for HLSL
+-- Found PythonInterp: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/bin/python3 (found suitable version "3.11.8", minimum required is "3") 
+-- spirv-tools not linked - illegal SPIRV may be generated for HLSL
+-- Could NOT find Snappy (missing: SNAPPY_LIBRARIES SNAPPY_INCLUDE_DIR) 
+-- Could NOT find Snappy (missing: SNAPPY_LIBRARIES SNAPPY_INCLUDE_DIR) 
+--  Found avcodec: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libavcodec.a
+--  Found avformat: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libavformat.a
+--  Found avutil: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libavutil.a
+--  Found avcodec: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libavcodec.a
+--  Found swresample: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libswresample.a
+--  Found swscale: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libswscale.a
+--  Found avformat: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libavformat.a
+--  Found avutil: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libavutil.a
+--  Found swresample: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libswresample.a
+-- Found FFmpeg: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include  found components: avcodec avformat avutil swresample swscale 
+--  Found swscale: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/lib/libswscale.a
+-- Performing Test HAVE_LIBAVCODEC_CONST_AVCODEC
+-- Found FFmpeg: /home/adixal/Repo/MustardOS/extra/build/ppsspp/ffmpeg/linux/aarch64/include  found components: avcodec avformat avutil swresample swscale 
+-- Performing Test HAVE_LIBAVCODEC_CONST_AVCODEC
+-- Performing Test HAVE_LIBAVCODEC_CONST_AVCODEC - Success
+-- Performing Test HAVE_LIBAVCODEC_CONST_AVCODEC - Success
+-- Found ZLIB: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/aarch64-buildroot-linux-gnu/sysroot/usr/lib/libz.so (found version "1.3.1")  
+-- Found ZLIB: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/aarch64-buildroot-linux-gnu/sysroot/usr/lib/libz.so (found version "1.3.1")  
+-- Found LIBZIP: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/aarch64-buildroot-linux-gnu/sysroot/usr/lib/libzip.so  
+-- Found LIBZIP: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/aarch64-buildroot-linux-gnu/sysroot/usr/lib/libzip.so  
+-- Found PNG: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/aarch64-buildroot-linux-gnu/sysroot/usr/lib/libpng.so (found suitable version "1.6.43", minimum required is "1.6") 
+-- Found PNG: /home/adixal/x-tools/aarch64-buildroot-linux-gnu/aarch64-buildroot-linux-gnu/sysroot/usr/lib/libpng.so (found suitable version "1.6.43", minimum required is "1.6") 
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/font_atlas.zim
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/font_atlas.zim
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/font_atlas.meta
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/font_atlas.meta
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/asciifont_atlas.zim
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/asciifont_atlas.zim
+CMake Error at CMakeLists.txt:1523 (file):
+  file INSTALL cannot set modification time on
+  "/home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/asciifont_atlas.zim":
+  No such file or directory.
+
+
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/asciifont_atlas.meta
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/bg.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/buttons.svg
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/drop_shadow.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/.git
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/icon.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/.nojekyll
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/icon_gold.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/asset-manifest.json
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/images.svg
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/psp_display.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/favicon.ico
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/retroachievements_logo.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/index.html
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/stick.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/manifest.json
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/stick_line.png
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/css
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/jpn0.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/css/main.3eab8a01.css
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/kr0.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/css/main.3eab8a01.css.map
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn0.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/js
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn1.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/js/main.fe87e942.js
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn10.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn11.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/js/main.fe87e942.js.LICENSE.txt
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn12.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/js/main.fe87e942.js.map
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn13.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn14.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/media
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn15.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/debugger/static/media/logo.94f885ce93dfb6d29a122402a15cccca.svg
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn2.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn3.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/upload
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn4.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/upload/index.html
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn5.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn6.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn7.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn8.pgf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn9.pgf
+-- Configuring incomplete, errors occurred!
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/README.md
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ar_AE.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/az_AZ.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/be_BY.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/bg_BG.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ca_ES.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/cz_CZ.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/da_DK.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/de_DE.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/dr_ID.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/en_US.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/es_ES.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/es_LA.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/fa_IR.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/fi_FI.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/fr_FR.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/gl_ES.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/gr_EL.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/he_IL.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/he_IL_invert.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/hr_HR.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/hu_HU.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/id_ID.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/it_IT.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ja_JP.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/jv_ID.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/km_KH.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ko_KR.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ku_SO.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/lo_LA.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/lt-LT.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ms_MY.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/nl_NL.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/nn_NO.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/no_NO.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/pl_PL.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/pt_BR.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/pt_PT.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ro_RO.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/ru_RU.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/sv_SE.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/tg_PH.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/th_TH.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/tr_TR.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/uk_UA.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/vi_VN.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/zh_CN.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/lang/zh_TW.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/4xhqglsl.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/4xhqglsl.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/5xBR-lv2.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/5xBR.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/5xBR.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/GaussianDownscale.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/aacolor.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/aacolor.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/bloom.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/bloomnoblur.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/cartoon.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/cartoon.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/colorcorrection.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/crt.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/fakereflections.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/fsr_easu.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/fsr_rcas.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/fxaa.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/fxaa.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/natural.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/natural.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/naturalA.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/naturalA.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/persistence.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/psp_color.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/scanlines.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/sharpen.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/smiley.py
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/smiley_16x16_rgba.bin
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/stereo_red_blue.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/stereo_sbs.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_2xbrz.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_4xbrz.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_mmpx.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_mmpx_adv.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_2x_single.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_4x_single.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_mp_cshift_2x.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_mp_cshift_4x.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_mp_nns16_pass1_buffer.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_mp_nns16_pass1_image.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_nnedi3_mp_nns16_pass2.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_smiley_2x.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_spline36_2x.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/tex_spline36_4x.csh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/upscale_bicubic.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/upscale_bicubic.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/upscale_sharp_bilinear.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/upscale_sharp_bilinear.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/upscale_spline36.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/upscale_spline36.vsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/videoAA.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/vignette.fsh
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/defaultshaders.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/shaders/defaultshaders.ini.rej
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes/1995.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes/alpine.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes/defaultthemes.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes/slateforest.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes/strawberry.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/themes/vinewood.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_asin_lut65536.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_asin_lut_deltas.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_asin_lut_indices.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_exp2_lut.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_exp2_lut65536.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_log2_lut.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_log2_lut65536.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_log2_lut65536_quadratic.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_rcp_lut.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_rsqrt_lut.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_sin_lut8192.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_sin_lut_delta.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_sin_lut_exceptions.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_sin_lut_interval_delta.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/vfpu/vfpu_sqrt_lut.dat
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/Roboto_Condensed-Regular.ttf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/Roboto_Condensed-Light.ttf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/Roboto_Condensed-Bold.ttf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/Roboto_Condensed-Italic.ttf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/Inconsolata-Regular.ttf
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/compat.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/adhoc-servers.json
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/infra-dns.json
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/gamecontrollerdb.txt
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/langregion.ini
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ppge_atlas.zim
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ppge_atlas.meta
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_back.wav
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_confirm.wav
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_select.wav
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_toggle_off.wav
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_toggle_on.wav
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_achievement_unlocked.wav
+-- Installing: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/sfx_leaderbord_submitted.wav
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/bg.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/buttons.svg
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/drop_shadow.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/icon.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/icon_gold.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/images.svg
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/psp_display.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/retroachievements_logo.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/stick.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/ui_images/stick_line.png
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/jpn0.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/kr0.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn0.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn1.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn10.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn11.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn12.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn13.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn14.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn15.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn2.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn3.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn4.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn5.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn6.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn7.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn8.pgf
+-- Up-to-date: /home/adixal/Repo/MustardOS/extra/build/ppsspp/build/assets/flash0/font/ltn9.pgf
+-- Configuring incomplete, errors occurred!

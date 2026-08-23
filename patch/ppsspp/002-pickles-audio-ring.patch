@@ -1,0 +1,189 @@
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+index fef07da4ee..9b1461eddf 100644
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -67,12 +67,17 @@
+ 
+ #define SAMPLERATE 44100
+ 
+-/* AUDIO output buffer */
+-static struct {
+-   int16_t *data;
+-   int32_t size;
+-   int32_t capacity;
+-} output_audio_buffer = {NULL, 0, 0};
++// The GLES core produces audio on its emulation thread while libretro requires
++// the frontend callback on the retro_run() thread.  Keep that hand-off fixed,
++// allocation-free and explicitly synchronized.
++#define PICKLES_AUDIO_RING_FRAMES 16384U
++#define PICKLES_AUDIO_RING_MASK   (PICKLES_AUDIO_RING_FRAMES - 1U)
++#define PICKLES_AUDIO_MIN_LATENCY_MS 80U
++static int16_t pickles_audio_ring[PICKLES_AUDIO_RING_FRAMES * 2U];
++static std::atomic<uint32_t> pickles_audio_write_index{0};
++static std::atomic<uint32_t> pickles_audio_read_index{0};
++static std::atomic<uint32_t> pickles_audio_clear_index{0};
++static std::atomic<bool> pickles_audio_clear_pending{false};
+ 
+ // Calculated swap interval is 'stable' if the same
+ // value is recorded for a number of retro_run()
+@@ -123,37 +128,38 @@ namespace Libretro
+    static float runSpeed = 0.0f;
+    static s64 runTicksLast = 0;
+ 
+-   static void ensure_output_audio_buffer_capacity(int32_t capacity)
++   static void PicklesInitOutputAudio()
+    {
+-      if (capacity <= output_audio_buffer.capacity) {
+-         return;
+-      }
+-
+-      output_audio_buffer.data = (int16_t*)realloc(output_audio_buffer.data, capacity * sizeof(*output_audio_buffer.data));
+-      output_audio_buffer.capacity = capacity;
+-      log_cb(RETRO_LOG_DEBUG, "Output audio buffer capacity set to %d\n", capacity);
+-   }
+-
+-   static void init_output_audio_buffer(int32_t capacity)
+-   {
+-      output_audio_buffer.data = NULL;
+-      output_audio_buffer.size = 0;
+-      output_audio_buffer.capacity = 0;
+-      ensure_output_audio_buffer_capacity(capacity);
++      pickles_audio_read_index.store(0, std::memory_order_relaxed);
++      pickles_audio_write_index.store(0, std::memory_order_relaxed);
++      pickles_audio_clear_index.store(0, std::memory_order_relaxed);
++      pickles_audio_clear_pending.store(false, std::memory_order_relaxed);
+    }
+ 
+-   static void free_output_audio_buffer()
++   static void PicklesUploadOutputAudio()
+    {
+-      free(output_audio_buffer.data);
+-      output_audio_buffer.data = NULL;
+-      output_audio_buffer.size = 0;
+-      output_audio_buffer.capacity = 0;
+-   }
++      uint32_t read = pickles_audio_read_index.load(std::memory_order_relaxed);
++      if (pickles_audio_clear_pending.exchange(false, std::memory_order_acquire)) {
++         read = pickles_audio_clear_index.load(std::memory_order_relaxed);
++         pickles_audio_read_index.store(read, std::memory_order_release);
++      }
++      const uint32_t write = pickles_audio_write_index.load(std::memory_order_acquire);
++
++      while (read != write) {
++         const uint32_t offset = read & PICKLES_AUDIO_RING_MASK;
++         const uint32_t available = write - read;
++         const uint32_t contiguous = std::min(available, PICKLES_AUDIO_RING_FRAMES - offset);
++         size_t consumed = audio_batch_cb(&pickles_audio_ring[offset * 2U], contiguous);
++         if (consumed > contiguous)
++            consumed = contiguous;
++         if (consumed == 0)
++            break;
+ 
+-   static void upload_output_audio_buffer()
+-   {
+-      audio_batch_cb(output_audio_buffer.data, output_audio_buffer.size / 2);
+-      output_audio_buffer.size = 0;
++         read += (uint32_t)consumed;
++         pickles_audio_read_index.store(read, std::memory_order_release);
++         if (consumed != contiguous)
++            break;
++      }
+    }
+ 
+ 
+@@ -1309,7 +1315,7 @@ void retro_init(void)
+ 
+    g_threadManager.Init(cpu_info.num_cores, cpu_info.logical_cpu_count);
+ 
+-   init_output_audio_buffer(2048);
++   PicklesInitOutputAudio();
+ }
+ 
+ void retro_deinit(void)
+@@ -1322,7 +1328,7 @@ void retro_deinit(void)
+ 
+    VsyncSwapIntervalReset();
+ 
+-   free_output_audio_buffer();
++   PicklesInitOutputAudio();
+ }
+ 
+ void retro_set_controller_port_device(unsigned port, unsigned device)
+@@ -1550,6 +1556,9 @@ bool retro_load_game(const struct retro_game_info *game)
+    coreParam.gpuCore         = ctx->GetGPUCore();
+    check_variables(coreParam);
+ 
++   unsigned picklesAudioMinLatency = PICKLES_AUDIO_MIN_LATENCY_MS;
++   environ_cb(RETRO_ENVIRONMENT_SET_MINIMUM_AUDIO_LATENCY, &picklesAudioMinLatency);
++
+    // TODO: OpenGL goes black when inited with software rendering,
+    // therefore start without, set back after init, and reset.
+    softwareRenderInitHack    = ctx->GetGPUCore() == GPUCORE_GLES && g_Config.bSoftwareRendering;
+@@ -1793,9 +1802,12 @@ void retro_run(void)
+    else
+       EmuFrame();
+ 
++   // Drain once after consuming a complete GLES frame. Calling the frontend
++   // from both sides of ThreadFrame() lets its audio backpressure become part
++   // of core time and produces visible pacing jitter.
++   PicklesUploadOutputAudio();
+    VsyncSwapIntervalDetect();
+    ctx->SwapBuffers();
+-   upload_output_audio_buffer();
+ }
+ 
+ unsigned retro_get_region(void) { return RETRO_REGION_NTSC; }
+@@ -2061,29 +2073,38 @@ inline int16_t Clamp16(int32_t sample) {
+ 
+ void System_AudioPushSamples(const int32_t *audio, int numSamples, float volume) {
+    // We ignore volume here, because it's handled by libretro presumably.
++   (void)volume;
++   if (!audio || numSamples <= 0)
++      return;
+ 
+-   // Convert to 16-bit audio for further processing.
+-   int16_t buffer[1024 * 2];
+-   int origSamples = numSamples * 2;
+-
+-   while (numSamples > 0) {
+-      int blockSize = std::min(1024, numSamples);
+-      for (int i = 0; i < blockSize; i++) {
+-         buffer[i * 2] = Clamp16(audio[i * 2]);
+-         buffer[i * 2 + 1] = Clamp16(audio[i * 2 + 1]);
++   uint32_t write = pickles_audio_write_index.load(std::memory_order_relaxed);
++   const uint32_t read = pickles_audio_read_index.load(std::memory_order_acquire);
++   const uint32_t used = write - read;
++   const uint32_t freeFrames = used < PICKLES_AUDIO_RING_FRAMES ? PICKLES_AUDIO_RING_FRAMES - used : 0;
++   uint32_t remaining = std::min((uint32_t)numSamples, freeFrames);
++
++   while (remaining > 0) {
++      const uint32_t offset = write & PICKLES_AUDIO_RING_MASK;
++      const uint32_t block = std::min(remaining, PICKLES_AUDIO_RING_FRAMES - offset);
++      for (uint32_t i = 0; i < block; ++i) {
++         pickles_audio_ring[(offset + i) * 2U] = Clamp16(audio[i * 2U]);
++         pickles_audio_ring[(offset + i) * 2U + 1U] = Clamp16(audio[i * 2U + 1U]);
+       }
+ 
+-      numSamples -= blockSize;
++      audio += block * 2U;
++      write += block;
++      remaining -= block;
+    }
+ 
+-   if (output_audio_buffer.capacity - output_audio_buffer.size < origSamples)
+-      ensure_output_audio_buffer_capacity((output_audio_buffer.capacity + origSamples) * 1.5);
+-   memcpy(output_audio_buffer.data + output_audio_buffer.size, buffer, origSamples * sizeof(*output_audio_buffer.data));
+-   output_audio_buffer.size += origSamples;
++   pickles_audio_write_index.store(write, std::memory_order_release);
+ }
+ 
+ void System_AudioGetDebugStats(char *buf, size_t bufSize) { if (buf) buf[0] = '\0'; }
+-void System_AudioClear() {}
++void System_AudioClear() {
++   const uint32_t write = pickles_audio_write_index.load(std::memory_order_acquire);
++   pickles_audio_clear_index.store(write, std::memory_order_relaxed);
++   pickles_audio_clear_pending.store(true, std::memory_order_release);
++}
+ 
+ #if PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(IOS)
+ std::vector<std::string> System_GetCameraDeviceList() { return std::vector<std::string>(); }

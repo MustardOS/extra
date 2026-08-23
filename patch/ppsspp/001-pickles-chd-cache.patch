@@ -1,0 +1,114 @@
+diff --git a/Core/FileSystems/BlockDevices.cpp b/Core/FileSystems/BlockDevices.cpp
+index 30cf430..dd4ecdd 100644
+--- a/Core/FileSystems/BlockDevices.cpp
++++ b/Core/FileSystems/BlockDevices.cpp
+@@ -1063,8 +1063,10 @@ CHDFileBlockDevice::CHDFileBlockDevice(FileLoader *fileLoader)
+ 	impl_->chd = file;
+ 	impl_->header = chd_get_header(impl_->chd);
+ 
+-	readBuffer = new u8[impl_->header->hunkbytes];
+-	currentHunk = -1;
++	for (int i = 0; i < PICKLES_CHD_CACHE_HUNKS; ++i) {
++		picklesReadBuffers_[i] = new u8[impl_->header->hunkbytes];
++		picklesCachedHunks_[i] = ~0U;
++	}
+ 	blocksPerHunk = impl_->header->hunkbytes / impl_->header->unitbytes;
+ 	numBlocks = impl_->header->unitcount;
+ 
+@@ -1074,8 +1076,28 @@ CHDFileBlockDevice::CHDFileBlockDevice(FileLoader *fileLoader)
+ CHDFileBlockDevice::~CHDFileBlockDevice() {
+ 	if (impl_->chd) {
+ 		chd_close(impl_->chd);
+-		delete[] readBuffer;
+ 	}
++	for (u8 *buffer : picklesReadBuffers_)
++		delete[] buffer;
++}
++
++u8 *CHDFileBlockDevice::PicklesGetCachedHunk(u32 hunk) {
++	for (int i = 0; i < PICKLES_CHD_CACHE_HUNKS; ++i) {
++		if (picklesCachedHunks_[i] == hunk)
++			return picklesReadBuffers_[i];
++	}
++
++	const u32 slot = picklesNextCacheSlot_;
++	chd_error err = chd_read(impl_->chd, hunk, picklesReadBuffers_[slot]);
++	if (err != CHDERR_NONE) {
++		ERROR_LOG(Log::Loader, "CHD hunk read failed: %u %s", hunk, chd_error_string(err));
++		NotifyReadError();
++		return nullptr;
++	}
++
++	picklesCachedHunks_[slot] = hunk;
++	picklesNextCacheSlot_ = (slot + 1) % PICKLES_CHD_CACHE_HUNKS;
++	return picklesReadBuffers_[slot];
+ }
+ 
+ bool CHDFileBlockDevice::ReadBlock(int blockNumber, u8 *outPtr, bool uncached) {
+@@ -1088,17 +1110,11 @@ bool CHDFileBlockDevice::ReadBlock(int blockNumber, u8 *outPtr, bool uncached) {
+ 		return false;
+ 	}
+ 	u32 hunk = blockNumber / blocksPerHunk;
+-	u32 blockInHunk = blockNumber % blocksPerHunk;
+-
+-	if (currentHunk != hunk) {
+-		chd_error err = chd_read(impl_->chd, hunk, readBuffer);
+-		if (err != CHDERR_NONE) {
+-			ERROR_LOG(Log::Loader, "CHD read failed: %d %d %s", blockNumber, hunk, chd_error_string(err));
+-			NotifyReadError();
+-		}
+-		currentHunk = hunk;
+-	}
+-	memcpy(outPtr, readBuffer + blockInHunk * impl_->header->unitbytes, GetBlockSize());
++	u8 *hunkBuffer = PicklesGetCachedHunk(hunk);
++	if (!hunkBuffer)
++		return false;
++	const u32 blockInHunk = blockNumber % blocksPerHunk;
++	memcpy(outPtr, hunkBuffer + blockInHunk * impl_->header->unitbytes, GetBlockSize());
+ 	return true;
+ }
+ 
+@@ -1108,10 +1124,21 @@ bool CHDFileBlockDevice::ReadBlocks(u32 minBlock, int count, u8 *outPtr) {
+ 		return false;
+ 	}
+ 
+-	for (int i = 0; i < count; i++) {
+-		if (!ReadBlock(minBlock + i, outPtr + i * GetBlockSize())) {
++	while (count > 0) {
++		if (minBlock >= numBlocks) {
++			memset(outPtr, 0, GetBlockSize() * count);
+ 			return false;
+ 		}
++		const u32 hunk = minBlock / blocksPerHunk;
++		const u32 blockInHunk = minBlock % blocksPerHunk;
++		const int copyBlocks = std::min<int>(count, blocksPerHunk - blockInHunk);
++		u8 *hunkBuffer = PicklesGetCachedHunk(hunk);
++		if (!hunkBuffer)
++			return false;
++		memcpy(outPtr, hunkBuffer + blockInHunk * GetBlockSize(), copyBlocks * GetBlockSize());
++		minBlock += copyBlocks;
++		outPtr += copyBlocks * GetBlockSize();
++		count -= copyBlocks;
+ 	}
+ 	return true;
+ }
+diff --git a/Core/FileSystems/BlockDevices.h b/Core/FileSystems/BlockDevices.h
+index 82b0125..d7adf25 100644
+--- a/Core/FileSystems/BlockDevices.h
++++ b/Core/FileSystems/BlockDevices.h
+@@ -206,10 +206,13 @@ public:
+ 	u32 GetNumBlocks() const override { return numBlocks; }
+ 	bool IsDisc() const override { return true; }
+ private:
++	static constexpr int PICKLES_CHD_CACHE_HUNKS = 2;
++	u8 *PicklesGetCachedHunk(u32 hunk);
+ 	struct ExtendedCoreFile *core_file_ = nullptr;
+ 	std::unique_ptr<CHDImpl> impl_;
+-	u8 *readBuffer = nullptr;
+-	u32 currentHunk = 0;
++	u8 *picklesReadBuffers_[PICKLES_CHD_CACHE_HUNKS]{};
++	u32 picklesCachedHunks_[PICKLES_CHD_CACHE_HUNKS]{};
++	u32 picklesNextCacheSlot_ = 0;
+ 	u32 blocksPerHunk = 0;
+ 	u32 numBlocks = 0;
+ };
