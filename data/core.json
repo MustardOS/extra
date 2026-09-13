@@ -419,7 +419,10 @@
       "post-make": [
       "mv src/libretro/ecwolf_libretro.so ."
       ]
-    }
+    },
+    "submodules": [
+      "src/libretro/libretro-common"
+    ]
   },
   "emux_chip8": {
     "source": "https://github.com/sronsse/emux",
@@ -1791,7 +1794,7 @@
     "output": "sameboy_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "CC=gcc CONF=native_release",
+      "args": "CONF=release",
       "target": "libretro"
     },
     "symbols": 0,

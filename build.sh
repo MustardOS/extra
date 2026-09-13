@@ -811,6 +811,12 @@ for NAME in $CORES; do
 	SOURCE=$(echo "$MODULE" | jq -r '.source')
 	SYMBOLS=$(echo "$MODULE" | jq -r '.symbols')
 
+	# Optional submodule allowlist. Some repositories carry submodules the libretro
+	# target never compiles, and a few of those point at hosts that no longer serve
+	# them. Naming the ones a core actually needs keeps a dead dependency from
+	# blocking a core that builds perfectly well without it. Omit it to take all.
+	SUBMODULE_LIST=$(echo "$MODULE" | jq -r '.submodules // empty | if type=="string" then . else join(" ") end')
+
 	# Make skip: allow skipping the main 'make' phase entirely.
 	MAKE_SKIP=$(echo "$MODULE" | jq -r '.make.skip // 0' 2>/dev/null)
 	case "$MAKE_SKIP" in
@@ -930,6 +936,16 @@ for NAME in $CORES; do
 		continue
 	fi
 
+	# Populate submodules, honouring the optional allowlist from core.json.
+	INIT_SUBMODULES() {
+		if [ -n "$SUBMODULE_LIST" ]; then
+			# shellcheck disable=SC2086
+			git submodule update --init --recursive "$@" $SUBMODULE_LIST
+		else
+			git submodule update --init --recursive "$@"
+		fi
+	}
+
 	BEEN_CLONED=0
 	if [ ! -d "$CORE_DIR" ]; then
 		printf "Core '%s' not found\n\n" "$DIR"
@@ -937,7 +953,12 @@ for NAME in $CORES; do
 		if [ "$LATEST" -eq 1 ]; then
 			GC_CMD="git clone --progress --quiet --recurse-submodules -j$MAKE_CORES $SOURCE $CORE_DIR"
 		elif [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
-			GC_CMD="git clone --progress --quiet --recurse-submodules -j$MAKE_CORES $SOURCE $CORE_DIR"
+			# Deliberately no --recurse-submodules when pinning a commit. Cloning would
+			# lay the submodules out as the default branch wants them, and the checkout
+			# below then fails whenever the pinned commit moved, renamed or vendored one
+			# of them. The submodule update that follows the checkout populates them
+			# against the pin instead, which is the layout we actually want.
+			GC_CMD="git clone --progress --quiet $SOURCE $CORE_DIR"
 		else
 			GC_CMD="git clone --progress --quiet --recurse-submodules -j$MAKE_CORES"
 			[ -n "$BRANCH" ] && GC_CMD="$GC_CMD -b $BRANCH"
@@ -953,7 +974,7 @@ for NAME in $CORES; do
 			git checkout --detach "$BRANCH" || { printf "Failed to checkout %s\n" "$BRANCH" >&2; FAIL_AND_CONTINUE "$NAME" "git" "checkout commit failed"; }
 		fi
 
-		git submodule update --init --recursive || {
+		INIT_SUBMODULES || {
 			printf "Failed to update submodules for %s\n" "$NAME" >&2
 			FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed after clone"
 		}
@@ -967,7 +988,7 @@ for NAME in $CORES; do
 	cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; FAIL_AND_CONTINUE "$NAME" "fs" "failed to enter core dir"; }
 
 	# Ensure submodules are present
-	git submodule update --init --recursive || {
+	INIT_SUBMODULES || {
 		printf "Failed to update submodules for %s\n" "$NAME" >&2
 		FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed"
 	}
@@ -978,7 +999,7 @@ for NAME in $CORES; do
 			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed (latest)"; }
 			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "reset --hard origin/HEAD failed (latest)"; }
 			git submodule sync --quiet
-			git submodule update --init --recursive --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed (latest)"; }
+			INIT_SUBMODULES --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed (latest)"; }
 		elif [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
 			printf "Repository already cloned. Fetching updates and checking out commit '%s'\n" "$BRANCH"
 			git fetch --all || { printf "Failed to fetch updates for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed"; }
@@ -988,7 +1009,7 @@ for NAME in $CORES; do
 			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed"; }
 			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "reset --hard origin/HEAD failed"; }
 			git submodule sync --quiet
-			git submodule update --init --recursive --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed"; }
+			INIT_SUBMODULES --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed"; }
 		fi
 	fi
 
@@ -1143,6 +1164,33 @@ for NAME in $CORES; do
 	done
 	if [ "$MISSING" -ne 0 ]; then
 		MARK_FAIL "$NAME" "outputs" "missing expected build outputs"
+		RETURN_TO_BASE
+		continue
+	fi
+
+	# Refuse to package anything that is not for the target. A core whose Makefile
+	# ignores the cross compiler, or that is handed CC= on the make command line,
+	# builds cleanly for the build host and would otherwise be zipped and indexed as
+	# if it were fine. readelf is used rather than file(1) because a toolchain that
+	# ships its own file(1) without a magic database makes that test pass silently.
+	# The verdict is collected first and acted on below, and the skip is written out
+	# here rather than through FAIL_AND_CONTINUE, whose trailing 'continue' cannot
+	# leave the function it sits in. Packaging has to be skipped for real, or a good
+	# previously shipped archive gets replaced by a broken one.
+	ARCH_FAIL=""
+	for OUTFILE in $OUTPUTS; do
+		[ -f "$OUTFILE" ] || continue
+		OUT_MACHINE=$(readelf -h "$OUTFILE" 2>/dev/null | sed -n 's/^[[:space:]]*Machine:[[:space:]]*//p')
+		case "$OUT_MACHINE" in
+			*AArch64*) ;;
+			"") ARCH_FAIL="$(basename "$OUTFILE") is not a readable ELF object" ;;
+			*) ARCH_FAIL="$(basename "$OUTFILE") built for $OUT_MACHINE, not AArch64" ;;
+		esac
+	done
+
+	if [ -n "$ARCH_FAIL" ]; then
+		printf "\nRefusing to package '%s': %s\n" "$NAME" "$ARCH_FAIL" >&2
+		MARK_FAIL "$NAME" "outputs" "$ARCH_FAIL"
 		RETURN_TO_BASE
 		continue
 	fi
