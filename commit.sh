@@ -9,8 +9,11 @@ CACHE_JSON="$BASE_DIR/data/cache.json"
 if [ "$#" -gt 0 ]; then
   case "$1" in
     -c | --clean)
-      # Replace all short_commit with "0000000 to force build cores and bypass hash check"
-      jq 'to_entries | map(.value = "0000000") | from_entries' "$CACHE_JSON" > tmp.$$.json && mv tmp.$$.json "$CACHE_JSON"
+      # Blank the commit so the hash check cannot match and every core rebuilds.
+      jq 'with_entries(.value = (if (.value | type) == "object"
+                                 then .value + {"hash": "0000000"}
+                                 else {"hash": "0000000"} end))' \
+        "$CACHE_JSON" > tmp.$$.json && mv tmp.$$.json "$CACHE_JSON"
       exit 0
       ;;
     *)

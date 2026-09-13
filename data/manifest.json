@@ -1,0 +1,1591 @@
+{
+  "2048_libretro.so.zip": {
+    "built": "2026-09-13T09:37:30Z",
+    "commit": "e70c3f8",
+    "core": "2048",
+    "sha256": "a6f2ff335aca0dd7a63b9ba63a9ce4f6888d848d4318ccac04120c8754977d28",
+    "size": 30529,
+    "source": "https://github.com/libretro/libretro-2048"
+  },
+  "81_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "ffc99f2",
+    "core": "81",
+    "sha256": "920d0666eeac8932e60f282c355c22c7e728d53a94bb21baa04d468f74a77495",
+    "size": 99077,
+    "source": "https://github.com/libretro/81-libretro"
+  },
+  "DoubleCherryGB_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5dbc8c9",
+    "core": "doublecherryGB",
+    "sha256": "2de8f9c2eec93001ded447145c7a837116724d59f61faf6c147dc4efa161eebf",
+    "size": 205308,
+    "source": "https://github.com/TimOelrichs/doublecherryGB-libretro"
+  },
+  "a5200_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5264040",
+    "core": "a5200",
+    "sha256": "0f7d0ea783927f708dbf5e818ffb3a92ca610c065d5cd43dc8808e09e7d85a24",
+    "size": 107257,
+    "source": "https://github.com/libretro/a5200"
+  },
+  "amiberry_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "05ec3ba",
+    "core": "amiberry",
+    "sha256": "955931fc6498f35384e83c1836dcdbaec17384fa42a3154448615ad1e2641a8a",
+    "size": 8010282,
+    "source": "https://github.com/BlitterStudio/amiberry"
+  },
+  "ardens_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "9a1c46a",
+    "core": "ardens",
+    "sha256": "a394ba03f1cbe2cb3c484f144dde8d966977531373d5cd890ddbfa38a9e4af70",
+    "size": 285183,
+    "source": "https://github.com/tiberiusbrown/Ardens"
+  },
+  "arduous_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2273b48",
+    "core": "arduous",
+    "sha256": "15bbbabd0061e919cb6ed739c8ea60eda52525e4b6075be0dcc2d2f551064cef",
+    "size": 69734,
+    "source": "https://github.com/libretro/arduous"
+  },
+  "atari800_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "6a18cb2",
+    "core": "atari800",
+    "sha256": "47e751ebc3888df249f51512c504fd04a7d26f7415bf2f22516daae744a4d942",
+    "size": 341514,
+    "source": "https://github.com/libretro/libretro-atari800"
+  },
+  "bennugd_libretro.so.zip": {
+    "built": "2026-05-12",
+    "commit": "a783199",
+    "core": "bennugd",
+    "sha256": "b3960c3964df45d0d708d7a96be55e2b41c02c51c7296349db1eaaf6cfbdf2a6",
+    "size": 1261217,
+    "source": "https://github.com/diekleinekuh/BennuGD_libretro"
+  },
+  "bk_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "f95d929",
+    "core": "bk",
+    "sha256": "9b2ec155a151e7b7deacd4af2003ba25682cfff8e47efc4d8f9ac29c4b4795b2",
+    "size": 50785,
+    "source": "https://github.com/libretro/bk-emulator"
+  },
+  "bluemsx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "036376d",
+    "core": "bluemsx",
+    "sha256": "e5c6e76ce80118502e29415dc0a3a9f4f2d8f62091d7d22de9bae5314fa2632d",
+    "size": 689323,
+    "source": "https://github.com/libretro/blueMSX-libretro"
+  },
+  "bnes_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "8e26e89",
+    "core": "bnes",
+    "sha256": "50baddfb291747d792f6873641539d7d6779301efaeaec4ebb12b7940f3814a3",
+    "size": 87812,
+    "source": "https://github.com/libretro/bnes-libretro"
+  },
+  "bsnes-jg_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "a3bd780",
+    "core": "bsnes-jg",
+    "sha256": "03e5b05b1115c1f1bd07cdbff9a28cda2accfe722e955a5325967de0a497119a",
+    "size": 1978319,
+    "source": "https://github.com/libretro/bsnes-jg"
+  },
+  "bsnes2014_performance_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "3beff8e",
+    "core": "bsnes2014_performance",
+    "sha256": "3b323601d48f5d452e2c0e627061fd8b0cb99789537e83d4cbadd51806a7e6e5",
+    "size": 536483,
+    "source": "https://github.com/libretro/bsnes2014"
+  },
+  "bsnes_cplusplus98_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "0ac6a16",
+    "core": "bsnes_cplusplus98",
+    "sha256": "ef0a49e69cd9b8a662dc6b8c83d5fa369e1b7fc3485c89d53fbbc574037b2d94",
+    "size": 352552,
+    "source": "https://github.com/libretro/bsnes-libretro-cplusplus98"
+  },
+  "bsnes_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "bsnes",
+    "sha256": "1e05a31dd625a4940439dda6224e765b24bac7d87e2388396c98bc025601a151",
+    "size": 926558,
+    "source": null,
+    "vendored": true
+  },
+  "bsnes_mercury_performance_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "0f35d04",
+    "core": "bsnes_mercury_performance",
+    "sha256": "9664f780cccba537b7f36cc0201c818d53c3932ae7d223151a6bbc37997f981a",
+    "size": 603639,
+    "source": "https://github.com/libretro/bsnes-mercury"
+  },
+  "cannonball_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5137a79",
+    "core": "cannonball",
+    "sha256": "6bca19c02ee1d09e8bfb8c7d6bec3b648ff9f7b05be222ae028485c716d12e95",
+    "size": 241196,
+    "source": "https://github.com/libretro/cannonball"
+  },
+  "cap32_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "a5d96c5",
+    "core": "cap32",
+    "sha256": "9d234fa7b47b1d75aa0519f221130bd34fa1c5cd710cbff52e3b8cc48a83ef98",
+    "size": 344504,
+    "source": "https://github.com/libretro/libretro-cap32"
+  },
+  "chailove_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "467cd45",
+    "core": "chailove",
+    "sha256": "c8f2808f0cb62ce31d6182976b9674cd968bad6de22aca104f81746ff33c1201",
+    "size": 1041875,
+    "source": "https://github.com/libretro/libretro-chailove"
+  },
+  "chimerasnes_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "04c57c2",
+    "core": "chimerasnes",
+    "sha256": "7df7b7278ebd63258c0ff85743ffc91c5448b9d852c6620ca99af4412d78bc9b",
+    "size": 276155,
+    "source": "https://github.com/jamsilva/chimerasnes"
+  },
+  "crocods_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "a320f6e",
+    "core": "crocods",
+    "sha256": "89ea4bd4ff657f575167f4eeec570b728642034e012c2390a9164f114b9f234a",
+    "size": 249912,
+    "source": "https://github.com/libretro/libretro-crocods"
+  },
+  "daphne_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "daphne",
+    "sha256": "412521eda6ed60da9d8a81090270682abb9b5cea0898b81ee4c3cbabd8a82d8d",
+    "size": 1189759,
+    "source": null,
+    "vendored": true
+  },
+  "desmume2015_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "desmume2015",
+    "sha256": "43d2478b1bc22acba012639d2d3f9762c208a2b6ece4756066a8fcdcaa922351",
+    "size": 680101,
+    "source": null,
+    "vendored": true
+  },
+  "dice_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "71a10a8",
+    "core": "dice",
+    "sha256": "74b90b25d504b6b1ee918601ff38357ac9f68d5ae4efd5dc67a7bdd0c8c49bbf",
+    "size": 434342,
+    "source": "https://github.com/mittonk/dice-libretro.git"
+  },
+  "dirksimple_libretro.so.zip": {
+    "built": "2026-03-17",
+    "commit": "5aea3e2",
+    "core": "dirksimple",
+    "sha256": "63b1b4def75db520955c578eff28c54905a85b63f366438ace04ad9af2e1580b",
+    "size": 301233,
+    "source": "https://github.com/icculus/DirkSimple"
+  },
+  "dosbox_core_libretro.so.zip": {
+    "built": "2026-01-31",
+    "commit": "7bcf083",
+    "core": "dosbox_core",
+    "sha256": "b976daa9395b090457868acc53986e1daf011eceb17db3ae613555630a4963cb",
+    "size": 3191902,
+    "source": "https://github.com/realnc/dosbox-core"
+  },
+  "dosbox_pure_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "b9f8bc6",
+    "core": "dosbox_pure",
+    "sha256": "f3fc713fe46034eafaf9d43b65c16b93d90a5097273a30577692833b074b8bbe",
+    "size": 1335595,
+    "source": "https://github.com/schellingb/dosbox-pure"
+  },
+  "dosbox_svn_libretro.so.zip": {
+    "built": "2026-01-15",
+    "commit": "53ca2f6",
+    "core": "dosbox_svn",
+    "sha256": "009cc57a347a31b136b8bff356fb3149d51aeb2ddd8186ed3b95872aeffc1cb7",
+    "size": 1049909,
+    "source": "https://github.com/libretro/dosbox-svn"
+  },
+  "duckstation_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "duckstation",
+    "sha256": "011f78f9eb8192e7d39495262a64cc75733c9ebf9719f084d11ac24f04bc0a0e",
+    "size": 3770038,
+    "source": null,
+    "vendored": true
+  },
+  "easyrpg_libretro.so.zip": {
+    "built": "2026-01-28",
+    "commit": "df4e1ee",
+    "core": "easyrpg",
+    "sha256": "b3e0a3dc345f49486c7473d38e429071aa95c7fefc9c7a15733ffa6e584b71d8",
+    "size": 3028906,
+    "source": "https://github.com/EasyRPG/Player"
+  },
+  "ecwolf_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "c57ad89",
+    "core": "ecwolf",
+    "sha256": "d3451d2340fc6c07b9df5971f1c37ba7de47888b9b1ae8ef5c698831ebb90002",
+    "size": 685410,
+    "source": "https://github.com/libretro/ecwolf"
+  },
+  "emuscv_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "emuscv",
+    "sha256": "9c8861054977c17b9542d979c86f24b2195f6c81ff3db5cbc747659aaa1cc253",
+    "size": 602070,
+    "source": null,
+    "vendored": true
+  },
+  "emux_chip8_libretro.so.zip": {
+    "built": "2026-01-15",
+    "commit": "df14439",
+    "core": "emux_chip8",
+    "sha256": "fff0bd69cc842353007298362f99263845e65cc6dbd112c7b242de6160359b30",
+    "size": 20972,
+    "source": "https://github.com/sronsse/emux"
+  },
+  "emux_gb_libretro.so.zip": {
+    "built": "2026-01-15",
+    "commit": "df14439",
+    "core": "emux_gb",
+    "sha256": "44a71d151a6dae24ab557ca39b1ce2baad9ee22b6041f28a4aa24e3aa862be49",
+    "size": 42111,
+    "source": "https://github.com/sronsse/emux"
+  },
+  "emux_nes_libretro.so.zip": {
+    "built": "2026-01-15",
+    "commit": "df14439",
+    "core": "emux_nes",
+    "sha256": "3945d4984dc3c208264770ec8a8a7ef06abcd609bb53b3f60430e73922d77410",
+    "size": 44264,
+    "source": "https://github.com/sronsse/emux"
+  },
+  "emux_sms_libretro.so.zip": {
+    "built": "2026-01-15",
+    "commit": "df14439",
+    "core": "emux_sms",
+    "sha256": "949b48c457f550270a7ee020fa28c074cd3227831809886798b29ea9adb4d06e",
+    "size": 42607,
+    "source": "https://github.com/sronsse/emux"
+  },
+  "ep128emu_core_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "edc6da0",
+    "core": "ep128emu_core",
+    "sha256": "23d0da980b17ad8f9ff514538fc71dc2bb26db1df168ecbc87a699f224a1e19c",
+    "size": 2152133,
+    "source": "https://github.com/libretro/ep128emu-core"
+  },
+  "fake08_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "0d26fd5",
+    "core": "fake08",
+    "sha256": "759d513b9e0ead7454f45c2cd7cf9c30dbfac4c0f650b04d95198fdb7dea2bd3",
+    "size": 344227,
+    "source": "https://github.com/jtothebell/fake-08"
+  },
+  "fbalpha2012_cps1_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2499e30",
+    "core": "fbalpha2012_cps1",
+    "sha256": "f70e36ea3c42e0f492577e29a8d0d2e8d72f137a7cfe5709faf5328060a80977",
+    "size": 449696,
+    "source": "https://github.com/libretro/fbalpha2012_cps1"
+  },
+  "fbalpha2012_cps2_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "d618e99",
+    "core": "fbalpha2012_cps2",
+    "sha256": "e6517e87a516ff5d3e480ce468b08bbfbf330c86a1cc37fb6a8372bd5ba830dc",
+    "size": 372782,
+    "source": "https://github.com/libretro/fbalpha2012_cps2"
+  },
+  "fbalpha2012_cps3_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2d1023b",
+    "core": "fbalpha2012_cps3",
+    "sha256": "66056dfd5122403ac5e2a897c4230b0419a8a4c1d9791218921bbceec0d60c14",
+    "size": 113592,
+    "source": "https://github.com/libretro/fbalpha2012_cps3"
+  },
+  "fbalpha2012_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "77167ce",
+    "core": "fbalpha2012",
+    "sha256": "eced96184c0ec579519a13841154bd9c3de305eabbae2fa07f71254005319eb0",
+    "size": 4465792,
+    "source": "https://github.com/libretro/fbalpha2012"
+  },
+  "fbalpha2012_neogeo_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "fa3bf50",
+    "core": "fbalpha2012_neogeo",
+    "sha256": "0baf0ccf69b887b243cc1abcea45bcc975d4696cae9e72eca20ed406f76c419b",
+    "size": 557672,
+    "source": "https://github.com/libretro/fbalpha2012_neogeo"
+  },
+  "fbalpha_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "0581797",
+    "core": "fbalpha",
+    "sha256": "4a5af445fbc8ea67581ee5091eb0c7fd5e9f12341923c671ecfc0a59c17354ba",
+    "size": 10411714,
+    "source": "https://github.com/libretro/fbalpha"
+  },
+  "fbneo_libretro.so.zip": {
+    "built": "2026-01-15",
+    "commit": "aaecfed",
+    "core": "fbneo",
+    "sha256": "ee1b5445113c2b1eb62651ed42a11cfeb1b1980409694ef80236cad96878b38b",
+    "size": 17920829,
+    "source": "https://github.com/libretro/FBNeo"
+  },
+  "fceumm_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5cd4a43",
+    "core": "fceumm",
+    "sha256": "96bfb3193150705abf483e4d1c4dff2790240c2c4878d6be434e54e348945bbe",
+    "size": 514986,
+    "source": "https://github.com/libretro/libretro-fceumm"
+  },
+  "fceunext_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "fceunext",
+    "sha256": "ec1fb71a22f5d20de9816996c3db4b790709b2daccd96672c854b9223beb6b64",
+    "size": 207891,
+    "source": null,
+    "vendored": true
+  },
+  "fixgb_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "983a7d5",
+    "core": "fixgb",
+    "sha256": "cc2510b98fbe8cd9f79a9dd380e069eaa82ccbc530100f7b06c71f2975656e5e",
+    "size": 35621,
+    "source": "https://github.com/libretro/fixGB"
+  },
+  "flycast-xtreme_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "flycast-xtreme",
+    "sha256": "4c24b0d40e4041c62181e7db8e772175838e610f0efdcbc62019f75c1e6a4d55",
+    "size": 1411292,
+    "source": null,
+    "vendored": true
+  },
+  "flycast_libretro.so.zip": {
+    "built": "2026-01-29",
+    "commit": "0243f81",
+    "core": "flycast",
+    "sha256": "3c9f3f48250f420c167f88cdfe54cf76008c6cef64289357f6e6941333950c86",
+    "size": 4394917,
+    "source": "https://github.com/flyinghead/flycast"
+  },
+  "flycastvl_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "flycastvl",
+    "sha256": "8aea7cda341256f3bd0999d4b7f284cd88ce1f3b68a9b285179828d7bf40b149",
+    "size": 1547728,
+    "source": null,
+    "vendored": true
+  },
+  "fmsx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "fbe4dfc",
+    "core": "fmsx",
+    "sha256": "5a7c67a4ad720c3f8a55d1cfcbbe9a84b74f46fe221951e859f19ddc3caa28f3",
+    "size": 110857,
+    "source": "https://github.com/libretro/fmsx-libretro"
+  },
+  "freechaf_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "cdb8ad6",
+    "core": "freechaf",
+    "sha256": "13eb5187e02a88a37e192b88e511b6d2602b49afe5183f998dfe81b7e9005759",
+    "size": 35609,
+    "source": "https://github.com/libretro/FreeChaF"
+  },
+  "freeintv_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "1b51f41",
+    "core": "freeintv",
+    "sha256": "7e286aa54858258a2cf30e9bf7922179b27a4311232ee4ba4083c81522faeca5",
+    "size": 38605,
+    "source": "https://github.com/libretro/FreeIntv"
+  },
+  "freej2me_libretro.so.zip": {
+    "built": "2026-01-24",
+    "commit": "5a105d4",
+    "core": "freej2me",
+    "sha256": "e17fe910c3d08e19fe33f34daf26c805e4391012d75e5f335986675c39b89a71",
+    "size": 969540,
+    "source": "https://github.com/TASEmulators/freej2me-plus"
+  },
+  "frodo_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "9d10e7a",
+    "core": "frodo",
+    "sha256": "a66fcbb3cd8933ba3d405e40a73e2c2e14295b2fd620b979477cd0e4d1d69bc3",
+    "size": 197070,
+    "source": "https://github.com/libretro/frodo-libretro"
+  },
+  "fuse_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "cad85b7",
+    "core": "fuse",
+    "sha256": "b53eab4a31b4bdfc13b91be8f1647eb39ff30eb1c686f795f788fded4c55b5d6",
+    "size": 981153,
+    "source": "https://github.com/libretro/fuse-libretro"
+  },
+  "galaksija_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "13ae71a",
+    "core": "galaksija",
+    "sha256": "090e11292d19282c961c83a358d1c647a3d35004c9dfd76218b4cdd558dc8b8d",
+    "size": 81065,
+    "source": "https://github.com/libretro/galaxy-libretro"
+  },
+  "gambatte_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "13b7af7",
+    "core": "gambatte",
+    "sha256": "0b65e869c091726bd87da8b9efd746df4bbddbbb1d56282b422dd7a61930da11",
+    "size": 474176,
+    "source": "https://github.com/libretro/gambatte-libretro"
+  },
+  "gearboy_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e75db8a",
+    "core": "gearboy",
+    "sha256": "b63850f5b757f5478f993c7b6b42e77ed08adc55a51fc41285ef7f5b3a9c8345",
+    "size": 148207,
+    "source": "https://github.com/drhelius/Gearboy"
+  },
+  "gearcoleco_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "1909b32",
+    "core": "gearcoleco",
+    "sha256": "071ddf0c215db506e6dcc6f05b3073474d6a803810a03342dd14e228fc17140a",
+    "size": 163481,
+    "source": "https://github.com/drhelius/Gearcoleco"
+  },
+  "geargrafx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "351c544",
+    "core": "geargrafx",
+    "sha256": "06eb8a3418213d2173e212eba69dfef7b9b30e0028f5b48e4991ae525eedaa68",
+    "size": 441859,
+    "source": "https://github.com/drhelius/Geargrafx"
+  },
+  "gearsystem_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5726931",
+    "core": "gearsystem",
+    "sha256": "67402c21e77f8c527582e5f7cf92af45d513977411fe35e0c73b704d1ddba634",
+    "size": 196115,
+    "source": "https://github.com/drhelius/Gearsystem"
+  },
+  "genesis_plus_gx_expanded_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2587494",
+    "core": "genesis_plus_gx_expanded",
+    "sha256": "35a80f9ad610e5fc850de5ccc178b29c6e95130212c2e50e68d4116824f6d93e",
+    "size": 1296798,
+    "source": "https://github.com/RapidEdwin08/Genesis-Plus-GX-Expanded-Rom-Size"
+  },
+  "genesis_plus_gx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "46a5521",
+    "core": "genesis_plus_gx",
+    "sha256": "7ac4afd000091e8fe33c634842b97a9b64cf6b2bfad28bf841a1b11c4455da73",
+    "size": 1219794,
+    "source": "https://github.com/libretro/Genesis-Plus-GX"
+  },
+  "genesis_plus_gx_wide_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "genesis_plus_gx_wide",
+    "sha256": "d871d3e40dda9c6c06030890c74fd895969d4a6b4ff2f947240ed0924dca4cc0",
+    "size": 1080243,
+    "source": null,
+    "vendored": true
+  },
+  "geolith_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "96b2b5f",
+    "core": "geolith",
+    "sha256": "223cc4ef61b140cefe709345819469e04c5d4f7ceaf553d4a0f85fa2e6b67ed7",
+    "size": 212457,
+    "source": "https://github.com/libretro/geolith-libretro"
+  },
+  "gme_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "de22a26",
+    "core": "gme",
+    "sha256": "6f55f1648867b6bc0982b3f8e908486af77ef5b8e091d9101ba4aa634e8491a7",
+    "size": 235772,
+    "source": "https://github.com/libretro/libretro-gme"
+  },
+  "gpsp_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "602512d",
+    "core": "gpsp",
+    "sha256": "26d772d5331c0af56234bdf5c037311cb609f19b83692a72010c701db9c23be1",
+    "size": 302343,
+    "source": "https://github.com/libretro/gpsp"
+  },
+  "gw_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "435e5cf",
+    "core": "gw",
+    "sha256": "5577805d42a468313dc78ee1e02a10c24376c68a2ec51550989a253369593316",
+    "size": 188628,
+    "source": "https://github.com/libretro/gw-libretro"
+  },
+  "handy_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "fca2392",
+    "core": "handy",
+    "sha256": "c964eb27448fcaed5f1e293e6be911a561c5ec927e5dabb142cababa16e82786",
+    "size": 100887,
+    "source": "https://github.com/libretro/libretro-handy"
+  },
+  "hatari_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "7008194",
+    "core": "hatari",
+    "sha256": "8fcadea854d806f18c38472fc432e383c3ac8617fda4ae0966e544d001c56594",
+    "size": 1103417,
+    "source": "https://github.com/libretro/hatari"
+  },
+  "hatarib_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "hatarib",
+    "sha256": "a8c990dee978086daef23be28f62cfe0cf95f09fa2f125f77570c2bf9efe698a",
+    "size": 6224284,
+    "source": null,
+    "vendored": true
+  },
+  "jaxe_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "4825aad",
+    "core": "jaxe",
+    "sha256": "dee3bee8153f53033b4debda7ff427de4b65412a0e76009c9da0628f5d99639a",
+    "size": 11054,
+    "source": "https://github.com/kurtjd/jaxe"
+  },
+  "km_fbneo_xtreme_amped_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "922fb2c",
+    "core": "km_fbneo_xtreme_amped",
+    "sha256": "d341c55d91316e4698d293c92d2a7ebeadb46cb89491add906f3a9c49450126e",
+    "size": 16986143,
+    "source": "https://github.com/KMFDManic/FBNeo-Xtreme-Amped"
+  },
+  "km_ludicrousn64_2k22_xtreme_amped_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "km_ludicrousn64_2k22_xtreme_amped",
+    "sha256": "236a3b97bd6da23be52d01c59fb83b32137059434a1cee974aafaa45bf842688",
+    "size": 948425,
+    "source": null,
+    "vendored": true
+  },
+  "km_mame2003_xtreme_amped_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "9382b94",
+    "core": "km_mame2003_xtreme_amped",
+    "sha256": "aa54dbae0bdcd66e42a27d41c84c3e25f2dfcbbb014373c5b0bd4668ad98bb1a",
+    "size": 8517359,
+    "source": "https://github.com/KMFDManic/mame2003-xtreme"
+  },
+  "km_morpheuscast_xtreme_libretro.so.zip": {
+    "built": "2025-11-19",
+    "commit": "1f895a7",
+    "core": "morpheuscast_xtreme",
+    "sha256": "19e42a73485d3654a9e26266d9800697be0814eb0213fb064bf84af180d7b482",
+    "size": 1897320,
+    "source": "https://github.com/KMFDManic/morpheuscast_xtreme"
+  },
+  "km_puae_xtreme_amped_2k24_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2503905",
+    "core": "km_puae_xtreme_amped_2k24",
+    "sha256": "edeed65a09bf44cd11fffa1960697b046c022dc81000b34ba937a8194ac3c146",
+    "size": 3747993,
+    "source": "https://github.com/KMFDManic/libretro-uae"
+  },
+  "libgametank_libretro.so.zip": {
+    "built": "2026-01-30",
+    "commit": "e4b3b7e",
+    "core": "gametank",
+    "sha256": "417b9ca16a99a98c0c8e77b70f072f3a02b0566e9b2d40cebaaacbf5c4d1ff86",
+    "size": 183210,
+    "source": "https://github.com/dwbrite/gametank-sdk"
+  },
+  "lowresnx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "85c8018",
+    "core": "lowresnx",
+    "sha256": "f5650a4196ce7d588260a570e182c67b5a423cd632d1cc94327ee77553f99c91",
+    "size": 56850,
+    "source": "https://github.com/timoinutilis/lowres-nx"
+  },
+  "lutro_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "b84d060",
+    "core": "lutro",
+    "sha256": "d53cc13c19d9044553237ae20b991f23068b35967321f9c20aea82d00cbdae93",
+    "size": 544400,
+    "source": "https://github.com/libretro/libretro-lutro"
+  },
+  "mame0139_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "mame0139",
+    "sha256": "8d287a4c02d18ff3df95e1fe8093f7a08a89e471c491d70a89612347126275e1",
+    "size": 18458602,
+    "source": null,
+    "vendored": true
+  },
+  "mame078plus_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "mame078plus",
+    "sha256": "e34c4b2b2902cab5a7f78e7db5c8d5830effe57653a57ba01286e5fc2e8c77b2",
+    "size": 8911976,
+    "source": null,
+    "vendored": true
+  },
+  "mame2000_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2ec60f6",
+    "core": "mame2000",
+    "sha256": "2fa442dc19313ce2d9097127ce1c8a97e8a9ad33253d9b55be1bd137dfef539c",
+    "size": 3408762,
+    "source": "https://github.com/libretro/mame2000-libretro"
+  },
+  "mame2003_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "3570605",
+    "core": "mame2003",
+    "sha256": "2bdefce4d8917dd2e240f885481bbc7a7bc03ba64e6980687c07238a1a09bcd8",
+    "size": 8249205,
+    "source": "https://github.com/libretro/mame2003-libretro"
+  },
+  "mame2003_midway_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "3a47c3d",
+    "core": "mame2003_midway",
+    "sha256": "736cdaab55ef531cdc932fe99cd21ec7e5f6f0b473d21b5a1b9001055934d3e0",
+    "size": 784749,
+    "source": "https://github.com/libretro/mame2003_midway"
+  },
+  "mame2003_plus_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "62c7089",
+    "core": "mame2003_plus",
+    "sha256": "254862f7af3bdcf695ff3461bd6ed8f8b58bdc9a03d9b97b989e96d9788ede85",
+    "size": 8979221,
+    "source": "https://github.com/libretro/mame2003-plus-libretro"
+  },
+  "mame2010_libretro.so.zip": {
+    "built": "2026-01-29",
+    "commit": "c5b413b",
+    "core": "mame2010",
+    "sha256": "0d5b958e4d0e656dfd486fff1a47c0c836a89f66652d5d6061b23fc033807d07",
+    "size": 16702285,
+    "source": "https://github.com/libretro/mame2010-libretro"
+  },
+  "mame_libretro.so.zip": {
+    "built": null,
+    "commit": "9b2b9fe",
+    "core": "mame",
+    "sha256": "193c9a6de4bd4fb933da6309bd93cce33c94a50e2a6f08d31e7c17edca23aa97",
+    "size": 103027178,
+    "source": "https://github.com/libretro/mame"
+  },
+  "mednafen_gba_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "6cee806",
+    "core": "mednafen_gba",
+    "sha256": "f88ba2b87feecd371b0e05e2ac6bf4429fa0d17f39b3bceda6d3497982587d95",
+    "size": 180106,
+    "source": "https://github.com/libretro/beetle-gba-libretro"
+  },
+  "mednafen_lynx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "efd1797",
+    "core": "mednafen_lynx",
+    "sha256": "b266bd317b46d34416eb6d4b77817d2c782f676331f612fb46f549ee449259f2",
+    "size": 96284,
+    "source": "https://github.com/libretro/beetle-lynx-libretro"
+  },
+  "mednafen_ngp_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "139fe34",
+    "core": "mednafen_ngp",
+    "sha256": "b4860b946ac5026aafc12a44254c371d816f3b5c4aaf4390bc9770303586ee9c",
+    "size": 99674,
+    "source": "https://github.com/libretro/beetle-ngp-libretro"
+  },
+  "mednafen_pce_fast_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "7e9b257",
+    "core": "mednafen_pce_fast",
+    "sha256": "5c7dbd1b91f8a869d56bc31ab1a0c63fc15820ddea6e55ae74b68eb1e5c51bd6",
+    "size": 603535,
+    "source": "https://github.com/libretro/beetle-pce-fast-libretro"
+  },
+  "mednafen_pce_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "9a301c0",
+    "core": "mednafen_pce",
+    "sha256": "00d48561356e2540188341208791b94daf62eafee0d1c227f6ac7984b78d9d74",
+    "size": 668335,
+    "source": "https://github.com/libretro/beetle-pce-libretro"
+  },
+  "mednafen_pcfx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "dd04cef",
+    "core": "mednafen_pcfx",
+    "sha256": "c3cf06b4dd3081cce3bb57f6b4756290920622b736e895339bd90c88a6d91e04",
+    "size": 345843,
+    "source": "https://github.com/libretro/beetle-pcfx-libretro"
+  },
+  "mednafen_psx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "d6383bf",
+    "core": "mednafen_psx",
+    "sha256": "5f2cc4aac9c5170855abf2896be7a205f91f45fada36558821b1777c648c5aa4",
+    "size": 1572422,
+    "source": "https://github.com/libretro/beetle-psx-libretro"
+  },
+  "mednafen_saturn_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "ccba526",
+    "core": "mednafen_saturn",
+    "sha256": "036e973a1661208334fcbf2daa99f894ffe2bd4b302779aa167df215ee6ec709",
+    "size": 1270597,
+    "source": "https://github.com/libretro/beetle-saturn-libretro"
+  },
+  "mednafen_supafaust_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e25f667",
+    "core": "mednafen_supafaust",
+    "sha256": "5450263a57e0ab6f04ab275055b7233eca6e72db13169ee0c4d6a838275a100f",
+    "size": 607733,
+    "source": "https://github.com/libretro/supafaust"
+  },
+  "mednafen_supergrafx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "a776133",
+    "core": "mednafen_supergrafx",
+    "sha256": "ee8353604d1c48b982ab5cf8d9e0b1e11de3e1fc63604116610b99c237928f43",
+    "size": 542532,
+    "source": "https://github.com/libretro/beetle-supergrafx-libretro"
+  },
+  "mednafen_vb_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "8f837eb",
+    "core": "mednafen_vb",
+    "sha256": "0319ed2df46f9bce59a917f70635977669a8ecdf10062fff7c7a4f9ab2ddd3ac",
+    "size": 73134,
+    "source": "https://github.com/libretro/beetle-vb-libretro"
+  },
+  "mednafen_wswan_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2aeb47d",
+    "core": "mednafen_wswan",
+    "sha256": "28bd8bc98e570b196c277f2fca5e5342e921440b8b8dcc8be1d622617dd5dfc8",
+    "size": 130551,
+    "source": "https://github.com/libretro/beetle-wswan-libretro"
+  },
+  "melonds_libretro.so.zip": {
+    "built": "2025-07-23",
+    "commit": null,
+    "core": "melonds",
+    "sha256": "8d6da53fabd77ec5234d8ac393641ecc8ac6e2dd2b3312b8096339fcf6fcd0df",
+    "size": 885774,
+    "source": null,
+    "vendored": true
+  },
+  "melondsds_libretro.so.zip": {
+    "built": "2025-08-25",
+    "commit": null,
+    "core": "melondsds",
+    "sha256": "5a1bec7a4df1df6dc062deca9d3a8c84c293f6db330edb03707014ce6c07abe9",
+    "size": 1418789,
+    "source": null,
+    "vendored": true
+  },
+  "mesen-s_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "d4fca31",
+    "core": "mesen-s",
+    "sha256": "88346ae433bce5afca65c50f52bd2749b1ea489a077ef1ebe73a400270e3e3c2",
+    "size": 1048740,
+    "source": "https://github.com/libretro/Mesen-S"
+  },
+  "mesen_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "791c5e8",
+    "core": "mesen",
+    "sha256": "a1eaa4b968b21269a71b8290114a17d054f5955ea15db08558d8e65d22c735a2",
+    "size": 1026219,
+    "source": "https://github.com/libretro/Mesen"
+  },
+  "mgba_libretro.so.zip": {
+    "built": "2026-01-30",
+    "commit": "affc86e",
+    "core": "mgba",
+    "sha256": "461bdf86c46dc23bb03fdc1d4cf1b4f31fced62a2839b9880a1c65f31c90f253",
+    "size": 493764,
+    "source": "https://github.com/libretro/mgba"
+  },
+  "mgba_rumble_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "mgba_rumble",
+    "sha256": "645ae47f271b28b1e94c943d7bffe1bd7d7d84978dc1451f042e6cbe2b3e549c",
+    "size": 479605,
+    "source": null,
+    "vendored": true
+  },
+  "minivmac_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2eb65cd",
+    "core": "minivmac",
+    "sha256": "4d956fbb934b5f8dbcbd737a0a18669cd5edec420a862a32933a0d96ae23dd29",
+    "size": 305363,
+    "source": "https://github.com/libretro/libretro-minivmac"
+  },
+  "morpheuscast_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "morpheuscast",
+    "sha256": "a0781a5ba6f5e4445ab48b436f1cfc30b49020add95c443db98e6086466e9d20",
+    "size": 3702870,
+    "source": null,
+    "vendored": true
+  },
+  "mu_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "d9766f1",
+    "core": "mu",
+    "sha256": "4056268e96e8a308ff2dcefd945fc54276e766a14c0a0266ab0e0d93dc838192",
+    "size": 197926,
+    "source": "https://github.com/libretro/Mu"
+  },
+  "mupen64plus_libretro.so.zip": {
+    "built": null,
+    "commit": "680e033",
+    "core": "mupen64plus",
+    "sha256": "d0331e8088c2762267e83c7a2f0e1a21c66cf9c410412570dc75edc933568106",
+    "size": 767133,
+    "source": "https://github.com/libretro/mupen64plus-libretro-nx.git"
+  },
+  "mupen64plus_next_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "mupen64plus_next",
+    "sha256": "ba739f62e2475fcb7ad0482dae8f833e11c70cdb6d600b55e7a41a0a91676031",
+    "size": 1407746,
+    "source": null,
+    "vendored": true
+  },
+  "nekop2_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "dc905d4",
+    "core": "nekop2",
+    "sha256": "308f518d84621eb9983b7bec3ac0f8d9ca6da84cae8aaf7de55083440520f14d",
+    "size": 497125,
+    "source": "https://github.com/libretro/libretro-meowPC98"
+  },
+  "neocd_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5eca2c8",
+    "core": "neocd",
+    "sha256": "f928107eefda06309db55ac730ecd907ea3e6c5b04c37a37a190cd35578a1a05",
+    "size": 527071,
+    "source": "https://github.com/libretro/neocd_libretro"
+  },
+  "nestopia_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5deada5",
+    "core": "nestopia",
+    "sha256": "c5e06881ccc3f4b4aba5e70da89b9c420096bacab6dc8c6e2afcf4e58e90b7c2",
+    "size": 715087,
+    "source": "https://github.com/libretro/nestopia"
+  },
+  "np2kai_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "cfac20d",
+    "core": "np2kai",
+    "sha256": "2c91449a4408b5e0407ae42fe1a209d1547c79ad627604f5c85ee62297c2da14",
+    "size": 825231,
+    "source": "https://github.com/libretro/NP2kai"
+  },
+  "numero_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "867c40a",
+    "core": "numero",
+    "sha256": "747fd02702e0e5b4337f0cf2ec1864f3b13dd085eca4964fb04dd4f002395ef0",
+    "size": 495949,
+    "source": "https://github.com/nbarkhina/numero"
+  },
+  "nxengine_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "9adc032",
+    "core": "nxengine",
+    "sha256": "9bea76e97c81692c49d5ef9515379612efcc810155a5f49b63d0bd4c994a3157",
+    "size": 306059,
+    "source": "https://github.com/libretro/nxengine-libretro"
+  },
+  "o2em_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "3ba4231",
+    "core": "o2em",
+    "sha256": "3dae448a47f5b44982d1ff4f52b51ec6d3fa9877f5dce1044086caa83a36ec00",
+    "size": 127763,
+    "source": "https://github.com/libretro/libretro-o2em"
+  },
+  "onscripter_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "onscripter",
+    "sha256": "a5ab20eb25aa3f0979d022159ba7170504603973137c140f39a7f2bc84cf1d53",
+    "size": 1207447,
+    "source": null,
+    "vendored": true
+  },
+  "onsyuri_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "onsyuri",
+    "sha256": "531e29db91e348c30667a2aa2adadf89ee0a3e1f3bb8c3c1bececd6d9de1f523",
+    "size": 1394870,
+    "source": null,
+    "vendored": true
+  },
+  "openlara_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "openlara",
+    "sha256": "262d5dcb615c11ca0328fe4c39f89f9f1ee75ab1af13afef34fa9b93afc9fb6c",
+    "size": 498052,
+    "source": null,
+    "vendored": true
+  },
+  "opera_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "67a29e6",
+    "core": "opera",
+    "sha256": "e98154501448417dc67a1e3df3f59cdb21a31a51e0994f219d6a7e51893a945c",
+    "size": 177612,
+    "source": "https://github.com/libretro/opera-libretro"
+  },
+  "parallel_n64_libretro.so.zip": {
+    "built": "2026-01-18",
+    "commit": "1da824e",
+    "core": "parallel_n64",
+    "sha256": "2bc48085c98411e6838298158133475507bc9f12eb369e8fe20d11dd86884696",
+    "size": 883784,
+    "source": "https://github.com/libretro/parallel-n64.git"
+  },
+  "pcfx_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "pcfx",
+    "sha256": "c0408894c0883112e246c0816190b91c1556cd101b32f618b49bbb5a72f25e9a",
+    "size": 329637,
+    "source": null,
+    "vendored": true
+  },
+  "pcsx_rearmed_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "94a7ee3",
+    "core": "pcsx_rearmed",
+    "sha256": "992b13cdfb3c00bf62e83d92b445f2c4fca92846cb094e866749c645e318898d",
+    "size": 649753,
+    "source": "https://github.com/libretro/pcsx_rearmed"
+  },
+  "picodrive_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "ec68ce8",
+    "core": "picodrive",
+    "sha256": "2cd33120acd7ba2162b44c51e0b325f30c481f98c242080a6509528e69d724e0",
+    "size": 800293,
+    "source": "https://github.com/irixxxx/picodrive"
+  },
+  "pocketcdg_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "c1fac9f",
+    "core": "pocketcdg",
+    "sha256": "e4357e0726c26ad704da6b68999ebabb153b1f3393eac7af8979eb9a65727fe8",
+    "size": 87467,
+    "source": "https://github.com/libretro/libretro-pocketcdg"
+  },
+  "pocketsnes_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "pocketsnes",
+    "sha256": "c2b8b4b966f51d64a34d8eaf9f8020eaca51181ade515e50400243616c144816",
+    "size": 257025,
+    "source": null,
+    "vendored": true
+  },
+  "pokemini_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "1909580",
+    "core": "pokemini",
+    "sha256": "4d9a2c91771f507f9cdc77cc871a73d4aff21e539ec903d46699c901f88af312",
+    "size": 99624,
+    "source": "https://github.com/libretro/PokeMini"
+  },
+  "potator_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "ad87bc6",
+    "core": "potator",
+    "sha256": "4a4075c45716c5cf07e58f34c021cf73f47773d0b42a0ccaa68deb487ee53085",
+    "size": 20636,
+    "source": "https://github.com/libretro/potator"
+  },
+  "ppsspp_libretro.so.zip": {
+    "built": "2026-08-23",
+    "commit": "fa50bb1",
+    "core": "ppsspp",
+    "sha256": "2f651a16a09ebb70848305f95229d3d45546e423780e7c50836d0aa0103a7599",
+    "size": 8028064,
+    "source": "https://github.com/hrydgard/ppsspp"
+  },
+  "prboom_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "b3e5f8b",
+    "core": "prboom",
+    "sha256": "c982cc46f02c3e9c746f47996dd78e7a41bf794654695d276d6a53c90f9b29ea",
+    "size": 453954,
+    "source": "https://github.com/libretro/libretro-prboom"
+  },
+  "press_f_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "6e2858f",
+    "core": "press_f",
+    "sha256": "1775665ad863b78ec67083fd4cfaa8b596cca79bb6920ea58a85451c2c44d612",
+    "size": 43185,
+    "source": "https://github.com/celerizer/Press-F-libretro"
+  },
+  "prosystem_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "acae250",
+    "core": "prosystem",
+    "sha256": "8da924bf88e0ccc178d98944639e6d81ac149cdc51eab75413dc6a03275e28f4",
+    "size": 55268,
+    "source": "https://github.com/libretro/prosystem-libretro"
+  },
+  "puae2021_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "297b347",
+    "core": "puae2021",
+    "sha256": "3c3b0d2fadb31cae72befcce36c7311ca1329d91ba30ee18372a1b49fa6b3543",
+    "size": 4041166,
+    "source": "https://github.com/libretro/libretro-uae"
+  },
+  "puae_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "0043cf9",
+    "core": "puae",
+    "sha256": "16caae13670f5f2ca971a037ef180e6690fab7fe40f024040629b841425022c1",
+    "size": 7081713,
+    "source": "https://github.com/libretro/libretro-uae"
+  },
+  "puzzlescript_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "18b5271",
+    "core": "puzzlescript",
+    "sha256": "b41afb0feea1a3aff8d2bf92845d3c04dcf82e87361bfefc3b21221c0251f7fc",
+    "size": 662708,
+    "source": "https://github.com/nwhitehead/pzretro"
+  },
+  "px68k_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "9dfa6ab",
+    "core": "px68k",
+    "sha256": "b04556d3322399e8b4f6473fb13f1cce5037b3e355b887fe930c49b0be69aae8",
+    "size": 196437,
+    "source": "https://github.com/libretro/px68k-libretro"
+  },
+  "quasi88_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "42be798",
+    "core": "quasi88",
+    "sha256": "8c64d6fd8b719f4f3bd0466a10d9d7a571eab0891a9e490d4bc966cee2d18b1c",
+    "size": 539925,
+    "source": "https://github.com/libretro/quasi88-libretro"
+  },
+  "quicknes_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "dbf19f7",
+    "core": "quicknes",
+    "sha256": "ecaf75ffd3b639bae1022dccbc9552b87d5f5b2354092f02b8dafd08bc4b328a",
+    "size": 145303,
+    "source": "https://github.com/libretro/QuickNES_Core"
+  },
+  "race_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "171950e",
+    "core": "race",
+    "sha256": "87741ebc2d076688c44e8f5be2029c7391ef63e1373a5f459acbaa3ec9a2ab0d",
+    "size": 103786,
+    "source": "https://github.com/libretro/RACE"
+  },
+  "retro8_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "a235ff8",
+    "core": "retro8",
+    "sha256": "ffb07ad39e96944090ffd691d3572c6baf2c77ae974096a10736d0852c52db89",
+    "size": 171363,
+    "source": "https://github.com/libretro/retro8"
+  },
+  "same_cdi_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "same_cdi",
+    "sha256": "7b66609439a0ff420bd14194a09915b0bab3b753737b59db44dfab62444dacb4",
+    "size": 8275934,
+    "source": null,
+    "vendored": true
+  },
+  "sameboy_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "f94e607",
+    "core": "sameboy",
+    "sha256": "a30e40cdf4d79c30d5578f08c4130041167a6ee7f12239d78badf67e650d58c5",
+    "size": 112278,
+    "source": "https://github.com/LIJI32/SameBoy"
+  },
+  "sameduck_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "sameduck",
+    "sha256": "78f45d04acce9992d8b0c9df419c44644825124d6bdd3891be6b6365cb644d79",
+    "size": 48173,
+    "source": null,
+    "vendored": true
+  },
+  "scummvm_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "c9e94a9",
+    "core": "scummvm",
+    "sha256": "d0454b597f6b74549631adad80cddd1618c2c622e379cd0da6d747b4d4efa8bc",
+    "size": 46493648,
+    "source": "https://github.com/libretro/scummvm"
+  },
+  "smsplus_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "c642bbd",
+    "core": "smsplus",
+    "sha256": "dadab515e9ece8cbe24a9bde69df27716b4c24a762ed2d08b6762b6d75fb15d2",
+    "size": 88712,
+    "source": "https://github.com/libretro/smsplus-gx"
+  },
+  "snes9x2002_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "a0709ec",
+    "core": "snes9x2002",
+    "sha256": "54be02820cec82ca0d8fc698b17bb3783ec0f126602bef7b25d0975f4978dd2a",
+    "size": 263309,
+    "source": "https://github.com/libretro/snes9x2002"
+  },
+  "snes9x2005_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "74d871d",
+    "core": "snes9x2005",
+    "sha256": "1c1725b93a47c4a6a546b4778df1f71f062e2ca5d8acdb643caf9a0333379263",
+    "size": 228720,
+    "source": "https://github.com/libretro/snes9x2005"
+  },
+  "snes9x2005_plus_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "snes9x2005_plus",
+    "sha256": "52e7dcc7a0e912bb75979f27189af4540ba95076b98b90677094df73ba4061ca",
+    "size": 222185,
+    "source": null,
+    "vendored": true
+  },
+  "snes9x2010_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "f9ae8fd",
+    "core": "snes9x2010",
+    "sha256": "594af93945012da747fc8e63984083f8110e1c0fc282f033d8d3db7c0ff92061",
+    "size": 633583,
+    "source": "https://github.com/libretro/snes9x2010"
+  },
+  "snes9x_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "5a40cd5",
+    "core": "snes9x",
+    "sha256": "d571c1e2a956dc9e24fe46331eb2446ceed207cc77cfb573a6aec7118a2a5b39",
+    "size": 666868,
+    "source": "https://github.com/libretro/snes9x"
+  },
+  "snes9x_next_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "snes9x_next",
+    "sha256": "7afaf9e2d65f19ccbcd7d1bb99940a8f7ee9c8ede57fea226b6040f78d80e806",
+    "size": 645703,
+    "source": null,
+    "vendored": true
+  },
+  "stella2014_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "3cc89f0",
+    "core": "stella2014",
+    "sha256": "9108a6cf2d713aaacdccac243e68aecb4b1d53d81aecd0fde043bcf873d41087",
+    "size": 509966,
+    "source": "https://github.com/libretro/stella2014-libretro"
+  },
+  "stella_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2c9fac4",
+    "core": "stella",
+    "sha256": "2317119e3a0a7f8275dca1094f5a7d662c326fc52bcc0b3adcbea62ab2114102",
+    "size": 1414518,
+    "source": "https://github.com/libretro/stella2023"
+  },
+  "superbroswar_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "superbroswar",
+    "sha256": "291cb58a1f4b81d6b1ea596a5055c05c8033e236ca6fe54f7ccf26fd7fcad921",
+    "size": 1114266,
+    "source": null,
+    "vendored": true
+  },
+  "swanstation_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "4d309c0",
+    "core": "swanstation",
+    "sha256": "83ce930167bcf0c50d8614175f1818568894be2750b2bc1eecc6b2282bff6e6f",
+    "size": 1569393,
+    "source": "https://github.com/libretro/swanstation"
+  },
+  "tgbdual_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "933707c",
+    "core": "tgbdual",
+    "sha256": "b8fbb971533bc34fa63776099d14b8ef58c230d32ac01d911f6f3ae5aee5194d",
+    "size": 43386,
+    "source": "https://github.com/libretro/tgbdual-libretro"
+  },
+  "theodore_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "242e932",
+    "core": "theodore",
+    "sha256": "9a881a6614d1f68aa37666bece19761c0d7f8f5740964a2c5be5c30cf521946d",
+    "size": 896016,
+    "source": "https://github.com/Zlika/theodore"
+  },
+  "tic80_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "tic80",
+    "sha256": "55d0bd6de228f3a5a9765997102ddfed28da04ba74d33468f2b6395e6dfb9498",
+    "size": 2431089,
+    "source": null,
+    "vendored": true
+  },
+  "tyrquake_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "dfdae65",
+    "core": "tyrquake",
+    "sha256": "c7d59203900666ae4cd1c589a55296dda7784f99e9b4af9a904650665e0123fc",
+    "size": 393902,
+    "source": "https://github.com/libretro/tyrquake"
+  },
+  "uae4arm_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "uae4arm",
+    "sha256": "14c9d6fbddf5335941d0d52cddcfdf40ebcf3d43bcde815f35418108dc01d12c",
+    "size": 3028994,
+    "source": null,
+    "vendored": true
+  },
+  "uw8_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "2dced6e",
+    "core": "uw8",
+    "sha256": "cf79bfc9855196b956ab89485e06917272045fde15ee58be212f22ed538676dd",
+    "size": 76374,
+    "source": "https://github.com/libretro/uw8-libretro"
+  },
+  "uzem_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "cd6004e",
+    "core": "uzem",
+    "sha256": "487a8e732ec55609a99ff62e01aaa794130b0a00f88bad25805f4c64c4380a49",
+    "size": 34853,
+    "source": "https://github.com/libretro/libretro-uzem"
+  },
+  "vb_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "vb",
+    "sha256": "823274129576ed926be7c93d59ebb05fe9fb9e32f858a2724e21aa9fbf00de8f",
+    "size": 72289,
+    "source": null,
+    "vendored": true
+  },
+  "vba_next_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "d0ec7f3",
+    "core": "vba_next",
+    "sha256": "c65e5af8c1197283a600fc591fef18d9b4a48ea8d95866d6b7b8c26171ee27ba",
+    "size": 172968,
+    "source": "https://github.com/libretro/vba-next"
+  },
+  "vbam_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "1f9e10f",
+    "core": "visualboyadvance-m",
+    "sha256": "baccc77d8353fef6777db8c07361027d0bedc77bd936361d7ab71aa433f97444",
+    "size": 296201,
+    "source": "https://github.com/visualboyadvance-m/visualboyadvance-m"
+  },
+  "vecx_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "841229a",
+    "core": "vecx",
+    "sha256": "8e115e6dee5549fdcd2e92c7edb9adf2a6f426bd92b977d14ded1ff49810a5a4",
+    "size": 44478,
+    "source": "https://github.com/libretro/libretro-vecx"
+  },
+  "vemulator_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "45d7556",
+    "core": "vemulator",
+    "sha256": "713c37a96db302c6e26b83102af624023c779dac7755c7a0c2e7df51713f0207",
+    "size": 32198,
+    "source": "https://github.com/libretro/vemulator-libretro"
+  },
+  "vice_x128_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_x128",
+    "sha256": "919557c0796e39e4b42290537d8afea07687829b66fcc51178a66b5d36cf3fbe",
+    "size": 1423952,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_x64_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_x64",
+    "sha256": "609a4d833f7a2d0ce658f87613a320d0fead25fae99dc0e8ec03e6f10ba3ff4d",
+    "size": 1308193,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_x64dtv_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_x64dtv",
+    "sha256": "6ccbbfd452b620120bfb14eec73dc005d629dd5d5bc8a07507bf7d17a7d9c770",
+    "size": 1010388,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_x64sc_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_x64sc",
+    "sha256": "8863b5b79f597b43cd8bd389e595eae80cbf35672abb9fc16aad41703f16a6ce",
+    "size": 1297103,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_xcbm2_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_xcbm2",
+    "sha256": "0e9e6e4f26a2629ed78272c32ef3e3f144bdffbd3050fee85e5237cfac94b4e0",
+    "size": 974519,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_xcbm5x0_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_xcbm5x0",
+    "sha256": "192d7e8aa07fe3762eadeda3efc1161b1a65df0fb4e02cf069a164a1cf6c331b",
+    "size": 1006021,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_xpet_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_xpet",
+    "sha256": "4a843fd863af511bb1c32eb44ed9bc074ac619b762ef82c47391620f99925019",
+    "size": 1028549,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_xplus4_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_xplus4",
+    "sha256": "2f3790cbf589c1ae456f8ecded7eaabcc5bbc2ed631d46149263ce906a0502dd",
+    "size": 1065950,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_xscpu64_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_xscpu64",
+    "sha256": "a994bf247b575e18eaa825e6f4c40f645a36323a47c95b92da6d394be986d4c7",
+    "size": 1340748,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vice_xvic_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "e9f8ac0",
+    "core": "vice_xvic",
+    "sha256": "ab120adc68e05c64768beb3acd862f543075360058586ecf420aad8a06520e23",
+    "size": 1061261,
+    "source": "https://github.com/libretro/vice-libretro"
+  },
+  "vircon32_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "d8a9243",
+    "core": "vircon32",
+    "sha256": "08aa9c306b42611e886d760eb30431ad2dd2e43e9e96990d505ee184abb25bba",
+    "size": 983075,
+    "source": "https://github.com/vircon32/vircon32-libretro"
+  },
+  "virtualjaguar_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "48096c1",
+    "core": "virtualjaguar",
+    "sha256": "10cc0af91c78ef11074da9fcbf93e4aca2bbc045bf9426ea065a8662566925da",
+    "size": 697655,
+    "source": "https://github.com/libretro/virtualjaguar-libretro"
+  },
+  "vitaquake2-rogue_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "vitaquake2-rogue",
+    "sha256": "8801edc19fa9156986be6ca66f75d125f76e145f0f9843c14158703e13c33870",
+    "size": 847726,
+    "source": null,
+    "vendored": true
+  },
+  "vitaquake2-xatrix_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "vitaquake2-xatrix",
+    "sha256": "0d0401315392fc12c5ccb6fdf0987f2ad07917d68b3f0082d151ac58f8ca1ccf",
+    "size": 777639,
+    "source": null,
+    "vendored": true
+  },
+  "vitaquake2-zaero_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "vitaquake2-zaero",
+    "sha256": "2b8967ec314a54a4a6f720d3ef17e810daaabff566d5c29dfc25f8859a4ad14c",
+    "size": 784973,
+    "source": null,
+    "vendored": true
+  },
+  "vitaquake2_libretro.so.zip": {
+    "built": "2026-04-21",
+    "commit": "1fc6922",
+    "core": "vitaquake2",
+    "sha256": "31eec13f337c0f4ee52f0c49cd2ac748fac60665900e8038b7d7628df5ca761e",
+    "size": 803313,
+    "source": "https://github.com/libretro/vitaquake2"
+  },
+  "wasm4_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "68cbe42",
+    "core": "wasm4",
+    "sha256": "b839f50a7edc3af6f389ab54d73d5a9319bba5410faa32ee84d907bf4f87eb95",
+    "size": 61467,
+    "source": "https://github.com/aduros/wasm4"
+  },
+  "x1_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "6a52dc2",
+    "core": "x1",
+    "sha256": "dfbd2a9720ab13cb017f12d115ee0c266c455dd0107d61adc6a0d41b38c38b80",
+    "size": 161912,
+    "source": "https://github.com/libretro/xmil-libretro"
+  },
+  "yabasanshiro_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "yabasanshiro",
+    "sha256": "af9b604dad5518f1c329e3b3821a943bc2768bbd36af85cbe8bd1440c2dfa100",
+    "size": 646687,
+    "source": null,
+    "vendored": true
+  },
+  "yabause_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "yabause",
+    "sha256": "4a94c4b4b4a5cc59a11821ee9ade1ec2cd9878305abfa45ad9717325c0c112fa",
+    "size": 496412,
+    "source": null,
+    "vendored": true
+  },
+  "zc210_libretro.so.zip": {
+    "built": null,
+    "commit": null,
+    "core": "zc210",
+    "sha256": "9e5d9964bffd57b0b9c77cb2a0ec8e41af02f4f370197e172cd45ad8d777bbcc",
+    "size": 319445,
+    "source": null,
+    "vendored": true
+  },
+  "zc250x_libretro.so.zip": {
+    "built": "2026-09-13",
+    "commit": "cfe8da6",
+    "core": "zc250x",
+    "sha256": "c10bae2b996521e51d734694ea765960ac3eb9649bab525da996b2d80ad4f6ab",
+    "size": 752067,
+    "source": "https://github.com/netux79/zc250x-libretro"
+  }
+}

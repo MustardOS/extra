@@ -794,6 +794,11 @@ if [ ! -f "$CACHE_FILE" ]; then
 	echo "{}" > "$CACHE_FILE"
 fi
 
+MANIFEST_FILE="$BASE_DIR/data/manifest.json"
+if [ ! -f "$MANIFEST_FILE" ]; then
+	echo "{}" > "$MANIFEST_FILE"
+fi
+
 for NAME in $CORES; do
 	printf "\n-------------------------------------------------------------------------\n"
 
@@ -1263,6 +1268,20 @@ for NAME in $CORES; do
 	# Cache update only after outputs validated, moved, zipped, and indexed successfully
 	jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
 	   '(.[$name] = {"hash":$hash,"dir":$dir})' "$CACHE_FILE" >"$CACHE_FILE.tmp" && mv "$CACHE_FILE.tmp" "$CACHE_FILE"
+
+	# The manifest is the same record as the cache, except it is committed and shipped.
+	# Without it the upstream commit a core was built from never leaves this machine, so
+	# nothing downstream can tell an installed core from a newer one. Keyed by archive
+	# name because that is what a release asset and an installed core have in common.
+	MANIFEST_SHA=$(sha256sum "$ZIP_NAME" | cut -d' ' -f1)
+	MANIFEST_SIZE=$(wc -c <"$ZIP_NAME" | tr -d ' ')
+
+	jq --arg zip "$ZIP_NAME" --arg name "$NAME" --arg commit "$REMOTE_HASH" \
+	   --arg source "$SOURCE" --arg sha "$MANIFEST_SHA" --arg size "$MANIFEST_SIZE" \
+	   --arg built "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+	   '(.[$zip] = {"core":$name,"commit":$commit,"source":$source,"sha256":$sha,
+	                "size":($size|tonumber),"built":$built})' \
+	   "$MANIFEST_FILE" >"$MANIFEST_FILE.tmp" && mv "$MANIFEST_FILE.tmp" "$MANIFEST_FILE"
 
 	# After packaging: purge repo if requested, otherwise try cleaning build artifacts
 	if [ "$PURGE" -eq 1 ] || [ "$CORE_PURGE_FLAG" -eq 1 ]; then
