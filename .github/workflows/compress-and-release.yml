@@ -63,11 +63,25 @@ jobs:
           COMPRESS_SYSTEM "system/base"  "Base"
           COMPRESS_SYSTEM "system/extra" "Extra"
 
+      - name: Publish core manifest and per core archives
+        run: |
+          cp data/manifest.json artifacts/core-manifest.json
+
+          for CORE_ZIP in core/*.so.zip; do
+            [ -f "$CORE_ZIP" ] || continue
+            cp "$CORE_ZIP" "artifacts/Core - $(basename "$CORE_ZIP" .zip).muxzip"
+          done
+
+          printf 'manifest entries: %s\n' "$(jq 'length' artifacts/core-manifest.json)"
+          printf 'core archives:    %s\n' "$(find artifacts -name 'Core - *.muxzip' | wc -l)"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.TAG_NAME }}
           name: ${{ env.RELEASE_NAME }}
-          files: artifacts/*.muxzip
+          files: |
+            artifacts/*.muxzip
+            artifacts/core-manifest.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
