@@ -7,7 +7,7 @@ set -eu
 
 BASE_DIR=$(CDPATH='' cd "$(dirname "$0")" && pwd)
 DATA_DIR="$BASE_DIR/data"
-SYSTEM_DIR="$BASE_DIR/system/extra"
+SYSTEM_DIR="$BASE_DIR/system"
 REPOSITORY="https://github.com/MustardOS/extra/releases/latest/download"
 
 VERSION=${1:-}
@@ -38,7 +38,7 @@ printf '%s\n' "$NAMES" |
 		| split("\n") | map(select(length > 0))
 		| map({
 			name: .,
-			url: ($base + "/Extra.-." + (. | gsub(" "; ".")) + ".muxzip"),
+			url: ($base + "/Base.-." + (. | gsub(" "; ".")) + ".muxzip"),
 			type: "core",
 			help: (($prev[.] // {}).help // "")
 		})
