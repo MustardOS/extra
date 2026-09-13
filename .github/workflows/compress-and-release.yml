@@ -35,44 +35,46 @@ jobs:
             esac
           done
 
-      - name: Compress Base and Extra systems
+      - name: Compress Extra system packages
         run: |
-          mkdir -p artifacts
+          mkdir -p "$GITHUB_WORKSPACE/artifacts"
 
-          COMPRESS_SYSTEM() {
-            ROOT="$1"
-            PREFIX="$2"
-
-            [ -d "$ROOT" ] || return
-
-            for SYS in "$ROOT"/*; do
-              [ -d "$SYS" ] || continue
-
-              NAME="$(basename "$SYS")"
-              OUT="artifacts/${PREFIX} - ${NAME}.muxzip"
-
-              echo "Compressing: ($PREFIX) $SYS"
-
-              (
-                cd "$SYS" || exit 1
-                zip -r9 "../../../$OUT" ./* >/dev/null 2>&1 || echo "zip failed for $SYS"
-              )
-            done
-          }
-
-          COMPRESS_SYSTEM "system" "Base"
-
-      - name: Publish core manifest and per core archives
-        run: |
-          cp data/manifest.json artifacts/core-manifest.json
-
-          for CORE_ZIP in core/*.so.zip; do
-            [ -f "$CORE_ZIP" ] || continue
-            cp "$CORE_ZIP" "artifacts/Core - $(basename "$CORE_ZIP" .zip).muxzip"
+          # system/<name> is two levels deep. The previous ../../../artifacts
+          # path assumed system/extra/<name> and wrote zips outside the
+          # workspace, so Extra/Base muxzips never made it onto the release.
+          for SYS in system/*; do
+            [ -d "$SYS" ] || continue
+            NAME="$(basename "$SYS")"
+            OUT="$GITHUB_WORKSPACE/artifacts/Extra - ${NAME}.muxzip"
+            echo "Compressing: (Extra) $SYS"
+            (
+              cd "$SYS" || exit 1
+              zip -r9 "$OUT" ./* >/dev/null 2>&1 || echo "zip failed for $SYS"
+            )
           done
 
-          printf 'manifest entries: %s\n' "$(jq 'length' artifacts/core-manifest.json)"
-          printf 'core archives:    %s\n' "$(find artifacts -name 'Core - *.muxzip' | wc -l)"
+          printf 'extra system archives: %s\n' "$(find "$GITHUB_WORKSPACE/artifacts" -name 'Extra - *.muxzip' | wc -l)"
+
+      - name: Publish core manifest and per-core archives
+        run: |
+          cp data/manifest.json "$GITHUB_WORKSPACE/artifacts/core-manifest.json"
+
+          # Archive Manager only extracts muxzip top-level folders that have a
+          # matching /opt/muos/script/archive/<folder>.sh handler. A bare
+          # foo_libretro.so at the zip root is skipped with no error.
+          STAGE="$(mktemp -d)"
+          for CORE_ZIP in core/*.so.zip; do
+            [ -f "$CORE_ZIP" ] || continue
+            rm -rf "$STAGE/core"
+            mkdir -p "$STAGE/core"
+            unzip -qq -o "$CORE_ZIP" -d "$STAGE/core" || continue
+            OUT="$GITHUB_WORKSPACE/artifacts/Core - $(basename "$CORE_ZIP" .zip).muxzip"
+            ( cd "$STAGE" && zip -r9 "$OUT" core >/dev/null 2>&1 ) || echo "zip failed for $CORE_ZIP"
+          done
+          rm -rf "$STAGE"
+
+          printf 'manifest entries: %s\n' "$(jq 'length' "$GITHUB_WORKSPACE/artifacts/core-manifest.json")"
+          printf 'core archives:    %s\n' "$(find "$GITHUB_WORKSPACE/artifacts" -name 'Core - *.muxzip' | wc -l)"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
