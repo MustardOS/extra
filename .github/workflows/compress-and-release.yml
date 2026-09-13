@@ -19,7 +19,7 @@ jobs:
 
       - name: Extract compressed RetroArch core into system package
         run: |
-          find system/base system/extra -type f -path "*/assign/*.ini" | while IFS= read -r INI; do
+          find system -type f -path "*/assign/*.ini" | while IFS= read -r INI; do
             SYS_DIR="$(dirname "$(dirname "$(dirname "$INI")")")"
             CORE_DIR="$SYS_DIR/core"
             CORE_VAL="$(grep '^core=' "$INI" | sed 's/^core=//')"
@@ -60,8 +60,7 @@ jobs:
             done
           }
 
-          COMPRESS_SYSTEM "system/base"  "Base"
-          COMPRESS_SYSTEM "system/extra" "Extra"
+          COMPRESS_SYSTEM "system" "Base"
 
       - name: Publish core manifest and per core archives
         run: |
