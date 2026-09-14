@@ -64,15 +64,34 @@ jobs:
 
       - name: Publish core manifest and per core archives
         run: |
-          cp data/manifest.json artifacts/core-manifest.json
+          set -eu
+
+          ARTIFACT_DIR="$PWD/artifacts"
+          mkdir -p "$ARTIFACT_DIR"
+          cp data/manifest.json "$ARTIFACT_DIR/core-manifest.json"
 
           for CORE_ZIP in core/*.so.zip; do
             [ -f "$CORE_ZIP" ] || continue
-            cp "$CORE_ZIP" "artifacts/Core - $(basename "$CORE_ZIP" .zip).muxzip"
+
+            NAME="$(basename "$CORE_ZIP" .zip)"
+            STAGE="$(mktemp -d)"
+
+            unzip -qo "$CORE_ZIP" -d "$STAGE/payload"
+
+            mkdir -p "$STAGE/pack/core"
+            find "$STAGE/payload" -maxdepth 1 -type f -name '*.so' -exec mv {} "$STAGE/pack/core/" \;
+
+            if [ -n "$(find "$STAGE/payload" -mindepth 1 -maxdepth 1)" ]; then
+              mkdir -p "$STAGE/pack/bios"
+              find "$STAGE/payload" -mindepth 1 -maxdepth 1 -exec mv {} "$STAGE/pack/bios/" \;
+            fi
+
+            ( cd "$STAGE/pack" && zip -r9 "$ARTIFACT_DIR/Core - $NAME.muxzip" . >/dev/null )
+            rm -rf "$STAGE"
           done
 
-          printf 'manifest entries: %s\n' "$(jq 'length' artifacts/core-manifest.json)"
-          printf 'core archives:    %s\n' "$(find artifacts -name 'Core - *.muxzip' | wc -l)"
+          printf 'manifest entries: %s\n' "$(jq 'length' "$ARTIFACT_DIR/core-manifest.json")"
+          printf 'core archives:    %s\n' "$(find "$ARTIFACT_DIR" -name 'Core - *.muxzip' | wc -l)"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
