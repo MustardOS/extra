@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Mustard",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/mustard.ini",
+    "version": "1",
+    "sha256": "02d0577cd40658fdcc3ea6d652d9a85838ccaf4defe21cb82279dfa2134114b2"
+  },
+  {
+    "name": "Neon Boost",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/neon_boost.ini",
+    "version": "1",
+    "sha256": "d104b28648457df4b5cd218739b8c315a8649901f4fce48737a576a5f3255786"
+  },
+  {
+    "name": "Paper Like",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/paper_like.ini",
+    "version": "1",
+    "sha256": "42e67396944311d70f93d3f5af71ae7ff029ce438449f7e1dd68da3ab1305571"
+  },
+  {
+    "name": "Sepia Tone",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/sepia_tone.ini",
+    "version": "1",
+    "sha256": "ee907b501f87c13778afafd2d7d8a70507f159bd47886583902c55c253f65c3d"
+  },
+  {
+    "name": "Toxic Waste",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/toxic_waste.ini",
+    "version": "1",
+    "sha256": "c5257dc2f356361f58299172293a823800f2225f171ff66eaaafe0ca2387c93b"
+  },
+  {
+    "name": "Vaporwave",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/vaporwave.ini",
+    "version": "1",
+    "sha256": "f3d1cc6399dda4d9e01c020d91bfa631e7edf3b0e21fa73fc921bada9cf6a336"
+  }
+]

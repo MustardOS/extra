@@ -31,14 +31,6 @@
     "size": 107257,
     "source": "https://github.com/libretro/a5200"
   },
-  "amiberry_libretro.so.zip": {
-    "built": "2026-09-13",
-    "commit": "05ec3ba",
-    "core": "amiberry",
-    "sha256": "955931fc6498f35384e83c1836dcdbaec17384fa42a3154448615ad1e2641a8a",
-    "size": 8010282,
-    "source": "https://github.com/BlitterStudio/amiberry"
-  },
   "ardens_libretro.so.zip": {
     "built": "2026-09-13",
     "commit": "9a1c46a",

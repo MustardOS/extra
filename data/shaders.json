@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Blurry",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/blurry.frag",
+    "version": "3",
+    "sha256": "fbaa10a89347ebeb43367c37588a5178b1e04675e07c2ebdf472694f4559f153"
+  },
+  {
+    "name": "Chromatic Aberration",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/chromatic.frag",
+    "version": "3",
+    "sha256": "84e2cebc59e0ecc795737671fc2916f1660619a81f6aec90780a22771e8429d4"
+  },
+  {
+    "name": "Cross Eye Depth",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/cross-eyed.frag",
+    "version": "3",
+    "sha256": "8cf36ef4399a06d2abf910138ae4e42ab6c47fcd4c135982a3bb607077352697"
+  },
+  {
+    "name": "Drunken Waves",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/drunken-waves.frag",
+    "version": "3",
+    "sha256": "dde512171d86f39a03685d44bf8efa7fe28a53e5455079ef6f1e89634bfddc54"
+  },
+  {
+    "name": "Etched Outline",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/etched-outline.frag",
+    "version": "3",
+    "sha256": "12fb09c14d4a81b21a90f92f0bfacbc7112a9dc7f1a2e99a7dff1e8b2f94809d"
+  },
+  {
+    "name": "Fish Eye - Inverted",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/fisheye-invert.frag",
+    "version": "3",
+    "sha256": "a95fe1be073002694962454d3764fc1e3b3ad89f5ed0f8c862139d158629fb73"
+  },
+  {
+    "name": "Fish Eye - Normal",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/fisheye.frag",
+    "version": "3",
+    "sha256": "194d074a4e95cf903b553d32392ccb14906fdd9461b676fbb1ef35348bf95d96"
+  },
+  {
+    "name": "Frosted Glass",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/frosted-glass.frag",
+    "version": "3",
+    "sha256": "976549ec5b72f1b13f8aef50af0f760a9045e12e5ea9ee7483870e8b321756dc"
+  },
+  {
+    "name": "Heat Mirage",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/heat-mirage.frag",
+    "version": "3",
+    "sha256": "976115bdd02b9c406cc853aed749d1554cd8130a22a4e0eb1d0e100b16bc46a5"
+  },
+  {
+    "name": "Pop Art",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pop-art.frag",
+    "version": "3",
+    "sha256": "f64c81cdc725a3d2fb505d79eb879dd88c9c72134f9797896d5bb92ebe1055d6"
+  },
+  {
+    "name": "Red Blue Stereo",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/red-blue.frag",
+    "version": "3",
+    "sha256": "fa87e595660d52e8ba3c1d4e93d202cbb45b12f0b82c331cd821150b51f2f77f"
+  },
+  {
+    "name": "Ripple",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/ripple.frag",
+    "version": "3",
+    "sha256": "b53c43375158a742b2ab9aeaa446fdc0490de08477a1168b902fe1bb00dbe2a8"
+  },
+  {
+    "name": "Terminal - Ascii Edition",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/terminal-ascii.frag",
+    "version": "3",
+    "sha256": "a1820e02457968d339bd5275805fb0a4688839da0956fcca57c37502e7bf0296"
+  },
+  {
+    "name": "Terminal - Fade Edition",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/terminal-fade.frag",
+    "version": "3",
+    "sha256": "1c5cc3f5da8c3255d9d07da6dae900ea06820bed4e8bcb13912a9dc1c70ebffe"
+  }
+]
