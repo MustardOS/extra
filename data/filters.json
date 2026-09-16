@@ -1,5 +1,41 @@
 [
   {
+    "name": "Achromatopsia",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/achromatopsia.ini",
+    "version": "1",
+    "sha256": "63ad6404b139c7bab72046b22e19ebbce564c46a145b03f108a0b4424eafb6ff"
+  },
+  {
+    "name": "Blue Light Reduction",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/blue_light_reduction.ini",
+    "version": "1",
+    "sha256": "c307b10060adeee6689174d6cf99036b0d99ad3c576acd31a51739afaa520eab"
+  },
+  {
+    "name": "Cool Tone",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/cool_tone.ini",
+    "version": "1",
+    "sha256": "84bd388b523aee2450e3e6e1efe41a44f6122b90860387bfe62d625691661e8f"
+  },
+  {
+    "name": "Deuteranopia",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/deuteranopia.ini",
+    "version": "1",
+    "sha256": "49341456304d9988f30cabd942708a13045caff0dc3cc4083433a49dd99255ba"
+  },
+  {
+    "name": "High Contrast",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/high_contrast.ini",
+    "version": "1",
+    "sha256": "08c11e452705a6dd8510fcee4dbeea8127ad7160b4240c6d9ae421b650050c84"
+  },
+  {
+    "name": "Monochrome",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/monochrome.ini",
+    "version": "1",
+    "sha256": "f2b91c51a9261a7a81c53a5ba28157868213fc52fab77d9d7e8743bb6631afdc"
+  },
+  {
     "name": "Mustard",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/mustard.ini",
     "version": "1",
@@ -18,6 +54,12 @@
     "sha256": "42e67396944311d70f93d3f5af71ae7ff029ce438449f7e1dd68da3ab1305571"
   },
   {
+    "name": "Protanopia",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/protanopia.ini",
+    "version": "1",
+    "sha256": "21ea27a85fb6e6480bdf03963ae5e30973d6e9c303d0fb3677373daee61a811d"
+  },
+  {
     "name": "Sepia Tone",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/sepia_tone.ini",
     "version": "1",
@@ -30,9 +72,21 @@
     "sha256": "c5257dc2f356361f58299172293a823800f2225f171ff66eaaafe0ca2387c93b"
   },
   {
+    "name": "Tritanopia",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/tritanopia.ini",
+    "version": "1",
+    "sha256": "de62c433eb1529d673692ad1d1aeaa96461fb45a0df591f1fe505aad48fbc270"
+  },
+  {
     "name": "Vaporwave",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/vaporwave.ini",
     "version": "1",
     "sha256": "f3d1cc6399dda4d9e01c020d91bfa631e7edf3b0e21fa73fc921bada9cf6a336"
+  },
+  {
+    "name": "Warm Tone",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/filter/warm_tone.ini",
+    "version": "1",
+    "sha256": "667d387407bb6126881f3f7bbbd865c624fda3f169d322afee45d986ce830a1e"
   }
 ]

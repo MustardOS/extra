@@ -1,5 +1,11 @@
 [
   {
+    "name": "Aperture Grille",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/aperture-grille.frag",
+    "version": "3",
+    "sha256": "c1d2e055e702f8adfd89fe8fcfe888d2b4ca20e563d974aaa5bb5cc376960a1b"
+  },
+  {
     "name": "Blurry",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/blurry.frag",
     "version": "3",
@@ -16,6 +22,66 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/cross-eyed.frag",
     "version": "3",
     "sha256": "8cf36ef4399a06d2abf910138ae4e42ab6c47fcd4c135982a3bb607077352697"
+  },
+  {
+    "name": "CRT Dreams",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/crt-dreams.frag",
+    "version": "3",
+    "sha256": "3984443470fcd4f0a532dacba77ffedad7191404f63476ce1f23bccaa77fa8af"
+  },
+  {
+    "name": "Dither - Bayer",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dither-bayer.frag",
+    "version": "3",
+    "sha256": "95326de8de5299316d9eeb9b5b4090aec6a235f22355e5d4a8019de384b3b0d7"
+  },
+  {
+    "name": "Dither - Blue Noise",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dither-bluenoise.frag",
+    "version": "3",
+    "sha256": "5c515db1c463b52ea995cd8fd27cf9f01a7115cd4e8eb9d2920744551b968a28"
+  },
+  {
+    "name": "Dot Matrix - Advanced",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-advanced.frag",
+    "version": "3",
+    "sha256": "eae19c0def475da279149ee4264ae04bf73817cca50b5a258c479406e12d5655"
+  },
+  {
+    "name": "Dot Matrix - Colour",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-colour.frag",
+    "version": "3",
+    "sha256": "6b4b503a6f933e22564a512983242602347cb1e5983e64467b5f478cc06a1d6e"
+  },
+  {
+    "name": "Dot Matrix - Colour Alt.",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-colour-alt.frag",
+    "version": "3",
+    "sha256": "15575574f5a3dbdb5143c75368f6a01a745b245a8bab64e08c81b3e5b3ccfd6a"
+  },
+  {
+    "name": "Dot Matrix - Original",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-original.frag",
+    "version": "3",
+    "sha256": "004823fd002e08b344d15af4905b9cae35733e411522533fa2309749aba3269d"
+  },
+  {
+    "name": "Dot Matrix - Original Alt.",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-original-alt.frag",
+    "version": "3",
+    "sha256": "2ccef541045c4d29225f83876d5a2f63e1951a02f3fe11f54f26e91137b04caa"
+  },
+  {
+    "name": "Dot Matrix - Pocket",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-pocket.frag",
+    "version": "3",
+    "sha256": "2ca8b30b94fb25879b519bf1640ba2a99d8ce2c0e34c274b760c6774762957cf"
+  },
+  {
+    "name": "Dot Matrix - Pocket Alt.",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dm-pocket-alt.frag",
+    "version": "3",
+    "sha256": "e682c47025c596b36b1b5438d5de69bb5b4e35c5cedd553b5cbdc84c53872994"
   },
   {
     "name": "Drunken Waves",
@@ -54,6 +120,60 @@
     "sha256": "976115bdd02b9c406cc853aed749d1554cd8130a22a4e0eb1d0e100b16bc46a5"
   },
   {
+    "name": "Invert",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/invert.frag",
+    "version": "2",
+    "sha256": "536a58cb3fa24df3ef774e718ab07bb33e26f14b606dc76162d9457b1df4f1d4"
+  },
+  {
+    "name": "Night Mode",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/night-mode.frag",
+    "version": "3",
+    "sha256": "f50a61629c935019ca5b9be8c68ee3bf2df10443d9dff5a7705d8be8e37b1e7b"
+  },
+  {
+    "name": "PC Mode - CGA",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pc-mode-cga.frag",
+    "version": "2",
+    "sha256": "46206ffb4f75674323828e36f32d140200f0585d7e3a4e942b8a16f0dadd05c1"
+  },
+  {
+    "name": "PC Mode - CGA Alt.",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pc-mode-cga-alt.frag",
+    "version": "2",
+    "sha256": "19e771f912e86dd4fa42995d37ca847ecb8c62ed549804c2505d72cce5b55fea"
+  },
+  {
+    "name": "PC Mode - EGA",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pc-mode-ega.frag",
+    "version": "2",
+    "sha256": "8d5813576eec1ff9dd08703488c395d13ee7b259f5cf4fbadefcd90a48501ed7"
+  },
+  {
+    "name": "PC Mode - EGA Alt.",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pc-mode-ega-alt.frag",
+    "version": "2",
+    "sha256": "a99df32d44eb1351bf00831159737bf339c95179c0d26280a8771082b58f1c32"
+  },
+  {
+    "name": "PC Mode - VGA",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pc-mode-vga.frag",
+    "version": "2",
+    "sha256": "7a7eacd7c65d755645a3b9277ffc924317f4800612af857f4436dcc72ed5075d"
+  },
+  {
+    "name": "PC Mode - VGA Alt.",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pc-mode-vga-alt.frag",
+    "version": "2",
+    "sha256": "87735ef261bdcd3446cf80335c9268beff9d4ebc73e55d0feacaff885b791095"
+  },
+  {
+    "name": "Pixels",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pixels.frag",
+    "version": "3",
+    "sha256": "9860b242a4f4df326255e685c6bcf3a77b9bfdb3df0082ac52e3581efdfb82f6"
+  },
+  {
     "name": "Pop Art",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/pop-art.frag",
     "version": "3",
@@ -72,6 +192,12 @@
     "sha256": "b53c43375158a742b2ab9aeaa446fdc0490de08477a1168b902fe1bb00dbe2a8"
   },
   {
+    "name": "Sharpen",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/sharpen.frag",
+    "version": "3",
+    "sha256": "e143355b9a92502206f86dea2b1f1d7bf65836c35c41d30527e99dc292f7f368"
+  },
+  {
     "name": "Terminal - Ascii Edition",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/terminal-ascii.frag",
     "version": "3",
@@ -82,5 +208,29 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/terminal-fade.frag",
     "version": "3",
     "sha256": "1c5cc3f5da8c3255d9d07da6dae900ea06820bed4e8bcb13912a9dc1c70ebffe"
+  },
+  {
+    "name": "TV Composite (NTSC) Output",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/tv-composite-ntsc.frag",
+    "version": "3",
+    "sha256": "85ba3ece6256c4f99cdef02eb9010e06a81f49f117a1bcbc479d12058a12e44d"
+  },
+  {
+    "name": "TV Composite (PAL) Output",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/tv-composite-pal.frag",
+    "version": "3",
+    "sha256": "e8130b553461d2929bbba1b2a9e89f79e33566188ee0fb32a87a0ae90767d795"
+  },
+  {
+    "name": "TV RF Output",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/tv-rfout.frag",
+    "version": "3",
+    "sha256": "1cb8b6142ec99a3eaae6475852c2337734f7d3ea16ff20a3b60baeed28413e86"
+  },
+  {
+    "name": "TV S-Video Output",
+    "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/tv-svideo.frag",
+    "version": "3",
+    "sha256": "3c9a87fdc6a3ca6658422e46cdd1ebc856f6f73bbc4fa6d8d19cfd8106d8b0a0"
   }
 ]
