@@ -1,51 +1,254 @@
-{
-  "640x480": [],
-  "720x480": [
-    {
-      "name": "Aperture Grille",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/aperture-grille.png",
-      "version": "1",
-      "sha256": "bfd166627d886425450cc570a7a36d80df85288cbc8669adec2253b55f27430a"
-    },
-    {
-      "name": "CRT Bezel",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/crt-bezel.png",
-      "version": "1",
-      "sha256": "6ca3f00a98ee1ede0048ea03e78a3037c83448ad44d5caff3f8308f5cd6b1996"
-    },
-    {
-      "name": "Dot Matrix",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/dot-matrix.png",
-      "version": "1",
-      "sha256": "518e507aa1fc9a4433085a51810c872db7c6543005862eecdf423037c8d310c5"
-    },
-    {
-      "name": "Hex Mesh",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/hex-mesh.png",
-      "version": "1",
-      "sha256": "b51750bdbc2fd558564f58a1728759ac6b9403095b82e837e7c2e0cf1a1a70cc"
-    },
-    {
-      "name": "LCD Grid",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/lcd-grid.png",
-      "version": "1",
-      "sha256": "90dfe323b9a7615ce811e405724ee5878a611559b2f7b970b65fdeba6e6d7ac3"
-    },
-    {
-      "name": "Slot Mask",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/slot-mask.png",
-      "version": "1",
-      "sha256": "f241868d471eaf16acd8d68de42ddbdd98a689d3f6a8066cb0be47b708c83f05"
-    },
-    {
-      "name": "Soft Scanlines",
-      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/scanlines-soft.png",
-      "version": "1",
-      "sha256": "4737c7faa86c8fcacc734ca849f63ec66ecc87f1bd921be2453003d68ebd3475"
-    }
-  ],
-  "720x720": [],
-  "1024x768": [],
-  "1280x720": [],
-  "1920x1080": []
-}
+[
+  {
+    "name": "Aperture Grille",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/aperture-grille.png",
+        "sha256": "36b1e152295aa3d2177a54d750d583527dce8d51ed9a0dd19c8672e164ce73f7"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/aperture-grille.png",
+        "sha256": "bfd166627d886425450cc570a7a36d80df85288cbc8669adec2253b55f27430a"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/aperture-grille.png",
+        "sha256": "24df7ab13e0d03512a0a024ed04a05ae5f5eb48a95a69c29d3eaad1f0c380fae"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/aperture-grille.png",
+        "sha256": "ca759d415731fa2be891d61b79aa30d24513bbb28fa5eb23f69603d789baa6fc"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/aperture-grille.png",
+        "sha256": "ff37a7f0421e11f7c615c1867c00edfac05c9da450c26b3ec9fef450ac9e18c5"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/aperture-grille.png",
+        "sha256": "21479ad30bcde030d27b9baf557020fc04a38698499fff1fe14c13e479241737"
+      }
+    ]
+  },
+  {
+    "name": "CRT Bezel",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/crt-bezel.png",
+        "sha256": "c55359584e2514869d04ad223a08d87eb636345c1de5af7d6182e77474370c3c"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/crt-bezel.png",
+        "sha256": "6ca3f00a98ee1ede0048ea03e78a3037c83448ad44d5caff3f8308f5cd6b1996"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/crt-bezel.png",
+        "sha256": "7bc4656b46159976880ffcbac2ae3a4d344219c26f48cce7334460975bdd6c4f"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/crt-bezel.png",
+        "sha256": "dce6fef8120b1e15aa8e0ffcb7af63c3516efc0daf2832172d409880a8f30bbe"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/crt-bezel.png",
+        "sha256": "bf95680413cdcec5fdc75d6f545eeda149ddbd1728d764cac9f46c84acdb2bb1"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/crt-bezel.png",
+        "sha256": "af4c7a918a895b076df6bb84794ac16308ad01d0c00b579930d9884d61a2e062"
+      }
+    ]
+  },
+  {
+    "name": "Dot Matrix",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/dot-matrix.png",
+        "sha256": "e90b524335b4e12c8b9eeb8ec403ac671effcfac03cc04eb27d295e73e4d392a"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/dot-matrix.png",
+        "sha256": "518e507aa1fc9a4433085a51810c872db7c6543005862eecdf423037c8d310c5"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/dot-matrix.png",
+        "sha256": "3401fe390105f44637c5c6fd0321f621f7f01a3a5582d9a01beaf42d070862ac"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/dot-matrix.png",
+        "sha256": "7e986bd82fa394d95d5d0c107662a6dfbd9917cce5368b9b15877b1bdd04026d"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/dot-matrix.png",
+        "sha256": "6b72092a72d30ab100cd66d06823c7390e462b004963423c3e2caa6d15817534"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/dot-matrix.png",
+        "sha256": "7d9fd132409b19cbb73bd5b9a2a42ea5ede6816ff7ec66ffe859d5dd9d70c3ab"
+      }
+    ]
+  },
+  {
+    "name": "Hex Mesh",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/hex-mesh.png",
+        "sha256": "e02fadc0ef81aa9b2b9c565dec0c0eed60ad3c40d7224446a342187290f7c52d"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/hex-mesh.png",
+        "sha256": "b51750bdbc2fd558564f58a1728759ac6b9403095b82e837e7c2e0cf1a1a70cc"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/hex-mesh.png",
+        "sha256": "a7ef401e721e7df086163cf456e373a7df9dc957872df3333b3969e35206f5fa"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/hex-mesh.png",
+        "sha256": "6f7abc0d0a853b2f4eb1b35f5b1be2d3a4a52b898fecf55795ae1e3d950f26c4"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/hex-mesh.png",
+        "sha256": "263016be797681a6fe63c2ac6b2786fbee77172064f254750db828de2b7e16a8"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/hex-mesh.png",
+        "sha256": "f11106b096b2444bd96dc093eccc1f8e502cd958f69bb64836f9bb6f6ab02404"
+      }
+    ]
+  },
+  {
+    "name": "LCD Grid",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/lcd-grid.png",
+        "sha256": "dd5ec97634471613130e69c378b2ad8aea2035698b296593bba519ba4ae4c51f"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/lcd-grid.png",
+        "sha256": "90dfe323b9a7615ce811e405724ee5878a611559b2f7b970b65fdeba6e6d7ac3"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/lcd-grid.png",
+        "sha256": "42b512b637ab2fabab245082115d798781e35e9f374ce3f5ab1a48b11806db96"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/lcd-grid.png",
+        "sha256": "2fb00e4d30efa2943fab05d865e42b9a500ca05b43f48ebd229d5e3578d683b9"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/lcd-grid.png",
+        "sha256": "cbcc37dd76893da1b1f47323814ee06f6936ce3692b255c1636881538685195b"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/lcd-grid.png",
+        "sha256": "4776b8b974677e7c66011a2289fbed7c963194a901316ee4655aadb792e2c814"
+      }
+    ]
+  },
+  {
+    "name": "Slot Mask",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/slot-mask.png",
+        "sha256": "64a1ba821cb1e6ddc4c72d661c5205632ec66caaacf957cd3f5fbc6c26489259"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/slot-mask.png",
+        "sha256": "f241868d471eaf16acd8d68de42ddbdd98a689d3f6a8066cb0be47b708c83f05"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/slot-mask.png",
+        "sha256": "69747e333ba3136a0f9b3816db5f2db61fef5dcfbd203a7282af80cf4ef2ef26"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/slot-mask.png",
+        "sha256": "592946aa160eb0ea2d6172d88b2732ac657016b631254a5c795d22dc0ee54fe4"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/slot-mask.png",
+        "sha256": "77dc4ce17ac36266ec68f3306d2950ed6548918d3aa77dfbb6b3073aad2cbb94"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/slot-mask.png",
+        "sha256": "674d4842bebdb6e8587669d68790fc12efaf14733d2524d0c3aaf68be9d2ac54"
+      }
+    ]
+  },
+  {
+    "name": "Soft Scanlines",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/640x480/scanlines-soft.png",
+        "sha256": "b949d3d5cf2b760ce14b7c7feb021fbd8b5b74edec8033272fb890f7061b6a78"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/scanlines-soft.png",
+        "sha256": "4737c7faa86c8fcacc734ca849f63ec66ecc87f1bd921be2453003d68ebd3475"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x720/scanlines-soft.png",
+        "sha256": "ada461f66547622f598427dddd5e4836039420c36e73c549f38f047d5c5b90bc"
+      },
+      {
+        "resolution": "1024x768",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1024x768/scanlines-soft.png",
+        "sha256": "fd424847594b41cefd8e876a89cb7973e79ef251a5ebfb98e88cad5928442543"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1280x720/scanlines-soft.png",
+        "sha256": "5f74b18d58375f8c1bdab0ebfa91eba47fd374f01ed6eac2b34643f8411fb11c"
+      },
+      {
+        "resolution": "1920x1080",
+        "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/1920x1080/scanlines-soft.png",
+        "sha256": "dfa07da52d028f71e24805e4164b6a11be7aa4d44d4e6a589deec1aacf3e2535"
+      }
+    ]
+  }
+]
