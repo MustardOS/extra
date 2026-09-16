@@ -114,6 +114,12 @@
     "sha256": "976549ec5b72f1b13f8aef50af0f760a9045e12e5ea9ee7483870e8b321756dc"
   },
   {
+    "name": "FS Sharp Shimmerless",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-sharp-shimmerless.frag",
+    "version": "1",
+    "sha256": "e6448c5520d071f28a9a09c38ddb0e014051a98ef5a916123307538e222e3af3"
+  },
+  {
     "name": "Heat Mirage",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/heat-mirage.frag",
     "version": "3",
