@@ -1,0 +1,51 @@
+{
+  "640x480": [],
+  "720x480": [
+    {
+      "name": "Aperture Grille",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/aperture-grille.png",
+      "version": "1",
+      "sha256": "bfd166627d886425450cc570a7a36d80df85288cbc8669adec2253b55f27430a"
+    },
+    {
+      "name": "CRT Bezel",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/crt-bezel.png",
+      "version": "1",
+      "sha256": "6ca3f00a98ee1ede0048ea03e78a3037c83448ad44d5caff3f8308f5cd6b1996"
+    },
+    {
+      "name": "Dot Matrix",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/dot-matrix.png",
+      "version": "1",
+      "sha256": "518e507aa1fc9a4433085a51810c872db7c6543005862eecdf423037c8d310c5"
+    },
+    {
+      "name": "Hex Mesh",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/hex-mesh.png",
+      "version": "1",
+      "sha256": "b51750bdbc2fd558564f58a1728759ac6b9403095b82e837e7c2e0cf1a1a70cc"
+    },
+    {
+      "name": "LCD Grid",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/lcd-grid.png",
+      "version": "1",
+      "sha256": "90dfe323b9a7615ce811e405724ee5878a611559b2f7b970b65fdeba6e6d7ac3"
+    },
+    {
+      "name": "Slot Mask",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/slot-mask.png",
+      "version": "1",
+      "sha256": "f241868d471eaf16acd8d68de42ddbdd98a689d3f6a8066cb0be47b708c83f05"
+    },
+    {
+      "name": "Soft Scanlines",
+      "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/overlay/720x480/scanlines-soft.png",
+      "version": "1",
+      "sha256": "4737c7faa86c8fcacc734ca849f63ec66ecc87f1bd921be2453003d68ebd3475"
+    }
+  ],
+  "720x720": [],
+  "1024x768": [],
+  "1280x720": [],
+  "1920x1080": []
+}
