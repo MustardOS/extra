@@ -1,6 +1,7 @@
 [
   {
     "name": "Aperture Grille",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
@@ -37,6 +38,7 @@
   },
   {
     "name": "CRT Bezel",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
@@ -73,6 +75,7 @@
   },
   {
     "name": "Dot Matrix",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
@@ -109,6 +112,7 @@
   },
   {
     "name": "Hex Mesh",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
@@ -145,6 +149,7 @@
   },
   {
     "name": "LCD Grid",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
@@ -181,6 +186,7 @@
   },
   {
     "name": "Slot Mask",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
@@ -217,6 +223,7 @@
   },
   {
     "name": "Soft Scanlines",
+    "author": "MustardOS",
     "version": "1",
     "images": [
       {
