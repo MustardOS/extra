@@ -134,114 +134,133 @@
   },
   {
     "name": "FS E-Ink",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-eink.frag",
     "version": "1",
     "sha256": "9c7bea6f7af639822adc54365fa00fd690b1b26a23bd5eefefb5318de453e929"
   },
   {
     "name": "FS LCD3x",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-lcd3x.frag",
     "version": "1",
     "sha256": "a430f5442be11ee31b7d555baa0027d5a3e0f027264caa6526228be0513f10ca"
   },
   {
     "name": "FS Sharp Shimmerless Grid",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-ssgrid.frag",
     "version": "1",
     "sha256": "3d194840ac6748bbe0afb02284b34daef1a8d4b45283a9dd155db6d11ef0fee0"
   },
   {
     "name": "FS Risograph",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-risograph.frag",
     "version": "1",
     "sha256": "b82e8c6da3b7560175ac2bae5aa85431694cc6163134bf47ec8946ddfbe8dfbb"
   },
   {
-    "name": "FS Zfast CRT",
+    "name": "FS zfast CRT",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-zfast-crt.frag",
     "version": "1",
     "sha256": "744f339b05343d409651c1a0a635d2b0820060ab060762abe83deebf09757353"
   },
   {
     "name": "FS PS1 Dither",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-ps1-dither.frag",
     "version": "1",
     "sha256": "0aeb099c42d324d7ffd247fcd3c33d092ac10441c1b69f7e7e1279625be6aff2"
   },
   {
     "name": "FS Sharp Shimmerless",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-sharp-shimmerless.frag",
     "version": "1",
     "sha256": "d311233be6facdc561143b4b280771bed6a9528caab6a8a2c6cbf2944c879abd"
   },
   {
     "name": "FS DMG Ghost",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/dmg%20pack/fs-dmg-ghost.frag",
     "version": "1",
     "sha256": "6260fdcadf6b4acf6b60380e3d37a3e707649866ac528a953377169c11626760"
   },
   {
     "name": "FS Fakelottes Geom Mini",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-fakelottes-geom-mini.frag",
     "version": "1",
     "sha256": "a32a2d144688136f332040437ae22f0ef94ac5adbcd0b44a578401e6127567fb"
   },
   {
     "name": "FS DMG Authentic",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/dmg%20pack/fs-dmg-authentic.frag",
     "version": "1",
     "sha256": "ff0be06b4b14bdfcfd399da4b8f2d335c5a248a5144ccbb15cd1fb81ff5c58df"
   },
   {
     "name": "FS Campfire",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-campfire.frag",
     "version": "1",
     "sha256": "89298715cd69720eea4f52b389da3e0809cde31a0c9d901b0d328462cc1adbdd"
   },
   {
     "name": "FS Twilight",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-twilight.frag",
     "version": "1",
     "sha256": "d5c4b19fa1c4dafc23652bc45bcea6fd634c54e12928506c46aad15c38ae9b37"
   },
   {
     "name": "FS Neon Noir",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-neon-noir.frag",
     "version": "1",
     "sha256": "8c8a7050a36ee4fc22238b1890a56de3ab6627196cb926a7582b3e0435faf52b"
   },
   {
     "name": "FS Dusty Attic",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-dusty-attic.frag",
     "version": "1",
     "sha256": "c40e8c8f600c658096f16a02b3f6370d3d204863744351a958363f1b2350c7a5"
   },
   {
     "name": "FS Sun Bleached",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-sun-bleached.frag",
     "version": "1",
     "sha256": "d75edd1eceb499b62c066df21ffdf4d1d6b96f69e5345cf4a4aeb51731cedf8b"
   },
   {
-    "name": "FS DMG Authentic Pocket",
+    "name": "FS DMG Pocket",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/dmg%20pack/fs-dmg-authentic-pocket.frag",
     "version": "1",
     "sha256": "c0a811853cd206ef438ec758b1a1745e7d377c13aef9784bdc74f1db8f5ec639"
   },
   {
     "name": "FS Rain on Glass",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-rain-on-glass.frag",
     "version": "1",
     "sha256": "5ea75b1a161483bf6db6c5e6eea792463858193c055d1e79ac6c324ebad9f31d"
   },
   {
     "name": "FS Worn Polaroid",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-worn-polaroid.frag",
     "version": "1",
     "sha256": "0416342ca611dcf55c2d3718fd8b7cb8c55d8ed06d0cac571e8e2e75e71d233d"
   },
   {
     "name": "FS Projector Film",
+    "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-projector-film.frag",
     "version": "1",
     "sha256": "a629cbe1e1b7ce46156ed6e7ca09ba7dfb114e12de0c86d2a676520b3455ce12"
