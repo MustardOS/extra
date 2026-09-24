@@ -16,16 +16,16 @@
   {
     "name": "Breathing Canvas",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/psilocybin-breathe.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/breathing-canvas.frag",
     "version": "2",
-    "sha256": "548427e75d6b7202fd7a0e8029cb21c55979dd02650ed28d82efa211a0716180"
+    "sha256": "5dc360139b1b2141f35a9b9242c272cd91abd79e165c3bd8e7ab8f7d673ebfdd"
   },
   {
     "name": "Bright Flashback",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/nitrous-flashback.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/bright-flashback.frag",
     "version": "2",
-    "sha256": "9cb95666a9b1543fbdbf4e0269080375c11eaf8bffe565ec65a28f8b12266e21"
+    "sha256": "1e4ccb57a0e5941d7934a679a15b4f3df4557f5f9f0a5da3764db7195a391e42"
   },
   {
     "name": "Causality Leak",
@@ -44,16 +44,16 @@
   {
     "name": "Chrysanthemum",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/dmt-chrysanthemum.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/chrysanthemum.frag",
     "version": "2",
-    "sha256": "7e4948a97a8c03eb6eef748423067e60f249b5bfe2f8690399fef17cf8c9fe3a"
+    "sha256": "43b18f785c4a31938bd5eb3e8aecb911c78c5a4bd2384e21ef0c7c68e9490c08"
   },
   {
     "name": "Cold Tunnel",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/ketamine-tunnel.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/cold-tunnel.frag",
     "version": "2",
-    "sha256": "a95b922622b931c9dc18c726878bc9a14ca02a8974cf107e870cced7ee33b075"
+    "sha256": "867a01d35264000fbd6839d3d82022eb15aea89ee48e3b84a6a791fae397a08e"
   },
   {
     "name": "Cross Eye Depth",
@@ -72,9 +72,9 @@
   {
     "name": "Desert Mosaic",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/mescaline-mosaic.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/desert-mosaic.frag",
     "version": "2",
-    "sha256": "5a3eb4c9073405e78f1d6bfe0e33fa9af9feca002280031e37649e2823ccce45"
+    "sha256": "f0138dc5fe9358a72dd14d644f4fe25b5c5deb37c66f30dc08f170a7171587dc"
   },
   {
     "name": "Dither - Bayer",
@@ -331,16 +331,16 @@
   {
     "name": "Lopsided Sway",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/amanita-stagger.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/lopsided-sway.frag",
     "version": "2",
-    "sha256": "40d4bc697512c534581014f4c25af590927fbd5761e2b38d52c04a4603d19984"
+    "sha256": "0cb18cac01a89b81d03d32d868054bd6618bcd7b686fd46b815955bb415b6132"
   },
   {
     "name": "Neon Trails",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/acid-trails.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/neon-trails.frag",
     "version": "2",
-    "sha256": "38dc8dfb8051fbae35b50c28ae945b1930cb767ca05b9109b5cc7732b60b59d7"
+    "sha256": "e4de143c4909ddbfb3b70760e04b3fa54e2eb8e9c122b54e09ad68f3dfde7f3c"
   },
   {
     "name": "Night Mode",
@@ -429,9 +429,9 @@
   {
     "name": "Shadow Figures",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/delirium-figures.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/shadow-figures.frag",
     "version": "2",
-    "sha256": "0832e6b17672ae2c195100c47968453087d4e4d61842316bd89509f4372a246e"
+    "sha256": "0a848efc7910140e2f1fd1d0db037bbe309a0f71f0197aa32e8464ea8991781f"
   },
   {
     "name": "Sharpen",
@@ -485,8 +485,8 @@
   {
     "name": "Zipper Fold",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/salvia-fold.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/zipper-fold.frag",
     "version": "2",
-    "sha256": "5b6ccb18a43e10ab7a098ffe1d6a3654fb682f091b3f4cb439664fefcd63776c"
+    "sha256": "b8b03c75862fb5340288ca3b28e53fc273a0f781a24273d3e0433290017ccb02"
   }
 ]
