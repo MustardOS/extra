@@ -1,19 +1,5 @@
 [
   {
-    "name": "Acid Trails",
-    "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/acid-trails.frag",
-    "version": "2",
-    "sha256": "38dc8dfb8051fbae35b50c28ae945b1930cb767ca05b9109b5cc7732b60b59d7"
-  },
-  {
-    "name": "Amanita Stagger",
-    "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/amanita-stagger.frag",
-    "version": "2",
-    "sha256": "40d4bc697512c534581014f4c25af590927fbd5761e2b38d52c04a4603d19984"
-  },
-  {
     "name": "Aperture Grille",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/aperture-grille.frag",
@@ -26,6 +12,20 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/blurry.frag",
     "version": "3",
     "sha256": "fbaa10a89347ebeb43367c37588a5178b1e04675e07c2ebdf472694f4559f153"
+  },
+  {
+    "name": "Breathing Canvas",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/psilocybin-breathe.frag",
+    "version": "2",
+    "sha256": "548427e75d6b7202fd7a0e8029cb21c55979dd02650ed28d82efa211a0716180"
+  },
+  {
+    "name": "Bright Flashback",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/nitrous-flashback.frag",
+    "version": "2",
+    "sha256": "9cb95666a9b1543fbdbf4e0269080375c11eaf8bffe565ec65a28f8b12266e21"
   },
   {
     "name": "Causality Leak",
@@ -42,6 +42,20 @@
     "sha256": "84e2cebc59e0ecc795737671fc2916f1660619a81f6aec90780a22771e8429d4"
   },
   {
+    "name": "Chrysanthemum",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/dmt-chrysanthemum.frag",
+    "version": "2",
+    "sha256": "7e4948a97a8c03eb6eef748423067e60f249b5bfe2f8690399fef17cf8c9fe3a"
+  },
+  {
+    "name": "Cold Tunnel",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/ketamine-tunnel.frag",
+    "version": "2",
+    "sha256": "a95b922622b931c9dc18c726878bc9a14ca02a8974cf107e870cced7ee33b075"
+  },
+  {
     "name": "Cross Eye Depth",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/cross-eyed.frag",
@@ -56,11 +70,11 @@
     "sha256": "3984443470fcd4f0a532dacba77ffedad7191404f63476ce1f23bccaa77fa8af"
   },
   {
-    "name": "Delirium Figures",
+    "name": "Desert Mosaic",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/delirium-figures.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/mescaline-mosaic.frag",
     "version": "2",
-    "sha256": "0832e6b17672ae2c195100c47968453087d4e4d61842316bd89509f4372a246e"
+    "sha256": "5a3eb4c9073405e78f1d6bfe0e33fa9af9feca002280031e37649e2823ccce45"
   },
   {
     "name": "Dither - Bayer",
@@ -75,13 +89,6 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dither-bluenoise.frag",
     "version": "3",
     "sha256": "5c515db1c463b52ea995cd8fd27cf9f01a7115cd4e8eb9d2920744551b968a28"
-  },
-  {
-    "name": "DMT Chrysanthemum",
-    "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/dmt-chrysanthemum.frag",
-    "version": "2",
-    "sha256": "7e4948a97a8c03eb6eef748423067e60f249b5bfe2f8690399fef17cf8c9fe3a"
   },
   {
     "name": "Dot Matrix - Advanced",
@@ -175,67 +182,11 @@
     "sha256": "976549ec5b72f1b13f8aef50af0f760a9045e12e5ea9ee7483870e8b321756dc"
   },
   {
-    "name": "FS E-Ink",
+    "name": "FS Campfire",
     "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-eink.frag",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-campfire.frag",
     "version": "1",
-    "sha256": "9c7bea6f7af639822adc54365fa00fd690b1b26a23bd5eefefb5318de453e929"
-  },
-  {
-    "name": "FS LCD3x",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-lcd3x.frag",
-    "version": "1",
-    "sha256": "a430f5442be11ee31b7d555baa0027d5a3e0f027264caa6526228be0513f10ca"
-  },
-  {
-    "name": "FS Sharp Shimmerless Grid",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-ssgrid.frag",
-    "version": "1",
-    "sha256": "3d194840ac6748bbe0afb02284b34daef1a8d4b45283a9dd155db6d11ef0fee0"
-  },
-  {
-    "name": "FS Risograph",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-risograph.frag",
-    "version": "1",
-    "sha256": "b82e8c6da3b7560175ac2bae5aa85431694cc6163134bf47ec8946ddfbe8dfbb"
-  },
-  {
-    "name": "FS zfast CRT",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-zfast-crt.frag",
-    "version": "1",
-    "sha256": "744f339b05343d409651c1a0a635d2b0820060ab060762abe83deebf09757353"
-  },
-  {
-    "name": "FS PS1 Dither",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-ps1-dither.frag",
-    "version": "1",
-    "sha256": "0aeb099c42d324d7ffd247fcd3c33d092ac10441c1b69f7e7e1279625be6aff2"
-  },
-  {
-    "name": "FS Sharp Shimmerless",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-sharp-shimmerless.frag",
-    "version": "1",
-    "sha256": "d311233be6facdc561143b4b280771bed6a9528caab6a8a2c6cbf2944c879abd"
-  },
-  {
-    "name": "FS DMG Ghost",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/dmg%20pack/fs-dmg-ghost.frag",
-    "version": "1",
-    "sha256": "6260fdcadf6b4acf6b60380e3d37a3e707649866ac528a953377169c11626760"
-  },
-  {
-    "name": "FS Fakelottes Geom Mini",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-fakelottes-geom-mini.frag",
-    "version": "1",
-    "sha256": "a32a2d144688136f332040437ae22f0ef94ac5adbcd0b44a578401e6127567fb"
+    "sha256": "89298715cd69720eea4f52b389da3e0809cde31a0c9d901b0d328462cc1adbdd"
   },
   {
     "name": "FS DMG Authentic",
@@ -245,39 +196,11 @@
     "sha256": "ff0be06b4b14bdfcfd399da4b8f2d335c5a248a5144ccbb15cd1fb81ff5c58df"
   },
   {
-    "name": "FS Campfire",
+    "name": "FS DMG Ghost",
     "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-campfire.frag",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/dmg%20pack/fs-dmg-ghost.frag",
     "version": "1",
-    "sha256": "89298715cd69720eea4f52b389da3e0809cde31a0c9d901b0d328462cc1adbdd"
-  },
-  {
-    "name": "FS Twilight",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-twilight.frag",
-    "version": "1",
-    "sha256": "d5c4b19fa1c4dafc23652bc45bcea6fd634c54e12928506c46aad15c38ae9b37"
-  },
-  {
-    "name": "FS Neon Noir",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-neon-noir.frag",
-    "version": "1",
-    "sha256": "8c8a7050a36ee4fc22238b1890a56de3ab6627196cb926a7582b3e0435faf52b"
-  },
-  {
-    "name": "FS Dusty Attic",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-dusty-attic.frag",
-    "version": "1",
-    "sha256": "c40e8c8f600c658096f16a02b3f6370d3d204863744351a958363f1b2350c7a5"
-  },
-  {
-    "name": "FS Sun Bleached",
-    "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-sun-bleached.frag",
-    "version": "1",
-    "sha256": "d75edd1eceb499b62c066df21ffdf4d1d6b96f69e5345cf4a4aeb51731cedf8b"
+    "sha256": "6260fdcadf6b4acf6b60380e3d37a3e707649866ac528a953377169c11626760"
   },
   {
     "name": "FS DMG Pocket",
@@ -287,11 +210,95 @@
     "sha256": "c0a811853cd206ef438ec758b1a1745e7d377c13aef9784bdc74f1db8f5ec639"
   },
   {
+    "name": "FS Dusty Attic",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-dusty-attic.frag",
+    "version": "1",
+    "sha256": "c40e8c8f600c658096f16a02b3f6370d3d204863744351a958363f1b2350c7a5"
+  },
+  {
+    "name": "FS E-Ink",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-eink.frag",
+    "version": "1",
+    "sha256": "9c7bea6f7af639822adc54365fa00fd690b1b26a23bd5eefefb5318de453e929"
+  },
+  {
+    "name": "FS Fakelottes Geom Mini",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-fakelottes-geom-mini.frag",
+    "version": "1",
+    "sha256": "a32a2d144688136f332040437ae22f0ef94ac5adbcd0b44a578401e6127567fb"
+  },
+  {
+    "name": "FS LCD3x",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-lcd3x.frag",
+    "version": "1",
+    "sha256": "a430f5442be11ee31b7d555baa0027d5a3e0f027264caa6526228be0513f10ca"
+  },
+  {
+    "name": "FS Neon Noir",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-neon-noir.frag",
+    "version": "1",
+    "sha256": "8c8a7050a36ee4fc22238b1890a56de3ab6627196cb926a7582b3e0435faf52b"
+  },
+  {
+    "name": "FS Projector Film",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-projector-film.frag",
+    "version": "1",
+    "sha256": "a629cbe1e1b7ce46156ed6e7ca09ba7dfb114e12de0c86d2a676520b3455ce12"
+  },
+  {
+    "name": "FS PS1 Dither",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-ps1-dither.frag",
+    "version": "1",
+    "sha256": "0aeb099c42d324d7ffd247fcd3c33d092ac10441c1b69f7e7e1279625be6aff2"
+  },
+  {
     "name": "FS Rain on Glass",
     "author": "fragilesilver",
     "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-rain-on-glass.frag",
     "version": "1",
     "sha256": "5ea75b1a161483bf6db6c5e6eea792463858193c055d1e79ac6c324ebad9f31d"
+  },
+  {
+    "name": "FS Risograph",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-risograph.frag",
+    "version": "1",
+    "sha256": "b82e8c6da3b7560175ac2bae5aa85431694cc6163134bf47ec8946ddfbe8dfbb"
+  },
+  {
+    "name": "FS Sharp Shimmerless",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-sharp-shimmerless.frag",
+    "version": "1",
+    "sha256": "d311233be6facdc561143b4b280771bed6a9528caab6a8a2c6cbf2944c879abd"
+  },
+  {
+    "name": "FS Sharp Shimmerless Grid",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-ssgrid.frag",
+    "version": "1",
+    "sha256": "3d194840ac6748bbe0afb02284b34daef1a8d4b45283a9dd155db6d11ef0fee0"
+  },
+  {
+    "name": "FS Sun Bleached",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-sun-bleached.frag",
+    "version": "1",
+    "sha256": "d75edd1eceb499b62c066df21ffdf4d1d6b96f69e5345cf4a4aeb51731cedf8b"
+  },
+  {
+    "name": "FS Twilight",
+    "author": "fragilesilver",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-twilight.frag",
+    "version": "1",
+    "sha256": "d5c4b19fa1c4dafc23652bc45bcea6fd634c54e12928506c46aad15c38ae9b37"
   },
   {
     "name": "FS Worn Polaroid",
@@ -301,11 +308,11 @@
     "sha256": "0416342ca611dcf55c2d3718fd8b7cb8c55d8ed06d0cac571e8e2e75e71d233d"
   },
   {
-    "name": "FS Projector Film",
+    "name": "FS zfast CRT",
     "author": "fragilesilver",
-    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/atmosphere%20pack/fs-projector-film.frag",
+    "url": "https://raw.githubusercontent.com/fragilesilver/pickles-shaders/refs/heads/master/fs-zfast-crt.frag",
     "version": "1",
-    "sha256": "a629cbe1e1b7ce46156ed6e7ca09ba7dfb114e12de0c86d2a676520b3455ce12"
+    "sha256": "744f339b05343d409651c1a0a635d2b0820060ab060762abe83deebf09757353"
   },
   {
     "name": "Heat Mirage",
@@ -322,18 +329,18 @@
     "sha256": "536a58cb3fa24df3ef774e718ab07bb33e26f14b606dc76162d9457b1df4f1d4"
   },
   {
-    "name": "Ketamine Tunnel",
+    "name": "Lopsided Sway",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/ketamine-tunnel.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/amanita-stagger.frag",
     "version": "2",
-    "sha256": "a95b922622b931c9dc18c726878bc9a14ca02a8974cf107e870cced7ee33b075"
+    "sha256": "40d4bc697512c534581014f4c25af590927fbd5761e2b38d52c04a4603d19984"
   },
   {
-    "name": "Mescaline Mosaic",
+    "name": "Neon Trails",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/mescaline-mosaic.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/acid-trails.frag",
     "version": "2",
-    "sha256": "5a3eb4c9073405e78f1d6bfe0e33fa9af9feca002280031e37649e2823ccce45"
+    "sha256": "38dc8dfb8051fbae35b50c28ae945b1930cb767ca05b9109b5cc7732b60b59d7"
   },
   {
     "name": "Night Mode",
@@ -341,13 +348,6 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/night-mode.frag",
     "version": "3",
     "sha256": "f50a61629c935019ca5b9be8c68ee3bf2df10443d9dff5a7705d8be8e37b1e7b"
-  },
-  {
-    "name": "Nitrous Flashback",
-    "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/nitrous-flashback.frag",
-    "version": "2",
-    "sha256": "9cb95666a9b1543fbdbf4e0269080375c11eaf8bffe565ec65a28f8b12266e21"
   },
   {
     "name": "Pareidolia Veil",
@@ -413,13 +413,6 @@
     "sha256": "f64c81cdc725a3d2fb505d79eb879dd88c9c72134f9797896d5bb92ebe1055d6"
   },
   {
-    "name": "Psilocybin Breathe",
-    "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/psilocybin-breathe.frag",
-    "version": "2",
-    "sha256": "548427e75d6b7202fd7a0e8029cb21c55979dd02650ed28d82efa211a0716180"
-  },
-  {
     "name": "Red Blue Stereo",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/red-blue.frag",
@@ -434,11 +427,11 @@
     "sha256": "b53c43375158a742b2ab9aeaa446fdc0490de08477a1168b902fe1bb00dbe2a8"
   },
   {
-    "name": "Salvia Fold",
+    "name": "Shadow Figures",
     "author": "XongleBongle",
-    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/salvia-fold.frag",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/delirium-figures.frag",
     "version": "2",
-    "sha256": "5b6ccb18a43e10ab7a098ffe1d6a3654fb682f091b3f4cb439664fefcd63776c"
+    "sha256": "0832e6b17672ae2c195100c47968453087d4e4d61842316bd89509f4372a246e"
   },
   {
     "name": "Sharpen",
@@ -488,5 +481,12 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/tv-svideo.frag",
     "version": "3",
     "sha256": "3c9a87fdc6a3ca6658422e46cdd1ebc856f6f73bbc4fa6d8d19cfd8106d8b0a0"
+  },
+  {
+    "name": "Zipper Fold",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/salvia-fold.frag",
+    "version": "2",
+    "sha256": "5b6ccb18a43e10ab7a098ffe1d6a3654fb682f091b3f4cb439664fefcd63776c"
   }
 ]
