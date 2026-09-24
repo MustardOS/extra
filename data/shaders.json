@@ -1,5 +1,19 @@
 [
   {
+    "name": "Acid Trails",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/acid-trails.frag",
+    "version": "2",
+    "sha256": "38dc8dfb8051fbae35b50c28ae945b1930cb767ca05b9109b5cc7732b60b59d7"
+  },
+  {
+    "name": "Amanita Stagger",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/amanita-stagger.frag",
+    "version": "2",
+    "sha256": "40d4bc697512c534581014f4c25af590927fbd5761e2b38d52c04a4603d19984"
+  },
+  {
     "name": "Aperture Grille",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/aperture-grille.frag",
@@ -12,6 +26,13 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/blurry.frag",
     "version": "3",
     "sha256": "fbaa10a89347ebeb43367c37588a5178b1e04675e07c2ebdf472694f4559f153"
+  },
+  {
+    "name": "Causality Leak",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/causality-leak.frag",
+    "version": "2",
+    "sha256": "6709078836ac3cb4b33ee3f34aeae7d547fdcc493b53846ac9a42b19b90f330c"
   },
   {
     "name": "Chromatic Aberration",
@@ -35,6 +56,13 @@
     "sha256": "3984443470fcd4f0a532dacba77ffedad7191404f63476ce1f23bccaa77fa8af"
   },
   {
+    "name": "Delirium Figures",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/delirium-figures.frag",
+    "version": "2",
+    "sha256": "0832e6b17672ae2c195100c47968453087d4e4d61842316bd89509f4372a246e"
+  },
+  {
     "name": "Dither - Bayer",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dither-bayer.frag",
@@ -47,6 +75,13 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/dither-bluenoise.frag",
     "version": "3",
     "sha256": "5c515db1c463b52ea995cd8fd27cf9f01a7115cd4e8eb9d2920744551b968a28"
+  },
+  {
+    "name": "DMT Chrysanthemum",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/dmt-chrysanthemum.frag",
+    "version": "2",
+    "sha256": "7e4948a97a8c03eb6eef748423067e60f249b5bfe2f8690399fef17cf8c9fe3a"
   },
   {
     "name": "Dot Matrix - Advanced",
@@ -112,6 +147,13 @@
     "sha256": "12fb09c14d4a81b21a90f92f0bfacbc7112a9dc7f1a2e99a7dff1e8b2f94809d"
   },
   {
+    "name": "False Memory",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/false-memory.frag",
+    "version": "2",
+    "sha256": "4e1c94680c91a9bc2a74e3835c1d3968f760c1d10cbfde15ba5a4f55a94a601b"
+  },
+  {
     "name": "Fish Eye - Inverted",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/fisheye-invert.frag",
@@ -147,11 +189,39 @@
     "sha256": "536a58cb3fa24df3ef774e718ab07bb33e26f14b606dc76162d9457b1df4f1d4"
   },
   {
+    "name": "Ketamine Tunnel",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/ketamine-tunnel.frag",
+    "version": "2",
+    "sha256": "a95b922622b931c9dc18c726878bc9a14ca02a8974cf107e870cced7ee33b075"
+  },
+  {
+    "name": "Mescaline Mosaic",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/mescaline-mosaic.frag",
+    "version": "2",
+    "sha256": "5a3eb4c9073405e78f1d6bfe0e33fa9af9feca002280031e37649e2823ccce45"
+  },
+  {
     "name": "Night Mode",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/night-mode.frag",
     "version": "3",
     "sha256": "f50a61629c935019ca5b9be8c68ee3bf2df10443d9dff5a7705d8be8e37b1e7b"
+  },
+  {
+    "name": "Nitrous Flashback",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/nitrous-flashback.frag",
+    "version": "2",
+    "sha256": "9cb95666a9b1543fbdbf4e0269080375c11eaf8bffe565ec65a28f8b12266e21"
+  },
+  {
+    "name": "Pareidolia Veil",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/pareidolia-veil.frag",
+    "version": "2",
+    "sha256": "6fbf1747b1ddecde852a45c7b7ef3a115fafde46604f65740209b0c309aebc3f"
   },
   {
     "name": "PC Mode - CGA",
@@ -210,6 +280,13 @@
     "sha256": "f64c81cdc725a3d2fb505d79eb879dd88c9c72134f9797896d5bb92ebe1055d6"
   },
   {
+    "name": "Psilocybin Breathe",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/psilocybin-breathe.frag",
+    "version": "2",
+    "sha256": "548427e75d6b7202fd7a0e8029cb21c55979dd02650ed28d82efa211a0716180"
+  },
+  {
     "name": "Red Blue Stereo",
     "author": "MustardOS",
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/red-blue.frag",
@@ -222,6 +299,13 @@
     "url": "https://raw.githubusercontent.com/MustardOS/extra/refs/heads/main/shader/ripple.frag",
     "version": "3",
     "sha256": "b53c43375158a742b2ab9aeaa446fdc0490de08477a1168b902fe1bb00dbe2a8"
+  },
+  {
+    "name": "Salvia Fold",
+    "author": "XongleBongle",
+    "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/salvia-fold.frag",
+    "version": "2",
+    "sha256": "5b6ccb18a43e10ab7a098ffe1d6a3654fb682f091b3f4cb439664fefcd63776c"
   },
   {
     "name": "Sharpen",
