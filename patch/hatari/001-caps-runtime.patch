@@ -1,0 +1,1513 @@
+
+--- a/libretro/caps/Core/CommonTypes.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/Core/CommonTypes.h	2026-10-05 00:07:32.931105167 +1000
+@@ -0,0 +1,110 @@
++#ifndef COMMONTYPES_H
++#define COMMONTYPES_H
++
++//-- Linux changes
++typedef int8_t BYTE;
++typedef int16_t WORD;
++typedef int32_t DWORD;
++//-- Linux changes
++
++typedef void *PVOID;
++typedef char *PCHAR;
++
++typedef uint8_t UBYTE;
++typedef uint16_t UWORD;
++typedef uint32_t UDWORD;
++typedef uint64_t UQUAD;
++typedef int8_t SBYTE;
++typedef int16_t SWORD;
++typedef int32_t SDWORD;
++typedef int64_t SQUAD;
++
++typedef UBYTE *PUBYTE;
++typedef UWORD *PUWORD;
++typedef UDWORD *PUDWORD;
++typedef UQUAD *PUQUAD;
++typedef SBYTE *PSBYTE;
++typedef SWORD *PSWORD;
++typedef SDWORD *PSDWORD;
++typedef SQUAD *PSQUAD;
++
++enum {
++	DB_0 = 0,
++	DB_1,
++	DB_2,
++	DB_3,
++	DB_4,
++	DB_5,
++	DB_6,
++	DB_7,
++	DB_8,
++	DB_9,
++	DB_10,
++	DB_11,
++	DB_12,
++	DB_13,
++	DB_14,
++	DB_15,
++	DB_16,
++	DB_17,
++	DB_18,
++	DB_19,
++	DB_20,
++	DB_21,
++	DB_22,
++	DB_23,
++	DB_24,
++	DB_25,
++	DB_26,
++	DB_27,
++	DB_28,
++	DB_29,
++	DB_30,
++	DB_31
++};
++
++#define DF_0 (1UL<<DB_0)
++#define DF_1 (1UL<<DB_1)
++#define DF_2 (1UL<<DB_2)
++#define DF_3 (1UL<<DB_3)
++#define DF_4 (1UL<<DB_4)
++#define DF_5 (1UL<<DB_5)
++#define DF_6 (1UL<<DB_6)
++#define DF_7 (1UL<<DB_7)
++#define DF_8 (1UL<<DB_8)
++#define DF_9 (1UL<<DB_9)
++#define DF_10 (1UL<<DB_10)
++#define DF_11 (1UL<<DB_11)
++#define DF_12 (1UL<<DB_12)
++#define DF_13 (1UL<<DB_13)
++#define DF_14 (1UL<<DB_14)
++#define DF_15 (1UL<<DB_15)
++#define DF_16 (1UL<<DB_16)
++#define DF_17 (1UL<<DB_17)
++#define DF_18 (1UL<<DB_18)
++#define DF_19 (1UL<<DB_19)
++#define DF_20 (1UL<<DB_20)
++#define DF_21 (1UL<<DB_21)
++#define DF_22 (1UL<<DB_22)
++#define DF_23 (1UL<<DB_23)
++#define DF_24 (1UL<<DB_24)
++#define DF_25 (1UL<<DB_25)
++#define DF_26 (1UL<<DB_26)
++#define DF_27 (1UL<<DB_27)
++#define DF_28 (1UL<<DB_28)
++#define DF_29 (1UL<<DB_29)
++#define DF_30 (1UL<<DB_30)
++#define DF_31 (1UL<<DB_31)
++
++#define DllImport __declspec(dllimport)
++#define DllExport __declspec(dllexport)
++
++#define Naked __declspec(naked)
++
++#ifdef _DEBUG
++#define NODEFAULT   assert(0)
++#else
++#define NODEFAULT   __assume(0)
++#endif
++
++#endif
+
+--- a/libretro/caps/LibIPF/CapsAPI.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/CapsAPI.h	2026-10-05 00:07:32.926105123 +1000
+@@ -0,0 +1,274 @@
++#ifndef CAPSAPI_H
++#define CAPSAPI_H
++
++#define CAPS_FILEEXT "ipf"
++#define CAPS_FILEPFX ".ipf"
++
++// Flags provided for locking, in order:
++//  0: re-align data as index synced recording
++//  1: decode track to word aligned size
++//  2: generate cell density for variable density tracks
++//  3: generate density for automatically sized cells
++//  4: generate density for unformatted cells
++//  5: generate unformatted data
++//  6: generate unformatted data, that changes each revolution
++//  7: directly use source memory buffer supplied with LockImageMemory
++//  8: flakey/weak data is created on one revolution, updated with each lock
++//  9: ...Info.type holds the expected structure type
++// 10: alternate density map as fractions
++// 11: overlap position is in bits
++// 12: tracklen is in bits, and the track buffer is bit sized
++// 13: track overlap or weak data is never updated, just initialized
++// 14: set weak bit generator seed value
++#define DI_LOCK_INDEX    DF_0
++#define DI_LOCK_ALIGN    DF_1
++#define DI_LOCK_DENVAR   DF_2
++#define DI_LOCK_DENAUTO  DF_3
++#define DI_LOCK_DENNOISE DF_4
++#define DI_LOCK_NOISE    DF_5
++#define DI_LOCK_NOISEREV DF_6
++#define DI_LOCK_MEMREF   DF_7
++#define DI_LOCK_UPDATEFD DF_8
++#define DI_LOCK_TYPE     DF_9
++#define DI_LOCK_DENALT   DF_10
++#define DI_LOCK_OVLBIT   DF_11
++#define DI_LOCK_TRKBIT   DF_12
++#define DI_LOCK_NOUPDATE DF_13
++#define DI_LOCK_SETWSEED DF_14
++
++#define CAPS_MAXPLATFORM 4
++#define CAPS_MTRS 5
++
++#define CTIT_FLAG_FLAKEY DF_31
++#define CTIT_MASK_TYPE 0xff
++
++#pragma pack(push, 1)
++
++// decoded caps date.time
++struct CapsDateTimeExt {
++	UDWORD year;
++	UDWORD month;
++	UDWORD day;
++	UDWORD hour;
++	UDWORD min;
++	UDWORD sec;
++	UDWORD tick;
++};
++
++typedef struct CapsDateTimeExt *PCAPSDATETIMEEXT;
++
++// library version information block
++struct CapsVersionInfo {
++	UDWORD type;     // library type
++	UDWORD release;  // release ID
++	UDWORD revision; // revision ID
++	UDWORD flag;     // supported flags
++};
++
++typedef struct CapsVersionInfo *PCAPSVERSIONINFO;
++
++// disk image information block
++struct CapsImageInfo {
++	UDWORD type;        // image type
++	UDWORD release;     // release ID
++	UDWORD revision;    // release revision ID
++	UDWORD mincylinder; // lowest cylinder number
++	UDWORD maxcylinder; // highest cylinder number
++	UDWORD minhead;     // lowest head number
++	UDWORD maxhead;     // highest head number
++	struct CapsDateTimeExt crdt; // image creation date.time
++	UDWORD platform[CAPS_MAXPLATFORM]; // intended platform(s)
++};
++
++typedef struct CapsImageInfo *PCAPSIMAGEINFO;
++
++// disk track information block
++struct CapsTrackInfo {
++	UDWORD type;       // track type
++	UDWORD cylinder;   // cylinder#
++	UDWORD head;       // head#
++	UDWORD sectorcnt;  // available sectors
++	UDWORD sectorsize; // sector size
++	UDWORD trackcnt;   // track variant count
++	PUBYTE trackbuf;   // track buffer memory 
++	UDWORD tracklen;   // track buffer memory length
++	PUBYTE trackdata[CAPS_MTRS]; // track data pointer if available
++	UDWORD tracksize[CAPS_MTRS]; // track data size
++	UDWORD timelen;  // timing buffer length
++	PUDWORD timebuf; // timing buffer
++};
++
++typedef struct CapsTrackInfo *PCAPSTRACKINFO;
++
++// disk track information block
++struct CapsTrackInfoT1 {
++	UDWORD type;       // track type
++	UDWORD cylinder;   // cylinder#
++	UDWORD head;       // head#
++	UDWORD sectorcnt;  // available sectors
++	UDWORD sectorsize; // sector size
++	PUBYTE trackbuf;   // track buffer memory 
++	UDWORD tracklen;   // track buffer memory length
++	UDWORD timelen;    // timing buffer length
++	PUDWORD timebuf;   // timing buffer
++	SDWORD overlap;    // overlap position
++};
++
++typedef struct CapsTrackInfoT1 *PCAPSTRACKINFOT1;
++
++// disk track information block
++struct CapsTrackInfoT2 {
++	UDWORD type;       // track type
++	UDWORD cylinder;   // cylinder#
++	UDWORD head;       // head#
++	UDWORD sectorcnt;  // available sectors
++	UDWORD sectorsize; // sector size, unused
++	PUBYTE trackbuf;   // track buffer memory 
++	UDWORD tracklen;   // track buffer memory length
++	UDWORD timelen;    // timing buffer length
++	PUDWORD timebuf;   // timing buffer
++	SDWORD overlap;    // overlap position
++	UDWORD startbit;   // start position of the decoding
++	UDWORD wseed;      // weak bit generator data
++	UDWORD weakcnt;    // number of weak data areas
++};
++
++typedef struct CapsTrackInfoT2 *PCAPSTRACKINFOT2;
++
++// disk sector information block
++struct CapsSectorInfo {
++	UDWORD descdatasize; // data size in bits from IPF descriptor
++	UDWORD descgapsize;  // gap size in bits from IPF descriptor
++	UDWORD datasize;     // data size in bits from decoder
++	UDWORD gapsize;      // gap size in bits from decoder
++	UDWORD datastart;    // data start position in bits from decoder
++	UDWORD gapstart;     // gap start position in bits from decoder
++	UDWORD gapsizews0;   // gap size before write splice
++	UDWORD gapsizews1;   // gap size after write splice
++	UDWORD gapws0mode;   // gap size mode before write splice
++	UDWORD gapws1mode;   // gap size mode after write splice
++	UDWORD celltype;     // bitcell type
++	UDWORD enctype;      // encoder type
++};
++
++typedef struct CapsSectorInfo *PCAPSSECTORINFO;
++
++// disk data information block
++struct CapsDataInfo {
++	UDWORD type;  // data type
++	UDWORD start; // start position
++	UDWORD size;  // size in bits
++};
++
++typedef struct CapsDataInfo *PCAPSDATAINFO;
++
++// disk data information block
++struct CapsRevolutionInfo {
++	SDWORD next; // the revolution number used by the next track lock call
++	SDWORD last; // the revolution number used by the lack track lock call
++	SDWORD real; // the real revolution number used by the last track lock call
++	SDWORD max; // the maximum revolution available for the selected track, <0 unlimited/randomized, 0 empty
++};
++
++typedef struct CapsRevolutionInfo *PCAPSREVOLUTIONINFO;
++
++#pragma pack(pop)
++
++// CapsImageInfo.image type
++enum {
++	ciitNA=0, // invalid image type
++	ciitFDD   // floppy disk
++};
++
++// CapsImageInfo.platform IDs, not about configuration, but intended use
++enum {
++	ciipNA=0, // invalid platform (dummy entry)
++	ciipAmiga,
++	ciipAtariST,
++	ciipPC,
++	ciipAmstradCPC,
++	ciipSpectrum,
++	ciipSamCoupe,
++	ciipArchimedes,
++	ciipC64,
++	ciipAtari8
++};
++
++// CapsTrackInfo.track type
++enum {
++	ctitNA=0,  // invalid type
++	ctitNoise, // cells are unformatted (random size)
++	ctitAuto,  // automatic cell size, according to track size
++	ctitVar    // variable density
++};
++
++// CapsSectorInfo.bitcell type
++enum {
++	csicNA=0, // invalid cell type
++	csic2us   // 2us cells
++};
++
++// CapsSectorInfo.encoder type
++enum {
++	csieNA=0, // undefined encoder
++	csieMFM,  // MFM
++	csieRaw   // no encoder used, test data only
++};
++
++// CapsSectorInfo.gap size mode
++enum {
++	csiegmFixed=0,  // fixed size, can't be changed
++	csiegmAuto,     // size can be changed, resize information calculated automatically
++	csiegmResize    // size can be changed, resize information is scripted
++};
++
++// CapsDataInfo.data type
++enum {
++	cditNA=0, // undefined
++	cditWeak  // weak bits
++};
++
++// CAPSGetInfo inftype
++enum {
++	cgiitNA=0,      // illegal
++	cgiitSector,    // CapsSectorInfo
++	cgiitWeak,      // CapsDataInfo, weak bits
++	cgiitRevolution // CapsRevolutionInfo
++};
++
++// recognized image types
++enum {
++	citError=0,     // error preventing the type identification
++	citUnknown,     // unknown image type
++	citIPF,         // IPF image
++	citCTRaw,       // CT Raw image
++	citKFStream,    // KryoFlux stream files
++	citKFStreamCue, // KryoFlux stream cue file
++	citDraft        // Draft image
++};
++
++// image error status
++enum {
++	imgeOk=0,
++	imgeUnsupported,
++	imgeGeneric,
++	imgeOutOfRange,
++	imgeReadOnly,
++	imgeOpen,
++	imgeType,
++	imgeShort,
++	imgeTrackHeader,
++	imgeTrackStream,
++	imgeTrackData,
++	imgeDensityHeader,
++	imgeDensityStream,
++	imgeDensityData,
++	imgeIncompatible,
++	imgeUnsupportedType,
++	imgeBadBlockType,
++	imgeBadBlockSize,
++	imgeBadDataStart,
++	imgeBufferShort
++};
++
++#endif
+
+--- a/libretro/caps/LibIPF/CapsFDC.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/CapsFDC.h	2026-10-05 00:07:32.926105123 +1000
+@@ -0,0 +1,246 @@
++#ifndef CAPSFDC_H
++#define CAPSFDC_H
++
++// drive defaults
++#define CAPSDRIVE_35DD_RPM 300
++#define CAPSDRIVE_35DD_HST 83
++
++// disk & drive attributes
++// 0: true disk inserted (if not inserted it is write protected)
++// 1: true disk write protected
++// 2: true motor on
++// 3: true single sided drive
++#define CAPSDRIVE_DA_IN DF_0
++#define CAPSDRIVE_DA_WP DF_1
++#define CAPSDRIVE_DA_MO DF_2
++#define CAPSDRIVE_DA_SS DF_3
++
++// index pulse only available if disk is inserted and motor is running
++#define CAPSDRIVE_DA_IPMASK (CAPSDRIVE_DA_IN|CAPSDRIVE_DA_MO)
++
++// fdc output lines
++// 0: drq line state
++// 1: intrq line state
++// 2: forced interrupt, internal
++// 3: motor line state
++// 4: direction line state
++// 5: interrupt on index pulse
++// 6: set drq, internal
++#define CAPSFDC_LO_DRQ    DF_0
++#define CAPSFDC_LO_INTRQ  DF_1
++#define CAPSFDC_LO_INTFRC DF_2
++#define CAPSFDC_LO_MO     DF_3
++#define CAPSFDC_LO_DIRC   DF_4
++#define CAPSFDC_LO_INTIP  DF_5
++#define CAPSFDC_LO_DRQSET DF_6
++
++// fdc status lines
++// 0: busy
++// 1: index pulse/drq
++// 2: track0/lost data
++// 3: crc error
++// 4: record not found
++// 5: spin-up/record type
++// 6: write protect
++// 7: motor on
++#define CAPSFDC_SR_BUSY   DF_0
++#define CAPSFDC_SR_IP_DRQ DF_1
++#define CAPSFDC_SR_TR0_LD DF_2
++#define CAPSFDC_SR_CRCERR DF_3
++#define CAPSFDC_SR_RNF    DF_4
++#define CAPSFDC_SR_SU_RT  DF_5
++#define CAPSFDC_SR_WP     DF_6
++#define CAPSFDC_SR_MO     DF_7
++
++// flags to clear before new command
++#define CAPSFDC_SR_NCCLR (CAPSFDC_SR_SU_RT|CAPSFDC_SR_RNF|CAPSFDC_SR_CRCERR|CAPSFDC_SR_BUSY)
++
++// flags to set before new command
++#define CAPSFDC_SR_NCSET CAPSFDC_SR_BUSY
++
++// type1 mask, index/track0/spin-up
++// type2 read mask, drq/lost data/record type/wp=0
++// type2 write mask, drq/lost data/record type
++#define CAPSFDC_SM_TYPE1 0x00
++#define CAPSFDC_SM_TYPE2R (CAPSFDC_SR_IP_DRQ|CAPSFDC_SR_TR0_LD|CAPSFDC_SR_SU_RT|CAPSFDC_SR_WP)
++#define CAPSFDC_SM_TYPE2W (CAPSFDC_SR_IP_DRQ|CAPSFDC_SR_TR0_LD|CAPSFDC_SR_SU_RT)
++
++// end request flags
++// 0: command complete
++// 1: request to stop execution at current cycle; can be bitwise set in a callback
++#define CAPSFDC_ER_COMEND DF_0
++#define CAPSFDC_ER_REQEND DF_1
++
++// am info flags
++//  0: AM detector enabled
++//  1: CRC logic enabled
++//  2: CRC logic active after first mark found
++//  3: data being assembled in DSR is the last byte of AM
++//  4: data being assembled in DSR is an A1 mark
++//  5: AM in decoder, valid for 1 cell
++//  6: A1 mark in decoder, valid for 1 cell
++//  7: C2 mark in decoder, valid for 1 cell
++//  8: DSR holds a complete byte, valid until DSR has been changed
++//  9: DSR synced to AM, valid until DSR has been changed, next DSRREADY is a data byte
++// 10: DSR synced to A1 mark
++#define CAPSFDC_AI_AMDETENABLE DF_0
++#define CAPSFDC_AI_CRCENABLE   DF_1
++#define CAPSFDC_AI_CRCACTIVE   DF_2
++#define CAPSFDC_AI_AMACTIVE    DF_3
++#define CAPSFDC_AI_MA1ACTIVE   DF_4
++#define CAPSFDC_AI_AMFOUND     DF_5
++#define CAPSFDC_AI_MARKA1      DF_6
++#define CAPSFDC_AI_MARKC2      DF_7
++#define CAPSFDC_AI_DSRREADY    DF_8
++#define CAPSFDC_AI_DSRAM       DF_9
++#define CAPSFDC_AI_DSRMA1      DF_10
++
++#pragma pack(push, 1)
++
++// drive state
++struct CapsDrive {
++	UDWORD type;      // structure size
++	UDWORD rpm;       // drive rpm
++	SDWORD maxtrack;  // track with hard stop (head can't move)
++	SDWORD track;     // actual track
++	SDWORD buftrack;  // track# in buffer
++	SDWORD side;      // actual side used for processing
++	SDWORD bufside;   // side# in buffer
++	SDWORD newside;   // side to select after processing
++	UDWORD diskattr;  // disk attributes
++	UDWORD idistance; // distance from index in clock cycles
++	UDWORD clockrev;  // clock cycles per revolution
++	SDWORD clockip;   // clock cycles for index pulse hold
++	SDWORD ipcnt;     // index pulse clock counter, <0 init, 0 stopped
++	UDWORD ttype;     // track type
++	PUBYTE trackbuf;  // track buffer memory
++	PUDWORD timebuf;  // timing buffer
++	UDWORD tracklen;  // track buffer memory length
++	SDWORD overlap;   // overlap position
++	SDWORD trackbits; // used track size
++	SDWORD ovlmin;    // overlap first bit position
++	SDWORD ovlmax;    // overlap last bit position
++	SDWORD ovlcnt;    // overlay bit count
++	SDWORD ovlact;    // active overlay phase
++	SDWORD nact;      // active noise phase
++	UDWORD nseed;     // noise generator seed
++	PVOID userptr;    // free to use pointer for the host application
++	UDWORD userdata;  // free to use data for the host application
++};
++
++typedef struct CapsDrive *PCAPSDRIVE;
++
++typedef struct CapsFdc *PCAPSFDC;
++typedef void (__cdecl *CAPSFDCHOOK)(PCAPSFDC pfdc, UDWORD state);
++
++// fdc state
++struct CapsFdc {
++	UDWORD type;         // structure size
++	UDWORD model;        // fdc type
++	UDWORD endrequest;   // non-zero value ends command
++	UDWORD clockact;     // clock cycles completed
++	UDWORD clockreq;     // requested clock cycles to complete
++	UDWORD clockfrq;     // clock frequency
++	UDWORD addressmask;  // valid address lines
++	UDWORD dataline;     // data bus
++	UDWORD datamask;     // valid data lines
++	UDWORD lineout;      // output lines
++	UDWORD runmode;      // run mode
++	UDWORD runstate;     // local run state in a command
++	UDWORD r_st0;        // status0 register
++	UDWORD r_st1;        // status1 register
++	UDWORD r_stm;        // status mask register (1 bits select st1)
++	UDWORD r_command;    // command register
++	UDWORD r_track;      // track register
++	UDWORD r_sector;     // sector register
++	UDWORD r_data;       // data register
++	UDWORD seclenmask;   // sector length mask
++	UDWORD seclen;       // sector length
++	UDWORD crc;          // crc holder
++	UDWORD crccnt;       // crc bit counter
++	UDWORD amdecode;     // am detector decoder/shifter
++	UDWORD aminfo;       // am info
++	UDWORD amisigmask;   // enabled am info signal bits
++	SDWORD amdatadelay;  // am data delay clock
++	SDWORD amdataskip;   // am data skip clock
++	SDWORD ammarkdist;   // am invalid distance from last mark in bitcells or 0 if valid
++	SDWORD ammarktype;   // am last mark type
++	UDWORD dsr;          // data shift register
++	SDWORD dsrcnt;       // dsr bit counter
++	SDWORD datalock;     // data lock bit position, <0 not locked
++	UDWORD datamode;     // data access mode
++	UDWORD datacycle;    // clock cycle remainder of actual bit
++	UDWORD dataphase;    // data access phase
++	UDWORD datapcnt;     // data phase counter
++	SDWORD indexcount;   // index pulse counter
++	SDWORD indexlimit;   // index pulse abort point
++	SDWORD readlimit;    // read abort point
++	SDWORD verifylimit;  // verify abort point
++	SDWORD spinupcnt;    // counter for spin-up status
++	SDWORD spinuplimit;  // spin-up point
++	SDWORD idlecnt;      // counter for idle
++	SDWORD idlelimit;    // idle point
++	UDWORD clockcnt;     // clock counter
++	UDWORD steptime[4];  // stepping rates us
++	UDWORD clockstep[4]; // clock cycles for stepping rates
++	UDWORD hstime;       // head settling delay us
++	UDWORD clockhs;      // clock cycles for head settling
++	UDWORD iptime;       // index pulse hold us
++	UDWORD updatetime;   // update delay between short operations us
++	UDWORD clockupdate;  // clock cycles for update delay
++	SDWORD drivecnt;     // number of drives, 0: no drive attached
++	SDWORD drivemax;     // number of active drives, 0: no drive attached
++	SDWORD drivenew;     // drive to select after processing, <0 invalid
++	SDWORD drivesel;     // drive selected for processing, <0 invalid
++	SDWORD driveact;     // drive used for processing, <0 invalid
++	PCAPSDRIVE driveprc; // drive processed, helper
++	PCAPSDRIVE drive;    // available drives
++	CAPSFDCHOOK cbirq;   // irq line change callback
++	CAPSFDCHOOK cbdrq;   // drq line change callback
++	CAPSFDCHOOK cbtrk;   // track change callback
++	PVOID userptr;       // free to use pointer for the host application
++	UDWORD userdata;     // free to use data for the host application
++};
++
++#pragma pack(pop)
++
++// emulator info
++enum {
++	cfdciNA=0,       // invalid
++	cfdciSize_Fdc,   // size required for FDC structure
++	cfdciSize_Drive, // size required for Drive structure
++	cfdciR_Command,  // command register
++	cfdciR_ST,       // status register
++	cfdciR_Track,    // track register
++	cfdciR_Sector,   // sector register
++	cfdciR_Data,     // data register
++};
++
++// fdc models
++enum {
++	cfdcmNA=0,   // invalid fdc model
++	cfdcmWD1772  // WD1772
++};
++
++// run modes
++enum {
++	cfdcrmNop=0,  // no-operation
++	cfdcrmIdle,   // idle/wait loop
++	cfdcrmType1,  // type 1 loop
++	cfdcrmType2R, // type 2 read loop
++	cfdcrmType2W, // type 2 write loop
++	cfdcrmType3R, // type 3 read loop
++	cfdcrmType3W, // type 3 write loop
++	cfdcrmType3A, // type 3 address loop
++	cfdcrmType4   // type 4 loop
++};
++
++// data modes
++enum {
++	cfdcdmNoline=0, // no line input
++	cfdcdmNoise,    // noise input
++	cfdcdmData,     // data input
++	cfdcdmDMap      // data with density map
++};
++
++#endif
+
+--- a/libretro/caps/LibIPF/CapsForm.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/CapsForm.h	2026-10-05 00:07:32.927105132 +1000
+@@ -0,0 +1,54 @@
++#ifndef CAPSFORM_H
++#define CAPSFORM_H
++
++#pragma pack(push, 1)
++
++// block data descriptor for converter
++struct CapsFormatBlock {
++	UDWORD gapacnt;   // gap before first am count
++	UDWORD gapavalue; // gap before first am value
++	UDWORD gapbcnt;   // gap after first am count
++	UDWORD gapbvalue; // gap after first am value
++	UDWORD gapccnt;   // gap before second am count
++	UDWORD gapcvalue; // gap before second am value
++	UDWORD gapdcnt;   // gap after second am count
++	UDWORD gapdvalue; // gap after second am value
++	UDWORD blocktype; // type of block
++	UDWORD track;     // track#
++	UDWORD side;      // side#
++	UDWORD sector;    // sector#
++	SDWORD sectorlen; // sector length in bytes
++	PUBYTE databuf;   // source data buffer
++	UDWORD datavalue; // source data value if buffer is NULL
++};
++
++typedef struct CapsFormatBlock *PCAPSFORMATBLOCK;
++
++// track data descriptor for converter
++struct CapsFormatTrack {
++	UDWORD type;      // structure type
++	UDWORD gapacnt;   // gap after index count
++	UDWORD gapavalue; // gap after index value
++	UDWORD gapbvalue; // gap before index value
++	PUBYTE trackbuf;  // track buffer memory
++	UDWORD tracklen;  // track buffer memory length
++	UDWORD buflen;    // track buffer allocation size
++	UDWORD bufreq;    // track buffer requested size
++	UDWORD startpos;  // start position in buffer
++	SDWORD blockcnt;  // number of blocks
++	PCAPSFORMATBLOCK block; // block data
++	UDWORD size;      // internal counter
++};
++
++typedef struct CapsFormatTrack *PCAPSFORMATTRACK;
++
++#pragma pack(pop)
++
++// block types
++enum {
++	cfrmbtNA=0,  // invalid type
++	cfrmbtIndex, // index 
++	cfrmbtData   // data
++};
++
++#endif
+
+--- a/libretro/caps/LibIPF/CapsLibAll.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/CapsLibAll.h	2026-10-05 00:07:32.927105132 +1000
+@@ -0,0 +1,11 @@
++#ifndef CAPSLIBALL_H
++#define CAPSLIBALL_H
++
++#include "CapsLibVersion.h"
++#include "CommonTypes.h"
++#include "CapsAPI.h"
++#include "CapsFDC.h"
++#include "CapsForm.h"
++#include "CapsLib.h"
++
++#endif
+
+--- a/libretro/caps/LibIPF/CapsLib.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/CapsLib.h	2026-10-05 00:07:32.927105132 +1000
+@@ -0,0 +1,50 @@
++#ifndef CAPSLIB_H
++#define CAPSLIB_H
++
++#undef LIB_USER
++#ifdef CAPS_USER
++#define LIB_USER
++#endif
++#include "ComLib.h"
++
++//-- Linux changes
++#ifdef __cplusplus
++extern "C" {
++#endif // __cplusplus
++//-- Linux changes
++
++ExtSub SDWORD __cdecl CAPSInit();
++ExtSub SDWORD __cdecl CAPSExit();
++ExtSub SDWORD __cdecl CAPSAddImage();
++ExtSub SDWORD __cdecl CAPSRemImage(SDWORD id);
++ExtSub SDWORD __cdecl CAPSLockImage(SDWORD id, PCHAR name);
++ExtSub SDWORD __cdecl CAPSLockImageMemory(SDWORD id, PUBYTE buffer, UDWORD length, UDWORD flag);
++ExtSub SDWORD __cdecl CAPSUnlockImage(SDWORD id);
++ExtSub SDWORD __cdecl CAPSLoadImage(SDWORD id, UDWORD flag);
++ExtSub SDWORD __cdecl CAPSGetImageInfo(PCAPSIMAGEINFO pi, SDWORD id);
++ExtSub SDWORD __cdecl CAPSLockTrack(PVOID ptrackinfo, SDWORD id, UDWORD cylinder, UDWORD head, UDWORD flag);
++ExtSub SDWORD __cdecl CAPSUnlockTrack(SDWORD id, UDWORD cylinder, UDWORD head);
++ExtSub SDWORD __cdecl CAPSUnlockAllTracks(SDWORD id);
++ExtSub PCHAR  __cdecl CAPSGetPlatformName(UDWORD pid);
++ExtSub SDWORD __cdecl CAPSGetVersionInfo(PVOID pversioninfo, UDWORD flag);
++ExtSub UDWORD __cdecl CAPSFdcGetInfo(SDWORD iid, PCAPSFDC pc, SDWORD ext);
++ExtSub SDWORD __cdecl CAPSFdcInit(PCAPSFDC pc);
++ExtSub void   __cdecl CAPSFdcReset(PCAPSFDC pc);
++ExtSub void   __cdecl CAPSFdcEmulate(PCAPSFDC pc, UDWORD cyclecnt);
++ExtSub UDWORD __cdecl CAPSFdcRead(PCAPSFDC pc, UDWORD address);
++ExtSub void   __cdecl CAPSFdcWrite(PCAPSFDC pc, UDWORD address, UDWORD data);
++ExtSub SDWORD __cdecl CAPSFdcInvalidateTrack(PCAPSFDC pc, SDWORD drive);
++ExtSub SDWORD __cdecl CAPSFormatDataToMFM(PVOID pformattrack, UDWORD flag);
++ExtSub SDWORD __cdecl CAPSGetInfo(PVOID pinfo, SDWORD id, UDWORD cylinder, UDWORD head, UDWORD inftype, UDWORD infid);
++ExtSub SDWORD __cdecl CAPSSetRevolution(SDWORD id, UDWORD value);
++ExtSub SDWORD __cdecl CAPSGetImageType(PCHAR name);
++ExtSub SDWORD __cdecl CAPSGetImageTypeMemory(PUBYTE buffer, UDWORD length);
++ExtSub SDWORD __cdecl CAPSGetDebugRequest();
++
++//-- Linux changes
++#ifdef __cplusplus
++}
++#endif // __cplusplus
++//-- Linux changes
++
++#endif
+
+--- a/libretro/caps/LibIPF/CapsLibVersion.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/CapsLibVersion.h	2026-10-05 00:07:32.927105132 +1000
+@@ -0,0 +1,7 @@
++#ifndef CAPSLIBVERSION_H
++#define CAPSLIBVERSION_H
++
++#define CAPS_LIB_RELEASE  5
++#define CAPS_LIB_REVISION 1
++
++#endif
+
+--- a/libretro/caps/LibIPF/ComLib.h	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LibIPF/ComLib.h	2026-10-05 00:07:32.927105132 +1000
+@@ -0,0 +1,24 @@
++#undef DllSub
++#undef DllVar
++#undef ExtSub
++#undef ExtVar
++
++#ifdef LIB_USER
++
++#define DllSub DllImport
++#define DllVar DllImport
++
++#else
++
++#define DllSub DllExport
++#define DllVar extern DllExport
++
++#endif
++
++#define ExtSub extern "C" DllSub
++#define ExtVar extern "C" DllVar
++
++//-- Linux changes
++#undef ExtSub
++#define ExtSub
++//-- Linux changes
+
+--- a/libretro/caps/LICENCE.txt	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps/LICENCE.txt	2026-10-05 00:07:32.932105176 +1000
+@@ -0,0 +1,48 @@
++This licence is based on the MAME licence and is intended for use in all non-commercial projects and environments. Other licensing options are available. Don't hesitate - please contact us at licensing@kryoflux.com.
++
++
++PREAMBLE
++
++The purpose ("Purpose") of the SPS DECODER LIBRARY ("CLL", "CAPSImage", "CAPSImg", etc.) is to enable third party software to use The Software Preservation Society Interchangeable Preservation Format ("IPF"), Software Preservation Society Capture Tool RAW ("CT RAW", "RAW") and KryoFlux STREAM ("KF STREAM", "RAW") format files as produced by e.g. The Software Preservation Analyser, KryoFlux - High Definition Flux Sampler for USB or KryoFlux FREE.
++
++
++LICENCE
++	
++Redistribution and use of the SPS DECODER LIBRARY code is permitted provided that the following conditions are met:
++
++- Redistributions may not be sold, nor may they be used in a commercial product or activity.
++
++- Redistributions that are modified from the original source must include the complete source code, including the source code for all components used by a binary built from the modified sources. However, as a special exception, the source code distributed need not include anything that is normally distributed (in either source or binary form) with the major components (compiler, kernel, and so on) of the operating system on which the executable runs, unless that component itself accompanies the executable.
++
++- Aforementioned modifications to the code can be made to enhance the code or to make it compile on other platforms than originally supported. Modifications must still satisfy the Purpose. Any file formats other than those listed under Purpose must not be enabled through the SPS DECODER LIBRARY.  
++
++- Redistributions must reproduce the following copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
++
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++
++COPYRIGHT
++
++SPS DECODER LIBRARY Copyright (c) 2001-2014 by István Fábián under exclusive licence to KryoFlux Products & Services Ltd, 80 Allington Way, Maidstone, ME16 0HN, United Kingdom. All rights reserved.
++
++
++COMMON QUESTIONS
++
++Q. Can I include the SPS DECODER LIBRARY with my commercial product?
++A. No. The SPS DECODER LIBRARY is not licensed for commercial use. Using SPS DECODER LIBRARY as a "freebie" or including it at "no cost" with your product still constitutes commerical usage and is forbidden by the licence.
++
++Q. Can I sell my product with the SPS DECODER LIBRARY or associated logos (e.g. SPS, KryoFlux) on it?
++A. No. Putting the name or logo on your product makes it appear that the product is something officially endorsed.
++
++Q. Can I use the SPS DECODER LIBRARY or the SPS logo to advertise my product?
++A. No. Using the name or logo in your advertising makes it appear that the product is something officially endorsed.
++
++Q. Can I use the term "SPS DECODER LIBRARY" in the name of my software?
++A. Generally, no, especially if it is something that is sold. However, if you are producing a free SPS DECODER LIBRARY-related piece of software, it is common that permission is granted. Send a query to double-check first, please.
++
++Q. Can I ask for donations for the work I did on my port of SPS DECODER LIBRARY to platform X?
++A. No. You would be earning money from the SPS DECODER LIBRARY trademark and copyrights, and that would be a commercial use, which is prohibited by the licence. It is our wish that SPS DECODER LIBRARY remains free.
++
++v1.02
++2014-05-20
++
+
+--- a/libretro/caps_loader.c	1970-01-01 10:00:00.000000000 +1000
++++ b/libretro/caps_loader.c	2026-10-05 00:09:17.592024324 +1000
+@@ -0,0 +1,96 @@
++#ifdef HAVE_CAPSIMAGE
++
++#include <dlfcn.h>
++#include <stdint.h>
++#include <stdio.h>
++
++#include <CapsLibAll.h>
++
++extern const char *retro_system_directory;
++
++static void *caps_handle;
++static int caps_tried;
++
++static void *caps_open(const char *path)
++{
++   void *handle = dlopen(path, RTLD_NOW | RTLD_LOCAL);
++   if (handle)
++      fprintf(stderr, "IPF : loaded %s\n", path);
++   return handle;
++}
++
++static void *caps_symbol(const char *name)
++{
++   if (!caps_tried)
++   {
++      char path[4096];
++
++      caps_tried = 1;
++
++      if (retro_system_directory && *retro_system_directory)
++      {
++         snprintf(path, sizeof(path), "%s/capsimg.so", retro_system_directory);
++         caps_handle = caps_open(path);
++      }
++
++      if (!caps_handle)
++         caps_handle = caps_open("capsimg.so");
++      if (!caps_handle)
++         caps_handle = caps_open("libcapsimage.so.5");
++      if (!caps_handle)
++         fprintf(stderr, "IPF : capsimg.so could not be loaded, IPF disk images are unavailable\n");
++   }
++
++   return caps_handle ? dlsym(caps_handle, name) : NULL;
++}
++
++#define CAPS_FORWARD(type, name, fail, params, args)    \
++   type name params                                     \
++   {                                                    \
++      static type (*function) params;                   \
++      if (!function)                                    \
++         *(void **)&function = caps_symbol(#name);      \
++      if (!function)                                    \
++         return fail;                                   \
++      return function args;                             \
++   }
++
++#define CAPS_FORWARD_VOID(name, params, args)           \
++   void name params                                     \
++   {                                                    \
++      static void (*function) params;                   \
++      if (!function)                                    \
++         *(void **)&function = caps_symbol(#name);      \
++      if (function)                                     \
++         function args;                                 \
++   }
++
++CAPS_FORWARD(SDWORD, CAPSInit, imgeGeneric, (void), ())
++CAPS_FORWARD(SDWORD, CAPSExit, imgeGeneric, (void), ())
++CAPS_FORWARD(SDWORD, CAPSAddImage, -1, (void), ())
++CAPS_FORWARD(SDWORD, CAPSRemImage, -1, (SDWORD id), (id))
++CAPS_FORWARD(SDWORD, CAPSLockImage, imgeGeneric, (SDWORD id, PCHAR name), (id, name))
++CAPS_FORWARD(SDWORD, CAPSLockImageMemory, imgeGeneric, (SDWORD id, PUBYTE buffer, UDWORD length, UDWORD flag), (id, buffer, length, flag))
++CAPS_FORWARD(SDWORD, CAPSUnlockImage, imgeGeneric, (SDWORD id), (id))
++CAPS_FORWARD(SDWORD, CAPSLoadImage, imgeGeneric, (SDWORD id, UDWORD flag), (id, flag))
++CAPS_FORWARD(SDWORD, CAPSGetImageInfo, imgeGeneric, (PCAPSIMAGEINFO pi, SDWORD id), (pi, id))
++CAPS_FORWARD(SDWORD, CAPSLockTrack, imgeGeneric, (PVOID ptrackinfo, SDWORD id, UDWORD cylinder, UDWORD head, UDWORD flag), (ptrackinfo, id, cylinder, head, flag))
++CAPS_FORWARD(SDWORD, CAPSUnlockTrack, imgeGeneric, (SDWORD id, UDWORD cylinder, UDWORD head), (id, cylinder, head))
++CAPS_FORWARD(SDWORD, CAPSUnlockAllTracks, imgeGeneric, (SDWORD id), (id))
++CAPS_FORWARD(PCHAR, CAPSGetPlatformName, NULL, (UDWORD pid), (pid))
++CAPS_FORWARD(SDWORD, CAPSGetVersionInfo, imgeGeneric, (PVOID pversioninfo, UDWORD flag), (pversioninfo, flag))
++CAPS_FORWARD(UDWORD, CAPSFdcGetInfo, 0, (SDWORD iid, PCAPSFDC pc, SDWORD ext), (iid, pc, ext))
++CAPS_FORWARD(SDWORD, CAPSFdcInit, imgeGeneric, (PCAPSFDC pc), (pc))
++CAPS_FORWARD_VOID(CAPSFdcReset, (PCAPSFDC pc), (pc))
++CAPS_FORWARD_VOID(CAPSFdcEmulate, (PCAPSFDC pc, UDWORD cyclecnt), (pc, cyclecnt))
++CAPS_FORWARD(UDWORD, CAPSFdcRead, 0, (PCAPSFDC pc, UDWORD address), (pc, address))
++CAPS_FORWARD_VOID(CAPSFdcWrite, (PCAPSFDC pc, UDWORD address, UDWORD data), (pc, address, data))
++CAPS_FORWARD(SDWORD, CAPSFdcInvalidateTrack, imgeGeneric, (PCAPSFDC pc, SDWORD drive), (pc, drive))
++CAPS_FORWARD(SDWORD, CAPSFormatDataToMFM, imgeGeneric, (PVOID pformattrack, UDWORD flag), (pformattrack, flag))
++CAPS_FORWARD(SDWORD, CAPSGetInfo, imgeGeneric, (PVOID pinfo, SDWORD id, UDWORD cylinder, UDWORD head, UDWORD inftype, UDWORD infid), (pinfo, id, cylinder, head, inftype, infid))
++CAPS_FORWARD(SDWORD, CAPSSetRevolution, imgeGeneric, (SDWORD id, UDWORD value), (id, value))
++CAPS_FORWARD(SDWORD, CAPSGetImageType, citError, (PCHAR name), (name))
++CAPS_FORWARD(SDWORD, CAPSGetImageTypeMemory, citError, (PUBYTE buffer, UDWORD length), (buffer, length))
++CAPS_FORWARD(SDWORD, CAPSGetDebugRequest, 0, (void), ())
++
++#endif
+
+--- a/Makefile.common	2026-09-13 17:05:00.000000000 +1000
++++ b/Makefile.common	2026-10-05 00:08:08.835420513 +1000
+@@ -150,6 +150,7 @@
+ 				 $(EMU)/xbios.c \
+ 				 $(EMU)/ymFormat.c \
+ 				 $(LIBRETRO_COMM_DIR)/libco/libco.c \
++				 $(LIBRETRO_DIR)/caps_loader.c \
+ 				 $(LIBRETRO_DIR)/libretro.c \
+ 				 $(LIBRETRO_DIR)/hatari-mapper.c \
+ 				 $(LIBRETRO_DIR)/vkbd.c \
+
+--- a/Makefile.libretro	2026-09-13 17:05:00.000000000 +1000
++++ b/Makefile.libretro	2026-10-05 00:08:55.444829839 +1000
+@@ -1,261 +1,263 @@
+-CORE_DIR := .
+-LIBRETRO_DIR = $(CORE_DIR)/libretro
+-ZLIB_DIR = $(LIBRETRO_DIR)/utils/zlib
+-STATIC_LINKING=0
+-STATIC_LINKING_LINK=0
+-
+-ifeq ($(platform),)
+-platform = unix
+-ifeq ($(shell uname -a),)
+-   platform = win
+-else ifneq ($(findstring MINGW,$(shell uname -a)),)
+-   platform = win
+-else ifneq ($(findstring Darwin,$(shell uname -a)),)
+-   platform = osx
+-else ifneq ($(findstring win,$(shell uname -a)),)
+-   platform = win
+-endif
+-endif
+-
+-EXTERNAL_ZLIB ?= 0
+-
+-TARGET_NAME	:= hatari
+-GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
+-ifneq ($(GIT_VERSION)," unknown")
+-	CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+-endif
+-
+-ifeq ($(platform), unix)
+-   TARGET := $(TARGET_NAME)_libretro.so
+-   fpic := -fPIC
+-   SHARED :=  -lpthread -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined -Wl,--as-needed
+-   PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
+-ifeq ($(ARCH), arm)
+-   CFLAGS += -mno-unaligned-access
+-endif
+-else ifeq ($(platform), android)
+-   CC = arm-linux-androideabi-gcc
+-   AR = @arm-linux-androideabi-ar
+-   LD = @arm-linux-androideabi-g++ 
+-   TARGET := $(TARGET_NAME)_libretro.so
+-   fpic := -fPIC
+-   SHARED :=  -Wl,--fix-cortex-a8 -llog -lz -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
+-   PLATFLAGS := -DAND -DLSB_FIRST -DALIGN_DWORD
+-   
+-# Classic Platforms ####################
+-# Platform affix = classic_<ISA>_<ÂµARCH>
+-# Help at https://modmyclassic.com/comp
+-
+-# (armv7 a7, hard point, neon based) ### 
+-# NESC, SNESC, C64 mini 
+-else ifeq ($(platform), classic_armv7_a7)
+-	TARGET := $(TARGET_NAME)_libretro.so
+-	fpic := -fPIC
+-	SHARED :=  -lz -lpthread -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
+-	CFLAGS += -Ofast \
+-	-fdata-sections -ffunction-sections -Wl,--gc-sections \
+-	-fno-stack-protector -fno-ident -fomit-frame-pointer \
+-	-falign-functions=1 -falign-jumps=1 -falign-loops=1 \
+-	-fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops \
+-	-fmerge-all-constants -fno-math-errno \
+-	-marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+-	HAVE_NEON = 1
+-	ARCH = arm
+-	PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
+-	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
+-	  CFLAGS += -march=armv7-a
+-	else
+-	  CFLAGS += -march=armv7ve
+-	  # If gcc is 5.0 or later
+-	  ifeq ($(shell echo `$(CC) -dumpversion` ">= 5" | bc -l), 1)
+-	    LDFLAGS += -static-libgcc -static-libstdc++
+-	  endif
+-	endif
+-#######################################
+-
+-else ifeq ($(platform), osx)
+-	TARGET := $(TARGET_NAME)_libretro.dylib
+-   fpic := -fPIC
+-   SHARED := -dynamiclib
+-   PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD -DHAVE_POSIX_MEMALIGN=1
+-
+-   ifeq ($(CROSS_COMPILE),1)
+-		TARGET_RULE   = -target $(LIBRETRO_APPLE_PLATFORM) -isysroot $(LIBRETRO_APPLE_ISYSROOT)
+-		CFLAGS   += $(TARGET_RULE)
+-		CPPFLAGS += $(TARGET_RULE)
+-		CXXFLAGS += $(TARGET_RULE)
+-		LDFLAGS  += $(TARGET_RULE)
+-   endif
+-
+-# ARM
+-else ifneq (,$(findstring armv,$(platform)))
+-   CC = gcc
+-	TARGET := $(TARGET_NAME)_libretro.so
+-   fpic := -fPIC -fsigned-char
+-   SHARED :=  -lz -lpthread -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
+-   PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
+-   CFLAGS += -marm
+-ifneq (,$(findstring neon,$(platform)))
+-   CFLAGS += -mfpu=neon
+-   ASFLAGS += -mfpu=neon
+-   HAVE_NEON = 1
+-endif
+-ifneq (,$(findstring softfloat,$(platform)))
+-   CFLAGS += -mfloat-abi=softfp
+-   ASFLAGS += -mfloat-abi=softfp
+-else ifneq (,$(findstring hardfloat,$(platform)))
+-   CFLAGS += -mfloat-abi=hard
+-   ASFLAGS += -mfloat-abi=hard
+-endif
+-   CFLAGS += -DARM
+-
+-# iOS
+-else ifneq (,$(findstring ios,$(platform)))
+-
+-	TARGET := $(TARGET_NAME)_libretro_ios.dylib
+-	fpic := -fPIC
+-	SHARED := -dynamiclib
+-
+-	ifeq ($(IOSSDK),)
+-		IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
+-	endif
+-   ifeq ($(platform),ios-arm64)
+-     CC = cc -arch arm64 -isysroot $(IOSSDK)      
+-   else
+-	  CC = cc -marm -arch armv7 -isysroot $(IOSSDK)
+-   endif
+-   CFLAGS += -DIOS -DHAVE_POSIX_MEMALIGN=1 -w
+-
+-ifeq ($(platform),$(filter $(platform),ios9 ios-arm64))
+-	CC += -miphoneos-version-min=8.0
+-	CFLAGS += -miphoneos-version-min=8.0
+-else
+-	CC += -miphoneos-version-min=5.0
+-	CFLAGS += -miphoneos-version-min=5.0
+-endif
+-
+-else ifeq ($(platform), tvos-arm64)
+-	TARGET := $(TARGET_NAME)_libretro_tvos.dylib
+-	fpic := -fPIC
+-	SHARED := -dynamiclib
+-
+-	ifeq ($(IOSSDK),)
+-		IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
+-	endif
+-	CC = clang -arch arm64 -isysroot $(IOSSDK)
+-	CXX = clang++ -arch arm64 -isysroot $(IOSSDK)
+-	CFLAGS += -DIOS -DHAVE_POSIX_MEMALIGN=1 -w
+-	CC += -mappletvos-version-min=11.0
+-	CFLAGS += -mappletvos-version-min=11.0
+-
+-else ifeq ($(platform), wii)
+-   TARGET := $(TARGET_NAME)_libretro_wii.a
+-   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
+-   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
+-   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)   
+-   CFLAGS += -DSDL_BYTEORDER=SDL_BIG_ENDIAN -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN  -DBYTE_ORDER=BIG_ENDIAN \
+-	-D_FILE_OFFSET_BITS=64 -DHAVE_MEMALIGN -DHAVE_ASPRINTF -I$(ZLIB_DIR) -I$(DEVKITPRO)/libogc/include \
+-	-D__powerpc__ -D__POWERPC__ -DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float -D__ppc__
+-   SHARED :=   -lm -lpthread -lc
+-   PLATFLAGS :=  -DALIGN_DWORD
+-   EXTERNAL_ZLIB = 1
+-	STATIC_LINKING=1
+-	STATIC_LINKING_LINK=1
+-# Nintendo Game Cube / Wii / WiiU
+-else ifeq ($(platform), wiiu)
+-   TARGET := $(TARGET_NAME)_libretro_$(platform).a
+-   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
+-   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
+-   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)  
+-   PLATFORM_DEFINES += -DSDL_BYTEORDER=SDL_BIG_ENDIAN -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN  -DBYTE_ORDER=BIG_ENDIAN 
+-   PLATFORM_DEFINES += -DGEKKO -mcpu=750 -meabi -mhard-float -DHAVE_STRTOF_L -DHAVE_LOCALE
+-   PLATFORM_DEFINES += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int -D_GNU_SOURCE
+-   PLATFORM_DEFINES += -DWIIU -DHW_RVL -DWORDS_BIGENDIAN=1 -Dpowerpc -D__POWERPC__ -D__ppc__
+-   PLATFORM_DEFINES += -D__wiiu__ -D__wut__ -ffunction-sections -fdata-sections
+-   STATIC_LINKING=1
+-   STATIC_LINKING_LINK = 1
+-   CFLAGS +=  -DALIGN_DWORD -D_FILE_OFFSET_BITS=64 $(PLATFORM_DEFINES) -I$(ZLIB_DIR)
+-
+-# Lightweight PS3 Homebrew SDK
+-else ifneq (,$(filter $(platform), ps3 psl1ght))
+-	TARGET := $(TARGET_NAME)_libretro_$(platform).a
+-	CC = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)gcc$(EXE_EXT)
+-	CXX = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)g++$(EXE_EXT)
+-	AR = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)ar$(EXE_EXT)
+-	SHARED := -lm -lpthread -lc
+-	CFLAGS += -DSDL_BYTEORDER=SDL_BIG_ENDIAN -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN  -DBYTE_ORDER=BIG_ENDIAN \
+-		-D__PS3__ -DHAVE_MEMALIGN -DHAVE_ASPRINTF -I$(ZLIB_DIR) 
+-	PLATFLAGS := -DALIGN_DWORD 
+-	EXTERNAL_ZLIB = 1
+-	ifeq ($(platform), psl1ght)
+-		CFLAGS += -D__PSL1GHT__
+-	endif
+-	STATIC_LINKING=1
+-	STATIC_LINKING_LINK=1
+-
+-else ifeq ($(platform), vita)
+-	TARGET := $(TARGET_NAME)_libretro_vita.a
+-   CC = arm-vita-eabi-gcc
+-   CXX = arm-vita-eabi-g++
+-   AR = arm-vita-eabi-ar
+-	CFLAGS += -DLSB_FIRST -DSDL_BYTEORDER=SDL_LIL_ENDIAN 
+-   PLATFLAGS :=  -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int -DHAVE_STRTOUL -DVITA -I$(ZLIB_DIR) -DHAVE_ALPHASORT -DHAVE_SCANDIR
+-	STATIC_LINKING=1
+-	STATIC_LINKING_LINK=1
+-else
+-   PLATFLAGS :=  -DLSB_FIRST -DALIGN_DWORD -DWIN32PORT -DWIN32
+-   CFLAGS += -D_FILE_OFFSET_BITS=64
+-	TARGET := $(TARGET_NAME)_libretro.dll
+-   SHARED := -shared -static-libgcc -s -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined 
+-	EXTERNAL_ZLIB = 1
+-endif
+-
+-ZLIB =
+-ifneq ($(EXTERNAL_ZLIB), 1)
+-ZLIB = -lz
+-endif
+-
+-ifeq ($(capsimg), 1)
+-PLATFLAGS += -DHAVE_CAPSIMAGE -DCAPSIMAGE_VERSION=5 -I$(capssrc)/LibIPF/ -I$(capssrc)/Core/
+-endif
+-
+-ifeq ($(DEBUG), 1)
+-CFLAGS += -Og -g
+-else
+-CFLAGS += -funroll-loops -ffast-math -fomit-frame-pointer -O3
+-endif
+-CFLAGS += -fsigned-char -D__LIBRETRO__ -fno-builtin
+-
+-CFLAGS   += $(fpic) $(PLATFLAGS)
+-CXXFLAGS := $(CFLAGS)
+-CPPFLAGS := $(CFLAGS)
+-
+-EMU = $(CORE_DIR)/src
+-CPU = $(EMU)/uae-cpu
+-FALCON = $(EMU)/falcon
+-DBG = $(EMU)/debug
+-FLP = $(EMU)
+-GUI = $(LIBRETRO_DIR)/gui-retro
+-CPU_PREGEN = $(LIBRETRO_DIR)/uae-cpu-pregen
+-LIBUTILS = $(LIBRETRO_DIR)/utils
+-
+-include Makefile.common
+-
+-OBJECTS := $(SOURCES_C:.c=.o)
+-
+-all: $(TARGET)
+-
+-$(TARGET): $(OBJECTS)
+-ifeq ($(STATIC_LINKING_LINK),1)
+-	$(AR) rcs $@ $(OBJECTS) 
+-else
+-	$(CC) $(CFLAGS) $(INCFLAGS) $(LDFLAGS) $(OBJECTS) -o $@ -lm $(ZLIB) $(SHARED)
+-endif
+-
+-%.o: %.c
+-	$(CC) $(CFLAGS) $(INCFLAGS) -c -o $@ $<
+-
+-clean:
+-	rm -f $(OBJECTS) $(TARGET) 
+-
+-.PHONY: clean
++CORE_DIR := .
++LIBRETRO_DIR = $(CORE_DIR)/libretro
++ZLIB_DIR = $(LIBRETRO_DIR)/utils/zlib
++STATIC_LINKING=0
++STATIC_LINKING_LINK=0
++
++ifeq ($(platform),)
++platform = unix
++ifeq ($(shell uname -a),)
++   platform = win
++else ifneq ($(findstring MINGW,$(shell uname -a)),)
++   platform = win
++else ifneq ($(findstring Darwin,$(shell uname -a)),)
++   platform = osx
++else ifneq ($(findstring win,$(shell uname -a)),)
++   platform = win
++endif
++endif
++
++EXTERNAL_ZLIB ?= 0
++
++TARGET_NAME	:= hatari
++GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
++ifneq ($(GIT_VERSION)," unknown")
++	CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
++endif
++
++ifeq ($(platform), unix)
++   TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC
++   SHARED :=  -lpthread -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined -Wl,--as-needed
++   PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
++ifeq ($(ARCH), arm)
++   CFLAGS += -mno-unaligned-access
++endif
++else ifeq ($(platform), android)
++   CC = arm-linux-androideabi-gcc
++   AR = @arm-linux-androideabi-ar
++   LD = @arm-linux-androideabi-g++ 
++   TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC
++   SHARED :=  -Wl,--fix-cortex-a8 -llog -lz -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
++   PLATFLAGS := -DAND -DLSB_FIRST -DALIGN_DWORD
++   
++# Classic Platforms ####################
++# Platform affix = classic_<ISA>_<ÂµARCH>
++# Help at https://modmyclassic.com/comp
++
++# (armv7 a7, hard point, neon based) ### 
++# NESC, SNESC, C64 mini 
++else ifeq ($(platform), classic_armv7_a7)
++	TARGET := $(TARGET_NAME)_libretro.so
++	fpic := -fPIC
++	SHARED :=  -lz -lpthread -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
++	CFLAGS += -Ofast \
++	-fdata-sections -ffunction-sections -Wl,--gc-sections \
++	-fno-stack-protector -fno-ident -fomit-frame-pointer \
++	-falign-functions=1 -falign-jumps=1 -falign-loops=1 \
++	-fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops \
++	-fmerge-all-constants -fno-math-errno \
++	-marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
++	HAVE_NEON = 1
++	ARCH = arm
++	PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
++	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
++	  CFLAGS += -march=armv7-a
++	else
++	  CFLAGS += -march=armv7ve
++	  # If gcc is 5.0 or later
++	  ifeq ($(shell echo `$(CC) -dumpversion` ">= 5" | bc -l), 1)
++	    LDFLAGS += -static-libgcc -static-libstdc++
++	  endif
++	endif
++#######################################
++
++else ifeq ($(platform), osx)
++	TARGET := $(TARGET_NAME)_libretro.dylib
++   fpic := -fPIC
++   SHARED := -dynamiclib
++   PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD -DHAVE_POSIX_MEMALIGN=1
++
++   ifeq ($(CROSS_COMPILE),1)
++		TARGET_RULE   = -target $(LIBRETRO_APPLE_PLATFORM) -isysroot $(LIBRETRO_APPLE_ISYSROOT)
++		CFLAGS   += $(TARGET_RULE)
++		CPPFLAGS += $(TARGET_RULE)
++		CXXFLAGS += $(TARGET_RULE)
++		LDFLAGS  += $(TARGET_RULE)
++   endif
++
++# ARM
++else ifneq (,$(findstring armv,$(platform)))
++   CC = gcc
++	TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC -fsigned-char
++   SHARED :=  -lz -lpthread -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
++   PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
++   CFLAGS += -marm
++ifneq (,$(findstring neon,$(platform)))
++   CFLAGS += -mfpu=neon
++   ASFLAGS += -mfpu=neon
++   HAVE_NEON = 1
++endif
++ifneq (,$(findstring softfloat,$(platform)))
++   CFLAGS += -mfloat-abi=softfp
++   ASFLAGS += -mfloat-abi=softfp
++else ifneq (,$(findstring hardfloat,$(platform)))
++   CFLAGS += -mfloat-abi=hard
++   ASFLAGS += -mfloat-abi=hard
++endif
++   CFLAGS += -DARM
++
++# iOS
++else ifneq (,$(findstring ios,$(platform)))
++
++	TARGET := $(TARGET_NAME)_libretro_ios.dylib
++	fpic := -fPIC
++	SHARED := -dynamiclib
++
++	ifeq ($(IOSSDK),)
++		IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
++	endif
++   ifeq ($(platform),ios-arm64)
++     CC = cc -arch arm64 -isysroot $(IOSSDK)      
++   else
++	  CC = cc -marm -arch armv7 -isysroot $(IOSSDK)
++   endif
++   CFLAGS += -DIOS -DHAVE_POSIX_MEMALIGN=1 -w
++
++ifeq ($(platform),$(filter $(platform),ios9 ios-arm64))
++	CC += -miphoneos-version-min=8.0
++	CFLAGS += -miphoneos-version-min=8.0
++else
++	CC += -miphoneos-version-min=5.0
++	CFLAGS += -miphoneos-version-min=5.0
++endif
++
++else ifeq ($(platform), tvos-arm64)
++	TARGET := $(TARGET_NAME)_libretro_tvos.dylib
++	fpic := -fPIC
++	SHARED := -dynamiclib
++
++	ifeq ($(IOSSDK),)
++		IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
++	endif
++	CC = clang -arch arm64 -isysroot $(IOSSDK)
++	CXX = clang++ -arch arm64 -isysroot $(IOSSDK)
++	CFLAGS += -DIOS -DHAVE_POSIX_MEMALIGN=1 -w
++	CC += -mappletvos-version-min=11.0
++	CFLAGS += -mappletvos-version-min=11.0
++
++else ifeq ($(platform), wii)
++   TARGET := $(TARGET_NAME)_libretro_wii.a
++   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
++   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
++   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)   
++   CFLAGS += -DSDL_BYTEORDER=SDL_BIG_ENDIAN -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN  -DBYTE_ORDER=BIG_ENDIAN \
++	-D_FILE_OFFSET_BITS=64 -DHAVE_MEMALIGN -DHAVE_ASPRINTF -I$(ZLIB_DIR) -I$(DEVKITPRO)/libogc/include \
++	-D__powerpc__ -D__POWERPC__ -DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float -D__ppc__
++   SHARED :=   -lm -lpthread -lc
++   PLATFLAGS :=  -DALIGN_DWORD
++   EXTERNAL_ZLIB = 1
++	STATIC_LINKING=1
++	STATIC_LINKING_LINK=1
++# Nintendo Game Cube / Wii / WiiU
++else ifeq ($(platform), wiiu)
++   TARGET := $(TARGET_NAME)_libretro_$(platform).a
++   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
++   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
++   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)  
++   PLATFORM_DEFINES += -DSDL_BYTEORDER=SDL_BIG_ENDIAN -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN  -DBYTE_ORDER=BIG_ENDIAN 
++   PLATFORM_DEFINES += -DGEKKO -mcpu=750 -meabi -mhard-float -DHAVE_STRTOF_L -DHAVE_LOCALE
++   PLATFORM_DEFINES += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int -D_GNU_SOURCE
++   PLATFORM_DEFINES += -DWIIU -DHW_RVL -DWORDS_BIGENDIAN=1 -Dpowerpc -D__POWERPC__ -D__ppc__
++   PLATFORM_DEFINES += -D__wiiu__ -D__wut__ -ffunction-sections -fdata-sections
++   STATIC_LINKING=1
++   STATIC_LINKING_LINK = 1
++   CFLAGS +=  -DALIGN_DWORD -D_FILE_OFFSET_BITS=64 $(PLATFORM_DEFINES) -I$(ZLIB_DIR)
++
++# Lightweight PS3 Homebrew SDK
++else ifneq (,$(filter $(platform), ps3 psl1ght))
++	TARGET := $(TARGET_NAME)_libretro_$(platform).a
++	CC = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)gcc$(EXE_EXT)
++	CXX = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)g++$(EXE_EXT)
++	AR = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)ar$(EXE_EXT)
++	SHARED := -lm -lpthread -lc
++	CFLAGS += -DSDL_BYTEORDER=SDL_BIG_ENDIAN -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN  -DBYTE_ORDER=BIG_ENDIAN \
++		-D__PS3__ -DHAVE_MEMALIGN -DHAVE_ASPRINTF -I$(ZLIB_DIR) 
++	PLATFLAGS := -DALIGN_DWORD 
++	EXTERNAL_ZLIB = 1
++	ifeq ($(platform), psl1ght)
++		CFLAGS += -D__PSL1GHT__
++	endif
++	STATIC_LINKING=1
++	STATIC_LINKING_LINK=1
++
++else ifeq ($(platform), vita)
++	TARGET := $(TARGET_NAME)_libretro_vita.a
++   CC = arm-vita-eabi-gcc
++   CXX = arm-vita-eabi-g++
++   AR = arm-vita-eabi-ar
++	CFLAGS += -DLSB_FIRST -DSDL_BYTEORDER=SDL_LIL_ENDIAN 
++   PLATFLAGS :=  -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int -DHAVE_STRTOUL -DVITA -I$(ZLIB_DIR) -DHAVE_ALPHASORT -DHAVE_SCANDIR
++	STATIC_LINKING=1
++	STATIC_LINKING_LINK=1
++else
++   PLATFLAGS :=  -DLSB_FIRST -DALIGN_DWORD -DWIN32PORT -DWIN32
++   CFLAGS += -D_FILE_OFFSET_BITS=64
++	TARGET := $(TARGET_NAME)_libretro.dll
++   SHARED := -shared -static-libgcc -s -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined 
++	EXTERNAL_ZLIB = 1
++endif
++
++ZLIB =
++ifneq ($(EXTERNAL_ZLIB), 1)
++ZLIB = -lz
++endif
++
++ifeq ($(capsimg), 1)
++capssrc ?= $(CORE_DIR)/libretro/caps
++PLATFLAGS += -DHAVE_CAPSIMAGE -DCAPSIMAGE_VERSION=5 -D__cdecl= -I$(capssrc)/LibIPF/ -I$(capssrc)/Core/
++ZLIB += -ldl
++endif
++
++ifeq ($(DEBUG), 1)
++CFLAGS += -Og -g
++else
++CFLAGS += -funroll-loops -ffast-math -fomit-frame-pointer -O3
++endif
++CFLAGS += -fsigned-char -D__LIBRETRO__ -fno-builtin
++
++CFLAGS   += $(fpic) $(PLATFLAGS)
++CXXFLAGS := $(CFLAGS)
++CPPFLAGS := $(CFLAGS)
++
++EMU = $(CORE_DIR)/src
++CPU = $(EMU)/uae-cpu
++FALCON = $(EMU)/falcon
++DBG = $(EMU)/debug
++FLP = $(EMU)
++GUI = $(LIBRETRO_DIR)/gui-retro
++CPU_PREGEN = $(LIBRETRO_DIR)/uae-cpu-pregen
++LIBUTILS = $(LIBRETRO_DIR)/utils
++
++include Makefile.common
++
++OBJECTS := $(SOURCES_C:.c=.o)
++
++all: $(TARGET)
++
++$(TARGET): $(OBJECTS)
++ifeq ($(STATIC_LINKING_LINK),1)
++	$(AR) rcs $@ $(OBJECTS) 
++else
++	$(CC) $(CFLAGS) $(INCFLAGS) $(LDFLAGS) $(OBJECTS) -o $@ -lm $(ZLIB) $(SHARED)
++endif
++
++%.o: %.c
++	$(CC) $(CFLAGS) $(INCFLAGS) -c -o $@ $<
++
++clean:
++	rm -f $(OBJECTS) $(TARGET) 
++
++.PHONY: clean
+
+--- a/src/floppy_ipf.c	2026-09-13 17:05:00.000000000 +1000
++++ b/src/floppy_ipf.c	2026-10-05 00:09:17.592024324 +1000
+@@ -27,7 +27,10 @@
+ 
+ #ifdef HAVE_CAPSIMAGE
+ #if CAPSIMAGE_VERSION == 5
++#include <stdint.h>
+ #include <CapsLibAll.h>
++typedef SDWORD CapsLong;
++typedef UDWORD CapsULong;
+ #else
+ #include <caps/fdc.h>
+ #define CAPS_LIB_RELEASE	4

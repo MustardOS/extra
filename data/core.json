@@ -983,8 +983,20 @@
     "output": "hatari_libretro.so",
     "make": {
       "file": "Makefile.libretro",
-      "args": "",
+      "args": "capsimg=1",
       "target": ""
+    },
+    "symbols": 0
+  },
+  "hatarib": {
+    "source": "https://github.com/bbbradsmith/hatariB",
+    "branch": "4fb7ebd",
+    "directory": "hatarib",
+    "output": "hatarib_libretro.so",
+    "make": {
+      "file": "makefile",
+      "args": "COREFILE=hatarib_libretro COREDIR=.",
+      "target": "full"
     },
     "symbols": 0
   },
