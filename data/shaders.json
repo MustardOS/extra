@@ -488,5 +488,12 @@
     "url": "https://raw.githubusercontent.com/xonglebongle/pickles-stuff/refs/heads/main/shaders/zipper-fold.frag",
     "version": "2",
     "sha256": "b8b03c75862fb5340288ca3b28e53fc273a0f781a24273d3e0433290017ccb02"
+  },
+  {
+    "name": "LCD Grid",
+    "author": "antiKk",
+    "url": "https://raw.githubusercontent.com/antiKk/pickles-shaders/refs/heads/main/lcd-grid.frag",
+    "version": "3",
+    "sha256": "5a29f534be4e664f136afa9ddf1d5df1cfda2d526120ed93ef20357640b506b5"
   }
 ]
