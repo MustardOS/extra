@@ -70,6 +70,9 @@ jobs:
           mkdir -p "$ARTIFACT_DIR"
           cp data/manifest.json "$ARTIFACT_DIR/core-manifest.json"
 
+          ARCHIVE_LIST="$RUNNER_TEMP/core-archives.tsv"
+          : >"$ARCHIVE_LIST"
+
           for CORE_ZIP in core/*.so.zip; do
             [ -f "$CORE_ZIP" ] || continue
 
@@ -86,12 +89,57 @@ jobs:
               find "$STAGE/payload" -mindepth 1 -maxdepth 1 -exec mv {} "$STAGE/pack/bios/" \;
             fi
 
-            ( cd "$STAGE/pack" && zip -r9 "$ARTIFACT_DIR/Core - $NAME.muxzip" . >/dev/null )
+            ARCHIVE="$ARTIFACT_DIR/Core - $NAME.muxzip"
+            ( cd "$STAGE/pack" && zip -r9 "$ARCHIVE" . >/dev/null )
             rm -rf "$STAGE"
+
+            printf '%s\t%s\t%s\n' "$NAME.zip" "$(sha256sum "$ARCHIVE" | cut -d' ' -f1)" "$(wc -c <"$ARCHIVE")" >>"$ARCHIVE_LIST"
           done
+
+          jq --rawfile archives "$ARCHIVE_LIST" '
+            reduce ($archives | split("\n")[] | select(length > 0) | split("\t")) as $a (.;
+              if has($a[0]) then
+                .[$a[0]].archive_sha256 = $a[1] | .[$a[0]].archive_size = ($a[2] | tonumber)
+              else . end)
+          ' "$ARTIFACT_DIR/core-manifest.json" >"$RUNNER_TEMP/core-manifest.json"
+          mv "$RUNNER_TEMP/core-manifest.json" "$ARTIFACT_DIR/core-manifest.json"
 
           printf 'manifest entries: %s\n' "$(jq 'length' "$ARTIFACT_DIR/core-manifest.json")"
           printf 'core archives:    %s\n' "$(find "$ARTIFACT_DIR" -name 'Core - *.muxzip' | wc -l)"
+          printf 'archive hashes:   %s\n' "$(jq '[.[] | select(.archive_sha256)] | length' "$ARTIFACT_DIR/core-manifest.json")"
+
+      - name: Sign core manifest
+        env:
+          CORE_SIGNING_KEY: ${{ secrets.CORE_SIGNING_KEY }}
+          CORE_PUBLIC_KEY: cb77ed50eaf8b7bd8c94943681453aba6274caf8ae554f96c352844db9c24a5b
+        run: |
+          set -eu
+
+          if [ -z "$CORE_SIGNING_KEY" ]; then
+            echo "The CORE_SIGNING_KEY secret is not set"
+            exit 1
+          fi
+
+          KEY="$RUNNER_TEMP/core-signing.pem"
+          PUB="$RUNNER_TEMP/core-signing.pub"
+          trap 'rm -f "$KEY"' EXIT
+
+          ( umask 077 && printf '%s\n' "$CORE_SIGNING_KEY" >"$KEY" )
+          openssl pkey -in "$KEY" -pubout -out "$PUB"
+
+          if [ "$(openssl pkey -pubin -in "$PUB" -outform DER | tail -c 32 | od -An -tx1 | tr -d " \n")" != "$CORE_PUBLIC_KEY" ]; then
+            echo "The CORE_SIGNING_KEY secret does not match the public key built into the frontend"
+            exit 1
+          fi
+
+          MANIFEST="artifacts/core-manifest.json"
+          openssl pkeyutl -sign -inkey "$KEY" -rawin -in "$MANIFEST" -out "$MANIFEST.sig"
+          openssl pkeyutl -verify -pubin -inkey "$PUB" -rawin -in "$MANIFEST" -sigfile "$MANIFEST.sig"
+
+          if [ "$(wc -c <"$MANIFEST.sig")" -ne 64 ]; then
+            echo "Unexpected signature size"
+            exit 1
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -101,5 +149,6 @@ jobs:
           files: |
             artifacts/*.muxzip
             artifacts/core-manifest.json
+            artifacts/core-manifest.json.sig
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
