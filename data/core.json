@@ -1770,11 +1770,11 @@
     },
     "symbols": 0
   },
-  "retro8": {
-    "source": "https://github.com/libretro/retro8",
-    "branch": "a235ff8",
-    "directory": "retro8",
-    "output": "retro8_libretro.so",
+  "picante8": {
+    "source": "https://github.com/MustardOS/picante8",
+    "branch": "main",
+    "directory": "picante8",
+    "output": "picante8_libretro.so",
     "make": {
       "file": "Makefile",
       "args": "",

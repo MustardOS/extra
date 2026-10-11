@@ -1166,14 +1166,6 @@
     "size": 103786,
     "source": "https://github.com/libretro/RACE"
   },
-  "retro8_libretro.so.zip": {
-    "built": "2026-09-13",
-    "commit": "a235ff8",
-    "core": "retro8",
-    "sha256": "ffb07ad39e96944090ffd691d3572c6baf2c77ae974096a10736d0852c52db89",
-    "size": 171363,
-    "source": "https://github.com/libretro/retro8"
-  },
   "same_cdi_libretro.so.zip": {
     "built": null,
     "commit": null,
