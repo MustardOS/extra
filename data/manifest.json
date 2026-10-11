@@ -1571,5 +1571,13 @@
     "sha256": "c10bae2b996521e51d734694ea765960ac3eb9649bab525da996b2d80ad4f6ab",
     "size": 752067,
     "source": "https://github.com/netux79/zc250x-libretro"
+  },
+  "picante8_libretro.so.zip": {
+    "core": "picante8",
+    "commit": "0000000",
+    "source": "https://github.com/MustardOS/picante8",
+    "sha256": "9e2d438ebedd442f953c2e10129484d26ae8897d78dc93f31fac527641a033c4",
+    "size": 170914,
+    "built": "2026-10-11T03:09:39Z"
   }
 }
