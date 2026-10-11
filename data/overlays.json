@@ -257,5 +257,39 @@
         "sha256": "dfa07da52d028f71e24805e4164b6a11be7aa4d44d4e6a589deec1aacf3e2535"
       }
     ]
+  },
+  {
+    "name": "Simple Grid",
+    "author": "bgelmini",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/640x480/simple-grid.png",
+        "sha256": "60d2a3860ee1c4e7408792c927aefc88cb71f2510063c8e3c71125ca3b0619d1"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/1280x720/simple-grid.png",
+        "sha256": "6b0be423f7db8f55fc03dd059bab73c1c146d43033122ac4d8805c6ce29f8dc6"
+      }
+    ]
+  },
+  {
+    "name": "Simple Scanlines",
+    "author": "bgelmini",
+    "version": "1",
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/640x480/simple-scanlines.png",
+        "sha256": "29fe728b5024576f60c314503fdc10406c348f49382ca75f2a523b7232ed6a3f"
+      },
+      {
+        "resolution": "1280x720",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/1280x720/simple-scanlines.png",
+        "sha256": "1b0fb8d0110c0fd92a6e618f1cbb95cc8c3e9751df441a28ff3ebe796ab5c2c0"
+      }
+    ]
   }
 ]
