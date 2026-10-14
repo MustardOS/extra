@@ -269,6 +269,16 @@
         "sha256": "60d2a3860ee1c4e7408792c927aefc88cb71f2510063c8e3c71125ca3b0619d1"
       },
       {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/720x480/simple-grid.png",
+        "sha256": "85f024f2e3f5056aac25dd2fb481fd27cfa05c5399d8ac451a9c3735936d15ae"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/720x720/simple-grid.png",
+        "sha256": "8d22b10bb33fb735854150f5f961a19c11d444a380126c9139e8008278faef96"
+      },
+      {
         "resolution": "1280x720",
         "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/1280x720/simple-grid.png",
         "sha256": "6b0be423f7db8f55fc03dd059bab73c1c146d43033122ac4d8805c6ce29f8dc6"
@@ -284,6 +294,16 @@
         "resolution": "640x480",
         "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/640x480/simple-scanlines.png",
         "sha256": "29fe728b5024576f60c314503fdc10406c348f49382ca75f2a523b7232ed6a3f"
+      },
+      {
+        "resolution": "720x480",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/720x480/simple-scanlines.png",
+        "sha256": "23ca413550d6cdd269ed93ceea1d0c9707299c57cc4e933ed34105eff43e8982"
+      },
+      {
+        "resolution": "720x720",
+        "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/overlays/720x720/simple-scanlines.png",
+        "sha256": "b9bd2b7e8148a025f08c34aae4f18686c27c05dc1a0881f4b9fd751f9ed5b847"
       },
       {
         "resolution": "1280x720",
