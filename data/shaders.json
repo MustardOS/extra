@@ -500,63 +500,63 @@
     "name": "bagel-CRT-mini",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini.frag",
-    "version": "3",
-    "sha256": "cca84c6b54adec3e53dae19984d09d9cab086f153a26b8826e8ab655f569565d"
+    "version": "3.6",
+    "sha256": "bf479b080bbf960b438ebb793d0ccf98b2eaa811744f9cd416726225bde6118d"
   },
   {
     "name": "bagel-CRT-mini-GoodDither",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini-GoodDither.frag",
-    "version": "3",
-    "sha256": "05e6d70c2dfdbad1e3358ef989c11f966e76c2583c875de240e7f8ee99ccf11f"
+    "version": "3.6",
+    "sha256": "ec5f2b8cb2c24b7fa4cda1e4369fd6449dca987a1b0aa6135cd89f623e0b8d29"
   },
   {
     "name": "bagel-CRT-mini-Composite",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini-Composite.frag",
-    "version": "3",
-    "sha256": "352f12f5a1700b399a2c7808692b8ca648fa8c326df72c848bdf4145696f4545"
+    "version": "3.6",
+    "sha256": "4a65dd484d8fde92e6030059c9c5b4d4092001b57b5ba88a2187e5f1c6c87c29"
   },
   {
     "name": "bagel-CRT-mini-RF",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini-RF.frag",
-    "version": "3",
-    "sha256": "fc847eb9d4a9065b62e2217422cb359475e26a23dc301fc42c6eb7f7d43714c5"
+    "version": "3.6",
+    "sha256": "adb1ed45cd63eaa2f1e98fc524e9ca174643b228593c12e324d490685dc3c454"
   },
   {
     "name": "bagel-CRT-mini-BadRF",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini-BadRF.frag",
-    "version": "3",
-    "sha256": "bd40635ae82833d0fec417e28e5027072c93a715238fb71a433c6e54cc5725e8"
+    "version": "3.6",
+    "sha256": "e2c13ba28513b49a5eaa43d5ff4db784375edf10f308c81597b98e5dea05d41c"
   },
   {
     "name": "bagel-LCD-mini",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-LCD-mini/bagel-LCD-mini.frag",
-    "version": "3",
-    "sha256": "b4d780e692152d968ee7a08df712e5968b33b80853e5e519ee411a97da999576"
+    "version": "3.6",
+    "sha256": "dc2fe2b879608b0612b0f8ee2b0c649b664ca5d4e91230936a7c6df9b7650010"
   },
   {
     "name": "bagel-LCD-mini-Background",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-LCD-mini/bagel-LCD-mini-Background.frag",
-    "version": "3",
-    "sha256": "3c796fe81cdd83c7e2d5684daa15a5e66d1655bec1775fa3c4f3cf3478430493"
+    "version": "3.6",
+    "sha256": "7b29f55c5813368fb8218b008d4ac986d6ec39eb69aee750f5edaaf998028b04"
   },
   {
     "name": "bagel-LCD-mini-FakeGhost",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-LCD-mini/bagel-LCD-mini-FakeGhost.frag",
-    "version": "3",
-    "sha256": "d0b4694d5ede2a58c1bb2cc534dc9a318ef0e6889689cfa3405cc6a127baba28"
+    "version": "3.6",
+    "sha256": "97bf17330988fb79e65e506d2b465cbecc2b5d8af3db4a46e3e69f9778f6b9c1"
   },
   {
     "name": "bagel-LCD-mini-BadDisplay",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-LCD-mini/bagel-LCD-mini-BadDisplay.frag",
-    "version": "3",
-    "sha256": "3779ed06eb9311b483d7b5fa35c51821303bd306d2960f9475e3607deed96160"
+    "version": "3.6",
+    "sha256": "144b221c115fc8a3f2514140aaf70af6ce1dfc2133d55e08005771c689966193"
   }
 ]
