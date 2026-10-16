@@ -1,0 +1,34 @@
+--- a/src/libretro/freej2me_libretro.c
++++ b/src/libretro/freej2me_libretro.c
+@@ -1155,9 +1155,18 @@
+ 		/* read frame header */
+ 		frameRequested = false;
+ 		framesDropped = 0;
+-		status = read_from_pipe(pRead[0], frameHeader, 15); // This is always frameHeader's length in Libretro.java -1 (we already read the previous status byte above into the "t" variable)
++		/* The header is always frameHeader's length in Libretro.java -1, as the status byte was read
++		 * above into "t". A pipe can hand it over in pieces, so keep reading until it is complete or
++		 * the frame below is read from the wrong place and the picture shifts sideways. */
++		status = 0;
++		while(status < 15)
++		{
++			stat = read_from_pipe(pRead[0], frameHeader + status, 15 - status);
++			if (stat<=0) break;
++			status += stat;
++		}
+ 
+-		if(status>0)
++		if(status == 15)
+ 		{
+ 			w = (frameHeader[0]<<8) | (frameHeader[1]);
+ 			h = (frameHeader[2]<<8) | (frameHeader[3]);
+@@ -1206,7 +1215,9 @@
+ 		status = 0;
+ 		do
+ 		{
+-			stat = read_from_pipe(pRead[0], readBuffer, PIPE_READ_BUFFER_SIZE);
++			/* Never ask for more than this frame still needs, or the start of the next message is
++			 * swallowed here and every frame after it is read out of step. */
++			stat = read_from_pipe(pRead[0], readBuffer, (frameBufferSize - status) < PIPE_READ_BUFFER_SIZE ? (int) (frameBufferSize - status) : PIPE_READ_BUFFER_SIZE);
+ 			if (stat<=0) break;
+ 			for(i=0; i<stat; i++)
+ 			{

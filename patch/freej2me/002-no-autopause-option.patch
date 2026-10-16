@@ -1,0 +1,21 @@
+--- a/src/org/recompile/freej2me/Libretro.java
++++ b/src/org/recompile/freej2me/Libretro.java
+@@ -36,6 +36,9 @@
+ 	private static volatile boolean canPause = false;
+ 
+ 	private static final long PAUSE_DELAY_MS = 250;
++	// A frontend that stops the whole process while paused sets this, as the clock jump on resume would
++	// otherwise read as a long pause and call pauseApp and startApp on a running game
++	private static final boolean autoPause = System.getenv("FREEJ2ME_NO_AUTOPAUSE") == null;
+ 	private static volatile long lastCoreUpdateTime = System.currentTimeMillis(); // Tracks last core update for pause checks
+ 
+ 	private byte[] frameBuffer = new byte[800*800*3];
+@@ -668,7 +671,7 @@
+ 
+ 	private static void updatePauseTimer() 
+ 	{
+-		if(!canPause) { return; } // Only start counting this after libretro has finished processing the last sent frame
++		if(!canPause || !autoPause) { return; } // Only start counting this after libretro has finished processing the last sent frame
+ 		long currentTime = System.currentTimeMillis();
+ 		
+ 		// Check if the timer has expired since the last core update, as anything beyond the PAUSE_DELAY_MS delta 

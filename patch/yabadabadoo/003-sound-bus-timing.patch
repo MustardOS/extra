@@ -1,0 +1,117 @@
+--- a/yabause/src/scsp.c
++++ b/yabause/src/scsp.c
+@@ -4733,10 +4733,26 @@
+ 
+ //////////////////////////////////////////////////////////////////////////////
+ 
++// The SH-2 reaches sound RAM and the sound chip over the slow B-bus. Without these waits a polling
++// loop runs many times faster than on hardware, and a game's timeout can expire before the sound
++// CPU has answered (Daytona USA then turns its sound effects off). The cache code already adds
++// them when the SH-2 cache is emulated.
++int get_cache_through_timing_read_byte_word(u32 addr);
++int get_cache_through_timing_read_long(u32 addr);
++int get_cache_through_timing_write_byte_word(u32 addr);
++int get_cache_through_timing_write_long(u32 addr);
++
++static INLINE void Sh2BusWait(SH2_struct *sh, int cycles)
++{
++   if (sh && !yabsys.sh2_cache_enabled)
++      sh->cycles += cycles;
++}
++
+ u8 FASTCALL
+ Sh2ScspReadByte(SH2_struct *sh, u32 addr)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_read_byte_word(addr));
+    return ScspReadByte(addr);
+ }
+ 
+@@ -4746,6 +4762,7 @@
+ Sh2ScspWriteByte(SH2_struct *sh, u32 addr, u8 val)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_write_byte_word(addr));
+    ScspWriteByte(addr, val);
+ }
+ 
+@@ -4755,6 +4772,7 @@
+ Sh2ScspReadWord(SH2_struct *sh, u32 addr)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_read_byte_word(addr));
+    return ScspReadWord(addr);
+ }
+ 
+@@ -4764,6 +4782,7 @@
+ Sh2ScspWriteWord(SH2_struct *sh, u32 addr, u16 val)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_write_byte_word(addr));
+    ScspWriteWord(addr, val);
+ }
+ 
+@@ -4773,6 +4792,7 @@
+ Sh2ScspReadLong(SH2_struct *sh, u32 addr)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_read_long(addr));
+    return ScspReadLong(addr);
+ }
+ 
+@@ -4782,6 +4802,7 @@
+ Sh2ScspWriteLong(SH2_struct *sh, u32 addr, u32 val)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_write_long(addr));
+    ScspWriteLong(addr, val);
+ }
+ 
+@@ -4791,6 +4812,7 @@
+ Sh2SoundRamReadByte(SH2_struct *sh, u32 addr)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_read_byte_word(addr));
+    return SoundRamReadByte(addr);
+ }
+ 
+@@ -4800,6 +4822,7 @@
+ Sh2SoundRamWriteByte(SH2_struct *sh, u32 addr, u8 val)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_write_byte_word(addr));
+    SoundRamWriteByte(addr, val);
+ }
+ 
+@@ -4809,6 +4832,7 @@
+ Sh2SoundRamReadWord(SH2_struct *sh, u32 addr)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_read_byte_word(addr));
+    return SoundRamReadWord(addr);
+ }
+ 
+@@ -4818,6 +4842,7 @@
+ Sh2SoundRamWriteWord(SH2_struct *sh, u32 addr, u16 val)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_write_byte_word(addr));
+    SoundRamWriteWord(addr, val);
+ }
+ 
+@@ -4827,6 +4852,7 @@
+ Sh2SoundRamReadLong(SH2_struct *sh, u32 addr)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_read_long(addr));
+    return SoundRamReadLong(addr);
+ }
+ 
+@@ -4836,6 +4862,7 @@
+ Sh2SoundRamWriteLong(SH2_struct *sh, u32 addr, u32 val)
+ {
+    M68KJobWait();
++   Sh2BusWait(sh, get_cache_through_timing_write_long(addr));
+    SoundRamWriteLong(addr, val);
+ }
+ 

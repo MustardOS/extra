@@ -1579,5 +1579,13 @@
     "sha256": "22abe62d1a0412b059eb1f9eff4d5c3b77a08d0130fe206acc9cc4df97a62722",
     "size": 226267,
     "built": "2026-10-13T05:55:12Z"
+  },
+  "yabadabadoo_libretro.so.zip": {
+    "core": "yabadabadoo",
+    "commit": "5970309",
+    "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
+    "sha256": "52e24d47c62fe2f5c609b64eb28551e428d47895e505d24b6dad4bf35b7ce0a4",
+    "size": 933672,
+    "built": "2026-10-14T21:22:15Z"
   }
 }

@@ -2271,6 +2271,25 @@
       ]
     }
   },
+  "yabadabadoo": {
+    "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
+    "branch": "5970309",
+    "purge": 1,
+    "directory": "Yabadabadoo",
+    "output": "yabadabadoo_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "platform=aarch64-unix",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "cd yabause/src/libretro",
+        "make platform=aarch64-unix clean"
+      ]
+    }
+  },
   "zc250x": {
     "source": "https://github.com/netux79/zc250x-libretro",
     "branch": "cfe8da6",

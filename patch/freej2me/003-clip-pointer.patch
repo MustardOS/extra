@@ -1,0 +1,30 @@
+--- a/src/libretro/freej2me_libretro.c
++++ b/src/libretro/freej2me_libretro.c
+@@ -1287,8 +1287,11 @@
+ 				for (j=0; j<17; j++)
+ 				{
+ 					// the -3 and -5 are so that the tip of the pointer aligns with the position that will be clicked
+-					t = ((joymouseY + i - 3)*frameWidth)+(joymouseX + j - 6);
+-					if(t>=0 && t<sizeof(frame))
++					int px = joymouseX + j - 6;
++					int py = joymouseY + i - 3;
++					// Clip to the frame, otherwise the left edge of the pointer wraps onto the row above
++					if(px<0 || px>=frameWidth || py<0 || py>=frameHeight) { continue; }
++					t = (py*frameWidth)+px;
+ 					{
+ 						switch (joymouseClickedImage[(i*17)+j])
+ 						{
+@@ -1311,8 +1314,11 @@
+ 				for (j=0; j<17; j++)
+ 				{
+ 					// the -3 and -5 are so that the tip of the pointer aligns with the position that will be clicked
+-					t = ((joymouseY + i - 3)*frameWidth)+(joymouseX + j - 6);
+-					if(t>=0 && t<sizeof(frame))
++					int px = joymouseX + j - 6;
++					int py = joymouseY + i - 3;
++					// Clip to the frame, otherwise the left edge of the pointer wraps onto the row above
++					if(px<0 || px>=frameWidth || py<0 || py>=frameHeight) { continue; }
++					t = (py*frameWidth)+px;
+ 					{
+ 						switch (joymouseImage[(i*17)+j])
+ 						{

@@ -1,0 +1,40 @@
+--- a/yabause/src/sh2int.c
++++ b/yabause/src/sh2int.c
+@@ -226,6 +226,10 @@
+       else
+          sh->instruction = ((fetchfunc *)sh->fetchlist)[(addr >> 20) & 0x0FF](sh, addr);
+    }
++   else if (((addr >> 24) & 0x0F) == 0x06 && sh->model != SHMT_SH1)
++   {
++      sh->instruction = T2ReadWord(HighWram, addr & 0xFFFFF);
++   }
+    else
+    {
+       sh->instruction = ((fetchfunc *)sh->fetchlist)[(addr >> 20) & 0x0FF](sh, addr);
+@@ -3019,6 +3023,26 @@
+          SH2idleCheck(context, cycles);
+    }
+ 
++   // Without the cache and outside the SH-1, a fetch from High Work RAM is a plain read, so it skips
++   // the per-region call, and the loop no longer re-tests settings that cannot change inside it
++   if (!yabsys.sh2_cache_enabled && context->model != SHMT_SH1)
++   {
++      fetchfunc *fetchlist = (fetchfunc *)context->fetchlist;
++
++      while(context->cycles < cycles)
++      {
++         const u32 pc = context->regs.PC;
++
++         if (((pc >> 24) & 0x0F) == 0x06)
++            context->instruction = T2ReadWord(HighWram, pc & 0xFFFFF);
++         else
++            context->instruction = fetchlist[(pc >> 20) & 0x0FF](context, pc);
++
++         ((opcodefunc *)context->opcodes)[context->instruction](context);
++      }
++      return;
++   }
++
+    while(context->cycles < cycles)
+    {
+       int cycles_before = context->cycles;

@@ -1,0 +1,74 @@
+--- a/yabause/src/memory.c
++++ b/yabause/src/memory.c
+@@ -777,6 +777,11 @@
+ 
+ u8 FASTCALL MappedMemoryReadByteNocache(SH2_struct *sh, u32 addr)
+ {
++   // High Work RAM is plain memory, so it skips the region table (which only a debugger
++   // memory breakpoint ever changes)
++   if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
++      return T2ReadByte(HighWram, addr & 0xFFFFF);
++
+    switch (addr >> 29)
+    {
+       case 0x0:
+@@ -832,6 +837,11 @@
+ 
+ u16 FASTCALL MappedMemoryReadWordNocache(SH2_struct *sh, u32 addr)
+ {
++   // High Work RAM is plain memory, so it skips the region table (which only a debugger
++   // memory breakpoint ever changes)
++   if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
++      return T2ReadWord(HighWram, addr & 0xFFFFF);
++
+    switch (addr >> 29)
+    {
+       case 0x0:
+@@ -887,6 +897,11 @@
+ 
+ u32 FASTCALL MappedMemoryReadLongNocache(SH2_struct *sh, u32 addr)
+ {
++   // High Work RAM is plain memory, so it skips the region table (which only a debugger
++   // memory breakpoint ever changes)
++   if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
++      return T2ReadLong(HighWram, addr & 0xFFFFF);
++
+    switch (addr >> 29)
+    {
+       case 0x0:
+@@ -948,6 +963,11 @@
+ }
+ void FASTCALL MappedMemoryWriteByteNocache(SH2_struct *sh, u32 addr, u8 val)
+ {
++   // High Work RAM is plain memory, so it skips the region table (which only a debugger
++   // memory breakpoint ever changes)
++   if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
++      { T2WriteByte(HighWram, addr & 0xFFFFF, val); return; }
++
+ #ifdef SH2_TRACE
+    sh2_trace_writeb(addr, val);
+ #endif
+@@ -1011,6 +1031,11 @@
+ 
+ void FASTCALL MappedMemoryWriteWordNocache(SH2_struct *sh, u32 addr, u16 val)
+ {
++   // High Work RAM is plain memory, so it skips the region table (which only a debugger
++   // memory breakpoint ever changes)
++   if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
++      { T2WriteWord(HighWram, addr & 0xFFFFF, val); return; }
++
+ #ifdef SH2_TRACE
+    sh2_trace_writew(addr, val);
+ #endif
+@@ -1074,6 +1099,11 @@
+ 
+ void FASTCALL MappedMemoryWriteLongNocache(SH2_struct *sh, u32 addr, u32 val)
+ {
++   // High Work RAM is plain memory, so it skips the region table (which only a debugger
++   // memory breakpoint ever changes)
++   if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
++      { T2WriteLong(HighWram, addr & 0xFFFFF, val); return; }
++
+ #ifdef SH2_TRACE
+    sh2_trace_writel(addr, val);
+ #endif
