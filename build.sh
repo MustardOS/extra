@@ -748,7 +748,10 @@ APPLY_PATCHES() {
 		for PATCH in "$PATCH_DIR/$NAME"/*.patch; do
 			[ -e "$PATCH" ] || continue
 			printf "Applying patch: %s\n" "$PATCH"
-			patch -d "$CORE_DIR" -p1 <"$PATCH" || {
+			# Preserve CRLF context for upstream files which intentionally retain
+			# DOS line endings. GNU patch otherwise strips the patch CR characters
+			# and every contextual hunk is rejected against the untouched source.
+			patch --binary -d "$CORE_DIR" -p1 <"$PATCH" || {
 				printf "Failed to apply patch: %s\n" "$PATCH" >&2
 				return 1
 			}
@@ -933,7 +936,7 @@ for NAME in $CORES; do
 	fi
 
 	# Skip when up to date
-	if [ "$FORCE" -eq 0 ] && \
+	if [ "$FORCE" -eq 0 ] && [ "$PURGE" -eq 0 ] && [ "$CORE_PURGE_FLAG" -eq 0 ] && \
 	   [ "$CACHED_HASH" = "$REMOTE_HASH" ] && [ -f "$RETRO_DIR/$ZIP_NAME" ]; then
 		printf "Core '%s' is up to date (hash: %s). Skipping build.\n" "$NAME" "$REMOTE_HASH"
 		jq --arg name "$NAME" --arg hash "$REMOTE_HASH" --arg dir "$DIR" \
@@ -1025,10 +1028,15 @@ for NAME in $CORES; do
 		FAIL_AND_CONTINUE "$NAME" "git" "local hash does not match expected remote hash"
 	fi
 
-	APPLY_PATCHES "$NAME" "$CORE_DIR" || {
+	# This check must continue the outer core loop directly. Calling
+	# FAIL_AND_CONTINUE here only continues from inside that function, which
+	# previously let an unpatched or partly patched core reach packaging.
+	if ! APPLY_PATCHES "$NAME" "$CORE_DIR"; then
 		printf "Failed to apply patches for %s\n" "$NAME" >&2
-		FAIL_AND_CONTINUE "$NAME" "patch" "failed to apply patches"
-	}
+		MARK_FAIL "$NAME" "patch" "failed to apply patches"
+		RETURN_TO_BASE
+		continue
+	fi
 
 	START_WALL="$(NOW)"
 	LOGFILE="$(dirname "$0")/build.log"
