@@ -2273,13 +2273,18 @@
   },
   "yabadabadoo": {
     "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
-    "branch": "5970309",
+    "branch": "9b7d780",
     "purge": 1,
     "directory": "Yabadabadoo",
     "output": "yabadabadoo_libretro.so",
     "make": {
       "file": "Makefile",
-      "args": "platform=aarch64-unix",
+      "args": [
+        "platform=aarch64-unix",
+        "CC=aarch64-linux-gcc",
+        "CXX=aarch64-linux-g++",
+        "AR=aarch64-linux-ar"
+      ],
       "target": ""
     },
     "symbols": 0,

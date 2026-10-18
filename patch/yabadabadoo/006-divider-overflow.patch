@@ -1,0 +1,33 @@
+--- a/yabause/src/sh2core.c
++++ b/yabause/src/sh2core.c
+@@ -1670,6 +1670,19 @@ void FASTCALL OnchipWriteLong(SH2_struct *sh, u32 addr, u32 val)  {
+             if (sh->onchip.DVCR & 0x2)
+                SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
+          }
++         else if ((s32) val == (s32) 0x80000000 && divisor == -1)
++         {
++            // The only 32-bit quotient that does not fit (2^31). The hardware flags it and saturates
++            // (SH7604 manual 10.3.3), where the C division would trap
++            sh->onchip.DVDNTL = 0x7FFFFFFF;
++            sh->onchip.DVDNTH = 0;
++            sh->onchip.DVDNTUL = sh->onchip.DVDNTL;
++            sh->onchip.DVDNTUH = sh->onchip.DVDNTH;
++            sh->onchip.DVCR |= 1;
++
++            if (sh->onchip.DVCR & 0x2)
++               SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
++         }
+          else
+          {
+             s32 quotient = ((s32) val) / divisor;
+@@ -1734,7 +1747,9 @@ void FASTCALL OnchipWriteLong(SH2_struct *sh, u32 addr, u32 val)  {
+                if (sh->onchip.DVCR & 0x2)
+                   SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
+             }
+-            else if ((s32)(quotient >> 32) < -1)
++            // Any quotient below -2^31 overflows. Testing only the top word missed -2^33..-2^31-1,
++            // which were then truncated instead of saturating (SH7604 manual 10.3.3)
++            else if (quotient < -(s64) 0x80000000)
+             {
+                sh->onchip.DVCR |= 1;
+                sh->onchip.DVDNTL = 0x80000000;

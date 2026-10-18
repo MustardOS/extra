@@ -1,0 +1,64 @@
+--- a/yabause/src/vidsoft.c
++++ b/yabause/src/vidsoft.c
+@@ -5789,52 +5789,6 @@ static QuadPen QuadPlotLean8CM4(const QuadLine *Lp, QuadPen pen) { return QuadPl
+  * tests are left (clip area, double interlace, this thread's rows, buffer
+  * end). No mesh, user clipping (unless the whole line is inside it) or
+  * Gouraud steps. Kept small: vidsoft.c is at GCC's inlining limit. */
+-static __attribute__((noinline)) QuadPen QuadPlotFill8(const QuadLine *Lp, QuadPen pen)
+-{
+-   const u32 *const pts = Lp->pts;
+-   u8 *const fb8 = Lp->fb8;
+-   const int width = Lp->width, n = Lp->n, SPD = Lp->SPD, cm = Lp->colormode;
+-   const int il = Lp->interlace == 2, dil = Lp->dil_skip;
+-   const int xhi = Lp->regs->systemclipX2, yhi = Lp->regs->systemclipY2;
+-   const int rlo = Lp->row_lo, rhi = Lp->row_hi;
+-   const int vis = cm == 0 ? 0xf : cm == 2 ? 0x3f : cm == 3 ? 0x7f : cm == 4 ? 0xff : 0xffff;
+-   const int cp = Lp->untexturedColor & 0xFF;
+-   const int plot = (SPD || (cp & vis)) && !(cp == 0 && !SPD);
+-   int k, any = 0;
+-
+-   for (k = 0; k < n; k++)
+-   {
+-      const u32 pt = pts[k];
+-      const int px = (s16)pt, py = (s32)pt >> 16;
+-      int yy, pos;
+-
+-      if (px < 0 || px > xhi || py < 0 || py > yhi || (py & 1) == dil)
+-         continue;
+-      yy = il ? py >> 1 : py;
+-      pos = yy * width + px;
+-      if (yy < rlo || yy >= rhi || pos >= 0x40000)
+-         continue;
+-      any = 1;
+-      if (plot)
+-         VDP1W(fb8[pos]) = cp;
+-   }
+-   if (any)
+-   {
+-      pen.cp = cp;
+-      pen.vis = vis;
+-   }
+-   return pen;
+-}
+-
+-/* The other 16-colour lines on the 8-bit framebuffer: untextured ones take
+- * QuadPlotFill8(), the rest the general loop (out of line, like the fill) */
+-static __attribute__((noinline)) QuadPen QuadPlotOther8CM0(const QuadLine *Lp, QuadPen pen)
+-{
+-   if (!Lp->isTextured && !Lp->mesh && (Lp->noclip || !Lp->user_clip) && !(Lp->drawmode & 4))
+-      return QuadPlotFill8(Lp, pen);
+-   return QuadPlotPoints(0, -1, 1, *Lp, pen);
+-}
+-
+ static void DrawLineQuad(const Vdp1QuadState *st, int x1, int y1, int x2, int y2, double linenumber, double texturestep,
+    int linelength, double xredstep, double xgreenstep, double xbluestep, Vdp1 *regs, vdp1cmd_struct *cmd, u8 *ram, u8 *back_framebuffer)
+ {
+@@ -5954,7 +5908,7 @@ static void DrawLineQuad(const Vdp1QuadState *st, int x1, int y1, int x2, int y2
+                            (L.noclip || !L.user_clip) && !(L.drawmode & 4);
+          switch (colormode)
+          {
+-         case 0: pen = lean8 ? QuadPlotLean8CM0(&L, pen) : QuadPlotOther8CM0(&L, pen); break;
++         case 0: pen = lean8 ? QuadPlotLean8CM0(&L, pen) : QuadPlotPoints(0, -1, 1, L, pen); break;
+          case 1: pen = lean8 ? QuadPlotLean8CM1(&L, pen) : QuadPlotPoints(1, -1, 1, L, pen); break;
+          case 3: pen = lean8 ? QuadPlotLean8CM3(&L, pen) : QuadPlotPoints(3, -1, 1, L, pen); break;
+          case 4: pen = lean8 ? QuadPlotLean8CM4(&L, pen) : QuadPlotPoints(4, -1, 1, L, pen); break;

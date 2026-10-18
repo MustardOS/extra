@@ -1,0 +1,20 @@
+--- a/yabause/src/libretro/libretro_core_options.h
++++ b/yabause/src/libretro/libretro_core_options.h
+@@ -278,7 +278,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+       "yabadabadoo_sh2_timeslice",
+       "SH2 Time Slice (Restart Required)",
+       NULL,
+-      "How often the SH-2 CPUs are synchronized with the rest of the system. 'Scanline' is faster than 'Tenth of a scanline' but less accurate. Only affects the interpreter; the dynamic recompiler always slices per tenth of a scanline.",
++      "How often the SH-2 CPUs are synchronized with the rest of the system. 'Tenth of a scanline' is more accurate and is required by some timing-sensitive games. 'Scanline' is faster but may prevent those games from booting. This affects both the interpreter and dynamic recompiler.",
+       NULL,
+       NULL,
+       {
+@@ -286,7 +286,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+          { "line",     "Scanline" },
+          { NULL, NULL },
+       },
+-      "line"
++      "deciline"
+    },
+ #ifdef HAVE_THREADS
+    {

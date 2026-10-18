@@ -1582,10 +1582,10 @@
   },
   "yabadabadoo_libretro.so.zip": {
     "core": "yabadabadoo",
-    "commit": "5970309",
+    "commit": "9b7d780",
     "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
-    "sha256": "f65788ba6facc9ffb42e19305710b7794a552041bad01f125ee514282010f5d7",
-    "size": 551277,
-    "built": "2026-10-16T13:49:36Z"
+    "sha256": "a8b5e8a75fed091c3e212573d91ad0b3893bd7f3d34a6233480205a4fb2af1a3",
+    "size": 551752,
+    "built": "2026-10-17T12:12:38Z"
   }
 }
