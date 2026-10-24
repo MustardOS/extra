@@ -1,0 +1,104 @@
+--- a/yabause/src/libretro/libretro_core_options.h
++++ b/yabause/src/libretro/libretro_core_options.h
+@@ -264,6 +264,24 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+       },
+       "enabled"
+    },
++   {
++      "yabadabadoo_cdda_level",
++      "CD Music Level (%)",
++      NULL,
++      "Adjust the volume of CD music relative to sound effects.",
++      NULL,
++      NULL,
++      {
++         { "25", NULL },
++         { "40", NULL },
++         { "50", NULL },
++         { "60", NULL },
++         { "75", NULL },
++         { "100", NULL },
++         { NULL, NULL },
++      },
++      "50"
++   },
+    {
+       "yabadabadoo_rotation_line_color",
+       "Per-Pixel Rotation Line Colour",
+--- a/yabause/src/libretro/libretro.c
++++ b/yabause/src/libretro/libretro.c
+@@ -1163,6 +1163,12 @@ static void check_variables(void)
+    M68KSetThreaded(!(environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value &&
+                      strcmp(var.value, "disabled") == 0));
+ 
++   var.key = "yabadabadoo_cdda_level";
++   var.value = NULL;
++   ScspSetCDDAVolume(environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value
++                        ? (int)strtol(var.value, NULL, 10)
++                        : 50);
++
+    var.key = "yabadabadoo_video_standard";
+    var.value = NULL;
+    video_standard = -1;
+--- a/yabause/src/scsp.c
++++ b/yabause/src/scsp.c
+@@ -1663,6 +1663,7 @@ static union {
+ } cddabuf;
+ static unsigned int cdda_next_in=0;               // Next sector buffer offset to receive into
+ static u32 cdda_out_left;                       // Bytes of CDDA left to output
++static int cdda_gain = 128;
+ 
+ ////////////////////////////////////////////////////////////////
+ 
+@@ -3726,12 +3727,12 @@ scsp_mix_cdda (s32 *bufL, s32 *bufR, u32 n, u32 start)
+       {
+          s32 out;
+ 
+-         out = (s32)(s16)((buf[1] << 8) | buf[0]);
++         out = ((s32)(s16)((buf[1] << 8) | buf[0]) * cdda_gain) >> 8;
+ 
+          if (out)
+             bufL[pos] += out;
+ 
+-         out = (s32)(s16)((buf[3] << 8) | buf[2]);
++         out = ((s32)(s16)((buf[3] << 8) | buf[2]) * cdda_gain) >> 8;
+ 
+          if (out)
+             bufR[pos] += out;
+@@ -5385,6 +5386,9 @@ void new_scsp_run_sample()
+       cd_in_l = (s16)((buf[1] << 8) | buf[0]);
+       cd_in_r = (s16)((buf[3] << 8) | buf[2]);
+ 
++      cd_in_l = (s16)(((s32)cd_in_l * cdda_gain) >> 8);
++      cd_in_r = (s16)(((s32)cd_in_r * cdda_gain) >> 8);
++
+       cdda_out_left -= 4;
+    }
+ 
+@@ -5810,6 +5814,16 @@ ScspSetVolume (int volume)
+     SNDCore->SetVolume (volume);
+ }
+ 
++void
++ScspSetCDDAVolume (int volume)
++{
++  if (volume < 0)
++    volume = 0;
++  else if (volume > 100)
++    volume = 100;
++  cdda_gain = (volume * 256 + 50) / 100;
++}
++
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ void
+--- a/yabause/src/scsp.h
++++ b/yabause/src/scsp.h
+@@ -124,6 +124,7 @@ int ScspSlotDebugAudioSaveWav(u8 slotnum, const char *filename);
+ void ScspMuteAudio(int flags);
+ void ScspUnMuteAudio(int flags);
+ void ScspSetVolume(int volume);
++void ScspSetCDDAVolume(int volume);
+ 
+ 
+ u8 FASTCALL ScspReadByte(u32 addr);

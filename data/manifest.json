@@ -913,13 +913,12 @@
     "source": "https://github.com/libretro/mupen64plus-libretro-nx.git"
   },
   "mupen64plus_next_libretro.so.zip": {
-    "built": null,
-    "commit": null,
     "core": "mupen64plus_next",
-    "sha256": "ba739f62e2475fcb7ad0482dae8f833e11c70cdb6d600b55e7a41a0a91676031",
-    "size": 1407746,
-    "source": null,
-    "vendored": true
+    "commit": "15bada8",
+    "source": "https://github.com/libretro/mupen64plus-libretro-nx.git",
+    "sha256": "8e3b9d37791856bcb3ac15bff4c70b2b1eba96f9a32bf00d2cc86d8f94324a30",
+    "size": 1324836,
+    "built": "2026-10-24T07:41:50Z"
   },
   "nekop2_libretro.so.zip": {
     "built": "2026-09-13",
@@ -1584,8 +1583,8 @@
     "core": "yabadabadoo",
     "commit": "9b7d780",
     "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
-    "sha256": "a8b5e8a75fed091c3e212573d91ad0b3893bd7f3d34a6233480205a4fb2af1a3",
-    "size": 551752,
-    "built": "2026-10-17T12:12:38Z"
+    "sha256": "836dc4eb40ba50c1d6d2f2936eeda9759dc874cc79523e2c2583f77fbde3c91f",
+    "size": 552574,
+    "built": "2026-10-24T07:49:07Z"
   }
 }

@@ -1,0 +1,49 @@
+--- a/yabause/src/vidsoft.c
++++ b/yabause/src/vidsoft.c
+@@ -46,6 +46,9 @@
+ 
+ #include <stdlib.h>
+ #include <limits.h>
++#if defined(__aarch64__)
++#include <arm_neon.h>
++#endif
+ 
+ #if defined WORDS_BIGENDIAN
+ static INLINE u32 COLSAT2YAB16(int priority,u32 temp)            { return (priority | (temp & 0x7C00) << 1 | (temp & 0x3E0) << 14 | (temp & 0x1F) << 27); }
+@@ -1386,6 +1389,12 @@ static INLINE u32 ColorOffsetSat(u32 pixel, u32 pos, u32 neg)
+    __asm__("uqadd8 %0, %0, %1" : "+r"(pixel) : "r"(pos));
+    __asm__("uqsub8 %0, %0, %1" : "+r"(pixel) : "r"(neg));
+    return pixel;
++#elif defined(__aarch64__)
++   uint8x8_t value = vreinterpret_u8_u32(vdup_n_u32(pixel));
++   uint8x8_t positive = vreinterpret_u8_u32(vdup_n_u32(pos));
++   uint8x8_t negative = vreinterpret_u8_u32(vdup_n_u32(neg));
++   value = vqsub_u8(vqadd_u8(value, positive), negative);
++   return vget_lane_u32(vreinterpret_u32_u8(value), 0);
+ #else
+    u32 out = 0;
+    int b;
+--- a/yabause/src/titan/titan.c
++++ b/yabause/src/titan/titan.c
+@@ -24,6 +24,9 @@
+ #include "../threads.h"
+ 
+ #include <stdlib.h>
++#if defined(__aarch64__)
++#include <arm_neon.h>
++#endif
+ 
+ /* private */
+ typedef u32 (*TitanBlendFunc)(u32 top, u32 bottom);
+@@ -328,6 +331,11 @@ static INLINE u32 TitanBlendPixelsAdd(u32 top, u32 bottom)
+    u32 res;
+    asm("uqadd8 %0, %1, %2" : "=r"(res) : "r"(top), "r"(bottom));
+    return (res & 0x00FFFFFF) | 0x3F000000;
++#elif defined(__aarch64__)
++   uint8x8_t top_bytes = vreinterpret_u8_u32(vdup_n_u32(top));
++   uint8x8_t bottom_bytes = vreinterpret_u8_u32(vdup_n_u32(bottom));
++   u32 res = vget_lane_u32(vreinterpret_u32_u8(vqadd_u8(top_bytes, bottom_bytes)), 0);
++   return (res & 0x00FFFFFF) | 0x3F000000;
+ #else
+    u32 r, g, b;
+ 

@@ -93,6 +93,7 @@
 2026-01-30 8160b4fb mgba_libretro.so.zip
 2026-09-13 34c11972 minivmac_libretro.so.zip
 2026-09-13 f4f9d866 mu_libretro.so.zip
+2026-10-24 f1b7d044 mupen64plus_next_libretro.so.zip
 2026-09-13 e7c0bfd4 nekop2_libretro.so.zip
 2026-09-13 78a82a2b neocd_libretro.so.zip
 2026-09-13 eaa73caa nestopia_libretro.so.zip
@@ -153,5 +154,5 @@
 2026-04-21 ef6ac371 vitaquake2_libretro.so.zip
 2026-09-13 d08cb4a6 wasm4_libretro.so.zip
 2026-09-13 d0e5d1f9 x1_libretro.so.zip
-2026-10-17 e7412ba0 yabadabadoo_libretro.so.zip
+2026-10-24 fdb6b876 yabadabadoo_libretro.so.zip
 2026-09-13 496b23d6 zc250x_libretro.so.zip

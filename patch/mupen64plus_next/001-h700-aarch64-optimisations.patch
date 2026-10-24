@@ -1,0 +1,108 @@
+diff --git a/Makefile b/Makefile
+index 2443f80..961aa52 100644
+--- a/Makefile
++++ b/Makefile
+@@ -357,10 +357,10 @@ else ifneq (,$(findstring arm64_cortex_a53_gles2,$(platform)))
+ # Generic AArch64 Cortex-A53 GLES 3.0 target
+ else ifneq (,$(findstring arm64_cortex_a53_gles3,$(platform)))
+    TARGET := $(TARGET_NAME)_libretro.so
+-   LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined -ldl
+-   GL_LIB := -lGLESv2
++   LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,-O2,--gc-sections,--as-needed -ldl
++   GL_LIB := -Wl,--no-as-needed -lGLESv2
+    WITH_DYNAREC := aarch64
+-   CPUFLAGS += -mcpu=cortex-a53 -mtune=cortex-a53
++   CPUFLAGS += -mcpu=cortex-a53+crc+crypto -mtune=cortex-a53 -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -fno-semantic-interposition -ffunction-sections -fdata-sections
+    GLES3 = 1
+    COREFLAGS += -DOS_LINUX
+    ASFLAGS = -f elf64 -d ELF_TYPE
+@@ -639,8 +639,8 @@ include Makefile.common
+ 
+ ifeq ($(HAVE_NEON), 1)
+    COREFLAGS += -DHAVE_NEON -D__ARM_NEON__ -D__NEON_OPT -ftree-vectorize -funsafe-math-optimizations -fno-finite-math-only -DUSE_SSE2NEON
+-   ifeq (,$(filter $(platform),ios-arm64 tvos-arm64))
+-      COREFLAGS += -mvectorize-with-neon-quad -ftree-vectorizer-verbose=2
++   ifeq (,$(findstring arm64,$(platform)))
++      COREFLAGS += -mvectorize-with-neon-quad
+    endif
+ endif
+ 
+@@ -703,5 +703,8 @@ $(TARGET): $(OBJECTS)
+ # Script hackery fll or generating ASM include files for the new dynarec assembly code
++$(ASM_DEFINES_OBJ): $(AWK_DEST_DIR)/asm_defines.c
++	$(CC) $(CPPFLAGS) $(filter-out -flto,$(CFLAGS)) -c $< -o $@
++
+ $(AWK_DEST_DIR)/asm_defines_gas.h: $(AWK_DEST_DIR)/asm_defines_nasm.h
+ $(AWK_DEST_DIR)/asm_defines_nasm.h: $(ASM_DEFINES_OBJ)
+ 	$(STRINGS) "$<" | $(TR) -d '\r' | $(AWK) -v dest_dir="$(AWK_DEST_DIR)" -f $(CORE_DIR)/tools/gen_asm_defines.awk
+
+diff --git a/Makefile.common b/Makefile.common
+index 72aef3a..4225d34 100644
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -467,7 +467,7 @@ endif
+ 
+ SOURCES_C += $(LIBRETRO_COMM_DIR)/libco/libco.c
+ 
+-ifeq ($(platform), $(filter $(platform), rpi3 rpi4 libnx jetson-xavier))
++ifeq ($(platform), $(filter $(platform), rpi3 rpi4 libnx jetson-xavier arm64_cortex_a53_gles2 arm64_cortex_a53_gles3))
+ 	SOURCES_CXX += $(VIDEODIR_GLIDEN64)/src/CRC32_ARMV8.cpp
+ else
+ 	SOURCES_CXX += $(VIDEODIR_GLIDEN64)/src/CRC_OPT.cpp
+diff --git a/custom/mupen64plus-core/plugin/audio_libretro/audio_backend_libretro.c b/custom/mupen64plus-core/plugin/audio_libretro/audio_backend_libretro.c
+index 15a490f..753be74 100644
+--- a/custom/mupen64plus-core/plugin/audio_libretro/audio_backend_libretro.c
++++ b/custom/mupen64plus-core/plugin/audio_libretro/audio_backend_libretro.c
+@@ -223,7 +223,13 @@ void init_audio_libretro(unsigned max_audio_frames)
+    converter_input_rate = 0;
+ #else
+-   retro_resampler_realloc(&resampler_audio_data, &resampler, "sinc", RESAMPLER_QUALITY_DONTCARE, 1.0);
++   retro_resampler_realloc(&resampler_audio_data, &resampler, "sinc",
++#ifdef SINC_LOWER_QUALITY
++         RESAMPLER_QUALITY_LOWER,
++#else
++         RESAMPLER_QUALITY_DONTCARE,
++#endif
++         1.0);
+ 
+    audio_in_buffer_float  = malloc(2 * MAX_AUDIO_FRAMES * sizeof(float));
+    audio_out_buffer_float = malloc(2 * MAX_AUDIO_FRAMES * sizeof(float));
+    audio_out_buffer_s16   = malloc(2 * MAX_AUDIO_FRAMES * sizeof(int16_t));
+diff --git a/GLideN64/src/Graphics/OpenGLContext/opengl_ContextImpl.cpp b/GLideN64/src/Graphics/OpenGLContext/opengl_ContextImpl.cpp
+index 0d80351..8d85782 100644
+--- a/GLideN64/src/Graphics/OpenGLContext/opengl_ContextImpl.cpp
++++ b/GLideN64/src/Graphics/OpenGLContext/opengl_ContextImpl.cpp
+@@ -182,19 +182,12 @@ void ContextImpl::clearColorBuffer(f32 _red, f32 _green, f32 _blue, f32 _alpha)
+ 	CachedEnable * enableScissor = m_cachedFunctions->getCachedEnable(graphics::enable::SCISSOR_TEST);
+ 	enableScissor->enable(false);
+ 
+-	if (m_glInfo.isGLES2) {
++	if (m_glInfo.isGLESX) {
+ 		m_cachedFunctions->getCachedClearColor()->setClearColor(_red, _green, _blue, _alpha);
+ 		glClear(GL_COLOR_BUFFER_BIT);
+ 	} else {
+-#if defined(OS_ANDROID)
+-		// Using the GLES3 paths causes some background garbage where the Overscan is
+-		// TODO: Investigate this
+-		m_cachedFunctions->getCachedClearColor()->setClearColor(_red, _green, _blue, _alpha);
+-		glClear(GL_COLOR_BUFFER_BIT);
+-#else
+ 		GLfloat values[4] = {_red, _green, _blue, _alpha};
+ 		glClearBufferfv(GL_COLOR, 0, values);
+-#endif // OS_ANDROID
+ 	}
+ 
+ 	enableScissor->enable(true);
+diff --git a/libretro/libretro_core_options.h b/libretro/libretro_core_options.h
+index fb39aa9..e357320 100644
+--- a/libretro/libretro_core_options.h
++++ b/libretro/libretro_core_options.h
+@@ -527,6 +527,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+         },
+         "False"
+     },
++#endif
++#if !defined(VC) && !defined(HAVE_OPENGLES2)
+     {
+         CORE_NAME "-EnableShadersStorage",
+         "Cache GPU Shaders",

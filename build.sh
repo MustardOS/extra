@@ -824,6 +824,7 @@ for NAME in $CORES; do
 	# them. Naming the ones a core actually needs keeps a dead dependency from
 	# blocking a core that builds perfectly well without it. Omit it to take all.
 	SUBMODULE_LIST=$(echo "$MODULE" | jq -r '.submodules // empty | if type=="string" then . else join(" ") end')
+	SUBMODULES_DEFINED=$(echo "$MODULE" | jq -r 'has("submodules")')
 
 	# Make skip: allow skipping the main 'make' phase entirely.
 	MAKE_SKIP=$(echo "$MODULE" | jq -r '.make.skip // 0' 2>/dev/null)
@@ -946,6 +947,7 @@ for NAME in $CORES; do
 
 	# Populate submodules, honouring the optional allowlist from core.json.
 	INIT_SUBMODULES() {
+		[ "$SUBMODULES_DEFINED" = "true" ] && [ -z "$SUBMODULE_LIST" ] && return 0
 		if [ -n "$SUBMODULE_LIST" ]; then
 			# shellcheck disable=SC2086
 			git submodule update --init --recursive "$@" $SUBMODULE_LIST

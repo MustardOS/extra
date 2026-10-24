@@ -1,0 +1,68 @@
+--- a/yabause/src/libretro/libretro_core_options.h
++++ b/yabause/src/libretro/libretro_core_options.h
+@@ -329,15 +329,16 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+       "yabadabadoo_worker_priority",
+       "Render Thread Priority (Restart Required)",
+       NULL,
+-      "Run the rendering worker threads at a lower priority than the emulation thread (the 3D workers as batch threads that don't interrupt it), so on a dual-core CPU the emulation keeps a core when workers wake up. 'Low' is faster on the Miyoo Mini (Linux only).",
++      "Choose how rendering workers share CPU time with emulation. 'Automatic' uses low priority on one- or two-core Linux devices and normal priority on devices with more cores. 'Low' can be faster on dual-core devices; 'Normal' reduces render wake-up latency on quad-core devices.",
+       NULL,
+       NULL,
+       {
++         { "auto",   "Automatic" },
+          { "low",    "Low" },
+          { "normal", "Normal" },
+          { NULL, NULL},
+       },
+-      "low"
++      "auto"
+    },
+ #endif
+ #ifdef YABADABADOO_DEV
+--- a/yabause/src/libretro/libretro.c
++++ b/yabause/src/libretro/libretro.c
+@@ -6,6 +6,9 @@
+ #include <stddef.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#if defined(__linux__)
++#include <unistd.h>
++#endif
+ 
+ #ifdef _MSC_VER
+ #define snprintf _snprintf
+@@ -1186,10 +1189,30 @@ static void check_variables(void)
+    }
+ 
+ #ifdef HAVE_THREADS
++   {
++      int worker_nice = 0;
++      bool worker_auto = true;
+-   var.key = "yabadabadoo_worker_priority";
+-   var.value = NULL;
+-   YabThreadSetWorkerNice((environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value &&
+-                           strcmp(var.value, "normal") == 0) ? 0 : 10);
++      var.key = "yabadabadoo_worker_priority";
++      var.value = NULL;
++      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
++      {
++         if (strcmp(var.value, "low") == 0)
++         {
++            worker_nice = 10;
++            worker_auto = false;
++         }
++         else if (strcmp(var.value, "normal") == 0)
++            worker_auto = false;
++      }
++#if defined(__linux__)
++      if (worker_auto)
++      {
++         long core_count = sysconf(_SC_NPROCESSORS_ONLN);
++         worker_nice = core_count > 0 && core_count <= 2 ? 10 : 0;
++      }
++#endif
++      YabThreadSetWorkerNice(worker_nice);
++   }
+ #endif
+ 
+ #ifdef YABADABADOO_DEV
