@@ -3,6 +3,14 @@
 This script builds and packages libretro cores defined in `data/core.json` for muOS.  
 It supports full builds, selective builds, exclusions, repository purging, cache control, and update archive generation.
 
+## Shaders and Overlays
+
+This repository also hosts the shader and overlay catalogues used by Pickles and Wasabi. To list your own self-hosted
+shader or overlay in them, see:
+
+* [Community Shaders](data/SHADERS.md) - writing a shader and linking to it from `data/shaders.json`
+* [Community Overlays](data/OVERLAYS.md) - making overlay images and linking to them from `data/overlays.json`
+
 ---
 
 ## Build All Cores
