@@ -1,0 +1,13 @@
+--- a/yabause/src/sh2core.c
++++ b/yabause/src/sh2core.c
+@@ -2062,7 +2061,9 @@
+    u32 wdttemp;
+    u32 mask;
+ 
+-   if (!sh->wdt.isenable || sh->onchip.WTCSR & 0x80 || sh->onchip.RSTCSR & 0x80)
++   // The interval timer keeps counting while OVF is set, as on hardware (Ymir, Mednafen), so a
++   // program that clears OVF late still gets its next overflow on time
++   if (!sh->wdt.isenable || sh->onchip.RSTCSR & 0x80)
+       return;
+ 
+    wdttemp = (u32)sh->onchip.WTCNT;
