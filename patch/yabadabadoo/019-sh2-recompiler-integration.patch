@@ -1,0 +1,888 @@
+Runs both SH-2s on devMiyax's aarch64 recompiler (imported by 018) instead of the
+interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
+
+--- a/yabause/src/libretro/libretro.c
++++ b/yabause/src/libretro/libretro.c
+@@ -50,6 +50,9 @@
+ #ifdef SH2_DYNAREC
+ #include "sh2_dynarec/sh2_dynarec.h"
+ #endif
++#ifdef SH2_DEVMIYAX
++#include "sh2_dynarec_devmiyax/sh2_devmiyax.h"
++#endif
+ 
+ yabauseinit_struct yinit;
+ 
+@@ -666,6 +669,9 @@
+ #ifdef SH2_DYNAREC
+     &SH2Dynarec,
+ #endif
++#ifdef SH2_DEVMIYAX
++    &SH2Dyn,
++#endif
+     NULL
+ };
+ 
+@@ -1116,7 +1122,7 @@
+          multitap[1] = 1;
+    }
+ 
+-#ifdef SH2_DYNAREC
++#if defined(SH2_DYNAREC) || defined(SH2_DEVMIYAX)
+    /* No "SH2 Core" option any more: always the recompiler. YAB_SH2_INTERP=1
+     * (debugging only) selects the interpreter */
+    {
+@@ -1889,6 +1895,9 @@
+       else
+          log_cb(RETRO_LOG_WARN, "SH2 dynarec needs a real BIOS, using the interpreter\n");
+    }
++#elif defined(SH2_DEVMIYAX)
++   if (sh2_use_dynarec)
++      yinit.sh2coretype = SH2CORE_DEVMIYAX;
+ #endif
+    yinit.vidcoretype          = VIDCORE_SOFT;
+    yinit.sndcoretype          = SNDCORE_LIBRETRO;
+--- a/yabause/src/libretro/Makefile
++++ b/yabause/src/libretro/Makefile
+@@ -133,6 +133,7 @@
+ 		FLAGS += -flto=auto -fno-semantic-interposition -fno-plt
+ 		LDFLAGS += -flto=auto -O3
+ 		ARCH_IS_LINUX = 1
++		DEVMIYAX = 1
+ 	endif
+ 
+ 	# riscv64
+@@ -596,6 +597,9 @@
+ 
+ ifeq ($(USE_PLAY_JIT),1)
+ 	CXXFLAGS += -std=c++11 -fexceptions -frtti
++else ifeq ($(DEVMIYAX),1)
++	# The recompiler is C++17
++	CXXFLAGS += -std=gnu++17
+ else
+ 	CXXFLAGS += -std=gnu++99
+ endif
+--- a/yabause/src/libretro/Makefile.common
++++ b/yabause/src/libretro/Makefile.common
+@@ -142,6 +142,14 @@
+ 	$(SOURCE_DIR)/yglshaderes.c
+ endif
+ 
++# devMiyax's SH-2 recompiler (aarch64), the default SH2 core where it is built
++ifeq ($(DEVMIYAX),1)
++FLAGS += -DSH2_DEVMIYAX -DAARCH64 -DARCH_IS_LINUX=1
++SOURCES_CXX += $(SOURCE_DIR)/sh2_dynarec_devmiyax/DynarecSh2.cpp \
++	$(SOURCE_DIR)/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
++OBJECTS_S += $(SOURCE_DIR)/sh2_dynarec_devmiyax/dynalib_arm64.s
++endif
++
+ ifneq ($(DYNAREC),0)
+ FLAGS += -DSH2_DYNAREC
+ SOURCES_C += $(SOURCE_DIR)/sh2_dynarec/sh2_dynarec.c
+--- a/yabause/src/memory.c
++++ b/yabause/src/memory.c
+@@ -68,6 +68,12 @@
+ #include "sh2_dynarec/sh2_dynarec.h"
+ #endif
+ 
++#if defined(SH2_DEVMIYAX)
++#include "sh2_dynarec_devmiyax/sh2_devmiyax.h"
++#else
++#define SH2_DEVMIYAX_NOTIFY(addr, size) do { } while (0)
++#endif
++
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ u8 *SH1Rom;
+@@ -230,6 +236,7 @@
+ void FASTCALL HighWramMemoryWriteByte(u32 addr, u8 val)
+ {
+    T2WriteByte(HighWram, addr & 0xFFFFF, val);
++   SH2_DEVMIYAX_NOTIFY(addr, 1);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -237,6 +244,7 @@
+ void FASTCALL HighWramMemoryWriteWord(u32 addr, u16 val)
+ {
+    T2WriteWord(HighWram, addr & 0xFFFFF, val);
++   SH2_DEVMIYAX_NOTIFY(addr, 2);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -244,6 +252,7 @@
+ void FASTCALL HighWramMemoryWriteLong(u32 addr, u32 val)
+ {
+    T2WriteLong(HighWram, addr & 0xFFFFF, val);
++   SH2_DEVMIYAX_NOTIFY(addr, 4);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -272,6 +281,7 @@
+ void FASTCALL LowWramMemoryWriteByte(u32 addr, u8 val)
+ {
+    T2WriteByte(LowWram, addr & 0xFFFFF, val);
++   SH2_DEVMIYAX_NOTIFY(addr, 1);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -279,6 +289,7 @@
+ void FASTCALL LowWramMemoryWriteWord(u32 addr, u16 val)
+ {
+    T2WriteWord(LowWram, addr & 0xFFFFF, val);
++   SH2_DEVMIYAX_NOTIFY(addr, 2);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -286,6 +297,7 @@
+ void FASTCALL LowWramMemoryWriteLong(u32 addr, u32 val)
+ {
+    T2WriteLong(LowWram, addr & 0xFFFFF, val);
++   SH2_DEVMIYAX_NOTIFY(addr, 4);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -966,7 +978,7 @@
+    // High Work RAM is plain memory, so it skips the region table (which only a debugger
+    // memory breakpoint ever changes)
+    if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
+-      { T2WriteByte(HighWram, addr & 0xFFFFF, val); return; }
++      { T2WriteByte(HighWram, addr & 0xFFFFF, val); SH2_DEVMIYAX_NOTIFY(addr, 1); return; }
+ 
+ #ifdef SH2_TRACE
+    sh2_trace_writeb(addr, val);
+@@ -1034,7 +1046,7 @@
+    // High Work RAM is plain memory, so it skips the region table (which only a debugger
+    // memory breakpoint ever changes)
+    if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
+-      { T2WriteWord(HighWram, addr & 0xFFFFF, val); return; }
++      { T2WriteWord(HighWram, addr & 0xFFFFF, val); SH2_DEVMIYAX_NOTIFY(addr, 2); return; }
+ 
+ #ifdef SH2_TRACE
+    sh2_trace_writew(addr, val);
+@@ -1102,7 +1114,7 @@
+    // High Work RAM is plain memory, so it skips the region table (which only a debugger
+    // memory breakpoint ever changes)
+    if ((addr & 0xCE000000) == 0x06000000 && !sh->bp.nummemorybreakpoints)
+-      { T2WriteLong(HighWram, addr & 0xFFFFF, val); return; }
++      { T2WriteLong(HighWram, addr & 0xFFFFF, val); SH2_DEVMIYAX_NOTIFY(addr, 4); return; }
+ 
+ #ifdef SH2_TRACE
+    sh2_trace_writel(addr, val);
+@@ -1803,6 +1815,10 @@
+    MemStateRead((void *)HighWram, 0x100000, 1, stream);
+    MemStateRead((void *)LowWram, 0x100000, 1, stream);
+ 
++   // Code compiled from the old work RAM no longer matches it
++   SH2_DEVMIYAX_NOTIFY(0x00200000, 0x100000);
++   SH2_DEVMIYAX_NOTIFY(0x06000000, 0x100000);
++
+ #if defined(SH2_DYNAREC)
+    // Work RAM is restored only now, after the SH2 states: the recompiler has
+    // already compiled code at the restored PCs from the old RAM contents.
+--- a/yabause/src/sh2core.h
++++ b/yabause/src/sh2core.h
+@@ -407,6 +407,7 @@
+    u8 DataArray[0x1000];
+    u32 delay;
+    u32 cycles;
++   void *ext; // SH-2 recompiler state (sh2_dynarec_devmiyax)
+    u8 isslave;
+    u8 isIdle;
+    u8 isSleeping;
+--- a/yabause/src/yabause.c
++++ b/yabause/src/yabause.c
+@@ -87,6 +87,10 @@
+ #include "sh2_dynarec/sh2_dynarec.h"
+ #endif
+ 
++#if defined(SH2_DEVMIYAX)
++#include "sh2_dynarec_devmiyax/sh2_devmiyax.h"
++#endif
++
+ #if HAVE_GDBSTUB
+     #include "gdb/stub.h"
+ #endif
+@@ -688,6 +692,15 @@
+    }
+    #endif
+ 
++#if defined(SH2_DEVMIYAX)
++   if (SH2Core->id == SH2CORE_DEVMIYAX)
++   {
++      SH2DynOnFrame(MSH2);
++      SH2DynOnFrame(SSH2);
++   }
++#endif
++
++
+    while (!oneframeexec)
+    {
+       PROFILE_START("Total Emulation");
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
++++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
+@@ -27,15 +27,13 @@
+ #include <malloc.h>
+ #include <stdint.h>
+ #include <time.h>  /* clock_gettime/struct timespec */
+-#include <core.h>
+ #include <unordered_map>
+ 
+-#include "sh2core.h"
+-#include "debug.h"
+-#include "yabause.h"
+-#include "bios.h"
++#include "yaba_glue.h"
+ extern "C" {
+-#include "scu.h"
++#include "../debug.h"
++#include "../scu.h"
++#include "../sh2d.h"
+ }
+ 
+ #include "DynarecSh2.h"
+@@ -2130,7 +2128,7 @@
+     //printf("%d/%d\n",GET_COUNT(),targetcnt);
+   }
+ 
+-  CurrentSH2->cycles = m_pDynaSh2->SysReg[4];
++  ctx_->cycles = m_pDynaSh2->SysReg[4];
+   g_sync_cycles[is_slave_ ? 1 : 0] += m_pDynaSh2->SysReg[4];
+   //if (Count == 1) {
+   //  one_step_ = true;
+@@ -2209,21 +2207,6 @@
+ 
+       // ROM
+     case 0x00000000:
+-      if (yabsys.extend_backup) {
+-        const u32 bupaddr = 0x0007d600; // MappedMemoryReadLong(0x06000358);
+-        if (GET_PC() == bupaddr) {
+-          LOG("BUP_Init");
+-          BiosBUPInit(ctx_);
+-          yabsys.extend_backup = 2;
+-          return IN_INFINITY_LOOP;
+-        }
+-        else if (yabsys.extend_backup == 2 &&
+-          GET_PC() >= 0x0380 &&
+-          GET_PC() <= 0x03A8) {
+-          BiosHandleFunc(ctx_);
+-          return IN_INFINITY_LOOP;
+-        }
+-      }
+       if (yabsys.emulatebios) {
+         ctx_->cycles = 0;
+          BiosHandleFunc(ctx_);
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
++++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
+@@ -468,6 +468,7 @@
+   }
+   void SetSlave(bool is_slave) { is_slave_ = is_slave; }
+   void SetContext(SH2_struct * ctx) { ctx_= ctx;}
++  SH2_struct * GetContext() { return ctx_; }
+   bool IsSlave() { return is_slave_;  }
+   // Credit cycles run by a nested doorbell catch-up to the next regular slice.
+   void SyncCredit(u32 n) { pre_exe_count_ += n; }
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
++++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
+@@ -18,25 +18,18 @@
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ */
+ 
+-#include "../core.h"
+ #include <stdio.h>
+ #include <string.h>
+-#include <malloc.h> 
++#include <malloc.h>
+ #include <stdint.h>
+-#include "../sh2core.h"
++#include "yaba_glue.h"
+ #include "DynarecSh2.h"
+-#include "../debug.h"
+-#include "yabause.h"
+-
+-
+-#define SH2CORE_DYNAMIC             3
+-#define SH2CORE_DYNAMIC_DEBUG             4
++#include "sh2_devmiyax.h"
+ 
+ extern "C" {
+-int SH2DynInit(void);
++int SH2DynInit(enum SHMODELTYPE model, SH2_struct *msh, SH2_struct *ssh);
+ void SH2DynDeInit(void);
+ void SH2DynReset(SH2_struct *context);
+-void SH2DynDebugReset(SH2_struct *context);
+ void FASTCALL SH2DynExec(SH2_struct *context, u32 cycles);
+ void SH2DynGetRegisters(SH2_struct *context, sh2regs_struct *regs);
+ u32 SH2DynGetGPR(SH2_struct *context, int num);
+@@ -56,17 +49,14 @@
+ void SH2DynSetMACL(SH2_struct *context, u32 value);
+ void SH2DynSetPR(SH2_struct *context, u32 value);
+ void SH2DynSetPC(SH2_struct *context, u32 value);
+-void SH2DynOnFrame(SH2_struct *context);
+-void SH2DynSendInterrupt(SH2_struct *context, u8 level, u8 vector);
+-void SH2DynRemoveInterrupt(SH2_struct *context, u8 level, u8 vector);
++void SH2DynSendInterrupt(SH2_struct *context, u8 vector, u8 level);
+ int SH2DynGetInterrupts(SH2_struct *context, interrupt_struct interrupts[MAX_INTERRUPTS]);
+ void SH2DynSetInterrupts(SH2_struct *context, int num_interrupts, const interrupt_struct interrupts[MAX_INTERRUPTS]);
+ void SH2DynWriteNotify(u32 start, u32 length);
+-void SH2DynAddCycle(SH2_struct *context, u32 value);
+ 
+ SH2Interface_struct SH2Dyn = {
+-  SH2CORE_DYNAMIC,
+-  "SH2 Dynamic Recompiler",
++  SH2CORE_DEVMIYAX,
++  "SH2 Dynamic Recompiler (devMiyax)",
+ 
+   SH2DynInit,
+   SH2DynDeInit,
+@@ -92,70 +82,60 @@
+   SH2DynSetMACL,
+   SH2DynSetPR,
+   SH2DynSetPC,
+-  SH2DynOnFrame,
+ 
+   SH2DynSendInterrupt,
+-  SH2DynRemoveInterrupt,
+   SH2DynGetInterrupts,
+   SH2DynSetInterrupts,
+-  SH2DynWriteNotify,
+-  SH2DynAddCycle
++  SH2DynWriteNotify
+ };
+ 
+-SH2Interface_struct SH2DynDebug = {
+-  SH2CORE_DYNAMIC_DEBUG,
+-  "SH2 Dynamic Recompiler Debug",
+-
+-  SH2DynInit,
+-  SH2DynDeInit,
+-  SH2DynDebugReset,
+-  SH2DynExec,
+-
+-  SH2DynGetRegisters,
+-  SH2DynGetGPR,
+-  SH2DynGetSR,
+-  SH2DynGetGBR,
+-  SH2DynGetVBR,
+-  SH2DynGetMACH,
+-  SH2DynGetMACL,
+-  SH2DynGetPR,
+-  SH2DynGetPC,
++/* Set while the recompiler is the SH-2 core, so work RAM writes that do not come from the
++   CPUs (DMA, CD transfers, state loads) drop the code compiled from the old contents */
++int sh2_devmiyax_active = 0;
++
++/* Yabadabadoo's SH2Reset sets registers before it resets the core, so the recompiler state
++   is made on first use */
++static DynarecSh2 *DynCtx(SH2_struct *context) {
++  if (context->ext == NULL) {
++    DynarecSh2 *pctx = new DynarecSh2();
++    pctx->SetContext(context);
++    pctx->SetSlave(context->isslave != 0);
++    context->ext = (void *)pctx;
++  }
++  return (DynarecSh2 *)context->ext;
++}
+ 
+-  SH2DynSetRegisters,
+-  SH2DynSetGPR,
+-  SH2DynSetSR,
+-  SH2DynSetGBR,
+-  SH2DynSetVBR,
+-  SH2DynSetMACH,
+-  SH2DynSetMACL,
+-  SH2DynSetPR,
+-  SH2DynSetPC,
+-  SH2DynOnFrame,
++/* The assembly fast paths branch here for 0xFFFFFE00-0xFFFFFFFF with the register offset in
++   w0. Yabadabadoo's on-chip readers also need the CPU, which the assembly does not have. */
++extern "C" u8 DynOnchipReadByte(u32 addr) { return OnchipReadByte(DynGlueContext(), addr); }
++extern "C" u16 DynOnchipReadWord(u32 addr) { return OnchipReadWord(DynGlueContext(), addr); }
++extern "C" u32 DynOnchipReadLong(u32 addr) { return OnchipReadLong(DynGlueContext(), addr); }
+ 
+-  SH2DynSendInterrupt,
+-  SH2DynRemoveInterrupt,
+-  SH2DynGetInterrupts,
+-  SH2DynSetInterrupts,
+-  SH2DynWriteNotify,
+-  SH2DynAddCycle
+-};
++SH2_struct *DynGlueContext(void) {
++  return DynarecSh2::CurrentContext ? DynarecSh2::CurrentContext->GetContext() : MSH2;
++}
+ 
+-int SH2DynInit(void) {
++int SH2DynInit(enum SHMODELTYPE model, SH2_struct *msh, SH2_struct *ssh) {
++  (void)msh; (void)ssh;
++  if (model == SHMT_SH1) return -1;
++  sh2_devmiyax_active = 1;
+   return 0;
+ }
+ 
+ void SH2DynDeInit(void){
++  SH2_struct *cpu[2] = { MSH2, SSH2 };
++  sh2_devmiyax_active = 0;
++  DynarecSh2::CurrentContext = NULL;
++  for (int i = 0; i < 2; i++) {
++    if (cpu[i] && cpu[i]->ext) {
++      delete (DynarecSh2 *)cpu[i]->ext;
++      cpu[i]->ext = NULL;
++    }
++  }
+ }
+ 
+ void SH2DynReset(SH2_struct *context) {
+-
+-  if (context->ext == NULL) {
+-    DynarecSh2 * pctx = new DynarecSh2();
+-    context->ext = (void*)pctx;
+-    pctx->SetContext(context);
+-  }
+-
+-  DynarecSh2 * pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 * pctx = DynCtx(context);
+   if (context->isslave) {
+     pctx->SetSlave(true);
+   }
+@@ -165,28 +145,11 @@
+   CompileBlocks * block = CompileBlocks::getInstance();
+   block->Init();
+   block->SetDebugMode(false);
++  /* SH2Reset sets the registers before it resets the core, so keep them */
++  sh2regs_struct regs;
++  SH2DynGetRegisters(context, &regs);
+   pctx->ResetCPU();
+-}
+-
+-void SH2DynDebugReset(SH2_struct *context) {
+-
+-  if (context->ext == NULL) {
+-    DynarecSh2 * pctx = new DynarecSh2();
+-    context->ext = (void*)pctx;
+-    pctx->SetContext(context);
+-  }
+-
+-  DynarecSh2 * pctx = (DynarecSh2*)context->ext;
+-  if (context->isslave) {
+-    pctx->SetSlave(true);
+-  }
+-  else {
+-    pctx->SetSlave(false);
+-  }
+-  CompileBlocks * block = CompileBlocks::getInstance();
+-  block->Init();
+-  block->SetDebugMode(true);
+-  pctx->ResetCPU();
++  SH2DynSetRegisters(context, &regs);
+ }
+ 
+ /* Per-CPU cycle count since the last common point, used by the doorbell catch-up in sh2core.c.
+@@ -195,47 +158,45 @@
+    when both CPUs have finished the previous step, so both counters restart there. */
+ extern "C" { unsigned long long g_sync_cycles[2] = { 0, 0 }; }
+ void FASTCALL SH2DynExec(SH2_struct *context, u32 cycles){
+-  DynarecSh2* pctx = ((DynarecSh2*)context->ext);
++  DynarecSh2* pctx = (DynCtx(context));
+   // SH2DynExec can be re-entered from inside a compiled block (an FRT
+   // input-capture doorbell runs the other CPU synchronously). The previous
+   // context must be restored afterwards, otherwise the interrupted block
+   // continues with the wrong CurrentContext and corrupts both CPUs' state.
+   DynarecSh2* prev_ctx = DynarecSh2::CurrentContext;
+-  if (!pctx->IsSlave() && (SSH2 == NULL || SSH2->depth == 0)) {
++  if (!pctx->IsSlave() && prev_ctx == NULL) {
+     g_sync_cycles[0] = 0;
+     g_sync_cycles[1] = 0;
+   }
+   pctx->SetCurrentContext();
+   pctx->ExecuteCount(cycles);
+   DynarecSh2::CurrentContext = prev_ctx;
++  /* The recompiler carries its own overrun into the next slice, so SH2Exec must not */
++  context->cycles = cycles;
+ }
+ 
+ /* Cycles this CPU has run since the common point, including the running slice. */
+ extern "C" long long SH2DynCyclesNow(SH2_struct *context) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   unsigned long long z = g_sync_cycles[pctx->IsSlave() ? 1 : 0];
+   if (DynarecSh2::CurrentContext == pctx) z += pctx->GET_COUNT();
+   return (long long)z;
+ }
+ extern "C" void SH2DynSyncCredit(SH2_struct *context, u32 n) {
+-  ((DynarecSh2*)context->ext)->SyncCredit(n);
++  (DynCtx(context))->SyncCredit(n);
+ }
+ 
+ void SH2DynSendInterrupt(SH2_struct *context, u8 vector, u8 level){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->AddInterrupt(vector, level);
+ }
+ 
+-void SH2DynRemoveInterrupt(SH2_struct *context, u8 vector, u8 level) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
+-  pctx->RemoveInterrupt(vector, level);
+-}
+ 
+ 
+ /* Copies the pending interrupts into the save-state array and returns their
+    count (the loader restores them through SH2DynSetInterrupts). */
+ int SH2DynGetInterrupts(SH2_struct *context, interrupt_struct interrupts[MAX_INTERRUPTS]){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   dlstIntct::iterator itr = pctx->m_IntruptTbl.begin();
+   int i = 0;
+   /* bounded by MAX_INTERRUPTS so the output array cannot overflow */
+@@ -250,7 +211,7 @@
+ }
+ 
+ void SH2DynSetInterrupts(SH2_struct *context, int num_interrupts, const interrupt_struct interrupts[MAX_INTERRUPTS]){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->m_IntruptTbl.clear();
+   for (int i = 0; i < num_interrupts; i++) {
+     dIntcTbl tmp;
+@@ -262,7 +223,7 @@
+ }
+ 
+ void SH2DynGetRegisters(SH2_struct *context, sh2regs_struct *regs) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   memcpy(regs->R, pctx->GetGenRegPtr(), sizeof(regs->R));
+   regs->GBR = pctx->GET_GBR();
+   regs->VBR = pctx->GET_VBR();
+@@ -274,47 +235,47 @@
+ }
+ 
+ u32 SH2DynGetGPR(SH2_struct *context, int num){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GetGenRegPtr()[num];
+ }
+ 
+ u32 SH2DynGetSR(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_SR();
+ }
+ 
+ u32 SH2DynGetGBR(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_GBR();
+ }
+ 
+ u32 SH2DynGetVBR(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_VBR();
+ }
+ 
+ u32 SH2DynGetMACH(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_MACH();
+ }
+ 
+ u32 SH2DynGetMACL(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_MACL();
+ }
+ 
+ u32 SH2DynGetPR(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_PR();
+ }
+ 
+ u32 SH2DynGetPC(SH2_struct *context){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   return pctx->GET_PC();
+ }
+ 
+ void SH2DynSetRegisters(SH2_struct *context, const sh2regs_struct *regs){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   memcpy(pctx->GetGenRegPtr(), regs->R , sizeof(regs->R));
+   pctx->SET_GBR(regs->GBR);
+   pctx->SET_VBR(regs->VBR);
+@@ -326,47 +287,43 @@
+ }
+ 
+ void SH2DynSetGPR(SH2_struct *context, int num, u32 value) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->GetGenRegPtr()[num] = value;
+ }
+ 
+ void SH2DynSetSR(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_SR(value);
+ }
+ 
+ void SH2DynSetGBR(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_GBR(value);
+ }
+ 
+ void SH2DynSetVBR(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_VBR(value);
+ }
+ 
+ void SH2DynSetMACH(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_MACH(value);
+ }
+ 
+ void SH2DynSetMACL(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_MACL(value);
+ }
+ void SH2DynSetPR(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_PR(value);
+ }
+ void SH2DynSetPC(SH2_struct *context, u32 value){
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   pctx->SET_PC(value);
+ }
+ 
+-void SH2DynAddCycle(SH2_struct *context, u32 value) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
+-  pctx->AddCycle(value);
+-}
+ 
+ 
+ void SH2DynWriteNotify(u32 start, u32 length){
+@@ -658,11 +615,12 @@
+ /* Free-running idle-skip counter per CPU; callers take differences. */
+ extern "C" u32 SH2DynGetLoopskip(SH2_struct *context) {
+   if (context == NULL || context->ext == NULL) return 0;
+-  return ((DynarecSh2*)context->ext)->GetLoopskipCnt();
++  return (DynCtx(context))->GetLoopskipCnt();
+ }
+ 
+-void SH2DynOnFrame(SH2_struct *context) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++extern "C" void SH2DynOnFrame(SH2_struct *context) {
++  DynarecSh2 *pctx = context ? DynCtx(context) : NULL;
++  if (pctx == NULL) return;
+   pctx->SET_COUNT(0);
+   pctx->onFrame();
+ }
+@@ -671,13 +629,9 @@
+ //************************************************
+ // Callbacks from DynarecCPU
+ //************************************************
+-extern "C" {
+-  void SH2HandleBreakpoints(SH2_struct *context);
+-}
+ 
+ void DynaCheckBreakPoint(u32 pc) {
+-  CurrentSH2->regs.PC = pc;
+-  SH2HandleBreakpoints(CurrentSH2);
++  (void)pc;
+ }
+ 
+ 
+@@ -765,7 +719,7 @@
+ #endif
+ 
+ 
+-#ifdef DMPHISTORY
++#if 0
+   CurrentSH2->pchistory_index++;
+   CurrentSH2->pchistory[CurrentSH2->pchistory_index & (MAX_DMPHISTORY-1) ] = DynarecSh2::CurrentContext->GET_PC();
+   //CurrentSH2->regshistory[CurrentSH2->pchistory_index & 0xFF] = NULL;
+@@ -798,7 +752,7 @@
+ /* Removes a pending (not yet accepted) interrupt from the dynarec core and
+    reports whether it was pending. Caller: scu.c, on IMS writes only. */
+ extern "C" int SH2DynRemoveInterruptHit(SH2_struct *context, u8 vector) {
+-  DynarecSh2 *pctx = (DynarecSh2*)context->ext;
++  DynarecSh2 *pctx = DynCtx(context);
+   const size_t prev_cnt = pctx->m_IntruptTbl.size();
+   pctx->RemoveInterrupt(vector, 0);
+   return pctx->m_IntruptTbl.size() != prev_cnt;
+--- a/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
++++ b/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
+@@ -2300,7 +2300,7 @@
+   cmn  w0, #0x200
+   b.lo 4f
+   and  w0, w0, #0x1FF
+-  b    OnchipReadLong
++  b    DynOnchipReadLong
+ 4:
+   b    memGetLong
+ .size memGetLongFast5, .-memGetLongFast5
+@@ -2347,7 +2347,7 @@
+   cmn  w0, #0x200
+   b.lo 4f
+   and  w0, w0, #0x1FF
+-  b    OnchipReadWord
++  b    DynOnchipReadWord
+ 4:
+   b    memGetWord
+ .size memGetWordFast5, .-memGetWordFast5
+@@ -2396,7 +2396,7 @@
+   cmn  w0, #0x200
+   b.lo 4f
+   and  w0, w0, #0x1FF
+-  b    OnchipReadByte
++  b    DynOnchipReadByte
+ 4:
+   b    memGetByte
+ .size memGetByteFast5, .-memGetByteFast5
+--- /dev/null
++++ b/yabause/src/sh2_dynarec_devmiyax/yaba_glue.h
+@@ -0,0 +1,112 @@
++/*  Glue between devMiyax's SH-2 recompiler (from YabaSanshiro) and Yabadabadoo.
++
++    YabaSanshiro's memory accessors take an address and a cycle counter, and
++    the CPU being run is a global. Yabadabadoo's accessors hang off each CPU's
++    context and charge their bus waits to sh->cycles. These wrappers give the
++    recompiler the calls it expects and turn the waits into recompiler cycles.
++
++    This file is part of Yabadabadoo, GPL-2.0-or-later.
++*/
++
++#ifndef YABA_GLUE_H
++#define YABA_GLUE_H
++
++extern "C" {
++#include "../core.h"
++#include "../sh2core.h"
++#include "../memory.h"
++#include "../yabause.h"
++#include "../bios.h"
++}
++
++#include <pthread.h>
++
++/* The CPU the recompiler is running, or the master when nothing runs */
++extern "C" SH2_struct *DynGlueContext(void);
++
++/* YabaSanshiro's mutex calls, which Yabadabadoo's threads.h does not have. The recompiler
++   locks its pending interrupt table with them. */
++typedef pthread_mutex_t YabMutex;
++
++static inline YabMutex *YabThreadCreateMutex(void)
++{
++   YabMutex *m = new YabMutex;
++   pthread_mutex_init(m, NULL);
++   return m;
++}
++
++static inline void YabThreadFreeMutex(YabMutex *m)
++{
++   if (!m) return;
++   pthread_mutex_destroy(m);
++   delete m;
++}
++
++static inline void YabThreadLock(YabMutex *m) { pthread_mutex_lock(m); }
++static inline void YabThreadUnLock(YabMutex *m) { pthread_mutex_unlock(m); }
++
++static inline u8 MappedMemoryReadByte(u32 addr, u32 *cycle)
++{
++   SH2_struct *sh = DynGlueContext();
++   const u32 before = sh->cycles;
++   const u8 val = sh->MappedMemoryReadByte(sh, addr);
++   if (cycle) *cycle += sh->cycles - before;
++   sh->cycles = before;
++   return val;
++}
++
++static inline u16 MappedMemoryReadWord(u32 addr, u32 *cycle)
++{
++   SH2_struct *sh = DynGlueContext();
++   const u32 before = sh->cycles;
++   const u16 val = sh->MappedMemoryReadWord(sh, addr);
++   if (cycle) *cycle += sh->cycles - before;
++   sh->cycles = before;
++   return val;
++}
++
++static inline u32 MappedMemoryReadLong(u32 addr, u32 *cycle)
++{
++   SH2_struct *sh = DynGlueContext();
++   const u32 before = sh->cycles;
++   const u32 val = sh->MappedMemoryReadLong(sh, addr);
++   if (cycle) *cycle += sh->cycles - before;
++   sh->cycles = before;
++   return val;
++}
++
++static inline void MappedMemoryWriteByte(u32 addr, u8 val, u32 *cycle)
++{
++   SH2_struct *sh = DynGlueContext();
++   const u32 before = sh->cycles;
++   sh->MappedMemoryWriteByte(sh, addr, val);
++   if (cycle) *cycle += sh->cycles - before;
++   sh->cycles = before;
++}
++
++static inline void MappedMemoryWriteWord(u32 addr, u16 val, u32 *cycle)
++{
++   SH2_struct *sh = DynGlueContext();
++   const u32 before = sh->cycles;
++   sh->MappedMemoryWriteWord(sh, addr, val);
++   if (cycle) *cycle += sh->cycles - before;
++   sh->cycles = before;
++}
++
++static inline void MappedMemoryWriteLong(u32 addr, u32 val, u32 *cycle)
++{
++   SH2_struct *sh = DynGlueContext();
++   const u32 before = sh->cycles;
++   sh->MappedMemoryWriteLong(sh, addr, val);
++   if (cycle) *cycle += sh->cycles - before;
++   sh->cycles = before;
++}
++
++static inline u8 OnchipReadByte(u32 addr) { return OnchipReadByte(DynGlueContext(), addr); }
++static inline u16 OnchipReadWord(u32 addr) { return OnchipReadWord(DynGlueContext(), addr); }
++static inline u32 OnchipReadLong(u32 addr) { return OnchipReadLong(DynGlueContext(), addr); }
++
++/* Yabadabadoo has no extended backup RAM BIOS hooks */
++#define YABA_EXTEND_BACKUP 0
++
++#endif
+--- /dev/null
++++ b/yabause/src/sh2_dynarec_devmiyax/sh2_devmiyax.h
+@@ -0,0 +1,26 @@
++/*  devMiyax's SH-2 recompiler for aarch64, as Yabadabadoo's SH2 core 3.
++    This file is part of Yabadabadoo, GPL-2.0-or-later. */
++
++#ifndef SH2_DEVMIYAX_H
++#define SH2_DEVMIYAX_H
++
++#define SH2CORE_DEVMIYAX 3
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++extern SH2Interface_struct SH2Dyn;
++extern int sh2_devmiyax_active;
++void SH2DynWriteNotify(u32 start, u32 length);
++void SH2DynOnFrame(SH2_struct *context);
++
++/* Work RAM written behind the CPUs' back: drop any code compiled from it */
++#define SH2_DEVMIYAX_NOTIFY(addr, size) \
++   do { if (sh2_devmiyax_active) SH2DynWriteNotify((addr), (size)); } while (0)
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif

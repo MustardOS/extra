@@ -1,6 +1,5 @@
 2026-09-13 b31ecc7c 2048_libretro.so.zip
 2026-09-13 fe8fa374 81_libretro.so.zip
-2026-09-13 0ee4f47a DoubleCherryGB_libretro.so.zip
 2026-09-13 d792c37a a5200_libretro.so.zip
 2026-09-13 7ec2e2cb ardens_libretro.so.zip
 2026-09-13 4069c7c6 arduous_libretro.so.zip
@@ -9,9 +8,9 @@
 2026-09-13 460ab129 bk_libretro.so.zip
 2026-09-13 f85fe168 bluemsx_libretro.so.zip
 2026-09-13 1a85a98c bnes_libretro.so.zip
-2026-09-13 652bae41 bsnes-jg_libretro.so.zip
 2026-09-13 827d4536 bsnes2014_performance_libretro.so.zip
 2026-09-13 2ef16f27 bsnes_cplusplus98_libretro.so.zip
+2026-09-13 652bae41 bsnes-jg_libretro.so.zip
 2026-09-13 83161ef3 bsnes_mercury_performance_libretro.so.zip
 2026-09-13 ba7f8512 cannonball_libretro.so.zip
 2026-09-13 f567434e cap32_libretro.so.zip
@@ -23,6 +22,7 @@
 2026-01-31 d412b83c dosbox_core_libretro.so.zip
 2026-09-13 8abc46b1 dosbox_pure_libretro.so.zip
 2026-01-15 e70a87e2 dosbox_svn_libretro.so.zip
+2026-09-13 0ee4f47a DoubleCherryGB_libretro.so.zip
 2026-01-28 6eb57c98 easyrpg_libretro.so.zip
 2026-09-13 fbd50c00 ecwolf_libretro.so.zip
 2026-01-15 94c98294 emux_chip8_libretro.so.zip
@@ -86,10 +86,10 @@
 2026-09-13 7ef951d2 mednafen_supergrafx_libretro.so.zip
 2026-09-13 a44258e1 mednafen_vb_libretro.so.zip
 2026-09-13 85428394 mednafen_wswan_libretro.so.zip
-2025-07-23 a20f4005 melonds_libretro.so.zip
 2025-08-25 4c12348f melondsds_libretro.so.zip
-2026-09-13 6b81fb23 mesen-s_libretro.so.zip
+2025-07-23 a20f4005 melonds_libretro.so.zip
 2026-09-13 01ec4921 mesen_libretro.so.zip
+2026-09-13 6b81fb23 mesen-s_libretro.so.zip
 2026-01-30 8160b4fb mgba_libretro.so.zip
 2026-09-13 34c11972 minivmac_libretro.so.zip
 2026-09-13 f4f9d866 mu_libretro.so.zip
@@ -135,13 +135,13 @@
 2026-09-13 3f6e854e tyrquake_libretro.so.zip
 2026-09-13 5e3f145d uw8_libretro.so.zip
 2026-09-13 70090667 uzem_libretro.so.zip
-2026-09-13 ca114876 vba_next_libretro.so.zip
 2026-09-13 58b95198 vbam_libretro.so.zip
+2026-09-13 ca114876 vba_next_libretro.so.zip
 2026-09-13 1ce66717 vecx_libretro.so.zip
 2026-09-13 61b0f9a0 vemulator_libretro.so.zip
 2026-09-13 92f22c76 vice_x128_libretro.so.zip
-2026-09-13 cca72118 vice_x64_libretro.so.zip
 2026-09-13 47c10660 vice_x64dtv_libretro.so.zip
+2026-09-13 cca72118 vice_x64_libretro.so.zip
 2026-09-13 95fb0828 vice_x64sc_libretro.so.zip
 2026-09-13 fb7e9a08 vice_xcbm2_libretro.so.zip
 2026-09-13 94938c56 vice_xcbm5x0_libretro.so.zip
@@ -154,5 +154,5 @@
 2026-04-21 ef6ac371 vitaquake2_libretro.so.zip
 2026-09-13 d08cb4a6 wasm4_libretro.so.zip
 2026-09-13 d0e5d1f9 x1_libretro.so.zip
-2026-10-24 fdb6b876 yabadabadoo_libretro.so.zip
+2026-10-29 1b5bcb98 yabadabadoo_libretro.so.zip
 2026-09-13 496b23d6 zc250x_libretro.so.zip

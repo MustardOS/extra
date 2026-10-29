@@ -1,0 +1,222 @@
+Draws the VDP2 scroll layers faster in hi-res and zoomed scenes (Virtua Fighter 704x224):
+a heavy NBG0/NBG1 is split into two bands of lines when a layer thread is idle, and
+zoomed lines reuse the previous pixel when it comes from the same source pixel.
+Output is pixel-identical.
+
+--- a/yabause/src/vidsoft.c
++++ b/yabause/src/vidsoft.c
+@@ -929,6 +929,13 @@
+  * functions are best avoided. */
+ static u8 vidsoft_win_buf[6][2][1024];
+ 
++/* A heavy scroll layer can be drawn by two threads at once, each taking a band
++ * of lines (see VidsoftStartLayerThreadSplit). The band of the calling thread:
++ * 0 and 0 draw every line. The second band of a layer has its own scratch
++ * buffers, as both bands of the layer run at the same time. */
++static __thread int vidsoft_band_start = 0, vidsoft_band_end = 0, vidsoft_band_second = 0;
++static u8 vidsoft_win_buf_band[6][2][1024];
++
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ static INLINE void GeneratePlaneAddrTable(vdp2draw_struct *info, u32 *planetbl, void FASTCALL (* PlaneAddr)(void *, int, Vdp2* ), Vdp2* regs)
+@@ -1455,6 +1462,7 @@
+ /* one buffer per Titan layer (a layer is drawn by one thread at a time); a
+  * line has at most 704 pixels: 704 / 8 + 1 runs, +1 where x wraps */
+ static struct PalRun vidsoft_palruns[6][96];
++static struct PalRun vidsoft_palruns_band[6][96];
+ 
+ /* Vdp2DrawScrollRun() out of line, for the runs pass 1 leaves to it (colour
+  * calc window fixed for the line) */
+@@ -1627,7 +1635,7 @@
+    struct PixelData *titan_line, int linescrollx, int Y, int j, int fresh, u32 meta_base, int post_calc,
+    int cc_win_pass, int start, int end)
+ {
+-   struct PalRun *r = vidsoft_palruns[info->titan_which_layer];
++   struct PalRun *r = (vidsoft_band_second ? vidsoft_palruns_band : vidsoft_palruns)[info->titan_which_layer];
+    const int flags = (info->transparencyenable ? 1 : 0) | (fresh ? 2 : 0);
+    const int n = Vdp2PalLineRuns(colornumber, r, info, sinfo, regs, ram, color_ram, colormode, titan_line, linescrollx, Y, j, fresh, meta_base, post_calc, cc_win_pass, start, end);
+    u32 ofs_pos = 0, ofs_neg = 0;
+@@ -1697,7 +1705,12 @@
+    int cc_win_fixed, int cc_win_pass, int cc_wctl, clipping_struct *colorcalcwindow, const u8 *cc_tab, int start, int end,
+    const int *mosaic_x)
+ {
+-   int i, block = -1, x0 = 0, xf0 = 0, yf = 0, dir = 1;
++   int i, block = -1, x0 = 0, xf0 = 0, yf = 0, dir = 1, prev_x = -1;
++   /* Zoomed in (hi-res Virtua Fighter: 704 pixels from about 320), neighbouring
++    * pixels often take the same source pixel. When nothing else can differ (a
++    * fresh line, the colour calc window the same for the whole line) the
++    * pixel is a copy of the one before it instead of being fetched again. */
++   const int can_repeat = fresh && cc_win_fixed;
+    for (i = start; i < end; i++)
+    {
+       int x = info->x + mosaic_x[i]*info->coordincx;
+@@ -1707,6 +1720,12 @@
+          x += linescrollx;
+          x &= 0x3FF;
+       }
++      if (can_repeat && x == prev_x)
++      {
++         titan_line[i] = titan_line[i - 1];
++         continue;
++      }
++      prev_x = x;
+       if ((x >> 3) != block)
+       {
+          int xc = x, y = Y;
+@@ -1786,6 +1805,8 @@
+    u32 linescrolly_table[512] = { 0 };
+    float lineszoom_table[512] = { 0 };
+    int num_vertical_cell_scroll_enabled = 0;
++   const int band_start = vidsoft_band_start, band_end = vidsoft_band_end;
++   u8 (*const win_buf)[2][1024] = vidsoft_band_second ? vidsoft_win_buf_band : vidsoft_win_buf;
+ 
+    SetupScreenVars(info, &sinfo, info->PlaneAddr, regs);
+ 
+@@ -1929,6 +1950,14 @@
+       if (!info->enable)
+          continue;
+ 
++      /* Outside this thread's band: the line's state above is still followed,
++       * so the band draws exactly what a whole-layer pass draws there */
++      if (band_end && (j < band_start || j >= band_end))
++      {
++         output_y++;
++         continue;
++      }
++
+       {
+          /* Loop invariants for this line, hoisted out of the pixel loop. With
+           * no window enabled TestBothWindow() gives the same answer for every
+@@ -1939,8 +1968,8 @@
+          const int cc_win_fixed = (cc_wctl & 0x2a) == 0;
+          const int cc_win_pass = !(cc_wctl & 0x80);
+          /* window tests per line instead of per pixel (where they can be) */
+-         const u8 *win_tab = layer_win_fixed ? NULL : VidsoftWinTable(info->wctl, clip, j, vdp2width, vidsoft_win_buf[info->titan_which_layer][0]);
+-         const u8 *cc_tab = cc_win_fixed ? NULL : VidsoftWinTable(cc_wctl, colorcalcwindow, j, vdp2width, vidsoft_win_buf[info->titan_which_layer][1]);
++         const u8 *win_tab = layer_win_fixed ? NULL : VidsoftWinTable(info->wctl, clip, j, vdp2width, win_buf[info->titan_which_layer][0]);
++         const u8 *cc_tab = cc_win_fixed ? NULL : VidsoftWinTable(cc_wctl, colorcalcwindow, j, vdp2width, win_buf[info->titan_which_layer][1]);
+          const int zoom_x = info->coordincx != 1.0f;
+          const int post_calc = info->PostPixelFetchCalc == &DoNothing ? 0 :
+                                info->PostPixelFetchCalc == &DoColorOffset ? 1 : 2;
+@@ -3621,6 +3650,10 @@
+    u8 color_ram[0x1000];
+    struct CellScrollData cell_scroll_data[270];
+    Vdp1 vdp1regs; // the sprite thread's copy, taken when it starts
++   /* What a layer thread draws next: its own layer (job_func NULL) or a band
++    * of another layer, and the band (0 and 0 for every line) */
++   void (*job_func[6])(Vdp2* lines, Vdp2* regs, u8* ram, u8* color_ram, struct CellScrollData * cell_data);
++   int job_band_start[6], job_band_end[6], job_band_second[6];
+ }vidsoft_thread_context;
+ 
+ #define DECLARE_THREAD(NAME, LAYER, FUNC) \
+@@ -3630,9 +3663,13 @@
+    { \
+       if (YabFlagGet(vidsoft_thread_context.need_draw[LAYER])) \
+       { \
++         void (*fn)(Vdp2*, Vdp2*, u8*, u8*, struct CellScrollData*) = vidsoft_thread_context.job_func[LAYER] ? vidsoft_thread_context.job_func[LAYER] : FUNC; \
+          vidsoft_thread_context.need_draw[LAYER] = 0; \
++         vidsoft_band_start = vidsoft_thread_context.job_band_start[LAYER]; \
++         vidsoft_band_end = vidsoft_thread_context.job_band_end[LAYER]; \
++         vidsoft_band_second = vidsoft_thread_context.job_band_second[LAYER]; \
+          YAB_PROF_TBEGIN(PROF_T_LAYERS); \
+-         FUNC(vidsoft_thread_context.lines, &vidsoft_thread_context.regs, vidsoft_thread_context.ram, vidsoft_thread_context.color_ram, vidsoft_thread_context.cell_scroll_data); \
++         fn(vidsoft_thread_context.lines, &vidsoft_thread_context.regs, vidsoft_thread_context.ram, vidsoft_thread_context.color_ram, vidsoft_thread_context.cell_scroll_data); \
+          YAB_PROF_TEND(PROF_T_LAYERS); \
+          YabFlagSet(vidsoft_thread_context.draw_finished[LAYER], 1); \
+          YabFlagNotify(); \
+@@ -7210,6 +7247,10 @@
+    {
+       if (*num_threads_dispatched < vidsoft_num_layer_threads)
+       {
++         vidsoft_thread_context.job_func[which_layer] = NULL;
++         vidsoft_thread_context.job_band_start[which_layer] = 0;
++         vidsoft_thread_context.job_band_end[which_layer] = 0;
++         vidsoft_thread_context.job_band_second[which_layer] = 0;
+          vidsoft_thread_context.draw_finished[which_layer] = 0;
+          YabFlagSet(vidsoft_thread_context.need_draw[which_layer], 1);
+          YabThreadWake(YAB_THREAD_VIDSOFT_LAYER_NBG3 + which_layer);
+@@ -7224,6 +7265,65 @@
+    }
+ }
+ 
++static int VidsoftLayerDrawn(const int *layer_priority, const int *draw_priority_0, int layer)
++{
++   return layer_priority[layer] > 0 || draw_priority_0[layer];
++}
++
++/* A layer thread with nothing of its own to draw this frame, not yet given
++ * another layer's band, or -1 */
++static int VidsoftFreeLayerThread(const int *layer_priority, const int *draw_priority_0, int *taken)
++{
++   static const int order[] = { TITAN_NBG3, TITAN_NBG2, TITAN_RBG0 };
++   int i;
++
++   for (i = 0; i < 3; i++)
++   {
++      int layer = order[i];
++      if (!taken[layer] && !VidsoftLayerDrawn(layer_priority, draw_priority_0, layer))
++      {
++         taken[layer] = 1;
++         return layer;
++      }
++   }
++   return -1;
++}
++
++/* Like VidsoftStartLayerThread, but a scroll layer drawn on a thread is split
++ * into two bands of lines when a layer thread is free: the layer's thread
++ * draws the top half and the free one the bottom half, at the same time. In
++ * hi-res modes (Virtua Fighter: 704 pixels, zoomed) one layer alone took longer
++ * than the rest of the frame, and the main thread waited for it. */
++static void VidsoftStartLayerThreadSplit(int * layer_priority, int * draw_priority_0, int * num_threads_dispatched, int which_layer, int helper, void(*layer_func) (Vdp2* lines, Vdp2* regs, u8* ram, u8* color_ram, struct CellScrollData * cell_data))
++{
++   const int mid = vdp2height / 2;
++
++   if (helper < 0 || !VidsoftLayerDrawn(layer_priority, draw_priority_0, which_layer) ||
++       *num_threads_dispatched >= vidsoft_num_layer_threads)
++   {
++      VidsoftStartLayerThread(layer_priority, draw_priority_0, num_threads_dispatched, which_layer, layer_func);
++      return;
++   }
++
++   vidsoft_thread_context.job_func[which_layer] = NULL;
++   vidsoft_thread_context.job_band_start[which_layer] = 0;
++   vidsoft_thread_context.job_band_end[which_layer] = mid;
++   vidsoft_thread_context.job_band_second[which_layer] = 0;
++
++   vidsoft_thread_context.job_func[helper] = layer_func;
++   vidsoft_thread_context.job_band_start[helper] = mid;
++   vidsoft_thread_context.job_band_end[helper] = 0x7FFFFFFF;
++   vidsoft_thread_context.job_band_second[helper] = 1;
++
++   vidsoft_thread_context.draw_finished[which_layer] = 0;
++   vidsoft_thread_context.draw_finished[helper] = 0;
++   YabFlagSet(vidsoft_thread_context.need_draw[which_layer], 1);
++   YabFlagSet(vidsoft_thread_context.need_draw[helper], 1);
++   YabThreadWake(YAB_THREAD_VIDSOFT_LAYER_NBG3 + which_layer);
++   YabThreadWake(YAB_THREAD_VIDSOFT_LAYER_NBG3 + helper);
++   *num_threads_dispatched = *num_threads_dispatched + 1;
++}
++
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ int IsSpriteWindowEnabled(u16 wtcl)
+@@ -7318,9 +7418,16 @@
+ 
+    if (vidsoft_num_layer_threads > 0)
+    {
+-      VidsoftStartLayerThread(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_NBG0, Vdp2DrawNBG0);
++      int taken[6] = { 0 };
++      int helper_nbg1 = -1, helper_nbg0 = -1;
++      if (VidsoftLayerDrawn(layer_priority, draw_priority_0, TITAN_NBG1))
++         helper_nbg1 = VidsoftFreeLayerThread(layer_priority, draw_priority_0, taken);
++      if (VidsoftLayerDrawn(layer_priority, draw_priority_0, TITAN_NBG0))
++         helper_nbg0 = VidsoftFreeLayerThread(layer_priority, draw_priority_0, taken);
++
++      VidsoftStartLayerThreadSplit(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_NBG0, helper_nbg0, Vdp2DrawNBG0);
+       VidsoftStartLayerThread(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_RBG0, Vdp2DrawRBG0);
+-      VidsoftStartLayerThread(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_NBG1, Vdp2DrawNBG1);
++      VidsoftStartLayerThreadSplit(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_NBG1, helper_nbg1, Vdp2DrawNBG1);
+       VidsoftStartLayerThread(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_NBG2, Vdp2DrawNBG2);
+       VidsoftStartLayerThread(layer_priority, draw_priority_0, &num_threads_dispatched, TITAN_NBG3, Vdp2DrawNBG3);
+    }
