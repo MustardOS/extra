@@ -1,0 +1,72 @@
+Decodes the whole SCSP LFO register when LFORE is set. The reset bit made the
+register write return before the pitch and level LFO sensitivities and the
+waveforms, so a slot rebuilt from a save state with LFORE set kept the fresh
+core's 0 instead of 31 (off). The update then took the LFO path with a shift
+of -7 and stopped the slot within a frame: Duke Nukem 3D and other games had
+no sound after Pickles resumed them, as the resume loads the state before the
+BIOS has written those registers. Slots also reset with the LFO off now.
+
+--- a/yabause/src/scsp.c
++++ b/yabause/src/scsp.c
+@@ -2119,17 +2119,16 @@
+       return;
+ 
+     case 0x12: // LFORE/LFOF/PLFOWS
++      // LFORE only holds the LFO: the waveform in this byte still applies
+       if (d & 0x80)
++        slot->lfoinc = -1;
++      else
+         {
+-          slot->lfoinc = -1;
+-          return;
+-        }
+-      else if (slot->lfoinc == -1)
+-        {
+-          slot->lfocnt = 0;
+-        }
++          if (slot->lfoinc == -1)
++            slot->lfocnt = 0;
+ 
+-      slot->lfoinc = scsp_lfo_step[(d >> 2) & 0x1F];
++          slot->lfoinc = scsp_lfo_step[(d >> 2) & 0x1F];
++        }
+ 
+       switch (d & 3)
+         {
+@@ -2357,17 +2356,20 @@
+       return;
+ 
+     case 0x12: // LFORE/LFOF/PLFOWS/PLFOS/ALFOWS/ALFOS
++      // LFORE only holds the LFO. Returning here skipped the sensitivities
++      // and waveforms in the same word, so a slot rebuilt from a save state
++      // with LFORE set kept whatever the fresh core had: 0 instead of 31
++      // (off), and the update then shifted the pitch by -7 and stopped the
++      // slot at once (Duke Nukem 3D silent after loading a state)
+       if (d & 0x8000)
++        slot->lfoinc = -1;
++      else
+         {
+-          slot->lfoinc = -1;
+-          return;
+-        }
+-      else if (slot->lfoinc == -1)
+-        {
+-          slot->lfocnt = 0;
+-        }
++          if (slot->lfoinc == -1)
++            slot->lfocnt = 0;
+ 
+-      slot->lfoinc = scsp_lfo_step[(d >> 10) & 0x1F];
++          slot->lfoinc = scsp_lfo_step[(d >> 10) & 0x1F];
++        }
+       if ((d >> 5) & 7)
+         slot->lfofms = ((d >> 5) & 7) + 7;
+       else
+@@ -4346,6 +4348,7 @@
+ 		// Make sure lfofmw/lfoemw have sane values
+ 		slot->lfofmw = scsp_lfo_sawt_f;
+ 		slot->lfoemw = scsp_lfo_sawt_e;
++		slot->lfofms = slot->lfoems = 31; // LFO modulation off, as PLFOS/ALFOS 0
+     }
+ 
+   if (use_new_scsp)
