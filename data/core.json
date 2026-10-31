@@ -2296,7 +2296,7 @@
   },
   "yabadabadoo": {
     "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
-    "branch": "9b7d780",
+    "branch": "f4572c9",
     "purge": 1,
     "directory": "Yabadabadoo",
     "output": "yabadabadoo_libretro.so",

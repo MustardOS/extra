@@ -104,7 +104,7 @@
 2026-09-13 b7dafb4c opera_libretro.so.zip
 2026-01-18 86b72950 parallel_n64_libretro.so.zip
 2026-09-13 95a748e2 pcsx_rearmed_libretro.so.zip
-2026-10-13 13ba7062 picante8_libretro.so.zip
+2026-10-31 e93e770c picante8_libretro.so.zip
 2026-09-13 064663e4 picodrive_libretro.so.zip
 2026-09-13 fca1fa32 pocketcdg_libretro.so.zip
 2026-09-13 5a47bffd pokemini_libretro.so.zip
@@ -154,5 +154,5 @@
 2026-04-21 ef6ac371 vitaquake2_libretro.so.zip
 2026-09-13 d08cb4a6 wasm4_libretro.so.zip
 2026-09-13 d0e5d1f9 x1_libretro.so.zip
-2026-10-30 ad91c471 yabadabadoo_libretro.so.zip
+2026-10-31 f5b2d9c4 yabadabadoo_libretro.so.zip
 2026-09-13 496b23d6 zc250x_libretro.so.zip

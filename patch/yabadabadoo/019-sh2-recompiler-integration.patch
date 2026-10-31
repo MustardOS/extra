@@ -3,7 +3,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
 
 --- a/yabause/src/libretro/libretro.c
 +++ b/yabause/src/libretro/libretro.c
-@@ -50,6 +50,9 @@
+@@ -52,6 +52,9 @@
  #ifdef SH2_DYNAREC
  #include "sh2_dynarec/sh2_dynarec.h"
  #endif
@@ -13,7 +13,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
  
  yabauseinit_struct yinit;
  
-@@ -666,6 +669,9 @@
+@@ -669,6 +672,9 @@
  #ifdef SH2_DYNAREC
      &SH2Dynarec,
  #endif
@@ -23,7 +23,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
      NULL
  };
  
-@@ -1116,7 +1122,7 @@
+@@ -1126,7 +1132,7 @@
           multitap[1] = 1;
     }
  
@@ -32,7 +32,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
     /* No "SH2 Core" option any more: always the recompiler. YAB_SH2_INTERP=1
      * (debugging only) selects the interpreter */
     {
-@@ -1889,6 +1895,9 @@
+@@ -1933,6 +1939,9 @@
        else
           log_cb(RETRO_LOG_WARN, "SH2 dynarec needs a real BIOS, using the interpreter\n");
     }
@@ -44,7 +44,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
     yinit.sndcoretype          = SNDCORE_LIBRETRO;
 --- a/yabause/src/libretro/Makefile
 +++ b/yabause/src/libretro/Makefile
-@@ -133,6 +133,7 @@
+@@ -143,6 +143,7 @@
  		FLAGS += -flto=auto -fno-semantic-interposition -fno-plt
  		LDFLAGS += -flto=auto -O3
  		ARCH_IS_LINUX = 1
@@ -52,7 +52,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
  	endif
  
  	# riscv64
-@@ -596,6 +597,9 @@
+@@ -606,6 +607,9 @@
  
  ifeq ($(USE_PLAY_JIT),1)
  	CXXFLAGS += -std=c++11 -fexceptions -frtti
@@ -64,7 +64,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
  endif
 --- a/yabause/src/libretro/Makefile.common
 +++ b/yabause/src/libretro/Makefile.common
-@@ -142,6 +142,14 @@
+@@ -146,6 +146,14 @@
  	$(SOURCE_DIR)/yglshaderes.c
  endif
  
@@ -169,7 +169,7 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
  
  #ifdef SH2_TRACE
     sh2_trace_writel(addr, val);
-@@ -1803,6 +1815,10 @@
+@@ -1806,6 +1818,10 @@
     MemStateRead((void *)HighWram, 0x100000, 1, stream);
     MemStateRead((void *)LowWram, 0x100000, 1, stream);
  
@@ -190,98 +190,35 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
     u8 isslave;
     u8 isIdle;
     u8 isSleeping;
---- a/yabause/src/yabause.c
-+++ b/yabause/src/yabause.c
-@@ -87,6 +87,10 @@
- #include "sh2_dynarec/sh2_dynarec.h"
- #endif
- 
-+#if defined(SH2_DEVMIYAX)
-+#include "sh2_dynarec_devmiyax/sh2_devmiyax.h"
-+#endif
-+
- #if HAVE_GDBSTUB
-     #include "gdb/stub.h"
- #endif
-@@ -688,6 +692,15 @@
-    }
-    #endif
- 
-+#if defined(SH2_DEVMIYAX)
-+   if (SH2Core->id == SH2CORE_DEVMIYAX)
-+   {
-+      SH2DynOnFrame(MSH2);
-+      SH2DynOnFrame(SSH2);
-+   }
-+#endif
-+
-+
-    while (!oneframeexec)
-    {
-       PROFILE_START("Total Emulation");
---- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
-+++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
-@@ -27,15 +27,13 @@
- #include <malloc.h>
- #include <stdint.h>
- #include <time.h>  /* clock_gettime/struct timespec */
--#include <core.h>
- #include <unordered_map>
- 
--#include "sh2core.h"
--#include "debug.h"
--#include "yabause.h"
--#include "bios.h"
-+#include "yaba_glue.h"
- extern "C" {
--#include "scu.h"
-+#include "../debug.h"
-+#include "../scu.h"
-+#include "../sh2d.h"
- }
- 
- #include "DynarecSh2.h"
-@@ -2130,7 +2128,7 @@
-     //printf("%d/%d\n",GET_COUNT(),targetcnt);
-   }
- 
--  CurrentSH2->cycles = m_pDynaSh2->SysReg[4];
-+  ctx_->cycles = m_pDynaSh2->SysReg[4];
-   g_sync_cycles[is_slave_ ? 1 : 0] += m_pDynaSh2->SysReg[4];
-   //if (Count == 1) {
-   //  one_step_ = true;
-@@ -2209,21 +2207,6 @@
- 
-       // ROM
-     case 0x00000000:
--      if (yabsys.extend_backup) {
--        const u32 bupaddr = 0x0007d600; // MappedMemoryReadLong(0x06000358);
--        if (GET_PC() == bupaddr) {
--          LOG("BUP_Init");
--          BiosBUPInit(ctx_);
--          yabsys.extend_backup = 2;
--          return IN_INFINITY_LOOP;
--        }
--        else if (yabsys.extend_backup == 2 &&
--          GET_PC() >= 0x0380 &&
--          GET_PC() <= 0x03A8) {
--          BiosHandleFunc(ctx_);
--          return IN_INFINITY_LOOP;
--        }
--      }
-       if (yabsys.emulatebios) {
-         ctx_->cycles = 0;
-          BiosHandleFunc(ctx_);
---- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
-+++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
-@@ -468,6 +468,7 @@
-   }
-   void SetSlave(bool is_slave) { is_slave_ = is_slave; }
-   void SetContext(SH2_struct * ctx) { ctx_= ctx;}
-+  SH2_struct * GetContext() { return ctx_; }
-   bool IsSlave() { return is_slave_;  }
-   // Credit cycles run by a nested doorbell catch-up to the next regular slice.
-   void SyncCredit(u32 n) { pre_exe_count_ += n; }
+--- a/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
++++ b/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
+@@ -2300,7 +2300,7 @@
+   cmn  w0, #0x200
+   b.lo 4f
+   and  w0, w0, #0x1FF
+-  b    OnchipReadLong
++  b    DynOnchipReadLong
+ 4:
+   b    memGetLong
+ .size memGetLongFast5, .-memGetLongFast5
+@@ -2347,7 +2347,7 @@
+   cmn  w0, #0x200
+   b.lo 4f
+   and  w0, w0, #0x1FF
+-  b    OnchipReadWord
++  b    DynOnchipReadWord
+ 4:
+   b    memGetWord
+ .size memGetWordFast5, .-memGetWordFast5
+@@ -2396,7 +2396,7 @@
+   cmn  w0, #0x200
+   b.lo 4f
+   and  w0, w0, #0x1FF
+-  b    OnchipReadByte
++  b    DynOnchipReadByte
+ 4:
+   b    memGetByte
+ .size memGetByteFast5, .-memGetByteFast5
 --- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
 +++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
 @@ -18,25 +18,18 @@
@@ -713,36 +650,99 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
    const size_t prev_cnt = pctx->m_IntruptTbl.size();
    pctx->RemoveInterrupt(vector, 0);
    return pctx->m_IntruptTbl.size() != prev_cnt;
---- a/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
-+++ b/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
-@@ -2300,7 +2300,7 @@
-   cmn  w0, #0x200
-   b.lo 4f
-   and  w0, w0, #0x1FF
--  b    OnchipReadLong
-+  b    DynOnchipReadLong
- 4:
-   b    memGetLong
- .size memGetLongFast5, .-memGetLongFast5
-@@ -2347,7 +2347,7 @@
-   cmn  w0, #0x200
-   b.lo 4f
-   and  w0, w0, #0x1FF
--  b    OnchipReadWord
-+  b    DynOnchipReadWord
- 4:
-   b    memGetWord
- .size memGetWordFast5, .-memGetWordFast5
-@@ -2396,7 +2396,7 @@
-   cmn  w0, #0x200
-   b.lo 4f
-   and  w0, w0, #0x1FF
--  b    OnchipReadByte
-+  b    DynOnchipReadByte
- 4:
-   b    memGetByte
- .size memGetByteFast5, .-memGetByteFast5
---- /dev/null
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
++++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
+@@ -27,15 +27,13 @@
+ #include <malloc.h>
+ #include <stdint.h>
+ #include <time.h>  /* clock_gettime/struct timespec */
+-#include <core.h>
+ #include <unordered_map>
+ 
+-#include "sh2core.h"
+-#include "debug.h"
+-#include "yabause.h"
+-#include "bios.h"
++#include "yaba_glue.h"
+ extern "C" {
+-#include "scu.h"
++#include "../debug.h"
++#include "../scu.h"
++#include "../sh2d.h"
+ }
+ 
+ #include "DynarecSh2.h"
+@@ -2130,7 +2128,7 @@
+     //printf("%d/%d\n",GET_COUNT(),targetcnt);
+   }
+ 
+-  CurrentSH2->cycles = m_pDynaSh2->SysReg[4];
++  ctx_->cycles = m_pDynaSh2->SysReg[4];
+   g_sync_cycles[is_slave_ ? 1 : 0] += m_pDynaSh2->SysReg[4];
+   //if (Count == 1) {
+   //  one_step_ = true;
+@@ -2209,21 +2207,6 @@
+ 
+       // ROM
+     case 0x00000000:
+-      if (yabsys.extend_backup) {
+-        const u32 bupaddr = 0x0007d600; // MappedMemoryReadLong(0x06000358);
+-        if (GET_PC() == bupaddr) {
+-          LOG("BUP_Init");
+-          BiosBUPInit(ctx_);
+-          yabsys.extend_backup = 2;
+-          return IN_INFINITY_LOOP;
+-        }
+-        else if (yabsys.extend_backup == 2 &&
+-          GET_PC() >= 0x0380 &&
+-          GET_PC() <= 0x03A8) {
+-          BiosHandleFunc(ctx_);
+-          return IN_INFINITY_LOOP;
+-        }
+-      }
+       if (yabsys.emulatebios) {
+         ctx_->cycles = 0;
+          BiosHandleFunc(ctx_);
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
++++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
+@@ -468,6 +468,7 @@
+   }
+   void SetSlave(bool is_slave) { is_slave_ = is_slave; }
+   void SetContext(SH2_struct * ctx) { ctx_= ctx;}
++  SH2_struct * GetContext() { return ctx_; }
+   bool IsSlave() { return is_slave_;  }
+   // Credit cycles run by a nested doorbell catch-up to the next regular slice.
+   void SyncCredit(u32 n) { pre_exe_count_ += n; }
+--- a/yabause/src/sh2_dynarec_devmiyax/sh2_devmiyax.h
++++ b/yabause/src/sh2_dynarec_devmiyax/sh2_devmiyax.h
+@@ -0,0 +1,26 @@
++/*  devMiyax's SH-2 recompiler for aarch64, as Yabadabadoo's SH2 core 3.
++    This file is part of Yabadabadoo, GPL-2.0-or-later. */
++
++#ifndef SH2_DEVMIYAX_H
++#define SH2_DEVMIYAX_H
++
++#define SH2CORE_DEVMIYAX 3
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++extern SH2Interface_struct SH2Dyn;
++extern int sh2_devmiyax_active;
++void SH2DynWriteNotify(u32 start, u32 length);
++void SH2DynOnFrame(SH2_struct *context);
++
++/* Work RAM written behind the CPUs' back: drop any code compiled from it */
++#define SH2_DEVMIYAX_NOTIFY(addr, size) \
++   do { if (sh2_devmiyax_active) SH2DynWriteNotify((addr), (size)); } while (0)
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif
+--- a/yabause/src/sh2_dynarec_devmiyax/yaba_glue.h
 +++ b/yabause/src/sh2_dynarec_devmiyax/yaba_glue.h
 @@ -0,0 +1,112 @@
 +/*  Glue between devMiyax's SH-2 recompiler (from YabaSanshiro) and Yabadabadoo.
@@ -857,32 +857,32 @@ interpreter. YAB_SH2_INTERP=1 selects the interpreter for debugging.
 +#define YABA_EXTEND_BACKUP 0
 +
 +#endif
---- /dev/null
-+++ b/yabause/src/sh2_dynarec_devmiyax/sh2_devmiyax.h
-@@ -0,0 +1,26 @@
-+/*  devMiyax's SH-2 recompiler for aarch64, as Yabadabadoo's SH2 core 3.
-+    This file is part of Yabadabadoo, GPL-2.0-or-later. */
-+
-+#ifndef SH2_DEVMIYAX_H
-+#define SH2_DEVMIYAX_H
-+
-+#define SH2CORE_DEVMIYAX 3
-+
-+#ifdef __cplusplus
-+extern "C" {
+--- a/yabause/src/yabause.c
++++ b/yabause/src/yabause.c
+@@ -87,6 +87,10 @@
+ #include "sh2_dynarec/sh2_dynarec.h"
+ #endif
+ 
++#if defined(SH2_DEVMIYAX)
++#include "sh2_dynarec_devmiyax/sh2_devmiyax.h"
 +#endif
 +
-+extern SH2Interface_struct SH2Dyn;
-+extern int sh2_devmiyax_active;
-+void SH2DynWriteNotify(u32 start, u32 length);
-+void SH2DynOnFrame(SH2_struct *context);
-+
-+/* Work RAM written behind the CPUs' back: drop any code compiled from it */
-+#define SH2_DEVMIYAX_NOTIFY(addr, size) \
-+   do { if (sh2_devmiyax_active) SH2DynWriteNotify((addr), (size)); } while (0)
-+
-+#ifdef __cplusplus
-+}
+ #if HAVE_GDBSTUB
+     #include "gdb/stub.h"
+ #endif
+@@ -688,6 +692,15 @@
+    }
+    #endif
+ 
++#if defined(SH2_DEVMIYAX)
++   if (SH2Core->id == SH2CORE_DEVMIYAX)
++   {
++      SH2DynOnFrame(MSH2);
++      SH2DynOnFrame(SSH2);
++   }
 +#endif
 +
-+#endif
++
+    while (!oneframeexec)
+    {
+       PROFILE_START("Total Emulation");

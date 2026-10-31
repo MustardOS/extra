@@ -1,6 +1,10 @@
+Runs a delay-slot instruction as if it sat just before the branch target in idle-loop detection
+(sh2idle.c), so a PC-relative load there reads the right literal. The interpreter has the same fix
+upstream (4cb358774); MechWarrior 2's model linker loaded the wrong list without it.
+
 --- a/yabause/src/sh2idle.c
 +++ b/yabause/src/sh2idle.c
-@@ -579,8 +579,9 @@ void FASTCALL SH2idleCheck(SH2_struct *context, u32 cycles) {
+@@ -579,8 +579,9 @@
  
    if ( isDelayed ) {
      context->instruction = ((fetchfunc *)context->fetchlist)[((loopEnd+2) >> 20) & 0x0FF](context, loopEnd+2);
@@ -11,19 +15,3 @@
      if ( !SH2idleCheckIterate(context,context->instruction,0) ) return;
    }
    
---- a/yabause/src/sh2int.c
-+++ b/yabause/src/sh2int.c
-@@ -235,9 +235,11 @@ static void FASTCALL SH2delay(SH2_struct * sh, u32 addr)
-       sh->instruction = ((fetchfunc *)sh->fetchlist)[(addr >> 20) & 0x0FF](sh, addr);
-    }
- 
--   // Execute it
--   ((opcodefunc *)sh->opcodes)[sh->instruction](sh);
-+   // Run it as if it sat just before the branch target. The hardware uses that as the base for a
-+   // PC-relative load (mov.l/mov.w @(disp,PC), mova) in a delay slot, so running it at the target
-+   // read four bytes too far (MechWarrior 2 then loaded the wrong model list and crashed in game)
-    sh->regs.PC -= 2;
-+   ((opcodefunc *)sh->opcodes)[sh->instruction](sh);
- }
- 
- //////////////////////////////////////////////////////////////////////////////

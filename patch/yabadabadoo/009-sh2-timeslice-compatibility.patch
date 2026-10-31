@@ -1,6 +1,6 @@
 --- a/yabause/src/libretro/libretro_core_options.h
 +++ b/yabause/src/libretro/libretro_core_options.h
-@@ -278,7 +278,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+@@ -278,7 +278,7 @@
        "yabadabadoo_sh2_timeslice",
        "SH2 Time Slice (Restart Required)",
        NULL,
@@ -9,7 +9,7 @@
        NULL,
        NULL,
        {
-@@ -286,7 +286,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
+@@ -286,7 +286,7 @@
           { "line",     "Scanline" },
           { NULL, NULL },
        },

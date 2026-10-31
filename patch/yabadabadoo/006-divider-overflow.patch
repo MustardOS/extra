@@ -1,6 +1,13 @@
+Divide unit results (32/32 and 64/32) follow the SH7604 manual and Ymir's hardware-tested divider:
+0x80000000 / -1 saturates and flags overflow; a 64/32 quotient of exactly 2^31 with a zero remainder
+fits when the divisor's sign allows it, every other out-of-range quotient overflows, and on overflow
+the unit has run three steps of its partial division (DVDNTH, and DVDNTL when the overflow interrupt
+is enabled). Includes what was 016-divider-ymir-edge-cases. Upstream 6b2d640ce keeps the former
+results for speed on ARM32; on aarch64 a 64-bit divide is one instruction.
+
 --- a/yabause/src/sh2core.c
 +++ b/yabause/src/sh2core.c
-@@ -1670,6 +1670,19 @@ void FASTCALL OnchipWriteLong(SH2_struct *sh, u32 addr, u32 val)  {
+@@ -1671,6 +1671,19 @@
              if (sh->onchip.DVCR & 0x2)
                 SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
           }
@@ -20,14 +27,92 @@
           else
           {
              s32 quotient = ((s32) val) / divisor;
-@@ -1734,7 +1747,9 @@ void FASTCALL OnchipWriteLong(SH2_struct *sh, u32 addr, u32 val)  {
-                if (sh->onchip.DVCR & 0x2)
-                   SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
-             }
--            else if ((s32)(quotient >> 32) < -1)
-+            // Any quotient below -2^31 overflows. Testing only the top word missed -2^33..-2^31-1,
-+            // which were then truncated instead of saturating (SH7604 manual 10.3.3)
-+            else if (quotient < -(s64) 0x80000000)
+@@ -1696,45 +1709,64 @@
+          return;
+       case 0x114:
+       case 0x134: { // 64-bit / 32-bit divide operation
++         // Results follow Ymir's hardware-tested divider. A quotient of exactly 2^31 with a zero
++         // remainder fits when the divisor's sign allows it (stored as 0x80000000), and every other
++         // quotient outside the signed 32-bit range overflows, -2^31 included. On overflow the
++         // unit has run three steps of its partial division: DVDNTH holds them, and so does DVDNTL
++         // when the overflow interrupt is enabled, otherwise DVDNTL saturates.
+          s32 divisor = (s32) sh->onchip.DVSR;
++         s64 dividend = (s64) (((u64) sh->onchip.DVDNTH << 32) | val);
++         int overflow = 0;
+ 
+-         if (divisor == 0)
++         if (divisor == 0 || (dividend == (s64) ((u64) 1 << 63) && divisor == -1))
++            overflow = 1;
++         else
+          {
+-            if (sh->onchip.DVDNTH & 0x80000000)
++            s64 quotient = dividend / divisor;
++            s32 remainder = (s32) (dividend % divisor);
++
++            if (((quotient == -(s64) 0x80000000 && divisor > 0) || (quotient == (s64) 0x80000000 && divisor < 0)) && remainder == 0)
              {
-                sh->onchip.DVCR |= 1;
-                sh->onchip.DVDNTL = 0x80000000;
+-               sh->onchip.DVDNTL = 0x80000000;
+-               sh->onchip.DVDNTH = sh->onchip.DVDNTH << 3; // fix me
++               sh->onchip.DVDNTL = (u32) quotient;
++               sh->onchip.DVDNTH = remainder;
+             }
++            else if (quotient <= -(s64) 0x80000000 || quotient > 0x7FFFFFFF)
++               overflow = 1;
+             else
+             {
+-               sh->onchip.DVDNTL = 0x7FFFFFFF;
+-               sh->onchip.DVDNTH = sh->onchip.DVDNTH << 3; // fix me
++               sh->onchip.DVDNTL = (u32) quotient;
++               sh->onchip.DVDNTH = remainder;
+             }
++         }
+ 
+-            sh->onchip.DVDNTUL = sh->onchip.DVDNTL;
+-            sh->onchip.DVDNTUH = sh->onchip.DVDNTH;
++         if (overflow)
++         {
++            const u64 step = (u64) (u32) divisor << 32;
++            const int m = divisor < 0;
++            s64 partial = dividend;
++            int q = partial < 0;
++            int i;
++
++            for (i = 0; i < 3; i++)
++            {
++               partial = (s64) (q == m ? (u64) partial - step : (u64) partial + step);
++               q = partial < 0;
++               partial = (s64) (((u64) partial << 1) | (q == m));
++            }
++
++            if (sh->onchip.DVCR & 0x2)
++               sh->onchip.DVDNTL = (u32) partial;
++            else
++               sh->onchip.DVDNTL = (s32) ((u32) (dividend >> 32) ^ (u32) divisor) < 0 ? 0x80000000 : 0x7FFFFFFF;
++            sh->onchip.DVDNTH = (u32) ((u64) partial >> 32);
+             sh->onchip.DVCR |= 1;
+ 
+             if (sh->onchip.DVCR & 0x2)
+                SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
+          }
+-         else
+-         {
+-            // the former s64 / s32 and % (a libgcc call on 32-bit ARM), bit for bit: sh2divu.h
+-            u32 nl, nh;
+-            int overflow = SH2DivS64by32(sh->onchip.DVSR, sh->onchip.DVDNTH, val, &nl, &nh);
+-
+-            if (overflow)
+-               sh->onchip.DVCR |= 1;
+-            sh->onchip.DVDNTL = nl;
+-            sh->onchip.DVDNTH = nh; // fix me (on overflow)
+-
+-            if (overflow && (sh->onchip.DVCR & 0x2))
+-               SH2SendInterrupt(sh, sh->onchip.VCRDIV & 0x7F, (MSH2->onchip.IPRA >> 12) & 0xF);
+ 
+-            sh->onchip.DVDNTUL = sh->onchip.DVDNTL;
+-            sh->onchip.DVDNTUH = sh->onchip.DVDNTH;
+-         }
++         sh->onchip.DVDNTUL = sh->onchip.DVDNTL;
++         sh->onchip.DVDNTUH = sh->onchip.DVDNTH;
+          return;
+       }
+       case 0x118:

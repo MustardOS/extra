@@ -1,14 +1,32 @@
+Adds the CD Music Level core option: CD audio scaled on top of the level each game sets for it
+(upstream models EFSDL/EFPAN and the master volume since 97ceff1a5). Default 100%, so the game's own
+mix is kept; lower it if the music drowns the sound effects.
+
+--- a/yabause/src/libretro/libretro.c
++++ b/yabause/src/libretro/libretro.c
+@@ -1149,6 +1149,12 @@
+    M68KSetThreaded(!(environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value &&
+                      strcmp(var.value, "disabled") == 0));
+ 
++   var.key = "yabadabadoo_cdda_level";
++   var.value = NULL;
++   ScspSetCDDAVolume(environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value
++                        ? (int)strtol(var.value, NULL, 10)
++                        : 100);
++
+    var.key = "yabadabadoo_video_standard";
+    var.value = NULL;
+    video_standard = -1;
 --- a/yabause/src/libretro/libretro_core_options.h
 +++ b/yabause/src/libretro/libretro_core_options.h
-@@ -264,6 +264,24 @@ struct retro_core_option_v2_definition option_defs_us[] = {
-       },
+@@ -261,6 +261,24 @@
        "enabled"
     },
-+   {
+    {
 +      "yabadabadoo_cdda_level",
 +      "CD Music Level (%)",
 +      NULL,
-+      "Adjust the volume of CD music relative to sound effects.",
++      "Scale CD music relative to sound effects, on top of the level each game sets for it.",
 +      NULL,
 +      NULL,
 +      {
@@ -20,29 +38,15 @@
 +         { "100", NULL },
 +         { NULL, NULL },
 +      },
-+      "50"
++      "100"
 +   },
-    {
++   {
        "yabadabadoo_rotation_line_color",
        "Per-Pixel Rotation Line Colour",
---- a/yabause/src/libretro/libretro.c
-+++ b/yabause/src/libretro/libretro.c
-@@ -1163,6 +1163,12 @@ static void check_variables(void)
-    M68KSetThreaded(!(environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value &&
-                      strcmp(var.value, "disabled") == 0));
- 
-+   var.key = "yabadabadoo_cdda_level";
-+   var.value = NULL;
-+   ScspSetCDDAVolume(environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value
-+                        ? (int)strtol(var.value, NULL, 10)
-+                        : 50);
-+
-    var.key = "yabadabadoo_video_standard";
-    var.value = NULL;
-    video_standard = -1;
+       NULL,
 --- a/yabause/src/scsp.c
 +++ b/yabause/src/scsp.c
-@@ -1663,6 +1663,7 @@ static union {
+@@ -1663,6 +1663,7 @@
  } cddabuf;
  static unsigned int cdda_next_in=0;               // Next sector buffer offset to receive into
  static u32 cdda_out_left;                       // Bytes of CDDA left to output
@@ -50,7 +54,7 @@
  
  ////////////////////////////////////////////////////////////////
  
-@@ -3726,12 +3727,12 @@ scsp_mix_cdda (s32 *bufL, s32 *bufR, u32 n, u32 start)
+@@ -3821,12 +3822,12 @@
        {
           s32 out;
  
@@ -65,7 +69,18 @@
  
           if (out)
              bufR[pos] += out;
-@@ -5385,6 +5386,9 @@ void new_scsp_run_sample()
+@@ -3905,8 +3906,8 @@
+          target = pos + this_len;
+          for (; pos < target; pos++, buf += 4)
+          {
+-            s32 l = (s16)((buf[1] << 8) | buf[0]);
+-            s32 r = (s16)((buf[3] << 8) | buf[2]);
++            s32 l = ((s32)(s16)((buf[1] << 8) | buf[0]) * cdda_gain) >> 8;
++            s32 r = ((s32)(s16)((buf[3] << 8) | buf[2]) * cdda_gain) >> 8;
+             bufL[pos] += ((l * v16[0]) >> 14) + ((r * v17[0]) >> 14);
+             bufR[pos] += ((l * v16[1]) >> 14) + ((r * v17[1]) >> 14);
+          }
+@@ -5684,6 +5685,9 @@
        cd_in_l = (s16)((buf[1] << 8) | buf[0]);
        cd_in_r = (s16)((buf[3] << 8) | buf[2]);
  
@@ -75,7 +90,7 @@
        cdda_out_left -= 4;
     }
  
-@@ -5810,6 +5814,16 @@ ScspSetVolume (int volume)
+@@ -6106,6 +6110,16 @@
      SNDCore->SetVolume (volume);
  }
  
@@ -94,7 +109,7 @@
  void
 --- a/yabause/src/scsp.h
 +++ b/yabause/src/scsp.h
-@@ -124,6 +124,7 @@ int ScspSlotDebugAudioSaveWav(u8 slotnum, const char *filename);
+@@ -127,6 +127,7 @@
  void ScspMuteAudio(int flags);
  void ScspUnMuteAudio(int flags);
  void ScspSetVolume(int volume);

@@ -3,7 +3,7 @@ From devMiyax's SH-2 dynamic recompiler as carried in yabasanshiro-pirry
 imported unchanged. GPL-2.0-or-later, Copyright 2019 devMiyax and contributors.
 Yabadabadoo's integration follows in 019-sh2-recompiler-integration.patch.
 
---- /dev/null
+--- a/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
 +++ b/yabause/src/sh2_dynarec_devmiyax/dynalib_arm64.s
 @@ -0,0 +1,2543 @@
 +/*
@@ -2549,7 +2549,7 @@ Yabadabadoo's integration follows in 019-sh2-recompiler-integration.patch.
 +  add  sp, sp, #80
 +  ret
 +.size chain_stub, .-chain_stub
---- /dev/null
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
 +++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
 @@ -0,0 +1,806 @@
 +/*
@@ -3358,7 +3358,7 @@ Yabadabadoo's integration follows in 019-sh2-recompiler-integration.patch.
 +  return pctx->m_IntruptTbl.size() != prev_cnt;
 +}
 +
---- /dev/null
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
 +++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.cpp
 @@ -0,0 +1,2572 @@
 +/*
@@ -5933,7 +5933,7 @@ Yabadabadoo's integration follows in 019-sh2-recompiler-integration.patch.
 +    i++;
 +  }
 +}
---- /dev/null
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
 +++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2.h
 @@ -0,0 +1,562 @@
 +/*
@@ -6498,7 +6498,7 @@ Yabadabadoo's integration follows in 019-sh2-recompiler-integration.patch.
 +
 +
 +#endif // _DYNAREC_SH2_H_
---- /dev/null
+--- a/yabause/src/sh2_dynarec_devmiyax/opcodes.h
 +++ b/yabause/src/sh2_dynarec_devmiyax/opcodes.h
 @@ -0,0 +1,167 @@
 +/*

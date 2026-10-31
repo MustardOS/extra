@@ -108,7 +108,15 @@ jobs:
           printf 'core archives:    %s\n' "$(find "$ARTIFACT_DIR" -name 'Core - *.muxzip' | wc -l)"
           printf 'archive hashes:   %s\n' "$(jq '[.[] | select(.archive_sha256)] | length' "$ARTIFACT_DIR/core-manifest.json")"
 
-      - name: Sign core manifest
+      - name: Build optimised profiles
+        run: |
+          set -eu
+
+          ./optimised.sh
+          cp data/optimised.json artifacts/optimised.json
+          printf 'optimised profiles: %s\n' "$(jq '.content | length' artifacts/optimised.json)"
+
+      - name: Sign core manifest and optimised profiles
         env:
           CORE_SIGNING_KEY: ${{ secrets.CORE_SIGNING_KEY }}
           CORE_PUBLIC_KEY: cb77ed50eaf8b7bd8c94943681453aba6274caf8ae554f96c352844db9c24a5b
@@ -132,14 +140,15 @@ jobs:
             exit 1
           fi
 
-          MANIFEST="artifacts/core-manifest.json"
-          openssl pkeyutl -sign -inkey "$KEY" -rawin -in "$MANIFEST" -out "$MANIFEST.sig"
-          openssl pkeyutl -verify -pubin -inkey "$PUB" -rawin -in "$MANIFEST" -sigfile "$MANIFEST.sig"
+          for MANIFEST in artifacts/core-manifest.json artifacts/optimised.json; do
+            openssl pkeyutl -sign -inkey "$KEY" -rawin -in "$MANIFEST" -out "$MANIFEST.sig"
+            openssl pkeyutl -verify -pubin -inkey "$PUB" -rawin -in "$MANIFEST" -sigfile "$MANIFEST.sig"
 
-          if [ "$(wc -c <"$MANIFEST.sig")" -ne 64 ]; then
-            echo "Unexpected signature size"
-            exit 1
-          fi
+            if [ "$(wc -c <"$MANIFEST.sig")" -ne 64 ]; then
+              echo "Unexpected signature size for $MANIFEST"
+              exit 1
+            fi
+          done
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -150,5 +159,7 @@ jobs:
             artifacts/*.muxzip
             artifacts/core-manifest.json
             artifacts/core-manifest.json.sig
+            artifacts/optimised.json
+            artifacts/optimised.json.sig
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

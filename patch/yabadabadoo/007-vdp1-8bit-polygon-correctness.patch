@@ -1,6 +1,6 @@
 --- a/yabause/src/vidsoft.c
 +++ b/yabause/src/vidsoft.c
-@@ -5789,52 +5789,6 @@ static QuadPen QuadPlotLean8CM4(const QuadLine *Lp, QuadPen pen) { return QuadPl
+@@ -5998,52 +5998,6 @@
   * tests are left (clip area, double interlace, this thread's rows, buffer
   * end). No mesh, user clipping (unless the whole line is inside it) or
   * Gouraud steps. Kept small: vidsoft.c is at GCC's inlining limit. */
@@ -53,7 +53,7 @@
  static void DrawLineQuad(const Vdp1QuadState *st, int x1, int y1, int x2, int y2, double linenumber, double texturestep,
     int linelength, double xredstep, double xgreenstep, double xbluestep, Vdp1 *regs, vdp1cmd_struct *cmd, u8 *ram, u8 *back_framebuffer)
  {
-@@ -5954,7 +5908,7 @@ static void DrawLineQuad(const Vdp1QuadState *st, int x1, int y1, int x2, int y2
+@@ -6141,7 +6095,7 @@
                             (L.noclip || !L.user_clip) && !(L.drawmode & 4);
           switch (colormode)
           {

@@ -5,7 +5,7 @@ Output is pixel-identical.
 
 --- a/yabause/src/vidsoft.c
 +++ b/yabause/src/vidsoft.c
-@@ -929,6 +929,13 @@
+@@ -925,6 +925,13 @@
   * functions are best avoided. */
  static u8 vidsoft_win_buf[6][2][1024];
  
@@ -19,7 +19,7 @@ Output is pixel-identical.
  //////////////////////////////////////////////////////////////////////////////
  
  static INLINE void GeneratePlaneAddrTable(vdp2draw_struct *info, u32 *planetbl, void FASTCALL (* PlaneAddr)(void *, int, Vdp2* ), Vdp2* regs)
-@@ -1455,6 +1462,7 @@
+@@ -1451,6 +1458,7 @@
  /* one buffer per Titan layer (a layer is drawn by one thread at a time); a
   * line has at most 704 pixels: 704 / 8 + 1 runs, +1 where x wraps */
  static struct PalRun vidsoft_palruns[6][96];
@@ -27,7 +27,7 @@ Output is pixel-identical.
  
  /* Vdp2DrawScrollRun() out of line, for the runs pass 1 leaves to it (colour
   * calc window fixed for the line) */
-@@ -1627,7 +1635,7 @@
+@@ -1623,7 +1631,7 @@
     struct PixelData *titan_line, int linescrollx, int Y, int j, int fresh, u32 meta_base, int post_calc,
     int cc_win_pass, int start, int end)
  {
@@ -36,7 +36,7 @@ Output is pixel-identical.
     const int flags = (info->transparencyenable ? 1 : 0) | (fresh ? 2 : 0);
     const int n = Vdp2PalLineRuns(colornumber, r, info, sinfo, regs, ram, color_ram, colormode, titan_line, linescrollx, Y, j, fresh, meta_base, post_calc, cc_win_pass, start, end);
     u32 ofs_pos = 0, ofs_neg = 0;
-@@ -1697,7 +1705,12 @@
+@@ -1693,7 +1701,12 @@
     int cc_win_fixed, int cc_win_pass, int cc_wctl, clipping_struct *colorcalcwindow, const u8 *cc_tab, int start, int end,
     const int *mosaic_x)
  {
@@ -50,7 +50,7 @@ Output is pixel-identical.
     for (i = start; i < end; i++)
     {
        int x = info->x + mosaic_x[i]*info->coordincx;
-@@ -1707,6 +1720,12 @@
+@@ -1703,6 +1716,12 @@
           x += linescrollx;
           x &= 0x3FF;
        }
@@ -63,7 +63,7 @@ Output is pixel-identical.
        if ((x >> 3) != block)
        {
           int xc = x, y = Y;
-@@ -1786,6 +1805,8 @@
+@@ -1782,6 +1801,8 @@
     u32 linescrolly_table[512] = { 0 };
     float lineszoom_table[512] = { 0 };
     int num_vertical_cell_scroll_enabled = 0;
@@ -72,9 +72,9 @@ Output is pixel-identical.
  
     SetupScreenVars(info, &sinfo, info->PlaneAddr, regs);
  
-@@ -1929,6 +1950,14 @@
-       if (!info->enable)
+@@ -1935,6 +1956,14 @@
           continue;
+       }
  
 +      /* Outside this thread's band: the line's state above is still followed,
 +       * so the band draws exactly what a whole-layer pass draws there */
@@ -87,7 +87,7 @@ Output is pixel-identical.
        {
           /* Loop invariants for this line, hoisted out of the pixel loop. With
            * no window enabled TestBothWindow() gives the same answer for every
-@@ -1939,8 +1968,8 @@
+@@ -1945,8 +1974,8 @@
           const int cc_win_fixed = (cc_wctl & 0x2a) == 0;
           const int cc_win_pass = !(cc_wctl & 0x80);
           /* window tests per line instead of per pixel (where they can be) */
@@ -98,7 +98,7 @@ Output is pixel-identical.
           const int zoom_x = info->coordincx != 1.0f;
           const int post_calc = info->PostPixelFetchCalc == &DoNothing ? 0 :
                                 info->PostPixelFetchCalc == &DoColorOffset ? 1 : 2;
-@@ -3621,6 +3650,10 @@
+@@ -3823,6 +3852,10 @@
     u8 color_ram[0x1000];
     struct CellScrollData cell_scroll_data[270];
     Vdp1 vdp1regs; // the sprite thread's copy, taken when it starts
@@ -109,7 +109,7 @@ Output is pixel-identical.
  }vidsoft_thread_context;
  
  #define DECLARE_THREAD(NAME, LAYER, FUNC) \
-@@ -3630,9 +3663,13 @@
+@@ -3832,9 +3865,13 @@
     { \
        if (YabFlagGet(vidsoft_thread_context.need_draw[LAYER])) \
        { \
@@ -124,7 +124,7 @@ Output is pixel-identical.
           YAB_PROF_TEND(PROF_T_LAYERS); \
           YabFlagSet(vidsoft_thread_context.draw_finished[LAYER], 1); \
           YabFlagNotify(); \
-@@ -7210,6 +7247,10 @@
+@@ -7435,6 +7472,10 @@
     {
        if (*num_threads_dispatched < vidsoft_num_layer_threads)
        {
@@ -135,7 +135,7 @@ Output is pixel-identical.
           vidsoft_thread_context.draw_finished[which_layer] = 0;
           YabFlagSet(vidsoft_thread_context.need_draw[which_layer], 1);
           YabThreadWake(YAB_THREAD_VIDSOFT_LAYER_NBG3 + which_layer);
-@@ -7224,6 +7265,65 @@
+@@ -7449,6 +7490,65 @@
     }
  }
  
@@ -201,7 +201,7 @@ Output is pixel-identical.
  //////////////////////////////////////////////////////////////////////////////
  
  int IsSpriteWindowEnabled(u16 wtcl)
-@@ -7318,9 +7418,16 @@
+@@ -7546,9 +7646,16 @@
  
     if (vidsoft_num_layer_threads > 0)
     {

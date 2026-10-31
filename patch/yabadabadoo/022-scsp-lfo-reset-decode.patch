@@ -8,7 +8,7 @@ BIOS has written those registers. Slots also reset with the LFO off now.
 
 --- a/yabause/src/scsp.c
 +++ b/yabause/src/scsp.c
-@@ -2119,17 +2119,16 @@
+@@ -2157,17 +2157,16 @@
        return;
  
      case 0x12: // LFORE/LFOF/PLFOWS
@@ -33,7 +33,7 @@ BIOS has written those registers. Slots also reset with the LFO off now.
  
        switch (d & 3)
          {
-@@ -2357,17 +2356,20 @@
+@@ -2395,17 +2394,20 @@
        return;
  
      case 0x12: // LFORE/LFOF/PLFOWS/PLFOS/ALFOWS/ALFOS
@@ -62,7 +62,7 @@ BIOS has written those registers. Slots also reset with the LFO off now.
        if ((d >> 5) & 7)
          slot->lfofms = ((d >> 5) & 7) + 7;
        else
-@@ -4346,6 +4348,7 @@
+@@ -4572,6 +4574,7 @@
  		// Make sure lfofmw/lfoemw have sane values
  		slot->lfofmw = scsp_lfo_sawt_f;
  		slot->lfoemw = scsp_lfo_sawt_e;

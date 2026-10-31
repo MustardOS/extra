@@ -1,0 +1,144 @@
+Adds the core option VDP1 Frame Change. 'VBlank Start' (default) keeps upstream's timing: a frame
+change asked for before the VBlank is taken at VBlank-IN and one asked for during it at VBlank-OUT.
+'VBlank End' takes every change at VBlank-OUT, as the hardware and Beetle do, which some games
+need: The Legend of Oasis waits for the draw-end flag (CEF) to clear and set again around the
+change and otherwise stays on a black screen. Doom needs the default (it plots and waits for CEF
+between the two), so this is per game rather than the default.
+
+--- a/yabause/src/libretro/libretro.c
++++ b/yabause/src/libretro/libretro.c
+@@ -104,6 +104,7 @@
+ static int numthreads = 1;
+ static bool sh2_use_dynarec = false;
+ static int deciline_mode = 1;
++extern int vdp1_change_at_vblank_end;
+ /* Video standard (core option): -1 = the disc's region, else VIDEOFORMATTYPE_* */
+ static int video_standard = -1;
+ static int reported_pal = -1;  /* the timing the frontend was last given */
+@@ -1186,6 +1187,11 @@
+    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+       deciline_mode = strcmp(var.value, "line") != 0;
+ 
++   var.key = "yabadabadoo_vdp1_frame_change";
++   var.value = NULL;
++   vdp1_change_at_vblank_end = environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value &&
++                               strcmp(var.value, "vblank_end") == 0;
++
+    var.key = "yabadabadoo_numthreads";
+    var.value = NULL;
+    numthreads = 4;
+--- a/yabause/src/libretro/libretro_core_options.h
++++ b/yabause/src/libretro/libretro_core_options.h
+@@ -306,6 +306,20 @@
+       },
+       "deciline"
+    },
++   {
++      "yabadabadoo_vdp1_frame_change",
++      "VDP1 Frame Change",
++      NULL,
++      "When the sprite framebuffers swap. 'VBlank Start' suits most games. 'VBlank End' takes every swap as the blanking ends, as the hardware does; try it for a game that stays on a black or blank screen (The Legend of Oasis).",
++      NULL,
++      NULL,
++      {
++         { "vblank_start", "VBlank Start" },
++         { "vblank_end",   "VBlank End" },
++         { NULL, NULL },
++      },
++      "vblank_start"
++   },
+ #ifdef HAVE_THREADS
+    {
+       "yabadabadoo_numthreads",
+--- a/yabause/src/vdp2.c
++++ b/yabause/src/vdp2.c
+@@ -77,6 +77,9 @@
+    is drawn in the next frame that renders. Starts at 1 so a loaded state
+    draws. */
+ static int vdp1_draw_pending = 1;
++/* Core option: 1 takes every VDP1 frame change at VBlank-OUT, 0 only one
++   asked for during the VBlank (see Vdp2VBlankOUT) */
++int vdp1_change_at_vblank_end = 0;
+ static int vdp1_draw_every_frame = 0;  /* core option; YAB_VDP1_EVERYFRAME=0/1 overrides it for tests */
+ static int vdp1_draw_env_checked = 0;
+ /* The real video core while a skipped frame runs on VIDDummy */
+@@ -462,7 +465,7 @@
+    /* a list modelled as still drawing is complete first if the frame
+       changes here (Vdp2DrawEnd); otherwise the chip draws on through the
+       VBlank, as in Beetle */
+-   if (vdp1time_inflight && (!(Vdp1Regs->FBCR & 2) || Vdp1External.manualchange)) Vdp1TimeFinish();
++   if (!vdp1_change_at_vblank_end && vdp1time_inflight && (!(Vdp1Regs->FBCR & 2) || Vdp1External.manualchange)) Vdp1TimeFinish();
+    memcpy(&vdp2_vblank_regs, Vdp2Regs, sizeof(Vdp2));
+    vdp2_vblank_regs_valid = 1;
+    if (!(Vdp1Regs->FBCR & 2) || Vdp1External.changerequest)
+@@ -1023,6 +1026,24 @@
+       a field before the scroll and colour offsets written with the request.
+       Only for the software renderer (VIDDummy, "skip sprites too" frameskip,
+       keeps the old timing). */
++   /* With the VBlank End core option every frame change is taken here
++      instead: rows the CPU writes during the VBlank still go to the old
++      back buffer, and the CEF a game polls for clears at VBlank-IN first
++      (The Legend of Oasis stayed black, waiting for it). Doom needs the
++      default: it plots and waits for CEF between the two. */
++   if (vdp1_change_at_vblank_end && VIDCore->id == 2 /* VIDCORE_SOFT */)
++   {
++      extern int VIDSoftVdp1FrameChange(void);
++      const int change = !(Vdp1Regs->FBCR & 2) || Vdp1External.manualchange;
++      const int vblank_change = Vdp1External.changerequest;
++      Vdp1External.changerequest = 0;
++      if (vdp1time_inflight && change)
++         Vdp1TimeFinish();
++      if (VIDSoftVdp1FrameChange() && Vdp1Regs->PTMR == 2)
++         vdp1_draw_pending = 1;
++      Vdp2LinesCatchUp(vblank_change);
++   }
++   else
+    {
+       int vblank_change = 0;
+       if (Vdp1External.changerequest && VIDCore->id == 2 /* VIDCORE_SOFT */)
+--- a/yabause/src/vidsoft.c
++++ b/yabause/src/vidsoft.c
+@@ -146,6 +146,7 @@
+ VIDSoftVdp2DispOff
+ };
+ 
++extern int vdp1_change_at_vblank_end;
+ pixel_t *dispbuffer=NULL;
+ u8 *vdp1framebuffer[2]= { NULL, NULL };
+ u8 *vdp1frontframebuffer;
+@@ -4627,6 +4628,15 @@
+       vdp1_since_swap++;
+ }
+ 
++/* Every frame change, taken at VBlank-OUT with the VBlank End core option
++ * (vdp2.c). Returns whether the buffers changed */
++int VIDSoftVdp1FrameChange(void)
++{
++   const int change = ((Vdp1Regs->FBCR & 2) == 0) || Vdp1External.manualchange;
++   VIDSoftVdp1SwapFrameBuffer();
++   return change;
++}
++
+ /* A frame change asked for during the VBlank, taken at VBlank-OUT (vdp2.c):
+  * it belongs to the VBlank-IN before it, which counted no change */
+ void VIDSoftVdp1SwapAtVBlankOut(void)
+@@ -7415,7 +7425,8 @@
+    if (vdp2_skip_draw)
+    {
+       // frameskip: VDP1 still ran this frame, only publish its framebuffer
+-      VIDSoftVdp1SwapFrameBuffer();
++      if (!vdp1_change_at_vblank_end)
++         VIDSoftVdp1SwapFrameBuffer();
+       return;
+    }
+ 
+@@ -7443,7 +7454,8 @@
+       }
+    }
+ 
+-   VIDSoftVdp1SwapFrameBuffer();
++   if (!vdp1_change_at_vblank_end)
++      VIDSoftVdp1SwapFrameBuffer();
+ 
+    if (OSDUseBuffer())
+       OSDDisplayMessages(dispbuffer, vdp2width, vdp2height);

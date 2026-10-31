@@ -1,0 +1,11 @@
+{
+    "name": "Legend of Oasis, The (USA)",
+    "cores": {
+        "yabadabadoo": {
+            "description": "Sprites only draw when the VDP1 frame change happens at the end of VBlank, otherwise the game shows a black screen.",
+            "options": {
+                "yabadabadoo_vdp1_frame_change": "vblank_end"
+            }
+        }
+    }
+}

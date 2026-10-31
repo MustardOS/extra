@@ -1,17 +1,7 @@
---- a/yabause/src/libretro/libretro_core_options.h
-+++ b/yabause/src/libretro/libretro_core_options.h
-@@ -95,7 +95,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
-          { "5", NULL },
-          { NULL, NULL },
-       },
--      "2"
-+      "1"
-    },
-    {
-       "yabadabadoo_frameskip_sprites",
 --- a/yabause/src/libretro/libretro.c
 +++ b/yabause/src/libretro/libretro.c
-@@ -76,6 +76,6 @@ enum { FRAMESKIP_NONE, FRAMESKIP_AUTO, FRAMESKIP_AUTO_THRESHOLD, FRAMESKIP_FIX
+@@ -77,7 +77,7 @@
+ enum { FRAMESKIP_NONE, FRAMESKIP_AUTO, FRAMESKIP_AUTO_THRESHOLD, FRAMESKIP_FIXED_INTERVAL };
  static unsigned frameskip_type             = FRAMESKIP_NONE;
  static unsigned frameskip_threshold        = 33;
 -static unsigned frameskip_interval         = 3;
@@ -19,7 +9,7 @@
  /* Skip VDP1 too on skipped frames (only the frame before a rendered one runs
   * it). Faster, but a skipped frame's frame change then shows a sprite buffer
   * that was never drawn: shown frames mix older polygons or FMV images with
-@@ -1054,7 +1054,7 @@ static void check_variables(void)
+@@ -1064,7 +1064,7 @@
  
     var.key = "yabadabadoo_frameskip_interval";
     var.value = NULL;
@@ -28,3 +18,14 @@
     if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
        frameskip_interval = strtol(var.value, NULL, 10);
  
+--- a/yabause/src/libretro/libretro_core_options.h
++++ b/yabause/src/libretro/libretro_core_options.h
+@@ -95,7 +95,7 @@
+          { "5", NULL },
+          { NULL, NULL },
+       },
+-      "3"
++      "1"
+    },
+    {
+       "yabadabadoo_frameskip_sprites",

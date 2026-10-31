@@ -1,3 +1,14 @@
+--- a/yabause/src/sh2core.c
++++ b/yabause/src/sh2core.c
+@@ -2940,6 +2940,8 @@
+    MemStateRead((void *)&context->cycles, sizeof(u32), 1, stream);
+    MemStateRead((void *)&context->isslave, sizeof(u8), 1, stream);
+    MemStateRead((void *)&context->isIdle, sizeof(u8), 1, stream);
++   // Idle loop details are not saved, so the loop is found again on the next slice
++   context->isIdle = 0;
+    MemStateRead((void *)&context->instruction, sizeof(u16), 1, stream);
+ 
+    // The SH2 dynarec is resynchronised in YabLoadStateStream() once work
 --- a/yabause/src/sh2idle.c
 +++ b/yabause/src/sh2idle.c
 @@ -17,9 +17,9 @@
@@ -159,14 +170,3 @@
    }
  }
  
---- a/yabause/src/sh2core.c
-+++ b/yabause/src/sh2core.c
-@@ -2951,6 +2951,8 @@
-    MemStateRead((void *)&context->cycles, sizeof(u32), 1, stream);
-    MemStateRead((void *)&context->isslave, sizeof(u8), 1, stream);
-    MemStateRead((void *)&context->isIdle, sizeof(u8), 1, stream);
-+   // Idle loop details are not saved, so the loop is found again on the next slice
-+   context->isIdle = 0;
-    MemStateRead((void *)&context->instruction, sizeof(u16), 1, stream);
- 
-    // The SH2 dynarec is resynchronised in YabLoadStateStream() once work

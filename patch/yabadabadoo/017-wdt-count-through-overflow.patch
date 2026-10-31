@@ -1,6 +1,6 @@
 --- a/yabause/src/sh2core.c
 +++ b/yabause/src/sh2core.c
-@@ -2062,7 +2061,9 @@
+@@ -2062,7 +2062,9 @@
     u32 wdttemp;
     u32 mask;
  

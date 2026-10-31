@@ -1,6 +1,6 @@
 --- a/yabause/src/libretro/Makefile
 +++ b/yabause/src/libretro/Makefile
-@@ -124,6 +124,17 @@
+@@ -134,6 +134,17 @@
  		FLAGS += -DARM
  	endif
  

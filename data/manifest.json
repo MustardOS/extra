@@ -1575,16 +1575,16 @@
     "core": "picante8",
     "commit": "a1219b0",
     "source": "https://github.com/MustardOS/picante8",
-    "sha256": "22abe62d1a0412b059eb1f9eff4d5c3b77a08d0130fe206acc9cc4df97a62722",
-    "size": 226267,
-    "built": "2026-10-13T05:55:12Z"
+    "sha256": "bc8013b82e2ac3cd5717995b01bb76c2246c182fcd3bd0bf86d56851e6b8fdc1",
+    "size": 233484,
+    "built": "2026-10-31T00:47:31Z"
   },
   "yabadabadoo_libretro.so.zip": {
     "core": "yabadabadoo",
-    "commit": "9b7d780",
+    "commit": "f4572c9",
     "source": "https://github.com/ProRapSuperstarOriginalMaster/Yabadabadoo",
-    "sha256": "bb1b1de157b425f305a7138bb4066c9b1fe23bbf0769686f07df68859894ca27",
-    "size": 661819,
-    "built": "2026-10-30T11:32:53Z"
+    "sha256": "e66eedcd523638978ed4cbb332becc4b56434e43894e72e765706066b2f37b8c",
+    "size": 722685,
+    "built": "2026-10-30T15:21:24Z"
   }
 }
