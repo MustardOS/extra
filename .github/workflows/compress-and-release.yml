@@ -1,7 +1,19 @@
 name: Compress and Release
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'core/*.so.zip'
+      - 'data/manifest.json'
+      - 'system/**'
+      - 'optimised/**'
+      - 'optimised.sh'
   workflow_dispatch:
+
+concurrency:
+  group: compress-and-release
+  cancel-in-progress: false
 
 jobs:
   compress-and-upload:
