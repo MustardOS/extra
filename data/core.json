@@ -78,6 +78,28 @@
       ]
     }
   },
+  "armgba": {
+    "source": "https://github.com/MagnominusGit/armGBA",
+    "directory": "armGBA",
+    "output": "armgba_libretro.so",
+    "make": {
+      "file": "",
+      "args": "",
+      "target": "",
+      "skip": "1"
+    },
+    "symbols": 0,
+    "commands": {
+      "pre-make": [
+        "rm -rf build",
+        "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=\"${H700_TOOLCHAIN_FILE:-$HOME/dev/x-tools/h700-muos-cc.cmake}\" -DCMAKE_BUILD_TYPE=Release -DARMGBA_JIT=ON",
+        "cmake --build build --parallel \"$MAKE_CORES\" --target armgba_libretro"
+      ],
+      "post-make": [
+        "mv build/armgba_libretro.so ."
+      ]
+    }
+  },
   "atari800": {
     "source": "https://github.com/libretro/libretro-atari800",
     "branch": "6a18cb2",
