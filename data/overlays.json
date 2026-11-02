@@ -111,6 +111,84 @@
     ]
   },
   {
+    "name": "GBA",
+    "author": "antiKk",
+    "version": "1",
+    "viewport": [0,-27],
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/antiKk/Overlays/refs/heads/main/640x480/gba.png",
+        "sha256": "f30e55fc8bf864f891da62810b9184f2da609fb1d2ecdb244f1dcde3d84df914"
+      }
+    ]
+  },
+  {
+    "name": "GBA Holo",
+    "author": "antiKk",
+    "version": "1",
+    "viewport": [0,-27],
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/antiKk/Overlays/refs/heads/main/640x480/gba_holo.png",
+        "sha256": "1fb190a2892a8659b5d638ccecbf02d5e70a6c80876172f0bb952d45791a1c20"
+      }
+    ]
+  },
+  {
+    "name": "GBA Micro",
+    "author": "antiKk",
+    "version": "1",
+    "viewport": [0,-27],
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/antiKk/Overlays/refs/heads/main/640x480/gba_micro.png",
+        "sha256": "dd927e1e9e538bb5317d0030672d060917fe2d1d2ab2c9a5dd7b3e58d998be08"
+      }
+    ]
+  },
+  {
+    "name": "GBA Micro Holo",
+    "author": "antiKk",
+    "version": "1",
+    "viewport": [0,-27],
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/antiKk/Overlays/refs/heads/main/640x480/gba_micro_holo.png",
+        "sha256": "23e4a8bbd79f3f9995a655c23b2b1759ad2f870c0ea3af051ddfa41bc611399c"
+      }
+    ]
+  },
+  {
+    "name": "GBA SP",
+    "author": "antiKk",
+    "version": "1",
+    "viewport": [0,-27],
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/antiKk/Overlays/refs/heads/main/640x480/gba_sp.png",
+        "sha256": "dc91d257dc3f7adc780c1befff3bf3361da95ac1ca7d1d691ef476fd7489fb54"
+      }
+    ]
+  },
+  {
+    "name": "GBA SP Holo",
+    "author": "antiKk",
+    "version": "1",
+    "viewport": [0,-27],
+    "images": [
+      {
+        "resolution": "640x480",
+        "url": "https://raw.githubusercontent.com/antiKk/Overlays/refs/heads/main/640x480/gba_sp_holo.png",
+        "sha256": "c5258d90d84c836e668a74c2caf834d6043c1df5fcf7de98cb25f102e25c500b"
+      }
+    ]
+  },
+  {
     "name": "Hex Mesh",
     "author": "MustardOS",
     "version": "1",
