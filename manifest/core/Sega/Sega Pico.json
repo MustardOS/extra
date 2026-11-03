@@ -1,0 +1,27 @@
+{
+  "catalogue": "Sega Pico",
+  "lookup": 0,
+  "default": "picodrive",
+  "friendly": [
+    "segapico"
+  ],
+  "bios": [],
+  "libretro": {
+    "genesis plus gx": {
+      "name": "Genesis Plus GX",
+      "core": "genesis_plus_gx_libretro.so",
+      "config": "Genesis Plus GX"
+    },
+    "genesis plus gx wide": {
+      "name": "Genesis Plus GX Wide",
+      "core": "genesis_plus_gx_wide_libretro.so",
+      "config": "Genesis Plus GX Wide"
+    },
+    "picodrive": {
+      "name": "PicoDrive",
+      "core": "picodrive_libretro.so",
+      "config": "PicoDrive"
+    }
+  },
+  "runtime": "libretro"
+}

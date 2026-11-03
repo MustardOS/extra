@@ -1,0 +1,19 @@
+{
+  "catalogue": "PuzzleScript",
+  "lookup": 0,
+  "default": "puzzlescript",
+  "friendly": [
+    "puzzlescript"
+  ],
+  "bios": [],
+  "libretro": {
+    "puzzlescript": {
+      "name": "PuzzleScript",
+      "core": "puzzlescript_libretro.so",
+      "config": "PuzzleScript",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

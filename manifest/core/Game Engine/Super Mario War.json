@@ -1,0 +1,20 @@
+{
+  "catalogue": "Super Mario War",
+  "lookup": 0,
+  "default": "superbroswar",
+  "friendly": [
+    "supermariowar",
+    "superbroswar"
+  ],
+  "bios": [],
+  "libretro": {
+    "superbroswar": {
+      "name": "Super Mario War",
+      "core": "superbroswar_libretro.so",
+      "config": "Super Bros War",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

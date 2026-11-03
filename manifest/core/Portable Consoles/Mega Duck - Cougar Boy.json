@@ -1,0 +1,20 @@
+{
+  "catalogue": "Mega Duck - Cougar Boy",
+  "lookup": 0,
+  "default": "sameduck",
+  "friendly": [
+    "megaduck",
+    "cougarboy"
+  ],
+  "bios": [],
+  "libretro": {
+    "sameduck": {
+      "name": "SameDuck",
+      "core": "sameduck_libretro.so",
+      "config": "SameDuck",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

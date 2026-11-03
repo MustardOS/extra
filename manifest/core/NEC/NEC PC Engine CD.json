@@ -1,0 +1,36 @@
+{
+  "catalogue": "NEC PC Engine CD",
+  "lookup": 0,
+  "default": "beetle pce fast",
+  "friendly": [
+    "turbografxcd",
+    "tgcd",
+    "pcenginecd",
+    "pcecd",
+    "necturbografxcd",
+    "nectgcd",
+    "necpcenginecd",
+    "necpcecd"
+  ],
+  "bios": [
+    {
+      "file": "syscard3.pce",
+      "hash": "38179df8f4ac870017db21ebcbf53114"
+    }
+  ],
+  "libretro": {
+    "beetle pce": {
+      "name": "Beetle PCE",
+      "core": "mednafen_pce_libretro.so",
+      "config": "Beetle PCE",
+      "bios_required": 1
+    },
+    "beetle pce fast": {
+      "name": "Beetle PCE Fast",
+      "core": "mednafen_pce_fast_libretro.so",
+      "config": "Beetle PCE Fast",
+      "bios_required": 1
+    }
+  },
+  "runtime": "libretro"
+}

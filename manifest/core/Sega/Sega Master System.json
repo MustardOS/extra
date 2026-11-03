@@ -1,0 +1,48 @@
+{
+  "catalogue": "Sega Master System",
+  "lookup": 0,
+  "default": "sms plus gx",
+  "friendly": [
+    "smsgg",
+    "sms",
+    "segms",
+    "segasms",
+    "segams",
+    "segamastersystem",
+    "ms",
+    "mastersystemhacks",
+    "mastersystem",
+    "ggsms"
+  ],
+  "bios": [],
+  "libretro": {
+    "emux sms": {
+      "name": "Emux SMS",
+      "core": "emux_sms_libretro.so",
+      "config": "emux (sms)",
+      "bios_required": 0,
+      "extra": 1
+    },
+    "gearsystem": {
+      "name": "Gearsystem",
+      "core": "gearsystem_libretro.so",
+      "config": "Gearsystem"
+    },
+    "genesis plus gx": {
+      "name": "Genesis Plus GX",
+      "core": "genesis_plus_gx_libretro.so",
+      "config": "Genesis Plus GX"
+    },
+    "picodrive": {
+      "name": "PicoDrive",
+      "core": "picodrive_libretro.so",
+      "config": "PicoDrive"
+    },
+    "sms plus gx": {
+      "name": "SMS Plus GX",
+      "core": "smsplus_libretro.so",
+      "config": "SMS Plus GX"
+    }
+  },
+  "runtime": "libretro"
+}

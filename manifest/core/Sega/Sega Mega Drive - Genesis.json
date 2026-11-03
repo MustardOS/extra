@@ -1,0 +1,48 @@
+{
+  "catalogue": "Sega Mega Drive - Genesis",
+  "lookup": 0,
+  "default": "genesis plus gx",
+  "friendly": [
+    "segamegadrive",
+    "segamdmsu",
+    "segagenesismsu",
+    "segagenesis",
+    "megadrivehacks",
+    "megadrive",
+    "mdmsu1",
+    "mdmsu",
+    "mdgen",
+    "md",
+    "kega",
+    "gens",
+    "genmd",
+    "genesishacks",
+    "genesis",
+    "gen",
+    "nomad"
+  ],
+  "bios": [],
+  "libretro": {
+    "genesis plus gx": {
+      "name": "Genesis Plus GX",
+      "core": "genesis_plus_gx_libretro.so",
+      "config": "Genesis Plus GX"
+    },
+    "genesis plus gx expanded": {
+      "name": "Genesis Plus GX Expanded",
+      "core": "genesis_plus_gx_expanded_libretro.so",
+      "config": "Genesis Plus GX"
+    },
+    "genesis plus gx wide": {
+      "name": "Genesis Plus GX Wide",
+      "core": "genesis_plus_gx_wide_libretro.so",
+      "config": "Genesis Plus GX Wide"
+    },
+    "picodrive": {
+      "name": "PicoDrive",
+      "core": "picodrive_libretro.so",
+      "config": "PicoDrive"
+    }
+  },
+  "runtime": "libretro"
+}

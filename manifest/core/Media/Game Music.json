@@ -1,0 +1,21 @@
+{
+  "catalogue": "Game Music",
+  "lookup": 0,
+  "default": "gme",
+  "friendly": [
+    "gamemusic",
+    "gme",
+    "chiptune"
+  ],
+  "bios": [],
+  "libretro": {
+    "gme": {
+      "name": "Game Music Emu",
+      "core": "gme_libretro.so",
+      "config": "Game Music Emulator",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

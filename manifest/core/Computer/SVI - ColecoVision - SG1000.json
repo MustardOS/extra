@@ -1,0 +1,20 @@
+{
+  "catalogue": "SVI - ColecoVision - SG1000",
+  "lookup": 0,
+  "default": "bluemsx",
+  "friendly": [
+    "svi",
+    "svicoleco",
+    "svicolecovision"
+  ],
+  "bios": [],
+  "libretro": {
+    "bluemsx": {
+      "name": "blueMSX",
+      "core": "bluemsx_libretro.so",
+      "config": "blueMSX"
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

@@ -1,0 +1,30 @@
+{
+  "catalogue": "NEC PC Engine SuperGrafx",
+  "lookup": 0,
+  "default": "beetle supergrafx",
+  "friendly": [
+    "supergrafx",
+    "sgfx",
+    "necsupergrafx",
+    "necsgfx"
+  ],
+  "bios": [],
+  "libretro": {
+    "beetle pce": {
+      "name": "Beetle PCE",
+      "core": "mednafen_pce_libretro.so",
+      "config": "Beetle PCE"
+    },
+    "beetle supergrafx": {
+      "name": "Beetle SuperGrafx",
+      "core": "mednafen_supergrafx_libretro.so",
+      "config": "Beetle SuperGrafx"
+    },
+    "geargrafx": {
+      "name": "Geargrafx",
+      "core": "geargrafx_libretro.so",
+      "config": "Geargrafx"
+    }
+  },
+  "runtime": "libretro"
+}

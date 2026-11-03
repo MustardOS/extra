@@ -1,0 +1,26 @@
+{
+  "catalogue": "Epoch Super Cassette Vision",
+  "lookup": 0,
+  "default": "emuscv",
+  "friendly": [
+    "epochsupercassettevision",
+    "supercassettevision",
+    "scv"
+  ],
+  "bios": [
+    {
+      "file": "upd7801g.s01",
+      "hash": "635a978fd40db9a18ee44eff449fc126"
+    }
+  ],
+  "libretro": {
+    "emuscv": {
+      "name": "EmuSCV",
+      "core": "emuscv_libretro.so",
+      "config": "Libretro-EmuSCV",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

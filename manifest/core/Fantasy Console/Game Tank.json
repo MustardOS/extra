@@ -1,0 +1,19 @@
+{
+  "catalogue": "Game Tank",
+  "lookup": 0,
+  "default": "game tank",
+  "friendly": [
+    "libgametank",
+    "gametank"
+  ],
+  "bios": [],
+  "libretro": {
+    "game tank": {
+      "name": "Game Tank",
+      "core": "libgametank_libretro.so",
+      "config": "GameTank Rust!"
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

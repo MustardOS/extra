@@ -1,0 +1,21 @@
+{
+  "catalogue": "Enterprise 128",
+  "lookup": 0,
+  "default": "ep128emu",
+  "friendly": [
+    "enterprise128",
+    "enterprise",
+    "ep128"
+  ],
+  "bios": [],
+  "libretro": {
+    "ep128emu": {
+      "name": "ep128emu",
+      "core": "ep128emu_core_libretro.so",
+      "config": "ep128emu",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

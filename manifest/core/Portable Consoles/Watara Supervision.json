@@ -1,0 +1,18 @@
+{
+  "catalogue": "Watara Supervision",
+  "lookup": 0,
+  "default": "potator",
+  "friendly": [
+    "watarasupervision",
+    "supervision"
+  ],
+  "bios": [],
+  "libretro": {
+    "potator": {
+      "name": "Potator",
+      "core": "potator_libretro.so",
+      "config": "Potator"
+    }
+  },
+  "runtime": "libretro"
+}

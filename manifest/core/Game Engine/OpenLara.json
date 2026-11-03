@@ -1,0 +1,20 @@
+{
+  "catalogue": "OpenLara",
+  "lookup": 0,
+  "default": "openlara",
+  "friendly": [
+    "openlara",
+    "tombraider"
+  ],
+  "bios": [],
+  "libretro": {
+    "openlara": {
+      "name": "OpenLara",
+      "core": "openlara_libretro.so",
+      "config": "OpenLara",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

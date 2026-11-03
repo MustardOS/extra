@@ -1,4 +1,5 @@
 build/*
 !build/.gitkeep
 data/cache.json
+data/cache/
 build.log

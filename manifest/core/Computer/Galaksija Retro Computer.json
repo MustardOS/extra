@@ -1,0 +1,20 @@
+{
+  "catalogue": "Galaksija Retro Computer",
+  "lookup": 0,
+  "default": "galaksija",
+  "friendly": [
+    "galaksija",
+    "galretro",
+    "retcom"
+  ],
+  "bios": [],
+  "libretro": {
+    "galaksija": {
+      "name": "Galaksija",
+      "core": "galaksija_libretro.so",
+      "config": "galaksija"
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

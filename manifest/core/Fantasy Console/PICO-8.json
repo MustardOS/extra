@@ -1,0 +1,39 @@
+{
+  "catalogue": "PICO-8",
+  "lookup": 0,
+  "default": "picante8",
+  "friendly": [
+    "pico8",
+    "pico"
+  ],
+  "bios": [],
+  "libretro": {
+    "fake-08": {
+      "name": "FAKE-08",
+      "core": "fake08_libretro.so",
+      "config": "fake-08"
+    },
+    "picante8": {
+      "name": "Picante8",
+      "core": "picante8_libretro.so",
+      "config": "Picante8"
+    }
+  },
+  "external": {
+    "pico-8 - pixel-perfect - standalone": {
+      "name": "PICO-8 - Pixel-Perfect - Standalone",
+      "core": "ext-pico8-pixel",
+      "launcher": "pico8.sh",
+      "control": "modern",
+      "stage_overlay": 1
+    },
+    "pico-8 - standalone": {
+      "name": "PICO-8 - Standalone",
+      "core": "ext-pico8-scale",
+      "launcher": "pico8.sh",
+      "control": "modern",
+      "stage_overlay": 1
+    }
+  },
+  "runtime": "libretro"
+}

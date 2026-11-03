@@ -11,6 +11,19 @@ shader or overlay in them, see:
 * [Community Shaders](data/SHADERS.md) - writing a shader and linking to it from `data/shaders.json`
 * [Community Overlays](data/OVERLAYS.md) - making overlay images and linking to them from `data/overlays.json`
 
+## Core Catalogue Metadata
+
+- `data/core.json`: build recipes.
+- `data/manifest/<architecture>.json`: downloadable archives, hashes, display names, and RetroArch configuration directories.
+- `core/<architecture>/*.so.zip`: built cores for `aarch64`, `x86_64`, `armhf`, `x86`, or `riscv64`.
+- `manifest/core/<namespace>/<system>.json`: systems, assignments, runtimes, launchers, and runtime behaviour.
+
+The release workflow signs and publishes the core catalogue and system definitions. muxcore refreshes both. User definitions
+under `MUOS/info/manifest/core` override downloaded definitions by system filename; new filenames remain custom systems.
+
+Build recipes may declare `"architectures": ["aarch64"]`. The builder skips unsupported targets without recording a failure.
+Architecture-specific definition entries use `"require": {"arch": ["aarch64"]}` so other devices do not offer them.
+
 ---
 
 ## Build All Cores
@@ -18,7 +31,7 @@ shader or overlay in them, see:
 To build **all cores** defined in `data/core.json`:
 
 ```bash
-./build.sh -a
+./build.sh --target aarch64 -a
 ```
 
 ## Build Specific Cores
@@ -26,10 +39,13 @@ To build **all cores** defined in `data/core.json`:
 To build only selected cores, specify them after `-c`:
 
 ```bash
-./build.sh -c dosbox_pure sameboy
+./build.sh --target x86_64 -c dosbox_pure sameboy
 ```
 
 Multiple cores may be listed, separated by spaces.
+
+The builder keeps independent archives, manifests, and caches per architecture. Recipes with platform-specific commands
+may only build on their original target; failed cores are listed in the build failure summary.
 
 ## Exclude Specific Cores
 

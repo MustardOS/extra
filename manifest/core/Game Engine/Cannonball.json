@@ -1,0 +1,20 @@
+{
+  "catalogue": "Cannonball",
+  "lookup": 0,
+  "default": "cannonball",
+  "friendly": [
+    "cannonball",
+    "outrun"
+  ],
+  "bios": [],
+  "libretro": {
+    "cannonball": {
+      "name": "Cannonball",
+      "core": "cannonball_libretro.so",
+      "config": "Cannonball",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

@@ -1,0 +1,24 @@
+{
+  "catalogue": "Onscripter",
+  "lookup": 0,
+  "default": "onscripter",
+  "friendly": [
+    "story",
+    "visualstory"
+  ],
+  "bios": [],
+  "libretro": {
+    "onscripter": {
+      "name": "Onscripter",
+      "core": "onscripter_libretro.so",
+      "config": "onscripter"
+    },
+    "onscripter yuri": {
+      "name": "Onscripter Yuri",
+      "core": "onsyuri_libretro.so",
+      "config": "onsyuri"
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

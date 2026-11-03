@@ -4,8 +4,9 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'core/*.so.zip'
-      - 'data/manifest.json'
+      - 'core/**/*.so.zip'
+      - 'data/manifest/*.json'
+      - 'manifest/core/**'
       - 'system/**'
       - 'optimised/**'
       - 'optimised.sh'
@@ -38,7 +39,7 @@ jobs:
 
             case "$CORE_VAL" in
               *.so)
-                CORE_SRC="core/${CORE_VAL}.zip"
+                CORE_SRC="core/aarch64/${CORE_VAL}.zip"
                 if [ -f "$CORE_SRC" ]; then
                   mkdir -p "$CORE_DIR"
                   unzip -qq -o "$CORE_SRC" -d "$CORE_DIR" || echo "Warning: Failed to unzip $CORE_SRC"
@@ -80,45 +81,112 @@ jobs:
 
           ARTIFACT_DIR="$PWD/artifacts"
           mkdir -p "$ARTIFACT_DIR"
-          cp data/manifest.json "$ARTIFACT_DIR/core-manifest.json"
 
-          ARCHIVE_LIST="$RUNNER_TEMP/core-archives.tsv"
-          : >"$ARCHIVE_LIST"
+          for MANIFEST_SOURCE in data/manifest/*.json; do
+            [ -f "$MANIFEST_SOURCE" ] || continue
 
-          for CORE_ZIP in core/*.so.zip; do
-            [ -f "$CORE_ZIP" ] || continue
+            ARCHITECTURE="$(basename "$MANIFEST_SOURCE" .json)"
+            CORE_ROOT="core/$ARCHITECTURE"
+            MANIFEST_OUT="$ARTIFACT_DIR/core-manifest-$ARCHITECTURE.json"
+            ARCHIVE_LIST="$RUNNER_TEMP/core-archives-$ARCHITECTURE.tsv"
+            : >"$ARCHIVE_LIST"
 
-            NAME="$(basename "$CORE_ZIP" .zip)"
-            STAGE="$(mktemp -d)"
+            case "$ARCHITECTURE" in
+              aarch64 | armhf | x86_64 | x86 | riscv64) ;;
+              *) echo "Unsupported manifest architecture: $ARCHITECTURE" >&2; exit 1 ;;
+            esac
+            jq -e --arg architecture "$ARCHITECTURE" '
+              type == "object" and all(.[]; .architecture == $architecture)
+            ' "$MANIFEST_SOURCE" >/dev/null
 
-            unzip -qo "$CORE_ZIP" -d "$STAGE/payload"
+            while IFS= read -r MANIFEST_KEY; do
+              [ -f "$CORE_ROOT/$MANIFEST_KEY" ] || {
+                echo "Manifest archive is missing: $CORE_ROOT/$MANIFEST_KEY" >&2
+                exit 1
+              }
+            done < <(jq -r 'keys[]' "$MANIFEST_SOURCE")
 
-            mkdir -p "$STAGE/pack/core"
-            find "$STAGE/payload" -maxdepth 1 -type f -name '*.so' -exec mv {} "$STAGE/pack/core/" \;
+            for CORE_ZIP in "$CORE_ROOT"/*.so.zip; do
+              [ -f "$CORE_ZIP" ] || continue
 
-            if [ -n "$(find "$STAGE/payload" -mindepth 1 -maxdepth 1)" ]; then
-              mkdir -p "$STAGE/pack/bios"
-              find "$STAGE/payload" -mindepth 1 -maxdepth 1 -exec mv {} "$STAGE/pack/bios/" \;
+              NAME="$(basename "$CORE_ZIP" .zip)"
+              MANIFEST_KEY="$(basename "$CORE_ZIP")"
+              EXPECTED_SHA="$(jq -r --arg key "$MANIFEST_KEY" '.[$key].sha256 // empty' "$MANIFEST_SOURCE")"
+              EXPECTED_SIZE="$(jq -r --arg key "$MANIFEST_KEY" '.[$key].size // empty' "$MANIFEST_SOURCE")"
+              [ -n "$EXPECTED_SHA" ] && [ -n "$EXPECTED_SIZE" ] || {
+                echo "Archive is missing valid manifest metadata: $CORE_ZIP" >&2
+                exit 1
+              }
+              [ "$(sha256sum "$CORE_ZIP" | cut -d' ' -f1)" = "$EXPECTED_SHA" ] || {
+                echo "Archive checksum differs from manifest: $CORE_ZIP" >&2
+                exit 1
+              }
+              [ "$(wc -c <"$CORE_ZIP")" -eq "$EXPECTED_SIZE" ] || {
+                echo "Archive size differs from manifest: $CORE_ZIP" >&2
+                exit 1
+              }
+
+              STAGE="$(mktemp -d)"
+              unzip -qo "$CORE_ZIP" -d "$STAGE/payload"
+
+              mkdir -p "$STAGE/pack/core"
+              find "$STAGE/payload" -maxdepth 1 -type f -name '*.so' -exec mv {} "$STAGE/pack/core/" \;
+
+              if [ -n "$(find "$STAGE/payload" -mindepth 1 -maxdepth 1)" ]; then
+                mkdir -p "$STAGE/pack/bios"
+                find "$STAGE/payload" -mindepth 1 -maxdepth 1 -exec mv {} "$STAGE/pack/bios/" \;
+              fi
+
+              if [ "$ARCHITECTURE" = aarch64 ]; then
+                ARCHIVE="$ARTIFACT_DIR/Core - $NAME.muxzip"
+                ASSET="Core.-.$NAME.muxzip"
+              else
+                ARCHIVE="$ARTIFACT_DIR/Core - $ARCHITECTURE - $NAME.muxzip"
+                ASSET="Core.-.$ARCHITECTURE.-.$NAME.muxzip"
+              fi
+              ( cd "$STAGE/pack" && zip -r9 "$ARCHIVE" . >/dev/null )
+              rm -rf "$STAGE"
+
+              printf '%s\t%s\t%s\t%s\n' "$NAME.zip" "$(sha256sum "$ARCHIVE" | cut -d' ' -f1)" \
+                "$(wc -c <"$ARCHIVE")" "$ASSET" >>"$ARCHIVE_LIST"
+            done
+
+            jq --arg architecture "$ARCHITECTURE" --rawfile archives "$ARCHIVE_LIST" '
+              with_entries(.value.architecture = $architecture) |
+              reduce ($archives | split("\n")[] | select(length > 0) | split("\t")) as $a (.;
+                if has($a[0]) then
+                  .[$a[0]].archive_sha256 = $a[1] |
+                  .[$a[0]].archive_size = ($a[2] | tonumber) |
+                  .[$a[0]].asset = $a[3]
+                else . end)
+            ' "$MANIFEST_SOURCE" >"$MANIFEST_OUT"
+
+            if [ "$ARCHITECTURE" = aarch64 ]; then
+              cp "$MANIFEST_OUT" "$ARTIFACT_DIR/core-manifest.json"
             fi
 
-            ARCHIVE="$ARTIFACT_DIR/Core - $NAME.muxzip"
-            ( cd "$STAGE/pack" && zip -r9 "$ARCHIVE" . >/dev/null )
-            rm -rf "$STAGE"
-
-            printf '%s\t%s\t%s\n' "$NAME.zip" "$(sha256sum "$ARCHIVE" | cut -d' ' -f1)" "$(wc -c <"$ARCHIVE")" >>"$ARCHIVE_LIST"
+            printf '%s manifest entries: %s\n' "$ARCHITECTURE" "$(jq 'length' "$MANIFEST_OUT")"
+            printf '%s archive hashes:  %s\n' "$ARCHITECTURE" \
+              "$(jq '[.[] | select(.archive_sha256)] | length' "$MANIFEST_OUT")"
           done
 
-          jq --rawfile archives "$ARCHIVE_LIST" '
-            reduce ($archives | split("\n")[] | select(length > 0) | split("\t")) as $a (.;
-              if has($a[0]) then
-                .[$a[0]].archive_sha256 = $a[1] | .[$a[0]].archive_size = ($a[2] | tonumber)
-              else . end)
-          ' "$ARTIFACT_DIR/core-manifest.json" >"$RUNNER_TEMP/core-manifest.json"
-          mv "$RUNNER_TEMP/core-manifest.json" "$ARTIFACT_DIR/core-manifest.json"
+          printf 'core archives: %s\n' "$(find "$ARTIFACT_DIR" -name 'Core - *.muxzip' | wc -l)"
 
-          printf 'manifest entries: %s\n' "$(jq 'length' "$ARTIFACT_DIR/core-manifest.json")"
-          printf 'core archives:    %s\n' "$(find "$ARTIFACT_DIR" -name 'Core - *.muxzip' | wc -l)"
-          printf 'archive hashes:   %s\n' "$(jq '[.[] | select(.archive_sha256)] | length' "$ARTIFACT_DIR/core-manifest.json")"
+      - name: Publish core definitions
+        run: |
+          set -eu
+
+          find manifest/core -type f -name '*.json' -print0 | while IFS= read -r -d '' DEFINITION; do
+            jq -e '
+              type == "object" and
+              (.runtime == "libretro" or .runtime == "external" or .runtime == "pickles") and
+              (.default | type == "string") and
+              ((if .runtime == "external" then .external else .libretro end)[.default] != null)
+            ' "$DEFINITION" >/dev/null
+          done
+
+          ( cd manifest && zip -qr "$GITHUB_WORKSPACE/artifacts/core-definitions.zip" core )
+          printf 'core definitions: %s\n' "$(find manifest/core -type f -name '*.json' | wc -l)"
 
       - name: Build optimised profiles
         run: |
@@ -152,7 +220,7 @@ jobs:
             exit 1
           fi
 
-          for MANIFEST in artifacts/core-manifest.json artifacts/optimised.json; do
+          for MANIFEST in artifacts/core-manifest*.json artifacts/core-definitions.zip artifacts/optimised.json; do
             openssl pkeyutl -sign -inkey "$KEY" -rawin -in "$MANIFEST" -out "$MANIFEST.sig"
             openssl pkeyutl -verify -pubin -inkey "$PUB" -rawin -in "$MANIFEST" -sigfile "$MANIFEST.sig"
 
@@ -169,8 +237,10 @@ jobs:
           name: ${{ env.RELEASE_NAME }}
           files: |
             artifacts/*.muxzip
-            artifacts/core-manifest.json
-            artifacts/core-manifest.json.sig
+            artifacts/core-manifest*.json
+            artifacts/core-manifest*.json.sig
+            artifacts/core-definitions.zip
+            artifacts/core-definitions.zip.sig
             artifacts/optimised.json
             artifacts/optimised.json.sig
         env:

@@ -17,13 +17,16 @@ USAGE() {
 	echo "  -f, --force            Force build without purge (ignore cache)"
 	echo "  -l, --latest           Ignore pinned branch/commit; build remote HEAD"
 	echo "  -u, --update           Combine all core archives into a single update archive"
+	echo "  -t, --target [arch]    Target architecture: aarch64, x86_64, armhf, x86, riscv64"
 	echo ""
 	echo "Notes:"
 	echo "  - Either -a, -c, or -u is required, but NOT together"
 	echo "  - If -p is used, it MUST be the first argument"
 	echo ""
 	echo "Examples:"
-	echo "  $0 -a"
+	echo "  $0 -t aarch64 -a"
+	echo "  $0 -t x86_64 -a"
+	echo "  $0 -t armhf -a"
 	echo "  $0 -a -x fbneo mame2010"
 	echo "  $0 -c dosbox-pure sameboy"
 	echo "  $0 -p -a"
@@ -45,6 +48,7 @@ OPTION_SPECIFIED=0
 UPDATE=0
 CLEAN=0
 CORE_CLEAN_FLAG=0
+TARGET_ARCH=aarch64
 
 # If argument '-p' or '--purge' provided first, set PURGE=1
 if [ "$#" -gt 0 ]; then
@@ -114,12 +118,32 @@ while [ "$#" -gt 0 ]; do
 			LATEST=1
 			shift
 			;;
+		-t | --target)
+			shift
+			[ "$#" -gt 0 ] || USAGE
+			TARGET_ARCH=$1
+			shift
+			;;
 		*)
 			printf "Error: Unknown option '%s'\n" "$1" >&2
 			USAGE
 			;;
 	esac
 done
+
+case "$TARGET_ARCH" in
+	aarch64 | armhf | x86_64 | x86 | riscv64) ;;
+	x64 | amd64) TARGET_ARCH=x86_64 ;;
+	arm32 | armv7) TARGET_ARCH=armhf ;;
+	*)
+		printf "Unsupported target architecture: %s\n" "$TARGET_ARCH" >&2
+		exit 1
+		;;
+esac
+
+# Do not inherit a host shell's CMake generator or stale make-program path.
+# Recipes which require a generator select one explicitly.
+unset CMAKE_GENERATOR CMAKE_GENERATOR_INSTANCE CMAKE_GENERATOR_PLATFORM CMAKE_GENERATOR_TOOLSET CMAKE_MAKE_PROGRAM
 
 # Confirm a valid argument was provided, else show USAGE
 [ "$OPTION_SPECIFIED" -eq 0 ] && [ "$UPDATE" -eq 0 ] && USAGE
@@ -132,7 +156,7 @@ fi
 # Initialise directory variables
 BASE_DIR=$(pwd)
 CORE_CONFIG="data/core.json"
-RETRO_DIR="$BASE_DIR/core"
+RETRO_DIR="$BASE_DIR/core/$TARGET_ARCH"
 BUILD_DIR="$BASE_DIR/build"
 PATCH_DIR="$BASE_DIR/patch"
 
@@ -337,13 +361,12 @@ MARK_FAIL() {
 	printf "%s\t%s\t%s\t%s\n" "$_core" "$_stage" "$_reason_s" "$(NOW)" >>"$FAIL_LOG"
 }
 
-FAIL_AND_CONTINUE() {
+RECORD_FAILURE() {
 	_core="$1"
 	_stage="$2"
 	_reason="$3"
 	MARK_FAIL "$_core" "$_stage" "$_reason"
 	RETURN_TO_BASE
-	continue
 }
 
 # Safe directory removal helper
@@ -370,7 +393,7 @@ SAFE_RM_DIR() {
 
 # Create an update zip containing all cores
 UPDATE_ZIP() {
-	UPDATE_ARCHIVE="muOS-RetroArch-Core_Update-$(date +"%Y-%m-%d_%H-%M").muxzip"
+	UPDATE_ARCHIVE="muOS-RetroArch-Core_Update-${TARGET_ARCH}-$(date +"%Y-%m-%d_%H-%M").muxzip"
 	TEMP_DIR="$(mktemp -d)"
 	CORE_FOLDER="$TEMP_DIR/core"
 
@@ -409,27 +432,97 @@ UPDATE_ZIP() {
 
 [ "$UPDATE" -eq 1 ] && UPDATE_ZIP
 
-# Detect proper aarch64 objcopy command.
-if command -v aarch64-linux-gnu-objcopy >/dev/null 2>&1; then
-	OBJCOPY=aarch64-linux-gnu-objcopy
-elif command -v aarch64-linux-objcopy >/dev/null 2>&1; then
-	OBJCOPY=aarch64-linux-objcopy
-else
-	printf "Error: Neither aarch64-linux-gnu-objcopy nor aarch64-linux-objcopy found\n" >&2
+FIND_TOOL() {
+	for TOOL_CANDIDATE in "$@"; do
+		TOOL_PATH=$(command -v "$TOOL_CANDIDATE" 2>/dev/null || true)
+		if [ -n "$TOOL_PATH" ] && [ -x "$TOOL_PATH" ]; then
+			printf '%s\n' "$TOOL_PATH"
+			return 0
+		fi
+		if [ -x "$TOOL_CANDIDATE" ]; then
+			printf '%s\n' "$TOOL_CANDIDATE"
+			return 0
+		fi
+	done
+	return 1
+}
+
+case "$TARGET_ARCH" in
+	aarch64)
+		TOOL_PREFIX="$HOME/x-tools/aarch64-buildroot-linux-gnu/bin/aarch64-buildroot-linux-gnu-"
+		TARGET_CC=$(FIND_TOOL aarch64-linux-gnu-gcc aarch64-linux-gcc aarch64-buildroot-linux-gnu-gcc "${TOOL_PREFIX}gcc")
+		TARGET_CXX=$(FIND_TOOL aarch64-linux-gnu-g++ aarch64-linux-g++ aarch64-buildroot-linux-gnu-g++ "${TOOL_PREFIX}g++")
+		TARGET_AR=$(FIND_TOOL aarch64-linux-gnu-ar aarch64-linux-ar aarch64-buildroot-linux-gnu-ar "${TOOL_PREFIX}ar")
+		TARGET_RANLIB=$(FIND_TOOL aarch64-linux-gnu-ranlib aarch64-linux-ranlib aarch64-buildroot-linux-gnu-ranlib "${TOOL_PREFIX}ranlib")
+		OBJCOPY=$(FIND_TOOL aarch64-linux-gnu-objcopy aarch64-linux-objcopy aarch64-buildroot-linux-gnu-objcopy "${TOOL_PREFIX}objcopy")
+		STRIP=$(FIND_TOOL aarch64-linux-gnu-strip aarch64-linux-strip aarch64-buildroot-linux-gnu-strip "${TOOL_PREFIX}strip")
+		MAKE_ARCH='-march=armv8-a+crc+crypto -mtune=cortex-a53'
+		TARGET_MACHINE='AArch64'
+		TARGET_PLATFORM=aarch64
+		TARGET_DYNAREC=aarch64
+		TARGET_LCPU=arm64
+		;;
+	armhf)
+		TOOL_PREFIX="$HOME/x-tools/arm-buildroot-linux-gnueabihf/bin/arm-buildroot-linux-gnueabihf-"
+		TARGET_CC=$(FIND_TOOL arm-linux-gnueabihf-gcc arm-buildroot-linux-gnueabihf-gcc "${TOOL_PREFIX}gcc")
+		TARGET_CXX=$(FIND_TOOL arm-linux-gnueabihf-g++ arm-buildroot-linux-gnueabihf-g++ "${TOOL_PREFIX}g++")
+		TARGET_AR=$(FIND_TOOL arm-linux-gnueabihf-ar arm-buildroot-linux-gnueabihf-ar "${TOOL_PREFIX}ar")
+		TARGET_RANLIB=$(FIND_TOOL arm-linux-gnueabihf-ranlib arm-buildroot-linux-gnueabihf-ranlib "${TOOL_PREFIX}ranlib")
+		OBJCOPY=$(FIND_TOOL arm-linux-gnueabihf-objcopy arm-buildroot-linux-gnueabihf-objcopy "${TOOL_PREFIX}objcopy")
+		STRIP=$(FIND_TOOL arm-linux-gnueabihf-strip arm-buildroot-linux-gnueabihf-strip "${TOOL_PREFIX}strip")
+		MAKE_ARCH='-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard'
+		TARGET_MACHINE='ARM'
+		TARGET_PLATFORM=armv
+		TARGET_DYNAREC=arm
+		TARGET_LCPU=arm
+		;;
+	x86_64 | x86)
+		TARGET_CC=$(FIND_TOOL gcc)
+		TARGET_CXX=$(FIND_TOOL g++)
+		TARGET_AR=$(FIND_TOOL ar)
+		TARGET_RANLIB=$(FIND_TOOL ranlib)
+		OBJCOPY=$(FIND_TOOL objcopy)
+		STRIP=$(FIND_TOOL strip)
+		if [ "$TARGET_ARCH" = x86_64 ]; then
+			MAKE_ARCH='-march=x86-64-v2 -mtune=generic'
+			TARGET_MACHINE='Advanced Micro Devices X86-64'
+			TARGET_DYNAREC=x86_64
+			TARGET_LCPU=x86_64
+		else
+			MAKE_ARCH='-m32 -march=i686'
+			TARGET_MACHINE='Intel 80386'
+			TARGET_DYNAREC=x86
+			TARGET_LCPU=x86
+		fi
+		TARGET_PLATFORM=unix
+		;;
+	riscv64)
+		TOOL_PREFIX="$HOME/x-tools/riscv64-buildroot-linux-gnu/bin/riscv64-buildroot-linux-gnu-"
+		TARGET_CC=$(FIND_TOOL riscv64-linux-gnu-gcc riscv64-buildroot-linux-gnu-gcc "${TOOL_PREFIX}gcc")
+		TARGET_CXX=$(FIND_TOOL riscv64-linux-gnu-g++ riscv64-buildroot-linux-gnu-g++ "${TOOL_PREFIX}g++")
+		TARGET_AR=$(FIND_TOOL riscv64-linux-gnu-ar riscv64-buildroot-linux-gnu-ar "${TOOL_PREFIX}ar")
+		TARGET_RANLIB=$(FIND_TOOL riscv64-linux-gnu-ranlib riscv64-buildroot-linux-gnu-ranlib "${TOOL_PREFIX}ranlib")
+		OBJCOPY=$(FIND_TOOL riscv64-linux-gnu-objcopy riscv64-buildroot-linux-gnu-objcopy "${TOOL_PREFIX}objcopy")
+		STRIP=$(FIND_TOOL riscv64-linux-gnu-strip riscv64-buildroot-linux-gnu-strip "${TOOL_PREFIX}strip")
+		MAKE_ARCH='-march=rv64gc -mabi=lp64d'
+		TARGET_MACHINE='RISC-V'
+		TARGET_PLATFORM=unix
+		TARGET_DYNAREC=riscv64
+		TARGET_LCPU=riscv64
+		;;
+esac
+
+if [ -z "$TARGET_CC" ] || [ -z "$TARGET_CXX" ] || [ -z "$TARGET_AR" ] || [ -z "$TARGET_RANLIB" ] \
+	|| [ -z "$OBJCOPY" ] || [ -z "$STRIP" ]; then
+	printf "Error: Incomplete %s compiler toolchain\n" "$TARGET_ARCH" >&2
 	exit 1
 fi
 
-# Detect proper aarch64 strip command.
-if command -v aarch64-linux-gnu-strip >/dev/null 2>&1; then
-	STRIP=aarch64-linux-gnu-strip
-elif command -v aarch64-linux-strip >/dev/null 2>&1; then
-	STRIP=aarch64-linux-strip
-elif command -v strip >/dev/null 2>&1; then
-	STRIP=strip
-else
-	printf "Error: No suitable strip command found\n" >&2
-	exit 1
-fi
+export CC="$TARGET_CC"
+export CXX="$TARGET_CXX"
+export AR="$TARGET_AR"
+export RANLIB="$TARGET_RANLIB"
+export STRIP
 
 # Check for other required commands
 for CMD in file git jq make patch readelf zip unzip cksum sort sed awk grep head cut tr find pwd; do
@@ -792,12 +885,17 @@ else
 fi
 
 # Load the cache file
-CACHE_FILE="$BASE_DIR/data/cache.json"
+CACHE_FILE="$BASE_DIR/data/cache/$TARGET_ARCH.json"
+mkdir -p "$(dirname "$CACHE_FILE")"
+if [ "$TARGET_ARCH" = aarch64 ] && [ ! -f "$CACHE_FILE" ] && [ -f "$BASE_DIR/data/cache.json" ]; then
+	cp "$BASE_DIR/data/cache.json" "$CACHE_FILE"
+fi
 if [ ! -f "$CACHE_FILE" ]; then
 	echo "{}" > "$CACHE_FILE"
 fi
 
-MANIFEST_FILE="$BASE_DIR/data/manifest.json"
+MANIFEST_FILE="$BASE_DIR/data/manifest/$TARGET_ARCH.json"
+mkdir -p "$(dirname "$MANIFEST_FILE")"
 if [ ! -f "$MANIFEST_FILE" ]; then
 	echo "{}" > "$MANIFEST_FILE"
 fi
@@ -810,6 +908,14 @@ for NAME in $CORES; do
 	if [ -z "$MODULE" ] || [ "$MODULE" = "null" ]; then
 		printf "Core '%s' not found in '%s'\n" "$NAME" "$CORE_CONFIG" >&2
 		MARK_FAIL "$NAME" "config" "core not found in core.json"
+		continue
+	fi
+
+	if ! echo "$MODULE" | jq -e --arg architecture "$TARGET_ARCH" \
+		'(.architectures // []) as $architectures | ($architectures | length) == 0 or ($architectures | index($architecture) != null)' \
+		>/dev/null; then
+		SUPPORTED_ARCHITECTURES=$(echo "$MODULE" | jq -r '.architectures | join(", ")')
+		printf "Skipping %s: supports %s, not %s\n" "$NAME" "$SUPPORTED_ARCHITECTURES" "$TARGET_ARCH"
 		continue
 	fi
 
@@ -863,8 +969,6 @@ for NAME in $CORES; do
 	if [ "$MAKE_SKIP" -eq 0 ]; then
 		MAKE_TARGET=$(echo "$MODULE" | jq -r '.make.target')
 	fi
-
-	MAKE_ARCH='-march=armv8-a+crc+crypto -mtune=cortex-a53'
 
 	# Verify required keys (make.file is only required when make.skip=0)
 	if [ -z "$DIR" ] || [ -z "$OUTPUT_LIST" ] || [ -z "$SOURCE" ] || [ -z "$SYMBOLS" ]; then
@@ -974,19 +1078,20 @@ for NAME in $CORES; do
 			[ -n "$BRANCH" ] && GC_CMD="$GC_CMD -b $BRANCH"
 			GC_CMD="$GC_CMD $SOURCE $CORE_DIR"
 		fi
-		eval "$GC_CMD" || { printf "Failed to clone %s\n" "$SOURCE" >&2; FAIL_AND_CONTINUE "$NAME" "git" "clone failed"; }
+		eval "$GC_CMD" || { printf "Failed to clone %s\n" "$SOURCE" >&2; RECORD_FAILURE "$NAME" "git" "clone failed"; continue; }
 
 		# Enter repo to init submodules and optional commit checkout
-		cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; FAIL_AND_CONTINUE "$NAME" "fs" "failed to enter core dir after clone"; }
+		cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; RECORD_FAILURE "$NAME" "fs" "failed to enter core dir after clone"; continue; }
 
 		if [ "$LATEST" -eq 0 ] && [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
-			git fetch --all || { printf "Failed to fetch in %s\n" "$CORE_DIR" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed"; }
-			git checkout --detach "$BRANCH" || { printf "Failed to checkout %s\n" "$BRANCH" >&2; FAIL_AND_CONTINUE "$NAME" "git" "checkout commit failed"; }
+			git fetch --all || { printf "Failed to fetch in %s\n" "$CORE_DIR" >&2; RECORD_FAILURE "$NAME" "git" "fetch failed"; continue; }
+			git checkout --detach "$BRANCH" || { printf "Failed to checkout %s\n" "$BRANCH" >&2; RECORD_FAILURE "$NAME" "git" "checkout commit failed"; continue; }
 		fi
 
 		INIT_SUBMODULES || {
 			printf "Failed to update submodules for %s\n" "$NAME" >&2
-			FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed after clone"
+			RECORD_FAILURE "$NAME" "git" "submodule update failed after clone"
+			continue
 		}
 
 		cd - >/dev/null 2>&1
@@ -995,31 +1100,32 @@ for NAME in $CORES; do
 	fi
 
 	# Enter repo for update and build
-	cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; FAIL_AND_CONTINUE "$NAME" "fs" "failed to enter core dir"; }
+	cd "$CORE_DIR" || { printf "Failed to enter %s\n" "$CORE_DIR" >&2; RECORD_FAILURE "$NAME" "fs" "failed to enter core dir"; continue; }
 
 	# Ensure submodules are present
 	INIT_SUBMODULES || {
 		printf "Failed to update submodules for %s\n" "$NAME" >&2
-		FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed"
+		RECORD_FAILURE "$NAME" "git" "submodule update failed"
+		continue
 	}
 
 	if [ "$BEEN_CLONED" -eq 0 ] && [ "$FORCE" -eq 0 ]; then
 		if [ "$LATEST" -eq 1 ]; then
 			printf "Updating '%s' to remote HEAD (latest)\n" "$NAME"
-			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed (latest)"; }
-			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "reset --hard origin/HEAD failed (latest)"; }
+			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "fetch failed (latest)"; continue; }
+			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "reset --hard origin/HEAD failed (latest)"; continue; }
 			git submodule sync --quiet
-			INIT_SUBMODULES --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed (latest)"; }
+			INIT_SUBMODULES --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "submodule update failed (latest)"; continue; }
 		elif [ -n "$BRANCH" ] && echo "$BRANCH" | grep -qE '^[0-9a-f]{7,40}$'; then
 			printf "Repository already cloned. Fetching updates and checking out commit '%s'\n" "$BRANCH"
-			git fetch --all || { printf "Failed to fetch updates for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed"; }
-			git checkout --detach "$BRANCH" || { printf "Failed to checkout commit '%s' for '%s'\n" "$BRANCH" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "checkout commit failed"; }
+			git fetch --all || { printf "Failed to fetch updates for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "fetch failed"; continue; }
+			git checkout --detach "$BRANCH" || { printf "Failed to checkout commit '%s' for '%s'\n" "$BRANCH" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "checkout commit failed"; continue; }
 		else
 			printf "Updating '%s' to remote HEAD\n" "$NAME"
-			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "fetch failed"; }
-			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "reset --hard origin/HEAD failed"; }
+			git fetch --quiet origin || { printf "  fetch failed for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "fetch failed"; continue; }
+			git reset --hard origin/HEAD || { printf "  reset failed for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "reset --hard origin/HEAD failed"; continue; }
 			git submodule sync --quiet
-			INIT_SUBMODULES --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; FAIL_AND_CONTINUE "$NAME" "git" "submodule update failed"; }
+			INIT_SUBMODULES --quiet || { printf "  submodule update failed for '%s'\n" "$NAME" >&2; RECORD_FAILURE "$NAME" "git" "submodule update failed"; continue; }
 		fi
 	fi
 
@@ -1027,12 +1133,51 @@ for NAME in $CORES; do
 	LOCAL_HASH=$(git rev-parse --short HEAD | cut -c 1-7)
 	if [ "$LOCAL_HASH" != "$REMOTE_HASH" ]; then
 		printf "Warning: Local hash (%s) doesn't match remote hash (%s)\n" "$LOCAL_HASH" "$REMOTE_HASH" >&2
-		FAIL_AND_CONTINUE "$NAME" "git" "local hash does not match expected remote hash"
+		RECORD_FAILURE "$NAME" "git" "local hash does not match expected remote hash"
+		continue
 	fi
 
-	# This check must continue the outer core loop directly. Calling
-	# FAIL_AND_CONTINUE here only continues from inside that function, which
-	# previously let an unpatched or partly patched core reach packaging.
+	# Core worktrees are reusable caches, but generated build trees and patches
+	# are target-specific. Refuse cleanup unless Git resolves this exact clone;
+	# some recipes change the shell directory during setup.
+	CORE_REAL=$(readlink -f "$CORE_DIR")
+	CORE_TOP=$(git -C "$CORE_DIR" rev-parse --show-toplevel 2>/dev/null || true)
+	CORE_TOP_REAL=""
+	[ -n "$CORE_TOP" ] && CORE_TOP_REAL=$(readlink -f "$CORE_TOP")
+	if [ -z "$CORE_REAL" ] || [ "$CORE_TOP_REAL" != "$CORE_REAL" ] || [ "$CORE_REAL" = "$BASE_DIR" ]; then
+		printf "Refusing to clean invalid core worktree for %s: %s\n" "$NAME" "$CORE_TOP_REAL" >&2
+		MARK_FAIL "$NAME" "clean" "core worktree root validation failed"
+		RETURN_TO_BASE
+		continue
+	fi
+
+	git -C "$CORE_DIR" reset --hard HEAD >/dev/null 2>&1 || {
+		printf "Failed to reset build worktree for %s\n" "$NAME" >&2
+		MARK_FAIL "$NAME" "clean" "failed to reset build worktree"
+		RETURN_TO_BASE
+		continue
+	}
+	git -C "$CORE_DIR" clean -fdx >/dev/null 2>&1 || {
+		printf "Failed to clean build worktree for %s\n" "$NAME" >&2
+		MARK_FAIL "$NAME" "clean" "failed to clean build worktree"
+		RETURN_TO_BASE
+		continue
+	}
+	git -C "$CORE_DIR" submodule foreach --quiet --recursive \
+		'git reset --hard HEAD >/dev/null 2>&1 && git clean -fdx >/dev/null 2>&1' || {
+		printf "Failed to clean submodules for %s\n" "$NAME" >&2
+		MARK_FAIL "$NAME" "clean" "failed to clean submodules"
+		RETURN_TO_BASE
+		continue
+	}
+	cd "$CORE_DIR" || {
+		printf "Failed to re-enter clean worktree for %s\n" "$NAME" >&2
+		MARK_FAIL "$NAME" "clean" "failed to re-enter clean worktree"
+		RETURN_TO_BASE
+		continue
+	}
+
+	# A failed patch must leave the outer core loop before packaging.
 	if ! APPLY_PATCHES "$NAME" "$CORE_DIR"; then
 		printf "Failed to apply patches for %s\n" "$NAME" >&2
 		MARK_FAIL "$NAME" "patch" "failed to apply patches"
@@ -1050,12 +1195,13 @@ for NAME in $CORES; do
 	if [ "$PRE_MAKE" != "[]" ]; then
 		if ! RUN_COMMANDS_LOGGED "pre-make" "$PRE_MAKE" "$LOGFILE"; then
 			printf "Pre-make commands failed for %s (see build.log)\n" "$NAME" >&2
-			FAIL_AND_CONTINUE "$NAME" "pre-make" "pre-make commands failed (see build.log)"
+			RECORD_FAILURE "$NAME" "pre-make" "pre-make commands failed (see build.log)"
+			continue
 		fi
 	fi
 
 	# Make sure we are in the persisted WORKDIR for main make
-	cd "$WORKDIR" || { printf "Failed to enter WORKDIR %s\n" "$WORKDIR" >&2; FAIL_AND_CONTINUE "$NAME" "fs" "failed to enter WORKDIR"; }
+	cd "$WORKDIR" || { printf "Failed to enter WORKDIR %s\n" "$WORKDIR" >&2; RECORD_FAILURE "$NAME" "fs" "failed to enter WORKDIR"; continue; }
 
 	printf "Make Structure:"
 	if [ "$MAKE_SKIP" -eq 1 ]; then
@@ -1064,7 +1210,7 @@ for NAME in $CORES; do
 		printf "SKIP: make phase disabled by make.skip=1 for %s\n" "$NAME" >>"$LOGFILE"
 	else
 		printf "\n\tFILE:\t%s" "$MAKE_FILE"
-		printf "\n\tARCH:\t%s" "ARM64_A53"
+		printf "\n\tARCH:\t%s" "$TARGET_ARCH"
 		printf "\n\tARGS:\t%s" "$MAKE_ARGS_STR"
 		printf "\n\tTARGET: %s\n" "$MAKE_TARGET"
 	fi
@@ -1074,34 +1220,35 @@ for NAME in $CORES; do
 
 	if [ "$MAKE_SKIP" -eq 0 ]; then
 		# Build make argv safely (no eval)
-		set -- make -j"$MAKE_CORES" -f "$MAKE_FILE"
+		set -- make -j"$MAKE_CORES" -f "$MAKE_FILE" \
+			"CC=$TARGET_CC" "CXX=$TARGET_CXX" "AR=$TARGET_AR" "RANLIB=$TARGET_RANLIB" "STRIP=$STRIP"
 
 		TRANSFORM_MAKE_ARG() {
 			_a=$1
 
 			case $_a in
 				OVERRIDE_CC=*)
-					_v=${_a#OVERRIDE_CC=}
-					case " $_v " in
-						*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CC=$_v" ;;
-						*) printf '%s\n' "OVERRIDE_CC=$_v $MAKE_ARCH" ;;
-					esac
+					printf '%s\n' "OVERRIDE_CC=$TARGET_CC $MAKE_ARCH"
 					return 0
 					;;
 				OVERRIDE_CXX=*)
-					_v=${_a#OVERRIDE_CXX=}
-					case " $_v " in
-						*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_CXX=$_v" ;;
-						*) printf '%s\n' "OVERRIDE_CXX=$_v $MAKE_ARCH" ;;
-					esac
+					printf '%s\n' "OVERRIDE_CXX=$TARGET_CXX $MAKE_ARCH"
 					return 0
 					;;
 				OVERRIDE_LD=*)
-					_v=${_a#OVERRIDE_LD=}
-					case " $_v " in
-						*" -march="*|*" -mcpu="*|*" -mtune="*) printf '%s\n' "OVERRIDE_LD=$_v" ;;
-						*) printf '%s\n' "OVERRIDE_LD=$_v $MAKE_ARCH" ;;
-					esac
+					printf '%s\n' "OVERRIDE_LD=$TARGET_CXX $MAKE_ARCH"
+					return 0
+					;;
+				CC=*) printf '%s\n' "CC=$TARGET_CC $MAKE_ARCH"; return 0 ;;
+				CXX=*) printf '%s\n' "CXX=$TARGET_CXX $MAKE_ARCH"; return 0 ;;
+				LD=*) printf '%s\n' "LD=$TARGET_CXX $MAKE_ARCH"; return 0 ;;
+				AR=*) printf '%s\n' "AR=$TARGET_AR"; return 0 ;;
+				RANLIB=*) printf '%s\n' "RANLIB=$TARGET_RANLIB"; return 0 ;;
+				STRIP=*) printf '%s\n' "STRIP=$STRIP"; return 0 ;;
+				WITH_DYNAREC=*) printf '%s\n' "WITH_DYNAREC=$TARGET_DYNAREC"; return 0 ;;
+				LCPU=*) printf '%s\n' "LCPU=$TARGET_LCPU"; return 0 ;;
+				platform=aarch64* | platform=arm64*)
+					printf '%s\n' "platform=$TARGET_PLATFORM"
 					return 0
 					;;
 			esac
@@ -1159,12 +1306,13 @@ for NAME in $CORES; do
 	if [ "$POST_MAKE" != "[]" ]; then
 		if ! RUN_COMMANDS "post-make" "$POST_MAKE"; then
 			printf "Post-make commands failed for '%s'\n" "$NAME" >&2
-			FAIL_AND_CONTINUE "$NAME" "post-make" "post-make commands failed"
+			RECORD_FAILURE "$NAME" "post-make" "post-make commands failed"
+			continue
 		fi
 	fi
 
 	# Ensure we are in the final WORKDIR for output checks and packaging
-	cd "$WORKDIR" || { printf "Failed to enter WORKDIR %s\n" "$WORKDIR" >&2; FAIL_AND_CONTINUE "$NAME" "fs" "failed to enter WORKDIR before packaging"; }
+	cd "$WORKDIR" || { printf "Failed to enter WORKDIR %s\n" "$WORKDIR" >&2; RECORD_FAILURE "$NAME" "fs" "failed to enter WORKDIR before packaging"; continue; }
 
 	# Strip and relocate all outputs, then zip them together as $ZIP_NAME
 	OUTPUTS="$OUTPUT_LIST"
@@ -1188,19 +1336,17 @@ for NAME in $CORES; do
 	# builds cleanly for the build host and would otherwise be zipped and indexed as
 	# if it were fine. readelf is used rather than file(1) because a toolchain that
 	# ships its own file(1) without a magic database makes that test pass silently.
-	# The verdict is collected first and acted on below, and the skip is written out
-	# here rather than through FAIL_AND_CONTINUE, whose trailing 'continue' cannot
-	# leave the function it sits in. Packaging has to be skipped for real, or a good
-	# previously shipped archive gets replaced by a broken one.
+	# The verdict is collected first and acted on below. Packaging has to be
+	# skipped for real, or a good archive can be replaced by the wrong target.
 	ARCH_FAIL=""
 	for OUTFILE in $OUTPUTS; do
 		[ -f "$OUTFILE" ] || continue
 		OUT_MACHINE=$(readelf -h "$OUTFILE" 2>/dev/null | sed -n 's/^[[:space:]]*Machine:[[:space:]]*//p')
-		case "$OUT_MACHINE" in
-			*AArch64*) ;;
-			"") ARCH_FAIL="$(basename "$OUTFILE") is not a readable ELF object" ;;
-			*) ARCH_FAIL="$(basename "$OUTFILE") built for $OUT_MACHINE, not AArch64" ;;
-		esac
+		if [ -z "$OUT_MACHINE" ]; then
+			ARCH_FAIL="$(basename "$OUTFILE") is not a readable ELF object"
+		elif [ "$OUT_MACHINE" != "$TARGET_MACHINE" ]; then
+			ARCH_FAIL="$(basename "$OUTFILE") built for $OUT_MACHINE, not $TARGET_MACHINE"
+		fi
 	done
 
 	if [ -n "$ARCH_FAIL" ]; then
@@ -1226,16 +1372,22 @@ for NAME in $CORES; do
 	done
 
 	printf "\nMoving outputs to '%s'\n" "$RETRO_DIR"
+	MOVE_FAILED=0
 	for OUTFILE in $OUTPUTS; do
 		mv "$OUTFILE" "$RETRO_DIR" || {
 			printf "Failed to move '%s' for '%s' to '%s'\n" "$OUTFILE" "$NAME" "$RETRO_DIR" >&2
-			FAIL_AND_CONTINUE "$NAME" "packaging" "failed to move output(s) to core/"
+			MOVE_FAILED=1
+			break
 		}
 	done
+	if [ "$MOVE_FAILED" -ne 0 ]; then
+		RECORD_FAILURE "$NAME" "packaging" "failed to move output(s) to core/"
+		continue
+	fi
 
 	printf "\nIndexing and compressing outputs for '%s'\n" "$NAME"
 
-	cd "$RETRO_DIR" || { printf "Failed to enter directory %s\n" "$RETRO_DIR" >&2; FAIL_AND_CONTINUE "$NAME" "packaging" "failed to enter core/"; }
+	cd "$RETRO_DIR" || { printf "Failed to enter directory %s\n" "$RETRO_DIR" >&2; RECORD_FAILURE "$NAME" "packaging" "failed to enter core/"; continue; }
 
 	[ -f "$ZIP_NAME" ] && rm -f "$ZIP_NAME"
 
@@ -1245,7 +1397,7 @@ for NAME in $CORES; do
 		BASENAMES="$BASENAMES $(basename "$OUTFILE")"
 	done
 	# shellcheck disable=SC2086
-	zip -q "$ZIP_NAME" $BASENAMES || { FAIL_AND_CONTINUE "$NAME" "packaging" "zip failed"; }
+	zip -q "$ZIP_NAME" $BASENAMES || { RECORD_FAILURE "$NAME" "packaging" "zip failed"; continue; }
 
 	# Remove raw outputs after packaging
 	for OUTFILE in $OUTPUTS; do
@@ -1286,11 +1438,13 @@ for NAME in $CORES; do
 	MANIFEST_SHA=$(sha256sum "$ZIP_NAME" | cut -d' ' -f1)
 	MANIFEST_SIZE=$(wc -c <"$ZIP_NAME" | tr -d ' ')
 
-	jq --arg zip "$ZIP_NAME" --arg name "$NAME" --arg commit "$REMOTE_HASH" \
+	jq --arg zip "$ZIP_NAME" --arg name "$NAME" --arg commit "$REMOTE_HASH" --arg architecture "$TARGET_ARCH" \
+	   --slurpfile aarch64 "$BASE_DIR/data/manifest/aarch64.json" \
 	   --arg source "$SOURCE" --arg sha "$MANIFEST_SHA" --arg size "$MANIFEST_SIZE" \
 	   --arg built "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-	   '(.[$zip] = {"core":$name,"commit":$commit,"source":$source,"sha256":$sha,
-	                "size":($size|tonumber),"built":$built})' \
+	   '(.[$zip] = ((.[$zip] // $aarch64[0][$zip] // {}) +
+	                {"core":$name,"commit":$commit,"source":$source,"sha256":$sha,
+	                 "size":($size|tonumber),"built":$built,"architecture":$architecture}))' \
 	   "$MANIFEST_FILE" >"$MANIFEST_FILE.tmp" && mv "$MANIFEST_FILE.tmp" "$MANIFEST_FILE"
 
 	# After packaging: purge repo if requested, otherwise try cleaning build artifacts
@@ -1323,7 +1477,7 @@ done
 	printf "<!DOCTYPE html>\n<html>\n<head>\n<title>MURCB - muOS RetroArch Core Builder</title>\n</head>\n<body>\n"
 	printf "<pre style='font-size:2rem;margin-top:-5px;margin-bottom:-15px;'>MURCB - muOS RetroArch Core Builder</pre>\n"
 	printf "<pre style='font-size:1rem;'>Currently only <span style='font-weight:800'>"
-	printf "aarch64"
+	printf "%s" "$TARGET_ARCH"
 	printf "</span> builds for now!</pre>\n"
 	printf "<hr>\n<pre>\n"
 	[ -f "$RETRO_DIR/.index-extended" ] && cat "$RETRO_DIR/.index-extended" || printf "No cores available!\n"
@@ -1333,8 +1487,8 @@ done
 # Write failure summary (if any failures were recorded)
 FAIL_COUNT=$(awk 'NR>1{c++} END{print c+0}' "$FAIL_LOG" 2>/dev/null || echo 0)
 FAIL_STAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-FAIL_SUMMARY="$BUILD_DIR/failed-cores-$FAIL_STAMP.tsv"
-FAIL_LATEST="$BUILD_DIR/failed-cores-latest.tsv"
+FAIL_SUMMARY="$BUILD_DIR/failed-cores-${TARGET_ARCH}-$FAIL_STAMP.tsv"
+FAIL_LATEST="$BUILD_DIR/failed-cores-${TARGET_ARCH}-latest.tsv"
 
 if [ "$FAIL_COUNT" -gt 0 ]; then
 	cp "$FAIL_LOG" "$FAIL_SUMMARY" 2>/dev/null || :

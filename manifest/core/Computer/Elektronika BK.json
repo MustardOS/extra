@@ -1,0 +1,21 @@
+{
+  "catalogue": "Elektronika BK",
+  "lookup": 0,
+  "default": "bk",
+  "friendly": [
+    "elektronikabk",
+    "elektronika",
+    "bk"
+  ],
+  "bios": [],
+  "libretro": {
+    "bk": {
+      "name": "BK",
+      "core": "bk_libretro.so",
+      "config": "bk",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}

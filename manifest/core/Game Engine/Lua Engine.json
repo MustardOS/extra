@@ -1,0 +1,19 @@
+{
+  "catalogue": "Lua Engine",
+  "lookup": 0,
+  "default": "lutro",
+  "friendly": [
+    "luaengine",
+    "lua"
+  ],
+  "bios": [],
+  "libretro": {
+    "lutro": {
+      "name": "Lutro",
+      "core": "lutro_libretro.so",
+      "config": "lutro"
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}
