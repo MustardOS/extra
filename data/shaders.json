@@ -497,6 +497,20 @@
     "sha256": "5a29f534be4e664f136afa9ddf1d5df1cfda2d526120ed93ef20357640b506b5"
   },
   {
+    "name": "Pixel Cover Interpolation",
+    "author": "antiKk",
+    "url": "https://raw.githubusercontent.com/antiKk/pickles-shaders/refs/heads/main/pixel_cover_interpolation.frag",
+    "version": "3",
+    "sha256": "26368fdd83e2a61832b746cef142a0007b8161af84038412f16be2bed4c9d79d"
+  },
+  {
+    "name": "Pixel Cover Interpolation + Grid",
+    "author": "antiKk",
+    "url": "https://raw.githubusercontent.com/antiKk/pickles-shaders/refs/heads/main/pixel_cover_interpolation_grid.frag",
+    "version": "1",
+    "sha256": "4435f54f07e4e93835fedbe4e9c1532d01befaa3f2fe257b0e09784715530444"
+  },
+  {
     "name": "bagel-CRT-mini",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini.frag",
