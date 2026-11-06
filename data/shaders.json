@@ -511,6 +511,20 @@
     "sha256": "4435f54f07e4e93835fedbe4e9c1532d01befaa3f2fe257b0e09784715530444"
   },
   {
+    "name": "LCD Grid RGB",
+    "author": "antiKk",
+    "url": "https://raw.githubusercontent.com/antiKk/pickles-shaders/refs/heads/main/lcd-grid-rgb.frag",
+    "version": "1",
+    "sha256": "1e3b6cece7406499211c4f7b5225325be4ae8af0832d716048456e85a90b372f"
+  },
+  {
+    "name": "Pixel Cover LCD Grid RGB",
+    "author": "antiKk",
+    "url": "https://raw.githubusercontent.com/antiKk/pickles-shaders/refs/heads/main/pixel_cover_lcd_grid_rgb.frag",
+    "version": "1",
+    "sha256": "1d3971e533ce123e71f278b056b51cccbf1b58f4c583105d56ddd9492dcb2e76"
+  },
+  {
     "name": "bagel-CRT-mini",
     "author": "bgelmini",
     "url": "https://raw.githubusercontent.com/bgelmini/bagel-mini-shaders/refs/heads/main/bagel-CRT-mini/bagel-CRT-mini.frag",
