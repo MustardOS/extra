@@ -1765,11 +1765,11 @@
   },
   "picante8_libretro.so.zip": {
     "core": "picante8",
-    "commit": "c30e264",
+    "commit": "8623684",
     "source": "https://github.com/MustardOS/picante8",
-    "sha256": "2082b5ac6939c8068d9dcba49e3ee05b108fb348eb2fc11d0554b443083160ee",
-    "size": 240442,
-    "built": "2026-11-07T11:34:28Z",
+    "sha256": "ea594e0af84cb25b3dede82701b449454ed0b6b631fc6bd3dfb46946ec44af9e",
+    "size": 242697,
+    "built": "2026-11-07T11:42:53Z",
     "architecture": "aarch64"
   },
   "yabadabadoo_libretro.so.zip": {
