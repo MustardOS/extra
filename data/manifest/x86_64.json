@@ -1,0 +1,20 @@
+{
+  "fbalpha_libretro.so.zip": {
+    "built": "2026-11-03T07:03:54Z",
+    "commit": "0581797",
+    "core": "fbalpha",
+    "sha256": "e99a1b06859b14995ec2f8d025023c81f28a0645aeeab9e8d36f51037f6fcebf",
+    "size": 10615604,
+    "source": "https://github.com/libretro/fbalpha",
+    "architecture": "x86_64"
+  },
+  "km_mame2003_xtreme_amped_libretro.so.zip": {
+    "built": "2026-11-03T07:14:31Z",
+    "commit": "9382b94",
+    "core": "km_mame2003_xtreme_amped",
+    "sha256": "03e1715441a51981ec51ad6e57fd60262d378eedfec805086f91e85e1fa03f30",
+    "size": 8885973,
+    "source": "https://github.com/KMFDManic/mame2003-xtreme",
+    "architecture": "x86_64"
+  }
+}
