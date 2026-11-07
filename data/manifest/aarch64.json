@@ -1765,7 +1765,7 @@
   },
   "picante8_libretro.so.zip": {
     "core": "picante8",
-    "commit": "080de0f",
+    "commit": "c30e264",
     "source": "https://github.com/MustardOS/picante8",
     "sha256": "80b4aaa25cb218c1d97e6c8c445044a5db45482f592fb9135a904edcb69ad4df",
     "size": 239346,
@@ -1783,10 +1783,10 @@
   },
   "armgba_libretro.so.zip": {
     "built": "2026-11-03T00:00:00Z",
-    "commit": "35d0d55",
+    "commit": "b749655",
     "core": "armgba",
-    "sha256": "1c1cf1e9684a997a2d48ce988438b15146372c35219bb691f4921b170c886edd",
-    "size": 628430,
+    "sha256": "78ced75ec80e6cb3f2e838d40c7a916a7b3596dff47d1fafde299ad08230320f",
+    "size": 629564,
     "source": "https://github.com/MagnominusGit/armGBA",
     "architecture": "aarch64"
   }
