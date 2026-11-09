@@ -748,6 +748,15 @@
     "source": "https://github.com/libretro/libretro-lutro",
     "architecture": "aarch64"
   },
+  "makecode_arcade_libretro.so.zip": {
+    "built": "2026-11-09T15:33:00Z",
+    "commit": "b4aff55",
+    "core": "makecode_arcade",
+    "sha256": "4bbbb88a31ef200ea9051b87b092e0264d45d5c71055c30a7965364236132a04",
+    "size": 284554,
+    "source": "https://github.com/whmzsu/makecode-arcade-libretro",
+    "architecture": "aarch64"
+  },
   "mame0139_libretro.so.zip": {
     "built": null,
     "commit": null,
