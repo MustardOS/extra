@@ -16,5 +16,113 @@
     "size": 8885973,
     "source": "https://github.com/KMFDManic/mame2003-xtreme",
     "architecture": "x86_64"
+  },
+  "gambatte_libretro.so.zip": {
+    "built": "2026-11-11T06:53:41Z",
+    "commit": "13b7af7",
+    "core": "gambatte",
+    "sha256": "423debcb43be84346be84375e9e3117b72a2157c573e81c7d3abd40fbea93d13",
+    "size": 491677,
+    "source": "https://github.com/libretro/gambatte-libretro",
+    "architecture": "x86_64"
+  },
+  "fceumm_libretro.so.zip": {
+    "built": "2026-11-11T06:53:51Z",
+    "commit": "5cd4a43",
+    "core": "fceumm",
+    "sha256": "6e65c8cfa8edd320ffa2a27acaee97b1dec5153d8fdff84e121f418a7c17d7aa",
+    "size": 528629,
+    "source": "https://github.com/libretro/libretro-fceumm",
+    "architecture": "x86_64"
+  },
+  "snes9x_libretro.so.zip": {
+    "built": "2026-11-11T06:54:27Z",
+    "commit": "5a40cd5",
+    "core": "snes9x",
+    "sha256": "0622ada5c4bcf4a071db2f14cdffa638f2c51894e28174e834fcdd379f2aaccc",
+    "size": 834177,
+    "source": "https://github.com/libretro/snes9x",
+    "architecture": "x86_64"
+  },
+  "genesis_plus_gx_libretro.so.zip": {
+    "built": "2026-11-11T06:56:23Z",
+    "commit": "46a5521",
+    "core": "genesis_plus_gx",
+    "sha256": "7e1c08a6436da396873b8b9f6a9d08f1d37658383e9609075db1aa94829d8f7b",
+    "size": 1267039,
+    "source": "https://github.com/libretro/Genesis-Plus-GX",
+    "architecture": "x86_64"
+  },
+  "picodrive_libretro.so.zip": {
+    "built": "2026-11-11T06:57:00Z",
+    "commit": "ec68ce8",
+    "core": "picodrive",
+    "sha256": "0c786cf63246a8df66ed9bed328022093092f90a2c96ddcbf747316dfe567278",
+    "size": 893512,
+    "source": "https://github.com/irixxxx/picodrive",
+    "architecture": "x86_64"
+  },
+  "mednafen_pce_fast_libretro.so.zip": {
+    "built": "2026-11-11T06:57:08Z",
+    "commit": "7e9b257",
+    "core": "mednafen_pce_fast",
+    "sha256": "a1b83cee9c9ba8742a4fdb2c8fa0ae8396737e08d1d1dfd09b899e97baf87f4d",
+    "size": 616044,
+    "source": "https://github.com/libretro/beetle-pce-fast-libretro",
+    "architecture": "x86_64"
+  },
+  "mame2003_plus_libretro.so.zip": {
+    "built": "2026-11-11T06:58:59Z",
+    "commit": "62c7089",
+    "core": "mame2003_plus",
+    "sha256": "9bcf7eb84eead727eb4510027cbe1ca9a8c5d0d9141b6322f60d5131c1611320",
+    "size": 9333116,
+    "source": "https://github.com/libretro/mame2003-plus-libretro",
+    "architecture": "x86_64"
+  },
+  "dosbox_pure_libretro.so.zip": {
+    "built": "2026-11-11T06:59:20Z",
+    "commit": "b9f8bc6",
+    "core": "dosbox_pure",
+    "sha256": "4389ef5acdb7f5a299fef8714c09d38d0dc804bab52a60c63da2a316016599c8",
+    "size": 1395834,
+    "source": "https://github.com/schellingb/dosbox-pure",
+    "architecture": "x86_64"
+  },
+  "mgba_libretro.so.zip": {
+    "built": "2026-11-11T07:02:04Z",
+    "commit": "affc86e",
+    "core": "mgba",
+    "sha256": "a71f16b29c61cb95db1f7390e5dfa8a1aceff4fdef0707091d09229b1fec0e3a",
+    "size": 521535,
+    "source": "https://github.com/libretro/mgba",
+    "architecture": "x86_64"
+  },
+  "fbneo_libretro.so.zip": {
+    "built": "2026-11-11T07:05:30Z",
+    "commit": "aaecfed",
+    "core": "fbneo",
+    "sha256": "807466d96889adc6c6fa317964fbd4c4752e87362e9f2ff8e0f1eb83749d5761",
+    "size": 19222640,
+    "source": "https://github.com/libretro/FBNeo",
+    "architecture": "x86_64"
+  },
+  "pcsx_rearmed_libretro.so.zip": {
+    "built": "2026-11-11T07:06:18Z",
+    "commit": "94a7ee3",
+    "core": "pcsx_rearmed",
+    "sha256": "1c9f464e09b2b3477d56cdc83856b8cde1e57c3f4188909626e1a494a3e31810",
+    "size": 747856,
+    "source": "https://github.com/libretro/pcsx_rearmed",
+    "architecture": "x86_64"
+  },
+  "mupen64plus_next_libretro.so.zip": {
+    "core": "mupen64plus_next",
+    "commit": "15bada8",
+    "source": "https://github.com/libretro/mupen64plus-libretro-nx.git",
+    "sha256": "7d4bc9e391b6e87b08781990f411c7d44f01d909788e5d95c4d6482f71c69c02",
+    "size": 1631411,
+    "built": "2026-11-11T07:08:32Z",
+    "architecture": "x86_64"
   }
 }

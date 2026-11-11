@@ -477,18 +477,24 @@ case "$TARGET_ARCH" in
 		TARGET_LCPU=arm
 		;;
 	x86_64 | x86)
-		TARGET_CC=$(FIND_TOOL gcc)
-		TARGET_CXX=$(FIND_TOOL g++)
-		TARGET_AR=$(FIND_TOOL ar)
-		TARGET_RANLIB=$(FIND_TOOL ranlib)
-		OBJCOPY=$(FIND_TOOL objcopy)
-		STRIP=$(FIND_TOOL strip)
 		if [ "$TARGET_ARCH" = x86_64 ]; then
+			TARGET_CC=$(FIND_TOOL x86_64-buildroot-linux-gnu-gcc gcc)
+			TARGET_CXX=$(FIND_TOOL x86_64-buildroot-linux-gnu-g++ g++)
+			TARGET_AR=$(FIND_TOOL x86_64-buildroot-linux-gnu-ar ar)
+			TARGET_RANLIB=$(FIND_TOOL x86_64-buildroot-linux-gnu-ranlib ranlib)
+			OBJCOPY=$(FIND_TOOL x86_64-buildroot-linux-gnu-objcopy objcopy)
+			STRIP=$(FIND_TOOL x86_64-buildroot-linux-gnu-strip strip)
 			MAKE_ARCH='-march=x86-64-v2 -mtune=generic'
 			TARGET_MACHINE='Advanced Micro Devices X86-64'
 			TARGET_DYNAREC=x86_64
 			TARGET_LCPU=x86_64
 		else
+			TARGET_CC=$(FIND_TOOL gcc)
+			TARGET_CXX=$(FIND_TOOL g++)
+			TARGET_AR=$(FIND_TOOL ar)
+			TARGET_RANLIB=$(FIND_TOOL ranlib)
+			OBJCOPY=$(FIND_TOOL objcopy)
+			STRIP=$(FIND_TOOL strip)
 			MAKE_ARCH='-m32 -march=i686'
 			TARGET_MACHINE='Intel 80386'
 			TARGET_DYNAREC=x86
@@ -1163,13 +1169,15 @@ for NAME in $CORES; do
 		RETURN_TO_BASE
 		continue
 	}
-	git -C "$CORE_DIR" submodule foreach --quiet --recursive \
-		'git reset --hard HEAD >/dev/null 2>&1 && git clean -fdx >/dev/null 2>&1' || {
-		printf "Failed to clean submodules for %s\n" "$NAME" >&2
-		MARK_FAIL "$NAME" "clean" "failed to clean submodules"
-		RETURN_TO_BASE
-		continue
-	}
+	if [ "$SUBMODULES_DEFINED" != "true" ] || [ -n "$SUBMODULE_LIST" ]; then
+		git -C "$CORE_DIR" submodule foreach --quiet --recursive \
+			'git reset --hard HEAD >/dev/null 2>&1 && git clean -fdx >/dev/null 2>&1' || {
+			printf "Failed to clean submodules for %s\n" "$NAME" >&2
+			MARK_FAIL "$NAME" "clean" "failed to clean submodules"
+			RETURN_TO_BASE
+			continue
+		}
+	fi
 	cd "$CORE_DIR" || {
 		printf "Failed to re-enter clean worktree for %s\n" "$NAME" >&2
 		MARK_FAIL "$NAME" "clean" "failed to re-enter clean worktree"
@@ -1247,8 +1255,29 @@ for NAME in $CORES; do
 				STRIP=*) printf '%s\n' "STRIP=$STRIP"; return 0 ;;
 				WITH_DYNAREC=*) printf '%s\n' "WITH_DYNAREC=$TARGET_DYNAREC"; return 0 ;;
 				LCPU=*) printf '%s\n' "LCPU=$TARGET_LCPU"; return 0 ;;
+				HAVE_NEON=*)
+					case "$TARGET_ARCH" in
+						aarch64 | armhf) printf '%s\n' 'HAVE_NEON=1' ;;
+						*) printf '%s\n' 'HAVE_NEON=0' ;;
+					esac
+					return 0
+					;;
+				HAVE_LTCG=*)
+					case "$TARGET_ARCH" in
+						aarch64 | armhf) printf '%s\n' 'HAVE_LTCG=1' ;;
+						*) printf '%s\n' 'HAVE_LTCG=0' ;;
+					esac
+					return 0
+					;;
 				platform=aarch64* | platform=arm64*)
 					printf '%s\n' "platform=$TARGET_PLATFORM"
+					return 0
+					;;
+				platform=rpi* | platform=classic_arm*)
+					case "$TARGET_ARCH" in
+						x86_64 | x86 | riscv64) printf '%s\n' "platform=$TARGET_PLATFORM" ;;
+						*) printf '%s\n' "$_a" ;;
+					esac
 					return 0
 					;;
 			esac
