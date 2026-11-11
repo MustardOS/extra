@@ -49,8 +49,7 @@
       "name": "mGBA",
       "core": "mgba_libretro.so",
       "config": "mGBA",
-      "bios_required": 0,
-      "governor": "extreme"
+      "bios_required": 0
     },
     "mgba rumble": {
       "name": "mGBA Rumble",

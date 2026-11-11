@@ -2,7 +2,6 @@
   "catalogue": "Atari Jaguar",
   "lookup": 0,
   "default": "virtual jaguar",
-  "governor": "extreme",
   "friendly": [
     "atarijaguar",
     "jaguar"

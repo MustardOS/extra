@@ -3,7 +3,6 @@
     "lookup": 0,
     "default": "azahar - standalone",
     "runtime": "external",
-    "governor": "extreme",
     "friendly": [
         "nintendo3ds",
         "n3ds",

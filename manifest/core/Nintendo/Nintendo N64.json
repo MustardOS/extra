@@ -3,7 +3,6 @@
     "lookup": 0,
     "default": "mupen64plus next",
     "runtime": "pickles",
-    "governor": "extreme",
     "friendly": [
         "nintendonintendo64dd",
         "nintendonintendo64",

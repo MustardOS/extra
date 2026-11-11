@@ -2,7 +2,6 @@
   "catalogue": "Sega Saturn",
   "lookup": 0,
   "default": "yabadabadoo",
-  "governor": "extreme",
   "friendly": [
     "ss",
     "segasaturn",
@@ -36,8 +35,7 @@
       "name": "Yabadabadoo",
       "core": "yabadabadoo_libretro.so",
       "config": "Yabadabadoo",
-      "extra": 0,
-      "governor": "extreme"
+      "extra": 0
     },
     "yabasanshiro": {
       "name": "YabaSanshiro",

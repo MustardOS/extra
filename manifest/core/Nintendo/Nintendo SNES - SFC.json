@@ -85,8 +85,7 @@
       "name": "ChimeraSNES",
       "core": "chimerasnes_libretro.so",
       "config": "ChimeraSNES",
-      "bios_required": 0,
-      "governor": "extreme"
+      "bios_required": 0
     },
     "mesen-s": {
       "name": "Mesen-S",

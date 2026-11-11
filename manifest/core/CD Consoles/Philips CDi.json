@@ -2,7 +2,6 @@
   "catalogue": "Philips CDi",
   "lookup": 0,
   "default": "same cdi",
-  "governor": "extreme",
   "friendly": [
     "philipscdi",
     "cdi"

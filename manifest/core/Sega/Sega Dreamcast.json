@@ -2,7 +2,6 @@
   "catalogue": "Sega Dreamcast",
   "lookup": 0,
   "default": "flycast vl",
-  "governor": "extreme",
   "friendly": [
     "segadreamcast",
     "segadc",

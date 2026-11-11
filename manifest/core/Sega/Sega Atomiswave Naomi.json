@@ -2,7 +2,6 @@
   "catalogue": "Sega Atomiswave Naomi",
   "lookup": 1,
   "default": "flycast vl",
-  "governor": "extreme",
   "friendly": [
     "seganaomi",
     "segaatomiswave",
