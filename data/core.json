@@ -638,7 +638,7 @@
     "commands": {
       "post-make": [
         "printf 'Moving fbneo_libretro.so'",
-        "mv src/burner/libretro/fbneo_libretro.dll ./fbneo_libretro.so"
+        "if [ -f src/burner/libretro/fbneo_libretro.so ]; then mv src/burner/libretro/fbneo_libretro.so ./fbneo_libretro.so; else mv src/burner/libretro/fbneo_libretro.dll ./fbneo_libretro.so; fi"
       ]
     }
   },
@@ -1402,8 +1402,7 @@
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "mkdir -p build",
-        "cd build && cmake .. -DBUILD_LIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DSKIP_LIBRARY=ON -DBUILD_QT=OFF -DBUILD_SDL=ON -DUSE_DISCORD_RPC=OFF -DUSE_EDITLINE=OFF -DUSE_EPOXY=OFF -DBUILD_GL=ON -DBUILD_GLES3=OFF -DBUILD_GLES2=ON -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer' -DCMAKE_CXX_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer'"
+        "if [ \"$TARGET_ARCH\" = aarch64 ]; then mkdir -p build; cd build; cmake .. -DBUILD_LIBRETRO=ON -DCMAKE_BUILD_TYPE=Release -DSKIP_LIBRARY=ON -DBUILD_QT=OFF -DBUILD_SDL=ON -DUSE_DISCORD_RPC=OFF -DUSE_EDITLINE=OFF -DUSE_EPOXY=OFF -DBUILD_GL=ON -DBUILD_GLES3=OFF -DBUILD_GLES2=ON -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer' -DCMAKE_CXX_FLAGS='-O3 -mcpu=cortex-a53 -ftree-vectorize -fomit-frame-pointer'; fi"
       ]
     }
   },
@@ -1463,6 +1462,7 @@
         "WITH_DYNAREC=aarch64",
         "HAVE_NEON=1",
         "HAVE_LTCG=1",
+        "FORCE_GLES3=1",
         "CC=aarch64-linux-gcc -march=armv8-a+crc+crypto -mtune=cortex-a53",
         "CXX=aarch64-linux-g++ -march=armv8-a+crc+crypto -mtune=cortex-a53",
         "AR=aarch64-linux-ar",
@@ -1609,7 +1609,7 @@
     "symbols": 0,
     "commands": {
       "pre-make": [
-        "export CFLAGS='-O3 -march=armv8-a+crc -mtune=cortex-a53' && ./configure"
+        "if [ \"$TARGET_ARCH\" = aarch64 ]; then export CFLAGS='-O3 -march=armv8-a+crc -mtune=cortex-a53'; ./configure; fi"
       ]
     }
   },
