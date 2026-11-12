@@ -1789,5 +1789,14 @@
     "size": 629564,
     "source": "https://github.com/MagnominusGit/armGBA",
     "architecture": "aarch64"
+  },
+  "lcd_libretro.so.zip": {
+    "core": "lcd",
+    "commit": "70de187",
+    "source": "https://github.com/MustardOS/lcd-libretro",
+    "sha256": "c5e2d1874f7ee0f20a127532d1c8ebdb89aa07f82bd6cf40ee253a924c9c832b",
+    "size": 119228,
+    "built": "2026-11-12T06:29:13Z",
+    "architecture": "aarch64"
   }
 }

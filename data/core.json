@@ -1076,6 +1076,23 @@
     },
     "symbols": 0
   },
+  "lcd": {
+    "source": "https://github.com/MustardOS/lcd-libretro",
+    "branch": "70de187",
+    "directory": "lcd-libretro",
+    "output": "lcd_libretro.so",
+    "make": {
+      "file": "Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0,
+    "commands": {
+      "post-make": [
+        "cp build/lcd_libretro.so ."
+      ]
+    }
+  },
   "lowresnx": {
     "source": "https://github.com/timoinutilis/lowres-nx",
     "branch": "85c8018",

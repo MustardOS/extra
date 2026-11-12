@@ -1,7 +1,7 @@
 {
   "catalogue": "Handheld Electronic - Game and Watch",
   "lookup": 0,
-  "default": "handheld electronic",
+  "default": "lcd lab",
   "friendly": [
     "nintendogw",
     "nintendogameandwatch",
@@ -17,6 +17,11 @@
       "name": "Handheld Electronic",
       "core": "gw_libretro.so",
       "config": "Game & Watch"
+    },
+    "lcd lab": {
+      "name": "LCD Lab",
+      "core": "lcd_libretro.so",
+      "config": "LCD Lab"
     }
   },
   "runtime": "libretro"
