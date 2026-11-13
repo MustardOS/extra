@@ -1122,6 +1122,19 @@
     },
     "symbols": 0
   },
+  "makecode-arcade": {
+    "source": "https://github.com/whmzsu/makecode-arcade-libretro",
+    "branch": "b4aff55",
+    "directory": "makecode-arcade-libretro",
+    "architectures": ["aarch64"],
+    "output": "core/makecode_arcade_libretro.so",
+    "make": {
+      "file": "core/Makefile",
+      "args": "",
+      "target": ""
+    },
+    "symbols": 0
+  },
   "mame": {
     "source": "https://github.com/libretro/mame",
     "branch": "9b2b9fe",

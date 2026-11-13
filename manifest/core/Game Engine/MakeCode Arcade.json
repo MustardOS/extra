@@ -1,0 +1,22 @@
+{
+  "catalogue": "MakeCode Arcade",
+  "lookup": 0,
+  "default": "makecode_arcade",
+  "friendly": [
+    "makecode",
+    "makecode arcade",
+    "pxt",
+    "pxt64"
+  ],
+  "bios": [],
+  "libretro": {
+    "makecode_arcade": {
+      "name": "MakeCode Arcade",
+      "core": "makecode_arcade_libretro.so",
+      "config": "makecode_arcade",
+      "bios_required": 0
+    }
+  },
+  "extra": 1,
+  "runtime": "libretro"
+}
