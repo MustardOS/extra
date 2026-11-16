@@ -23,7 +23,60 @@
     "fbneo",
     "mame"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "fbneo/neogeo.zip",
+      "hash": "00dad01abdbf8ea9e79ad2fe11bdb182"
+    },
+    {
+      "file": "fbneo/pgm.zip",
+      "hash": "87cc944eef4c671aa2629a8ba48a08e0"
+    },
+    {
+      "file": "fbneo/skns.zip",
+      "hash": "3f956c4e7008804cb47cbde49bd5b908"
+    },
+    {
+      "file": "fbneo/decocass.zip",
+      "hash": "b7e1189b341bf6a8e270017c096d21b0"
+    },
+    {
+      "file": "fbneo/isgsm.zip",
+      "hash": "4a56d56e2219c5e2b006b66a4263c01c"
+    },
+    {
+      "file": "fbneo/midssio.zip",
+      "hash": "5904b0de768d1d506e766aa7e18994c1"
+    },
+    {
+      "file": "fbneo/nmk004.zip",
+      "hash": "bfacf1a68792d5348f93cf724d2f1dda"
+    },
+    {
+      "file": "fbneo/ym2608.zip",
+      "hash": "79ae0d2bb1901b7e606b6dc339b79a97"
+    },
+    {
+      "file": "fbneo/cchip.zip",
+      "hash": "df6f8a3d83c028a5cb9f2f2be60773f3"
+    },
+    {
+      "file": "fbneo/bubsys.zip",
+      "hash": "f81298afd68a1a24a49a1a2d9f087964"
+    },
+    {
+      "file": "fbneo/namcoc69.zip",
+      "hash": "ad9af7a9560cad74f1644328213748f6"
+    },
+    {
+      "file": "fbneo/namcoc70.zip",
+      "hash": "aa569a303793510b2b4173480148de4b"
+    },
+    {
+      "file": "fbneo/namcoc75.zip",
+      "hash": "17516c33298e52424ffb58afc2ad208c"
+    }
+  ],
   "libretro": {
     "daphne": {
       "name": "Daphne",

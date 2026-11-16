@@ -9,7 +9,24 @@
     "dosbox",
     "dos"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "MT32_CONTROL.ROM",
+      "hash": "5626206284b22c2734f3e9efefcd2675"
+    },
+    {
+      "file": "MT32_PCM.ROM",
+      "hash": "89e42e386e82e0cacb4a2704a03706ca"
+    },
+    {
+      "file": "CM32L_CONTROL.ROM",
+      "hash": "bfff32b6144c1d706109accb6e6b1113"
+    },
+    {
+      "file": "CM32L_PCM.ROM",
+      "hash": "08cdcfa0ed93e9cb16afa76e6ac5f0a4"
+    }
+  ],
   "libretro": {
     "dosbox-core": {
       "name": "DOSBox-core",

@@ -17,6 +17,10 @@
     {
       "file": "neogeo.zip",
       "hash": ""
+    },
+    {
+      "file": "aes.zip",
+      "hash": "9d2ff2333e23910cf56f7f785609d36a"
     }
   ],
   "libretro": {
@@ -34,7 +38,8 @@
       "name": "Geolith",
       "core": "geolith_libretro.so",
       "config": "Geolith",
-      "extra": 1
+      "extra": 1,
+      "bios_required": 1
     }
   },
   "runtime": "libretro"

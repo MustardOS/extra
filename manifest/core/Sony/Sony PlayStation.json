@@ -69,7 +69,7 @@
       "name": "Beetle PSX",
       "core": "mednafen_psx_libretro.so",
       "config": "Beetle PSX",
-      "bios_required": 0,
+      "bios_required": 1,
       "extra": 1
     },
     "duckstation": {

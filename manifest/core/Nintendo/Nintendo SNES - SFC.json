@@ -36,6 +36,74 @@
     {
       "file": "STBIOS.bin",
       "hash": "d3a44ba7d42a74d3ac58cb9c14c6a5ca"
+    },
+    {
+      "file": "dsp1.data.rom",
+      "hash": "3d81b45fa0c2aa8b852dfb1ece7c0971"
+    },
+    {
+      "file": "dsp1.program.rom",
+      "hash": "ae209fbe789fbf11a48aea5ab1197321"
+    },
+    {
+      "file": "dsp1b.data.rom",
+      "hash": "1e3f568634a7d8284020dddc0ae905bc"
+    },
+    {
+      "file": "dsp1b.program.rom",
+      "hash": "d10f446888e097cbf500f3f663cf4f6d"
+    },
+    {
+      "file": "dsp2.data.rom",
+      "hash": "e9417e29223b139c3c4b635a2a3b8744"
+    },
+    {
+      "file": "dsp2.program.rom",
+      "hash": "aa6e5922a3ed5ded54f24247c11143c5"
+    },
+    {
+      "file": "dsp3.data.rom",
+      "hash": "0a81210c0a940b997dd9843281008ee6"
+    },
+    {
+      "file": "dsp3.program.rom",
+      "hash": "d99ca4562818d49cee1f242705bba6f8"
+    },
+    {
+      "file": "dsp4.data.rom",
+      "hash": "ee4990879eb68e3cbca239c5bc20303d"
+    },
+    {
+      "file": "dsp4.program.rom",
+      "hash": "a151023b948b90ffc23a5b594bb6fef2"
+    },
+    {
+      "file": "st010.data.rom",
+      "hash": "254d70762b6f59f99c27c395aba7d07d"
+    },
+    {
+      "file": "st010.program.rom",
+      "hash": "1d70019179a59a566a0bb5d3f2845544"
+    },
+    {
+      "file": "st011.data.rom",
+      "hash": "10bd3f4aa949737ab9836512c35bcc29"
+    },
+    {
+      "file": "st011.program.rom",
+      "hash": "95222ebf1c0c2990bcf25db43743f032"
+    },
+    {
+      "file": "st018.data.rom",
+      "hash": "49c898b60d0f15e90d0ba780dd12f366"
+    },
+    {
+      "file": "st018.program.rom",
+      "hash": "dda40ccd57390c96e49d30a041f9a9e7"
+    },
+    {
+      "file": "cx4.data.rom",
+      "hash": "037ac4296b6b6a5c47c440188d3c72e3"
     }
   ],
   "libretro": {

@@ -14,7 +14,12 @@
         "64dd",
         "64"
     ],
-    "bios": [],
+    "bios": [
+        {
+            "file": "64DD_IPL.bin",
+            "hash": "8d3d9f294b6e174bc7b1d2fd1c727530"
+        }
+    ],
     "libretro": {
         "ludicrous n64 2k22 xtreme amped": {
             "name": "Ludicrous N64 2k22 Xtreme Amped",

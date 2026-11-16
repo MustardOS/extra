@@ -66,7 +66,8 @@
     "neocd": {
       "name": "NeoCD",
       "core": "neocd_libretro.so",
-      "config": "NeoCD"
+      "config": "NeoCD",
+      "bios_required": 1
     }
   },
   "runtime": "libretro"

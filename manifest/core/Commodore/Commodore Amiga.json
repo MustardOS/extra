@@ -55,10 +55,6 @@
     {
       "file": "kick40060.CD32.ext",
       "hash": "bb72565701b1b6faece07d68ea5da639"
-    },
-    {
-      "file": "kick40060.CD32",
-      "hash": "f2f241bf094168cfb9e7805dc2856433"
     }
   ],
   "libretro": {

@@ -13,7 +13,20 @@
     "gameboy",
     "dmg"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "gb_bios.bin",
+      "hash": "32fbbd84168d3482956eb3c5051637f5"
+    },
+    {
+      "file": "dmg_boot.bin",
+      "hash": "32fbbd84168d3482956eb3c5051637f5"
+    },
+    {
+      "file": "sgb_bios.bin",
+      "hash": "d574d4f9c12f305074798f54c091a8b4"
+    }
+  ],
   "libretro": {
     "doublecherrygb": {
       "name": "DoubleCherryGB",

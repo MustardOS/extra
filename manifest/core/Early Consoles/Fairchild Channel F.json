@@ -25,7 +25,8 @@
     "freechaf": {
       "name": "FreeChaF",
       "core": "freechaf_libretro.so",
-      "config": "FreeChaF"
+      "config": "FreeChaF",
+      "bios_required": 1
     },
     "press f": {
       "name": "Press F",

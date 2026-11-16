@@ -10,6 +10,22 @@
     {
       "file": "palmos41-en-m515.rom",
       "hash": ""
+    },
+    {
+      "file": "palmos40-en-m500.rom",
+      "hash": "abed11421f47bbf3f654af618e0c6a8a"
+    },
+    {
+      "file": "palmos52-en-t3.rom",
+      "hash": "a46861541c63b20aba7bf172b0d853e1"
+    },
+    {
+      "file": "palmos60-en-t3.rom",
+      "hash": "c2fae3ff41cc4f94be0fdaed1523ea99"
+    },
+    {
+      "file": "bootloader-dbvz.rom",
+      "hash": "9da101cd2317830649a31f8fa46debec"
     }
   ],
   "libretro": {
@@ -17,7 +33,7 @@
       "name": "Mu",
       "core": "mu_libretro.so",
       "config": "Mu",
-      "bios_required": 0
+      "bios_required": 1
     }
   },
   "extra": 1,

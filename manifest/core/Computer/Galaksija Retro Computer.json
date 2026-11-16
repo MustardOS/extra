@@ -7,7 +7,20 @@
     "galretro",
     "retcom"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "galaksija/CHRGEN.BIN",
+      "hash": "ecae5c55d75a2fe0871d0ebd95663628"
+    },
+    {
+      "file": "galaksija/ROM1.BIN",
+      "hash": "c7ce14d6a81062db862f3ce5afedcfb6"
+    },
+    {
+      "file": "galaksija/ROM2.BIN",
+      "hash": "b406d05922dac2eaf3c2e68157b1b468"
+    }
+  ],
   "libretro": {
     "galaksija": {
       "name": "Galaksija",

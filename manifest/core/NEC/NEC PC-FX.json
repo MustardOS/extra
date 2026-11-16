@@ -16,13 +16,14 @@
     "beetle pc-fx": {
       "name": "Beetle PC-FX",
       "core": "mednafen_pcfx_libretro.so",
-      "config": "Beetle PC-FX"
+      "config": "Beetle PC-FX",
+      "bios_required": 1
     },
     "pcfx": {
       "name": "PC-FX",
       "core": "pcfx_libretro.so",
       "config": "Beetle PC-FX",
-      "bios_required": 0
+      "bios_required": 1
     }
   },
   "runtime": "libretro"

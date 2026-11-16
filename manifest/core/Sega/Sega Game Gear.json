@@ -11,7 +11,12 @@
     "gamegearhacks",
     "gamegear"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "bios.gg",
+      "hash": "672e104c3be3a238301aceffc3b23fd6"
+    }
+  ],
   "libretro": {
     "gearsystem": {
       "name": "Gearsystem",

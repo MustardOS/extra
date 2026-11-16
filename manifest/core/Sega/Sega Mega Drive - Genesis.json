@@ -21,7 +21,12 @@
     "gen",
     "nomad"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "bios_MD.bin",
+      "hash": "d3293ebaaa7f4eb2a6766b68a0fb4609"
+    }
+  ],
   "libretro": {
     "genesis plus gx": {
       "name": "Genesis Plus GX",

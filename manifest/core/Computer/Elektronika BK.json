@@ -7,7 +7,40 @@
     "elektronika",
     "bk"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "bk/B11M_BOS.ROM",
+      "hash": "fe4627d1e3a1535874085050733263e7"
+    },
+    {
+      "file": "bk/B11M_EXT.ROM",
+      "hash": "dc52f365d56fa1951f5d35b1101b9e3f"
+    },
+    {
+      "file": "bk/BAS11M_0.ROM",
+      "hash": "946f6f23ded03c0e26187f0b3ca75993"
+    },
+    {
+      "file": "bk/BAS11M_1.ROM",
+      "hash": "1e6637f32aa7d1de03510030cac40bcf"
+    },
+    {
+      "file": "bk/DISK_327.ROM",
+      "hash": "5015228eeeb238e65da8edcd1b6dfac7"
+    },
+    {
+      "file": "bk/BASIC10.ROM",
+      "hash": "3fa774326d75410a065659aea80252f0"
+    },
+    {
+      "file": "bk/FOCAL10.ROM",
+      "hash": "5737f972e8638831ab71e9139abae052"
+    },
+    {
+      "file": "bk/MONIT10.ROM",
+      "hash": "95f8c41c6abf7640e35a6a03cecebd01"
+    }
+  ],
   "libretro": {
     "bk": {
       "name": "BK",

@@ -29,13 +29,15 @@
       "name": "Beetle Saturn",
       "core": "mednafen_saturn_libretro.so",
       "config": "Beetle Saturn",
-      "extra": 1
+      "extra": 1,
+      "bios_required": 1
     },
     "yabadabadoo": {
       "name": "Yabadabadoo",
       "core": "yabadabadoo_libretro.so",
       "config": "Yabadabadoo",
-      "extra": 0
+      "extra": 0,
+      "bios_required": 1
     },
     "yabasanshiro": {
       "name": "YabaSanshiro",

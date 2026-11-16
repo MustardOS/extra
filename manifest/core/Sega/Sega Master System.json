@@ -14,7 +14,24 @@
     "mastersystem",
     "ggsms"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "bios.sms",
+      "hash": "840481177270d5642a14ca71ee72844c"
+    },
+    {
+      "file": "bios_E.sms",
+      "hash": "840481177270d5642a14ca71ee72844c"
+    },
+    {
+      "file": "bios_U.sms",
+      "hash": "840481177270d5642a14ca71ee72844c"
+    },
+    {
+      "file": "bios_J.sms",
+      "hash": "24a519c53f67b00640d0048ef7089105"
+    }
+  ],
   "libretro": {
     "emux sms": {
       "name": "Emux SMS",

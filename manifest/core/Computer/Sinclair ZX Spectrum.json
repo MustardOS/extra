@@ -6,7 +6,40 @@
     "zxs",
     "spectrum"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "fuse/128p-0.rom",
+      "hash": "a249565f03b98d004ee7f019570069cd"
+    },
+    {
+      "file": "fuse/128p-1.rom",
+      "hash": "6e09e5d3c4aef166601669feaaadc01c"
+    },
+    {
+      "file": "fuse/trdos.rom",
+      "hash": "0da70a5d2a0e733398e005b96b7e4ba6"
+    },
+    {
+      "file": "fuse/gluck.rom",
+      "hash": "d5869034604dbfd2c1d54170e874fd0a"
+    },
+    {
+      "file": "fuse/256s-0.rom",
+      "hash": "b9fda5b6a747ff037365b0e2d8c4379a"
+    },
+    {
+      "file": "fuse/256s-1.rom",
+      "hash": "643861ad34831b255bf2eb64e8b6ecb8"
+    },
+    {
+      "file": "fuse/256s-2.rom",
+      "hash": "d8ad507b1c915a9acfe0d73957082926"
+    },
+    {
+      "file": "fuse/256s-3.rom",
+      "hash": "ce0723f9bc02f4948c15d3b3230ae831"
+    }
+  ],
   "libretro": {
     "fuse": {
       "name": "Fuse",

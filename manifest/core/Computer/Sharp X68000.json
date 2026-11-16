@@ -15,13 +15,18 @@
     {
       "file": "keropi/cgrom.dat",
       "hash": ""
+    },
+    {
+      "file": "keropi/iplrom30.dat",
+      "hash": "f373003710ab4322642f527f567e020a"
     }
   ],
   "libretro": {
     "px68k": {
       "name": "PX68k",
       "core": "px68k_libretro.so",
-      "config": "PX68K"
+      "config": "PX68K",
+      "bios_required": 1
     }
   },
   "extra": 1,

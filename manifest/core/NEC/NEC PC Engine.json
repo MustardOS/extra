@@ -19,7 +19,24 @@
     "necpcengine",
     "necpce"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "syscard3.pce",
+      "hash": "38179df8f4ac870017db21ebcbf53114"
+    },
+    {
+      "file": "syscard2.pce",
+      "hash": "3cdd6614a918616bfc41c862e889dd79"
+    },
+    {
+      "file": "syscard1.pce",
+      "hash": "2b7ccb3d86baa18f6402c176f3065082"
+    },
+    {
+      "file": "gexpress.pce",
+      "hash": "6d2cb14fc3e1f65ceb135633d1694122"
+    }
+  ],
   "libretro": {
     "beetle pce": {
       "name": "Beetle PCE",

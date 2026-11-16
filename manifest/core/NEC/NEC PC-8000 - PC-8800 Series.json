@@ -30,6 +30,22 @@
     {
       "file": "quasi88/disk.rom",
       "hash": ""
+    },
+    {
+      "file": "quasi88/n88n.rom",
+      "hash": "2ff07b8769367321128e03924af668a0"
+    },
+    {
+      "file": "quasi88/n88knj1.rom",
+      "hash": "d81c6d5d7ad1a4bbbd6ae22a01257603"
+    },
+    {
+      "file": "quasi88/n88knj2.rom",
+      "hash": "898a3b7b6c3326e8b2069765bca2b944"
+    },
+    {
+      "file": "quasi88/n88jisho.rom",
+      "hash": "2e548679423370262f36cbde38a22789"
     }
   ],
   "libretro": {

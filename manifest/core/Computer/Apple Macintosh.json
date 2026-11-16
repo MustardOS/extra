@@ -18,7 +18,7 @@
       "name": "Mini vMac",
       "core": "minivmac_libretro.so",
       "config": "Mini vMac",
-      "bios_required": 0
+      "bios_required": 1
     }
   },
   "extra": 1,

@@ -22,6 +22,34 @@
     {
       "file": "np2kai/sound.rom",
       "hash": ""
+    },
+    {
+      "file": "np2kai/font.bmp",
+      "hash": "7da1e5b7c482d4108d22a5b09631d967"
+    },
+    {
+      "file": "np2kai/2608_BD.WAV",
+      "hash": "d94546e70f17fd899be8df3544ab6cbb"
+    },
+    {
+      "file": "np2kai/2608_SD.WAV",
+      "hash": "d71004351c8bbfdad53b18222c061d49"
+    },
+    {
+      "file": "np2kai/2608_TOP.WAV",
+      "hash": "593cff6597ab9380d822b8f824fd2c28"
+    },
+    {
+      "file": "np2kai/2608_HH.WAV",
+      "hash": "08c54a0c1f774a5538a848a6665a34b4"
+    },
+    {
+      "file": "np2kai/2608_TOM.WAV",
+      "hash": "96a4ead13f364734f79b0c58af2f0e1f"
+    },
+    {
+      "file": "np2kai/2608_RIM.WAV",
+      "hash": "465ea0768b27da404aec45dfc501404b"
     }
   ],
   "libretro": {

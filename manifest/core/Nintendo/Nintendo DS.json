@@ -24,6 +24,22 @@
         {
             "file": "firmware.bin",
             "hash": ""
+        },
+        {
+            "file": "dsi_bios7.bin",
+            "hash": "559dae4ea78eb9d67702c56c1d791e81"
+        },
+        {
+            "file": "dsi_bios9.bin",
+            "hash": "87b665fce118f76251271c3732532777"
+        },
+        {
+            "file": "dsi_firmware.bin",
+            "hash": ""
+        },
+        {
+            "file": "dsi_nand.bin",
+            "hash": ""
         }
     ],
     "libretro": {

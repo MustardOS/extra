@@ -13,7 +13,16 @@
     "bgb",
     "gameboycolor"
   ],
-  "bios": [],
+  "bios": [
+    {
+      "file": "gbc_bios.bin",
+      "hash": "dbfce9db9deaa2567f6a84fde55f9680"
+    },
+    {
+      "file": "cgb_boot.bin",
+      "hash": "dbfce9db9deaa2567f6a84fde55f9680"
+    }
+  ],
   "libretro": {
     "doublecherrygb": {
       "name": "DoubleCherryGB",

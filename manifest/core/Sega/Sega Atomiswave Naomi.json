@@ -29,6 +29,22 @@
     {
       "file": "dc/awbios.zip",
       "hash": ""
+    },
+    {
+      "file": "dc/hod2bios.zip",
+      "hash": "f4011d3116500354edf7302a90402711"
+    },
+    {
+      "file": "dc/f355dlx.zip",
+      "hash": "1028615bcac4c31634a3364ce5c04044"
+    },
+    {
+      "file": "dc/f355bios.zip",
+      "hash": "547f3d12aed389058ca06148f1cca0ed"
+    },
+    {
+      "file": "dc/airlbios.zip",
+      "hash": "7a11bfe0cc72886d032e386db68f890c"
     }
   ],
   "libretro": {

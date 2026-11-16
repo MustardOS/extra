@@ -24,7 +24,8 @@
     "numero": {
       "name": "Numero",
       "core": "numero_libretro.so",
-      "config": "Numero"
+      "config": "Numero",
+      "bios_required": 1
     }
   },
   "extra": 1,

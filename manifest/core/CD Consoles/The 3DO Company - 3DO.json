@@ -64,7 +64,8 @@
     "opera": {
       "name": "Opera",
       "core": "opera_libretro.so",
-      "config": "Opera"
+      "config": "Opera",
+      "bios_required": 1
     }
   },
   "extra": 1,
