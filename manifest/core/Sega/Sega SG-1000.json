@@ -1,7 +1,7 @@
 {
   "catalogue": "Sega SG-1000",
   "lookup": 0,
-  "default": "genesis plus gx",
+  "default": "karashi",
   "friendly": [
     "sg1000",
     "segasgone",
@@ -9,6 +9,11 @@
   ],
   "bios": [],
   "libretro": {
+    "genesis plus gx": {
+      "name": "Genesis Plus GX",
+      "core": "genesis_plus_gx_libretro.so",
+      "config": "Genesis Plus GX"
+    },
     "bluemsx": {
       "name": "blueMSX",
       "core": "bluemsx_libretro.so",
@@ -19,10 +24,16 @@
       "core": "gearsystem_libretro.so",
       "config": "Gearsystem"
     },
-    "genesis plus gx": {
-      "name": "Genesis Plus GX",
-      "core": "genesis_plus_gx_libretro.so",
-      "config": "Genesis Plus GX"
+    "karashi": {
+      "name": "Karashi",
+      "core": "karashi_libretro.so",
+      "config": "Karashi",
+      "extra": 1,
+      "require": {
+        "arch": [
+          "aarch64"
+        ]
+      }
     }
   },
   "runtime": "libretro"

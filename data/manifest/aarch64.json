@@ -1798,5 +1798,17 @@
     "size": 119228,
     "built": "2026-11-12T06:29:13Z",
     "architecture": "aarch64"
+  },
+  "karashi_libretro.so.zip": {
+    "core": "karashi",
+    "commit": null,
+    "vendored": true,
+    "source": "https://github.com/MustardOS/karashi",
+    "sha256": "b6024a5eca1c6e15fff4560ced1e3aece910a783eea3ecb752d8e7e614a0da07",
+    "size": 127818,
+    "built": "2026-11-22T01:49:23Z",
+    "architecture": "aarch64",
+    "name": "Karashi",
+    "config": "Karashi"
   }
 }

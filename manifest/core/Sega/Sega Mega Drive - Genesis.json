@@ -1,7 +1,7 @@
 {
   "catalogue": "Sega Mega Drive - Genesis",
   "lookup": 0,
-  "default": "genesis plus gx",
+  "default": "karashi",
   "friendly": [
     "segamegadrive",
     "segamdmsu",
@@ -42,6 +42,17 @@
       "name": "Genesis Plus GX Wide",
       "core": "genesis_plus_gx_wide_libretro.so",
       "config": "Genesis Plus GX Wide"
+    },
+    "karashi": {
+      "name": "Karashi",
+      "core": "karashi_libretro.so",
+      "config": "Karashi",
+      "extra": 1,
+      "require": {
+        "arch": [
+          "aarch64"
+        ]
+      }
     },
     "picodrive": {
       "name": "PicoDrive",

@@ -1,7 +1,7 @@
 {
   "catalogue": "Sega Master System",
   "lookup": 0,
-  "default": "sms plus gx",
+  "default": "karashi",
   "friendly": [
     "smsgg",
     "sms",
@@ -33,6 +33,11 @@
     }
   ],
   "libretro": {
+    "sms plus gx": {
+      "name": "SMS Plus GX",
+      "core": "smsplus_libretro.so",
+      "config": "SMS Plus GX"
+    },
     "emux sms": {
       "name": "Emux SMS",
       "core": "emux_sms_libretro.so",
@@ -50,15 +55,21 @@
       "core": "genesis_plus_gx_libretro.so",
       "config": "Genesis Plus GX"
     },
+    "karashi": {
+      "name": "Karashi",
+      "core": "karashi_libretro.so",
+      "config": "Karashi",
+      "extra": 1,
+      "require": {
+        "arch": [
+          "aarch64"
+        ]
+      }
+    },
     "picodrive": {
       "name": "PicoDrive",
       "core": "picodrive_libretro.so",
       "config": "PicoDrive"
-    },
-    "sms plus gx": {
-      "name": "SMS Plus GX",
-      "core": "smsplus_libretro.so",
-      "config": "SMS Plus GX"
     }
   },
   "runtime": "libretro"
