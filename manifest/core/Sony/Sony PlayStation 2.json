@@ -16,6 +16,11 @@
       "name": "ArmSX2",
       "core": "armsx2_libretro.so",
       "config": "armsx2",
+      "require": {
+        "device": [
+                  "rg-vita-pro"
+        ]
+      },
       "bios_required": 0,
       "extra": 1
     }
