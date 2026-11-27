@@ -19,6 +19,9 @@ USAGE() {
 	echo "  -u, --update           Combine all core archives into a single update archive"
 	echo "  -t, --target [arch]    Target architecture: aarch64, x86_64, armhf, x86, riscv64"
 	echo ""
+	echo "Environment:"
+	echo "  CROSS_PREFIX           Use this toolchain prefix (such as /path/bin/aarch64-roux-linux-gnu-) for every tool"
+	echo ""
 	echo "Notes:"
 	echo "  - Either -a, -c, or -u is required, but NOT together"
 	echo "  - If -p is used, it MUST be the first argument"
@@ -517,6 +520,21 @@ case "$TARGET_ARCH" in
 		TARGET_LCPU=riscv64
 		;;
 esac
+
+if [ -n "${CROSS_PREFIX:-}" ]; then
+	TARGET_CC=${CROSS_PREFIX}gcc
+	TARGET_CXX=${CROSS_PREFIX}g++
+	TARGET_AR=${CROSS_PREFIX}ar
+	TARGET_RANLIB=${CROSS_PREFIX}ranlib
+	OBJCOPY=${CROSS_PREFIX}objcopy
+	STRIP=${CROSS_PREFIX}strip
+	for TOOL_PATH in "$TARGET_CC" "$TARGET_CXX" "$TARGET_AR" "$TARGET_RANLIB" "$OBJCOPY" "$STRIP"; do
+		[ -x "$TOOL_PATH" ] || {
+			printf "Error: CROSS_PREFIX has no %s\n" "$TOOL_PATH" >&2
+			exit 1
+		}
+	done
+fi
 
 if [ -z "$TARGET_CC" ] || [ -z "$TARGET_CXX" ] || [ -z "$TARGET_AR" ] || [ -z "$TARGET_RANLIB" ] \
 	|| [ -z "$OBJCOPY" ] || [ -z "$STRIP" ]; then
