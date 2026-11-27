@@ -1,0 +1,29 @@
+{
+  "catalogue": "Sony PlayStation 2",
+  "lookup": 0,
+  "default": "armsx2",
+  "friendly": [
+    "ps2"
+  ],
+  "bios": [
+    {
+      "file": "ps2-0230a-20080220.bin",
+      "hash": "21038400dc633070a78ad53090c53017"
+    }
+  ],
+  "libretro": {
+    "armsx2": {
+      "name": "ArmSX2",
+      "core": "armsx2_libretro.so",
+      "config": "armsx2",
+      "require": {
+        "device": [
+                  "rg-vita-pro"
+        ]
+      },
+      "bios_required": 0,
+      "extra": 1
+    }
+  },
+  "runtime": "libretro"
+}
